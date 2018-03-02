@@ -1,0 +1,151 @@
+{
+    "pages": [{
+        "name": "首页",
+        "url": [
+            "/",
+            "/index.html"
+        ],
+        "handler": "pages+promotionplugin"
+    }, {
+        "name": "关于来利洪",
+        "url": "/about/",
+        "subs": [{
+            "name": "关于来利洪",
+            "url": "/about/",
+            "handler": "pages"
+        }],
+        "handler": "pages"
+    }, {
+        "name": "旗下品牌",
+        "url": "/productions/",
+        "subs": [{
+            "name": "某品牌下的所有产品",
+            "url": "/productions/?brand=ID",
+            "handler": "pages+goodsplugin"
+        }, {
+            "name": "某品牌下的某类产品",
+            "url": "/productions/?brand=ID&category=ID",
+            "handler": "pages+goodsplugin"
+        }],
+        "handler": "pages+goodsplugin"
+    }, {
+        "name": "代加工服务",
+        "url": "/oem/",
+        "subs": [{
+            "name": "关于来利洪",
+            "url": "/about/",
+            "handler": "pages"
+        }],
+        "handler": "pages"
+    }, {
+        "name": "新闻资讯",
+        "url": "/news/",
+        "subs": [{
+            "name": "某分类下的新闻",
+            "url": "/news/?category=ID(?page=N)",
+            "handler": "pages+newsplugin"
+        }, {
+            "name": "新闻详情",
+            "url": "/news/:ID/",
+            "handler": "pages+newsplugin"
+        }],
+        "handler": "pages+newsplugin"
+    }, {
+        "name": "人力招聘",
+        "url": "/hr/",
+        "handler": "pages"
+    }, {
+        "name": "联系我们",
+        "url": "/contact/",
+        "handler": "pages"
+    }],
+    "apis": [{
+        "name": "首页公司简介",
+        "url": "/api/cloudtables/?_c=resources&_m=getrow&_args=pages|:ID",
+        "router": {
+            "routetype": "Standard"
+        },
+        "handler": "cloudtables"
+    }, {
+        "name": "首页大海报和小广告",
+        "url": "/applications/promotion/ads/:ID",
+        "router": {
+            "appdir": "/applications/promotion/",
+            "routetype": "RESTful"
+        },
+        "handler": "promotion"
+    }, {
+        "name": "首页新闻",
+        "url": [
+            "/api/cloudtables/?_c=resources&_m=getrows&_args=news|pubtime_reverse|1/0",
+            "/api/cloudtables/?_c=resources&_m=gettop&_args=news|pubtime_reverse|1"
+        ],
+        "router": {
+            "routetype": "Standard"
+        },
+        "handler": "cloudtables"
+    }, {
+        "name": "顶部天猫链接",
+        "url": "/api/cloudtables/?_c=resources&_m=getrow&_args=elements|:ID",
+        "router": {
+            "routetype": "Standard"
+        },
+        "handler": "cloudtables"
+    }, {
+        "name": "产品列表",
+        "url": "/applications/8/productions/",
+        "router": {
+            "appdir": "/applications/8/",
+            "routetype": "RESTful"
+        },
+        "subs": [{
+            "name": "产品信息A",
+            "url": "/applications/8/productions/:ID",
+            "router": {
+                "appdir": "/applications/8/",
+                "routetype": "RESTful"
+            },
+            "handler": "8"
+        }, {
+            "name": "品牌列表",
+            "url": "/applications/8/brands/",
+            "router": {
+                "appdir": "/applications/8/",
+                "routetype": "RESTful"
+            },
+            "handler": "8"
+        }, {
+            "name": "品牌信息",
+            "url": "/applications/8/brands/:ID",
+            "router": {
+                "appdir": "/applications/8/",
+                "routetype": "RESTful"
+            },
+            "handler": "8"
+        }, {
+            "name": "品牌的产品列表",
+            "url": "/applications/8/brands/:ID/productions/",
+            "router": {
+                "appdir": "/applications/8/",
+                "routetype": "RESTful"
+            },
+            "handler": "8"
+        }, {
+            "name": "产品信息B",
+            "url": "/applications/8/brands/:ID/productions/:ID",
+            "router": {
+                "appdir": "/applications/8/",
+                "routetype": "RESTful"
+            },
+            "handler": "8"
+        }],
+        "handler": "8"
+    }, {
+        "name": "人力招聘列表",
+        "url": "/api/cloudtables/?c=resources&m=getrows&args=positions|pubtime|10|:START",
+        "router": {
+            "routetype": "Standard"
+        },
+        "handler": "cloudtables"
+    }]
+}

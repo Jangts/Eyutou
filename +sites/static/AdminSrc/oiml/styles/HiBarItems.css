@@ -1,0 +1,203 @@
+@charset "utf-8";
+
+/*** Start ***/
+
+hibar start {
+    display: block;
+    width: 50px;
+    height: 40px;
+    margin: 0;
+}
+
+hibar start {
+    float: left;
+    cursor: default;
+}
+
+hibar start logo {
+    display: block;
+    width: 50px;
+    height: 40px;
+}
+
+
+/*** Account ***/
+
+hibar account {
+    display: block;
+    height: 40px;
+    float: right;
+    cursor: pointer;
+    transition: all ease .3s;
+}
+
+hibar account * {
+    display: block;
+}
+
+
+/*--------*/
+
+hibar account {
+    width: 120px;
+    font-size: 12px;
+    letter-spacing: .8px;
+    overflow: visible;
+}
+
+hibar account admin {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+hibar account admin avatar {
+    width: 20px;
+    height: 20px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+hibar account admin avatar {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+    float: left;
+}
+
+hibar account admin myname {
+    width: 72px;
+    height: 24px;
+    margin: 8px;
+    margin-left: 0;
+    line-height: 24px;
+    text-align: left;
+    float: left;
+}
+
+
+/*--------*/
+
+hibar account myangram {
+    position: fixed;
+    width: 280px;
+    height: 0px;
+    top: 70px;
+    right: 120px;
+    transition: all ease .4s;
+    z-index: 550;
+    overflow: hidden;
+    opacity: 0;
+}
+
+hibar account:hover myangram {
+    height: 120px;
+    top: 40px;
+    opacity: 1;
+}
+
+hibar account myangram welcome {
+    width: 280px;
+    height: 38px;
+    text-align: center;
+    margin-top: 1px;
+    line-height: 38px;
+}
+
+hibar account myangram v {
+    width: 250px;
+    height: 80px;
+    margin-top: 1px;
+    padding: 0 15px;
+    overflow: hidden !important;
+}
+
+hibar account myangram v list {
+    width: 50px;
+    height: 80px;
+    float: left;
+}
+
+hibar account myangram v list icon {
+    position: static;
+    width: 50px;
+    height: 130px;
+    margin-top: 15px;
+    background-repeat: no-repeat;
+    transition: all .4s ease-in-out;
+}
+
+hibar account myangram v list:hover icon {
+    margin-top: -55px;
+}
+
+
+/*** Msger ***/
+
+hibar msger {
+    float: right;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
+    cursor: pointer;
+    transition: all ease .3s;
+}
+
+
+/*** AppMgr ***/
+
+hibar appstore {
+    float: right;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
+    cursor: pointer;
+    transition: all ease .3s;
+}
+
+
+/*** Tasker ***/
+
+hibar wsmswitcher {
+    float: right;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
+    cursor: pointer;
+    transition: all ease .3s;
+}
+
+
+/*** Timer ***/
+
+hibar timer {
+    float: right;
+    width: 120px;
+    height: 40px;
+    font-size: 12px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: all ease .3s;
+}
+
+
+/*** searcher ***/
+
+hibar searcher {
+    float: right;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
+    cursor: pointer;
+    transition: all ease .3s;
+}
+
+hibar searcher[type=searcher] icon:before {
+    content: '\e079';
+}

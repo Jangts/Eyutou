@@ -1,0 +1,275 @@
+@charset "utf-8";
+
+/*** Smartian Inputer ***/
+
+smartian form {
+    position: absolute;
+    height: 40px;
+    transition: all ease .4s;
+    opacity: .85;
+    z-index: 100;
+}
+
+smartian form:hover {
+    opacity: 1;
+}
+
+smartian form input[type=text] {
+    float: left;
+    height: 28px;
+    line-height: 28px;
+    padding: 6px 5px;
+}
+
+smartian form input[type=text] {
+    background: none;
+    font-family: 'Microsoft YaHei', 'Hiragino Sans';
+    outline: none;
+}
+
+smartian form input[type=button] {
+    float: left;
+    width: 40px;
+    height: 40px;
+}
+
+smartian form input[type=button] {
+    cursor: pointer;
+    transition: background-color ease .4s;
+    outline: none;
+}
+
+
+/*** Smartian Inputer ***/
+
+smartian resulter {
+    width: 100%;
+    font-size: 14px;
+}
+
+smartian resulter {
+    line-height: 30px;
+    text-align: left;
+    transition: all ease .4s;
+    z-index: 0;
+}
+
+smartian resulter content {
+    width: 100%;
+    height: auto;
+    z-index: 0;
+    transition: top ease .1s;
+}
+
+smartian resulter:hover scrollbar {
+    opacity: .2;
+}
+
+smartian resulter content>* {
+    width: 100%;
+    line-height: 30px;
+    text-align: left;
+    transition: all ease .4s;
+    margin: 0 auto;
+}
+
+
+/**********************************************/
+
+
+/*** Smartian Normal ***/
+
+smartian[viewstatus=nrmlmode] {
+    width: 380px;
+}
+
+smartian[viewstatus=nrmlmode] form {
+    width: 380px;
+    bottom: 0;
+    left: 0;
+}
+
+smartian[viewstatus=nrmlmode] form input[type=text] {
+    width: 330px;
+}
+
+smartian[viewstatus=nrmlmode] form input[type=button]:hover {
+    cursor: pointer;
+}
+
+
+/**********************************************/
+
+smartian[viewstatus=nrmlmode] resulter {
+    height: 96%;
+    margin: 2% 0;
+}
+
+smartian[viewstatus=nrmlmode] resulter content>*:last-child {
+    margin-bottom: 50px;
+}
+
+smartian[viewstatus=nrmlmode] resulter content list[type=welcome] {
+    text-align: center;
+    font-size: 18px;
+    line-height: 30px;
+}
+
+smartian[viewstatus=nrmlmode] resulter content list[type=welcome] {
+    height: 40%;
+    margin: 30% 0;
+    font-size: 18px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: none;
+}
+
+smartian[viewstatus=nrmlmode] resulter content list[type=welcomed] {
+    width: 96%;
+    height: 60px;
+}
+
+smartian[viewstatus=nrmlmode] resulter content embedarea {
+    width: 96%;
+    height: 320px;
+    border-radius: 3px;
+    padding: 10px 0px;
+}
+
+smartian[viewstatus=nrmlmode] resulter content embedarea embed {
+    width: 100%;
+    height: 300px;
+}
+
+smartian[viewstatus=nrmlmode] resulter content ask {
+    width: 96%;
+    text-align: right;
+    margin-top: 5px;
+}
+
+smartian[viewstatus=nrmlmode] resulter content answer {
+    width: 96%;
+}
+
+smartian[viewstatus=nrmlmode] resulter content aclass {
+    width: 96%;
+    text-align: left;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+smartian[viewstatus=nrmlmode] resulter content list[type=result] {
+    width: 96%;
+}
+
+smartian[viewstatus=nrmlmode] resulter content list[type=result] item {
+    width: 96%;
+    margin: 0 2%;
+    cursor: pointer;
+}
+
+smartian[viewstatus=nrmlmode] resulter content list[type=result] item:first-child {
+    border-top: none;
+}
+
+smartian[viewstatus=nrmlmode] resulter content list[type=result] item desc {
+    font-size: 12px;
+}
+
+smartian[viewstatus=nrmlmode] resulter content tips {
+    width: 96%;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+smartian[viewstatus=nrmlmode] resulter content tips kw,
+smartian[viewstatus=nrmlmode] resulter content list kw {
+    display: inline;
+}
+
+
+/**********************************************/
+
+
+/*** Smartian Wide ***/
+
+smartian[viewstatus=widemode] {
+    width: 100%;
+    margin: 0;
+}
+
+smartian[viewstatus=widemode] form {
+    width: 500px;
+    top: 20px;
+    left: 60px;
+}
+
+smartian[viewstatus=widemode] form input[type=text] {
+    width: 450px;
+}
+
+smartian[viewstatus=widemode] form input[type=button]:hover {
+    cursor: pointer;
+}
+
+
+/**********************************************/
+
+smartian[viewstatus=widemode] resulter {
+    height: 100%;
+}
+
+smartian[viewstatus=widemode] resulter content>* {
+    max-width: 884px;
+    margin-left: 60px;
+}
+
+smartian[viewstatus=widemode] resulter content list:first-child {
+    margin-top: 70px;
+}
+
+smartian[viewstatus=widemode] resulter content list:last-child {
+    margin-bottom: 10px;
+}
+
+smartian[viewstatus=widemode] resulter content list[type=welcomed] {
+    height: 60px;
+}
+
+smartian[viewstatus=widemode] resulter content ask {
+    text-align: right;
+    margin-top: 10px;
+}
+
+smartian[viewstatus=widemode] resulter content aclass {
+    text-align: left;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+smartian[viewstatus=widemode] resulter content list[type=result] {
+    border-radius: 3px;
+}
+
+smartian[viewstatus=widemode] resulter content list[type=result] item {
+    margin: 0 2%;
+    cursor: pointer;
+}
+
+smartian[viewstatus=widemode] resulter content list[type=result] item:first-child {
+    border-top: none;
+}
+
+smartian[viewstatus=widemode] resulter content list[type=result] item desc {
+    font-size: 12px;
+}
+
+smartian[viewstatus=widemode] resulter content tips {
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+smartian[viewstatus=widemode] resulter content tips kw,
+smartian[viewstatus=widemode] resulter content list kw {
+    display: inline;
+}

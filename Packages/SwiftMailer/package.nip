@@ -1,0 +1,6 @@
+<?php
+namespace Packages;
+
+include_once('classes/Swift.php');
+
+class SwiftMailer extends \Swift {}

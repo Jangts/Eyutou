@@ -1,0 +1,95 @@
+.action-container {
+    display: block;
+    min-width: 950px;
+    margin: 40px 30px 70px;
+    line-height: 30px;
+    color: #666;
+    z-index: 0;
+}
+
+.action-container header.listname {
+    display: block;
+    font-weight: bold;
+    font-size: 21px;
+    border-bottom: solid 1px #ccc;
+    color: #999;
+}
+
+.action-container header.listname strong {
+    display: inline-block;
+    line-height: 36px;
+    border-bottom: solid 2px #ccc;
+}
+
+.list-view {
+    width: 930px;
+    margin-top: 20px;
+}
+
+.list-view li.list-item {
+    float: left;
+    width: 250px;
+    margin: 20px 30px;
+    padding: 5px 10px;
+    background-color: #f6f6f6;
+}
+
+.list-view li.list-item.left-item {
+    margin-left: 0;
+}
+
+.list-view li.list-item.right-item {
+    margin-right: 0;
+}
+
+.list-view li.list-item .list-title {
+    height: 30px;
+    line-height: 30px;
+    border-bottom: solid 1px #fff;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.list-view li.list-item .list-desc {
+    height: 48px;
+    line-height: 24px;
+    font-size: 12px;
+}
+
+.list-view li.list-item a.list-link {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 0;
+    right: 0;
+    line-height: 24px;
+    text-align: center;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.list-view li.list-item:hover a.list-link {
+    opacity: 1;
+}
+
+ul.page-list {
+    display: block;
+}
+
+ul.page-list li.page-list-item {
+    float: left;
+    height: 26px;
+    line-height: 22px;
+    margin: 6px 3px;
+    background-color: #ccc;
+}
+
+ul.page-list li.page-list-item:first-child {
+    margin-left: 0;
+}
+
+ul.page-list li.page-list-item a {
+    display: block;
+    height: 22px;
+    padding: 2px 12px;
+}

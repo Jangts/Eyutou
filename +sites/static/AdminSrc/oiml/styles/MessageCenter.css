@@ -1,0 +1,371 @@
+@charset "utf-8";
+
+/*** Notice ***/
+
+msgcenter content {
+    display: block;
+    width: 100%;
+    height: auto;
+    z-index: 0;
+    transition: top ease .4s;
+}
+
+msgcenter:hover scrollbar {
+    opacity: .2;
+}
+
+
+/**********************************************/
+
+msgcenter content msgroup {
+    display: block;
+    position: relative;
+    width: 380px;
+    height: auto;
+    margin: 10px;
+    padding-bottom: 5px;
+}
+
+msgcenter content msgroup:before {
+    display: block;
+    width: 390px;
+    height: 24px;
+    content: attr(name);
+    font-size: 14px;
+    text-align: center;
+    line-height: 24px;
+    margin-bottom: 5px;
+}
+
+msgcenter content msgroup message {
+    display: block;
+    position: relative;
+    width: 380px;
+    height: 80px;
+    margin: 5px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+msgcenter content msgroup message {
+    opacity: 1;
+    transition: top .4s ease, opacity 1s ease;
+}
+
+msgcenter content msgroup message icon {
+    width: 80px;
+    height: 80px;
+    float: left;
+}
+
+msgcenter content msgroup message icon img {
+    width: 80px;
+    height: 80px;
+}
+
+msgcenter content msgroup message v {
+    width: 300px;
+    height: 80px;
+    float: left;
+}
+
+msgcenter content msgroup message v msgtit {
+    width: 96%;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 2%;
+    font-size: 15px;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+msgcenter content msgroup message v msgcon {
+    width: 96%;
+    height: 45px;
+    line-height: 21px;
+    padding: 0 2%;
+    font-size: 13px;
+}
+
+msgcenter content msgroup message v msgcon {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/*********************************************************************************
+/*** Alert ***/
+
+msgcenter alert {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: -100%;
+    left: 0;
+    overflow: hidden;
+}
+
+msgcenter alert[state=on] {
+    top: 0;
+}
+
+msgcenter alert msgbox {
+    display: block;
+    position: absolute;
+    width: 540px;
+    height: auto;
+    min-height: 160px;
+    left: 50%;
+    bottom: 50%;
+    margin-left: -270px;
+}
+
+msgcenter alert msgbox {
+    overflow: hidden;
+    opacity: 0;
+}
+
+msgcenter alert msgbox {
+    transform: scale( .8, .8);
+}
+
+msgcenter alert msgbox {
+    transition: opacity ease .4s, transform ease .4s;
+}
+
+msgcenter alert[state=on] msgbox {
+    opacity: .85;
+}
+
+msgcenter alert[state=on] msgbox {
+    transform: scale( 1, 1);
+}
+
+msgcenter alert msgbox:hover {
+    opacity: 1;
+}
+
+
+/**********************************************/
+
+msgcenter alert msgbox msgtit {
+    display: block;
+    width: 530px;
+    height: 34px;
+    line-height: 35px;
+    padding: 0 5px;
+}
+
+msgcenter alert msgbox msgtit {
+    overflow: hidden;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: default;
+    text-overflow: ellipsis;
+}
+
+msgcenter alert msgbox msgcon {
+    display: block;
+    width: 520px;
+    height: auto;
+    min-height: 60px;
+    line-height: 30px;
+}
+
+msgcenter alert msgbox msgcon {
+    padding: 10px;
+    font-size: 14px;
+    overflow-y: auto;
+}
+
+msgcenter alert msgbox msgbtn {
+    display: block;
+    position: absolute;
+    width: 540px;
+    height: 45px;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+    text-align: center;
+    cursor: pointer;
+    z-index: 10001;
+}
+
+msgcenter alert msgbox msgbtn click {
+    height: 44px;
+    line-height: 44px;
+    overflow: hidden;
+    font-size: 16px;
+    float: left;
+}
+
+
+/**********************************************/
+
+msgcenter alert msgbox msgbtn click[data-exec=always] {
+    width: 540px;
+}
+
+msgcenter alert msgbox msgbtn click[data-exec=notice] {
+    width: 540px;
+}
+
+msgcenter alert msgbox msgbtn click[data-exec=resolve] {
+    width: 180px;
+}
+
+msgcenter alert msgbox msgbtn click[data-exec=reject] {
+    width: 178px;
+}
+
+msgcenter alert msgbox msgbtn click[data-exec=pending] {
+    width: 180px;
+}
+
+msgcenter alert msgbox msgbtn click[data-exec=confirm] {
+    width: 269px;
+}
+
+msgcenter alert msgbox msgbtn click[data-exec=cancel] {
+    width: 270px;
+}
+
+
+/*********************************************************************************
+/*** Popup ***/
+
+msgcenter notice {
+    display: none;
+    position: absolute;
+    width: 380px;
+    height: 60px;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 2px;
+}
+
+msgcenter[state=off] notice[state=off] {
+    display: block;
+    opacity: 1;
+    right: 0px;
+}
+
+msgcenter[state=off] notice[state=on] {
+    display: block;
+    opacity: 1;
+    right: 420px;
+}
+
+msgcenter[state=off] notice[state=sleep] {
+    display: block;
+    opacity: 0;
+    right: 420px;
+    bottom: -100px;
+}
+
+msgcenter[state=off] notice[state=on] {
+    transition: right 1s ease-in-out;
+}
+
+msgcenter notice[state=sleep] {
+    transition: opacity .4s ease-in-out, bottom .4s ease;
+}
+
+msgcenter[state=on]>notice {
+    display: block;
+    margin: 0 10px;
+}
+
+msgcenter[state=on] msgroup notice {
+    display: block;
+    opacity: 1;
+    right: 10px;
+}
+
+
+/**********************************************/
+
+msgcenter [posi="0"] {
+    top: 10px;
+}
+
+msgcenter [posi="1"] {
+    top: 80px;
+}
+
+msgcenter [posi="2"] {
+    top: 150px;
+}
+
+msgcenter [posi="3"] {
+    top: 220px;
+}
+
+msgcenter [posi="4"] {
+    top: 290px;
+}
+
+msgcenter [posi="5"] {
+    top: 360px;
+}
+
+msgcenter [posi="6"] {
+    top: 430px;
+}
+
+msgcenter [posi="7"] {
+    top: 500px;
+}
+
+
+/**********************************************/
+
+msgcenter notice icon {
+    display: block;
+    width: 60px;
+    height: 60px;
+    float: left;
+}
+
+msgcenter notice icon img {
+    width: 60px;
+    height: 60px;
+}
+
+msgcenter notice v {
+    width: 320px;
+    height: 60px;
+    float: left;
+}
+
+msgcenter notice v msgtit {
+    display: block;
+    width: 96%;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 2%;
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+msgcenter notice v msgcon {
+    display: block;
+    width: 96%;
+    height: 25px;
+    line-height: 24px;
+    padding: 0 2%;
+    font-size: 13px;
+}
+
+msgcenter notice v msgcon {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

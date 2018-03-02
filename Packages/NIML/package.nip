@@ -1,0 +1,31 @@
+<?php
+namespace Packages;
+
+require_once('NIML.php');
+
+class NIML extends \NIML {
+
+	public static function updateTemplateCache($templates=NULL){
+		if(is_array($templates)){
+			foreach($templates as $template){
+				\unlink(DPATH_TPL.'niml/_'.AI_CURR."/".hash('md4', $template).".php");
+			}
+		}else{
+			return \Storage::clearPath(DPATH_TPL.'niml/_'.AI_CURR."/");
+		}
+		return true;
+	}
+
+	public
+	$leftTAG = '{{',
+	$rightTAG = '}}';
+
+	public function getFilenames($template, $is_include = false){
+		if($is_include==false){
+			$this->assign("__host", '//'.HOST);
+			$this->assign("__theme", VIEW_URL."_".AI_CURR."/".$this->theme."/");
+			$this->assign("__static", SIS_URL."static/");
+		}
+		return [VIEW_PATH."_".AI_CURR."/".$this->theme."/nimls/".$template, DPATH_TPL.'niml/_'.AI_CURR."/".hash('md4', $this->theme."/".$template).".php"];
+	}
+}

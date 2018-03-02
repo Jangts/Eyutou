@@ -1,0 +1,48 @@
+{
+    "name": "YangRAM Smartian",
+    "suitspace": "Admin",
+    "namespace": "Smartian",
+    "metadata": {
+        "version": "",
+        "homepage": null,
+        "issues": null
+    },
+    "author": {
+        "author_id": 0,
+        "author_name": "",
+        "homepage": null,
+        "developers": []
+    },
+    "routers": [
+        "DefaultRouter",
+        "RESTfulRouter",
+        "RegExpRouter",
+        "MyRouter"
+    ],
+    "requires": {},
+    "permissions": {
+        "ALL_PDOX_USEABLE": "",
+        "DEFAULT_PDOX_USEABLE": "",
+        "ACTIVITY_PDOX_USEABLE": "",
+
+        "ALL_RDBTABLE_READABLE": "",
+        "ALL_RDBTABLE_WRITEABLE": "",
+        "PUBLIC_RDBTABLE_WRITEABLE": "",
+        "REG_RDBTABLE_WRITEABLE": "",
+
+        "ALL_STORAGESG_READABLE": "",
+        "ALL_STORAGESG_WRITEABLE": "",
+        "RUNDATA_READABLE": "",
+        "RUNDATA_WRITEABLE": "",
+        "SYSDATA_READABLE": "",
+        "USRDATA_READABLE": "",
+        "USRDATA_WRITEABLE": "",
+
+        "MEMORYCACHE_USEABLE": "",
+        "MEMORYCACHE_READABLE": "",
+        "MEMORYCACHE_WRITEABLE": "",
+
+        "ALL_REMOTEURL_GETABLE": "",
+        "ALL_REMOTEURL_SETABLE": ""
+    }
+}

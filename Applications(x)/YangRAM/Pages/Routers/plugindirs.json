@@ -1,0 +1,1 @@
+{ "news\/": { "controller": "NewsPageController", "method": "main", "path": "press" }, "productions\/": { "controller": "ProductionsPageController", "method": "main", "path": "goods" } }

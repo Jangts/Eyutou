@@ -1,0 +1,14 @@
+{
+    "blockjs": {
+        "installpath": "blockjs",
+        "languages": ["javascript", "css"],
+        "version": "5.0.0",
+        "default": "index.md"
+    },
+    "outputs": {
+        "installpath": "output",
+        "language": ["html", "json"],
+        "version": "5.0.0",
+        "default": "index.html"
+    }
+}

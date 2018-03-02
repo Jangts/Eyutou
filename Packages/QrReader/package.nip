@@ -1,0 +1,6 @@
+<?php
+namespace Packages;
+
+require_once('QrReader.php');
+
+class QrReader extends \QrReader {}

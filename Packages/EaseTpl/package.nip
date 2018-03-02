@@ -1,0 +1,6 @@
+<?php
+namespace Packages;
+
+require_once('EaseTpl.php');
+
+class EaseTpl extends \EaseTpl {}

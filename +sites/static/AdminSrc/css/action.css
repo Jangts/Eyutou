@@ -1,0 +1,39 @@
+*::-webkit-scrollbar {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+}
+
+
+/* 滚动条的滑轨背景颜色 */
+
+*::-webkit-scrollbar-track {
+    background-color: rgba(73, 139, 234, 0.3);
+}
+
+
+/* 滑块 */
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #498bea;
+}
+
+
+/* 滑轨两头的监听按钮 */
+
+*::-webkit-scrollbar-button {
+    display: none;
+}
+
+
+/* 横向滚动条和纵向滚动条相交处尖角的颜色 */
+
+*::-webkit-scrollbar-corner {
+    display: none;
+}
+
+body {
+    width: auto;
+    min-width: 1010px;
+}

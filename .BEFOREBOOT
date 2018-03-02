@@ -1,0 +1,175 @@
+<?php
+/**
+ * 预启动常量配置文件
+ * 将系统运行所需的常量定义于系统启动之前
+ * 对部分请求信息和服务器信息争对不同平台做一些统一
+ * 将各类目录路径名常量化，主要分为三类路径
+ * * relative pathname      相对路径名，目录相对于安装目录的相对路径，是计算remote url和full pathname的基础，多以'RPN'结尾
+ * * remote url             远程地址，目录相对于服务器根目录（该目录为域名与IP所访问的根目录）的相对路径，主要用于远程直接访问静态文件用，由系统安装目录相对服务器根目录的相对路径与relative pathname组合而称，多以'URL'结尾
+ * * full pathname          本地绝对路径名，目录在计算机中的绝对路径，主要用于载入系统和子应用脚本以及读取本地文件，由系统安装目录的绝对路径与relative pathname组合而称，多含有'PATH'字样
+ * 其中'__ENTR__'、'__BOOT__'、'__ROOT__'、'__BURL__'为四个系统级的路径名，以后两者更为常用
+ * 
+ * 注有'Writeable'的为可配置项，如有必要可以修改其中含有的字符串的内容，一般情况下请勿更改，以免造成某些应用无法正常使用
+ * 
+ * @author     Jangts
+ * @version    5.0.0
+ */
+
+/** Set timezone for the system. */
+// 时区常量
+defined('TIMEZONE') or define('TIMEZONE',      'Etc/GMT-8');    // Writeable
+date_default_timezone_set(TIMEZONE);
+
+/** Define some constants for timing. */
+// 进程启动时间戳
+define('BOOTTIME',      isset($_SERVER['REQUEST_TIME_FLOAT']) ? $_SERVER['REQUEST_TIME_FLOAT'] : microtime(TRUE));
+// 格式化启动时间，数据库用
+define('DATETIME',      date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']));
+
+/** Defined some basic constants. */
+// 服务器软件信息，CLI测试模式时为终端的信息
+define('SRVR',			$_SERVER['SERVER_SOFTWARE']);
+// 主机，CLI模式下为'localhost'
+define('HOST',      	strtolower(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']));
+// 端口号，默认为80
+define('PORT',      	$_SERVER['SERVER_PORT']);
+
+// 入口文件目录，入口文件必需放置于服务器根目录
+define('__ENTR__',      dirname($_SERVER['SCRIPT_FILENAME']));
+
+// 启动文件目录，系统安装于服务器根目录时，启动文件可以作为入口文件
+define('__BOOT__',      dirname(__FILE__));
+// 格式化的启动文件目录，为统一不同平台的路径名规则而进行的强制转写
+define('__ROOT__',      strtr(__BOOT__, '\\', '/'));
+// 安装目录的网络地址，系统安装目录相对服务器根目录的相对路径
+define('__BURL__',    	str_replace(strtr(__ENTR__, '\\', '/'), '', __ROOT__));
+
+/** Defined relative pathname for four basic subdirectories. */
+// 原生应用安装目录根目录
+define('A_RPN',    	    '/Applications/');                      // Writeable
+// 拓展应用安装目录根目录
+define('X_RPN',         '/Applications(x)/');                   // Writeable
+// 拓展库安装目录
+define('L_RPN',   	    '/Packages/');                          // Writeable
+// 用户文件根目录
+define('U_RPN',   	    '/Users/');                             // Writeable
+// 系统文件根目录
+define('S_RPN',   	    '/YangRAM/');                           // Writeable
+// 站中站安装根目录
+// 1. 系统前端文件包存放目录
+// 2. 应用生成静态文件存放目录，便于静态文件快速访问
+// 3. 安装其他独立应用，这些应用不依赖TNI框架，可直接通过URL访问
+define('SIS_RPN',   	'+sites/');                             // Writeable
+
+/** Defined relative pathname for app framework and locale language files. */
+// 应用框架目录
+define('FRAMEWORK',   	S_RPN.'Framework/');                    // Writeable
+// 语言文件目录
+define('LOCALES',       S_RPN.'Locales/');                      // Writeable
+
+/** Defined remote url for four basic subdirectories. */
+// 原生应用安装目录根目录
+define('__AURL__',      __BURL__.A_RPN);
+define('__aurl__',      strtolower(__AURL__));
+// 拓展应用安装目录根目录
+define('APP_URL',       __BURL__.X_RPN);
+// 用户文件根目录
+define('USR_URL',   	__BURL__.U_RPN);
+// 系统文件根目录
+define('I4s_URL',   	__BURL__.S_RPN);
+// 站中站安装根目录
+// 1. 系统前端文件包存放目录
+// 2. 应用生成静态文件存放目录，便于静态文件快速访问
+// 3. 安装其他独立应用，这些应用不依赖TNI框架，可直接通过URL访问
+define('SIS_URL',      __BURL__.SIS_RPN);
+
+/** Defined relative pathname for app framework and locale language files. */
+// 应用框架目录
+define('FRAME_URL',     __BURL__.FRAMEWORK);
+// 语言文件目录
+define('LANGS_URL',     __BURL__.LOCALES);
+
+/** Defined remote url for the core directory. */
+// 核心模块安装目录
+define('CORE_URL',       I4s_URL.'Tangram/');                   // Writeable
+
+/** Defined full pathname of four basic subdirectories. */
+// 原生应用安装目录根目录
+define('DBF_PATH',    	__ROOT__.'/.DataFiles/');
+// 原生应用安装目录根目录
+define('APATH',    	    __ROOT__.A_RPN);
+// 拓展应用安装目录根目录
+define('APP_PATH',    	__ROOT__.X_RPN);
+// 用户文件根目录
+define('USR_PATH', 		__ROOT__.U_RPN);
+// 系统文件根目录
+define('I4s_PATH',    	__ROOT__.S_RPN);
+// 站中站安装根目录
+// 1. 系统前端文件包存放目录
+// 2. 应用生成静态文件存放目录，便于静态文件快速访问
+// 3. 安装其他独立应用，这些应用不依赖TNI框架，可直接通过URL访问
+define('SIS_PATH',      __ROOT__.SIS_RPN);
+
+/** Defined relative pathname for . */
+// 应用框架目录
+define('FPATH',         __ROOT__.FRAMEWORK);
+// 语言文件目录
+define('LPATH',         __ROOT__.LOCALES);
+
+/** Defined full pathname of the core directory and the standard library directory. */
+// 核心模块安装目录
+define('CPATH',    	    I4s_PATH.'Tangram/');                   // Writeable，需与常量CORE_URL的配置值保持一致
+// 标准库模块安装目录
+define('LIB_PATH',		I4s_PATH.'Library/');                   // Writeable
+// 拓展库安装目录
+define('LIBX_PATH',     __ROOT__.L_RPN);
+
+/** Defined relative pathname for public directories. */
+// 用户公共文件夹
+define('PUBL_RPN',   	U_RPN.'Public/');                       // Writeable
+// 通用主题文件夹
+define('VIEW_RPN',   	U_RPN.'Public/Themes/');                // Writeable
+
+/** Defined remote url for public directories. */
+// 用户公共文件夹
+define('PUBL_URL',      __BURL__.PUBL_RPN);
+// 通用主题文件夹
+define('VIEW_URL',      __BURL__.VIEW_RPN);
+
+/** Defined full pathname for public directories. */
+// 用户公共文件夹
+define('PUBL_PATH',     __ROOT__.PUBL_RPN);
+// 共享模型文件夹
+define('PMPATH',        PUBL_PATH.'Models/');
+// 通用主题文件夹
+define('VIEW_PATH',     __ROOT__.VIEW_RPN);
+
+/** Defined full pathname for cache directories. */
+// 系统运行时生成的依赖文件和临时缓存文件存放目录的根目录
+define('RUNPATH', 		__ROOT__.'/.Runtime/');                  // Writeable
+
+// 短时效缓存数据组
+define('RUNPATH_CA', 	RUNPATH.'Caches/_');                    // Writeable
+define('RUNPATH_SYS', 	RUNPATH_CA.'TANGRAM/');                 // Writeable
+define('RUNPATH_LOG', 	RUNPATH_SYS.'logs/');                   // Writeable
+define('RUNPATH_SES', 	RUNPATH_SYS.'sess/');                   // Writeable
+define('RUNPATH_TMP', 	RUNPATH_SYS.'tmps/');                   // Writeable
+define('RUNPATH_TASK',  RUNPATH_TMP.'taskqueues/');             // Writeable
+define('RUNPATH_TEST',  RUNPATH_TMP.'testforms/');              // Writeable
+
+// 模型专辟空间
+define('RUNPATH_M',     RUNPATH.'Models/');                     // Writeable
+define('RUNPATH_MR',    RUNPATH.'ModelRecords/');               // Writeable
+
+// 长时效寄存数据组
+define('DPATH', 	    RUNPATH.'AppData/_');                   // Writeable
+define('DPATH_COL', 	DPATH.'TANGRAM/columns/');              // Writeable
+define('DPATH_RMAP',    DPATH.'TANGRAM/routemaps/');            // Writeable
+define('DPATH_TPL', 	DPATH.'TANGRAM/templates/');            // Writeable
+
+/** Defined alias for __ROOT__ and __BURL__. */
+// 格式化的启动文件目录别名
+define('BPATH',         __ROOT__);
+define('BOOT_PATH',     __ROOT__);
+// 安装目录的网络地址的别名
+define('BOOT_URL',      __BURL__);

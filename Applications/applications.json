@@ -1,0 +1,153 @@
+{
+    "SA": {
+        "id": "SAMPLEAPPLICATION",
+        "name": "Sample Application",
+        "scode": "Sa",
+        "installpath": "SampleApplication/",
+        "usedb": 0
+    },
+    "MSGCENTER": {
+        "id": "MSGCENTER",
+        "name": "YangRAM Message System",
+        "scode": "Ms",
+        "installpath": "Services/MessageSystem/",
+        "usedb": 0
+    },
+    "TASKS": {
+        "id": "TASKS",
+        "name": "YangRAM Asynchrony Task Manage System",
+        "scode": "Tw",
+        "installpath": "Services/TaskManageSystem/",
+        "usedb": 0
+    },
+    "USERS": {
+        "id": "USERS",
+        "name": "YangRAM User System",
+        "scode": "Us",
+        "installpath": "Services/UserSystemm/",
+        "usedb": 0
+    },
+    "CLOUD": {
+        "id": "CLOUD",
+        "name": "YangRAM Cloud Explorer",
+        "scode": "Ce",
+        "installpath": "YangRAMCloudSuit/Explorer",
+        "usedb": 0
+    },
+    "CLOUDTABLES": {
+        "id": "CLOUDTABLES",
+        "name": "YangRAM Cloud Tables",
+        "scode": "Ct",
+        "installpath": "YangRAMCloudSuit/Tables/",
+        "usedb": 0
+    },
+    "UPLOADS": {
+        "id": "CLOUDFILES",
+        "name": "YangRAM Cloud Files",
+        "scode": "Cl",
+        "installpath": "YangRAMCloudSuit/Files/",
+        "usedb": 0
+    },
+    "STUDIO": {
+        "id": "STUDIO",
+        "name": "YangRAM Studio",
+        "scode": "St",
+        "installpath": "YangRAMAdminSuit/Studio/",
+        "usedb": 0
+    },
+    "LOGGER": {
+        "id": "LOGGER",
+        "name": "YangRAM Logger",
+        "scode": "Lg",
+        "installpath": "YangRAMAdminSuit/Logger/",
+        "usedb": 0
+    },
+    "I4PLAZA": {
+        "id": "I4PLAZA",
+        "name": "YangRAM I4s Plaza",
+        "scode": "St",
+        "installpath": "YangRAMAdminSuit/I4Plaza/",
+        "usedb": 0
+    },
+    "REGEDIT": {
+        "id": "REGEDIT",
+        "name": "YangRAM Registry Editor",
+        "scode": "St",
+        "installpath": "YangRAMAdminSuit/RegistryEditor/",
+        "usedb": 0
+    },
+    "SETTINGS": {
+        "id": "SETTINGS",
+        "name": "YangRAM All Settings",
+        "scode": "St",
+        "installpath": "YangRAMAdminSuit/Settings/",
+        "usedb": 0
+    },
+    "SMARTIAN": {
+        "id": "SMARTIAN",
+        "name": "YangRAM Smartian",
+        "scode": "St",
+        "installpath": "YangRAMAdminSuit/Smartian/",
+        "usedb": 0
+    },
+
+
+
+
+
+
+    "YANGRAM": {
+        "id": "SYSTEM",
+        "name": "YangRAM Interactive Information Intelligent Integration System",
+        "scode": "I4",
+        "installpath": "",
+        "usedb": 0
+    },
+    "N": {
+        "id": "INSTALLER",
+        "name": "YangRAM Installer",
+        "scode": "In",
+        "installpath": "Installer/",
+        "usedb": 0
+    },
+
+
+
+    "CONTENTS": {
+        "id": "CONTENTS",
+        "name": "YangRAM Content System",
+        "scode": "Cs",
+        "installpath": "Services/ContentSystem/",
+        "usedb": 0
+    },
+    "UOI": {
+        "id": "UOI",
+        "name": "YangRAM Uniform Operator Interface Web Edition",
+        "scode": "Oi",
+        "installpath": "OperatorInterface/UOI/",
+        "usedb": 0
+    },
+
+    "EXPLORER": {
+        "id": "EXPLORER",
+        "name": "YangRAM Explorer",
+        "scode": "Xp",
+        "installpath": "OperatorInterface/Explorer/",
+        "usedb": 0
+    },
+    "TRASHCAN": {
+        "id": "TRASHCAN",
+        "name": "YangRAM Trash Can",
+        "scode": "Xp",
+        "installpath": "OperatorInterface/TrashCan/",
+        "usedb": 0
+    },
+
+    "SERVICE": {
+        "id": "SERVER",
+        "name": "YangRAM Service And Support Server",
+        "scode": "Sv",
+        "installpath": "Server/",
+        "usedb": 0
+    }
+}

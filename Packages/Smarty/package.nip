@@ -1,0 +1,18 @@
+<?php
+namespace Packages;
+
+require_once('Smarty.class.php');
+
+class Smarty extends \Smarty {
+    protected
+    $template_dir = [],
+    $config_dir = [],
+    $compile_dir = DPATH_TPL.'smarty/templates_c/',
+    $cache_dir = DPATH_TPL.'smarty/cache/';
+
+    public
+    $force_cache = false,
+    $left_delimiter = "{",
+    $right_delimiter = "}",
+    $security_class = 'Smarty_Security';
+}

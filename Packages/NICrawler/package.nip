@@ -1,0 +1,45 @@
+<?php
+namespace Packages;
+
+require_once('NICrawler.php');
+
+class NICrawler extends \NICrawler {
+	public function handlePage($page) {
+        // 打印处当前页面的链接
+        // $nodes = $page->select('//a');
+        // foreach($nodes as $node){
+        //     echo $page->getNodeText($node) . ':' . $page->getAttribute($node, 'href');
+        //     echo "\n";
+        // }
+        // 打印标题
+        // $nodes = $page->select('//p[@class=h1]');
+        static $i = 1;
+        $nodes = $page->select('//p.h1'); // SimpleHtmlDom
+        foreach($nodes as $node){
+            echo $i++ . ":\n";
+            echo $page->getNodeText($node);
+            echo "\nURL:";
+            echo $page->getUrl();
+            echo "\n";
+            break;
+        }
+    }
+
+    public function setExtraInfo($inputs = []) {
+        if (!is_array($inputs) || empty($inputs)) {
+            return FALSE;
+        }
+        foreach ($inputs as $key => $value) {
+            $this->extraInfo[$key] = $value;
+        }
+        return TRUE;
+    }
+
+    public function getExtraInfo($inputs = []) {
+        $output = [];
+        foreach ($inputs as $field) {
+            $output[$field] = $this->extraInfo[$field];
+        }
+        return $output;
+    }
+}
