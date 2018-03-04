@@ -1,7 +1,7 @@
 {
-    "name": "YangRAM User System",
-    "suitspace": "Services",
-    "namespace": "Users",
+    "name": "Eyutou Administration Interface",
+    "suitspace": "Eyutou",
+    "namespace": "Admin",
     "metadata": {
         "version": "",
         "homepage": null,

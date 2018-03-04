@@ -1,7 +1,7 @@
 {
-    "name": "YangRAM User System",
-    "suitspace": "Services",
-    "namespace": "Users",
+    "name": "Eyutou Searcher",
+    "suitspace": "Eyutou",
+    "namespace": "Searcher",
     "metadata": {
         "version": "",
         "homepage": null,
@@ -13,9 +13,7 @@
         "homepage": null,
         "developers": []
     },
-    "routers": [
-        "DefaultRouter"
-    ],
+    "routers": [],
     "requires": {},
     "permissions": {
         "ALL_PDOX_USEABLE": "",

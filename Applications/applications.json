@@ -99,9 +99,9 @@
     },
     "EYUTOUADMIN": {
         "id": "EYUTOUADMIN",
-        "name": "Eyutou Smartian",
+        "name": "Eyutou Administration Interface",
         "scode": "St",
-        "installpath": "Eyutou/Smartian/",
+        "installpath": "Eyutou/Administrationn/",
         "usedb": 1
     },
     "EYUTOUSEARCHER": {
@@ -125,11 +125,11 @@
         "installpath": "Eyutou/UserCenter/",
         "usedb": 1
     },
-    "EYUTOUWP": {
-        "id": "EYUTOUWP",
-        "name": "Eyutou Web Pages",
+    "EYUTOUWECHAT": {
+        "id": "EYUTOUWECHAT",
+        "name": "Eyutou WeChat Pages",
         "scode": "St",
-        "installpath": "Eyutou/WebPages/",
+        "installpath": "Eyutou/WeChat/",
         "usedb": 1
     },
 
