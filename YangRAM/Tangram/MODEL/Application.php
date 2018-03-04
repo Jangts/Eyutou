@@ -79,7 +79,7 @@ final class Application {
 				'SCode'		=>	$app['app_scode'],
 				'Author'	=>	$app['app_authorname'],
 				'DIR'		=>	preg_replace('/\/+/', '/', X_RPN.$app['app_authorname'].'/'.$app['app_installpath'].'/'),
-				'DBTPrefix'	=>	_DBPRE_.'a'.$code.'_',
+				'DBTPrefix'	=>	_DBPRE_.$code.'_',
 				'CONN'		=>	$app['app_usedb']
 			];
 		}else{

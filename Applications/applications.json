@@ -90,11 +90,48 @@
         "installpath": "YangRAMAdminSuit/Smartian/",
         "usedb": 0
     },
-
-
-
-
-
+    "EYUTOU": {
+        "id": "EYUTOU",
+        "name": "Eyutou Building Projects Platform",
+        "scode": "St",
+        "installpath": "Eyutou/Projects/",
+        "usedb": 1
+    },
+    "EYUTOUADMIN": {
+        "id": "EYUTOUADMIN",
+        "name": "Eyutou Smartian",
+        "scode": "St",
+        "installpath": "Eyutou/Smartian/",
+        "usedb": 1
+    },
+    "EYUTOUSEARCHER": {
+        "id": "EYUTOUSEARCHER",
+        "name": "Eyutou Searcher",
+        "scode": "St",
+        "installpath": "Eyutou/Searcher/",
+        "usedb": 1
+    },
+    "EYUTOUSPIDER": {
+        "id": "EYUTOUSPIDER",
+        "name": "Eyutou Spider",
+        "scode": "St",
+        "installpath": "Eyutou/Spider/",
+        "usedb": 1
+    },
+    "EYUTOUUC": {
+        "id": "EYUTOUUC",
+        "name": "Eyutou User Center",
+        "scode": "St",
+        "installpath": "Eyutou/UserCenter/",
+        "usedb": 1
+    },
+    "EYUTOUWP": {
+        "id": "EYUTOUWP",
+        "name": "Eyutou Web Pages",
+        "scode": "St",
+        "installpath": "Eyutou/WebPages/",
+        "usedb": 1
+    },
 
     "YANGRAM": {
         "id": "SYSTEM",
@@ -110,9 +147,6 @@
         "installpath": "Installer/",
         "usedb": 0
     },
-
-
-
     "CONTENTS": {
         "id": "CONTENTS",
         "name": "YangRAM Content System",

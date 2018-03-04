@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{$page.title}} - 关于来利洪</title>
+    <link rel="stylesheet" type="text/css" href="{{$__theme}}stylesheets/style.css" />
+    <script src="{{$__static}}Block.JS/src/block.js" use-debug-mode></script>
+    <script src="{{$__theme}}scripts/common.js"></script>
+</head>
+
+<body>
+    {{@includes/header.niml}}
+    <div class="common-banner">
+        <div class="container">
+            <img class="banner" src="{{$__theme}}images/banner.jpg">
+        </div>
+    </div>
+    <div class="outer-box">
+        <div class="mid1920">
+            <div class="container">
+                <aside class="left">
+                    <h1>关于来利洪</h1>
+                    <nav>
+                        <div class="left-mask">&nbsp;</div>
+                        <ul>
+                            <li class="{{.checkcurrent('page_1', $column, 'on', '', true)}}"><a href="/about/">集团简介</a></li>
+                            <li class="{{.checkcurrent('page_2', $column, 'on', '', true)}}"><a href="/about/history/">发展历程</a></li>
+                            <li class="{{.checkcurrent('page_3', $column, 'on', '', true)}}"><a href="/about/culture/">企业文化</a></li>
+                            <li class="{{.checkcurrent('page_4', $column, 'on', '', true)}}"><a href="/about/honor/">资质荣誉</a></li>
+                            <li class="{{.checkcurrent('page_5', $column, 'on', '', true)}}"><a href="/about/responsibility/">社会责任</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+                <div class="main">
+                    <div class="main-top">
+                        <div class="main-top-dir"><a href="{{$archive_url}}">关于来利洪</a>&gt;<a href="{{$page_url}}">{{$page.title}}</a></div>
+                    </div>
+                    <div class="main-content">
+                        <div class="right-article">
+                            <article class="article-content">{{$page.content}}</article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">{{$option_common_bottom}}</div>
+</body>
+
+</html>

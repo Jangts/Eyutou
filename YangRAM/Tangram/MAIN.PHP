@@ -223,7 +223,7 @@ final class IDEA {
 			ini_set('memory_limit', _MAXML_);
 
 			// 定义数据表表头常量
-			define('DB_PUB',				_DBPRE_.'public_'); 	// 公共表，由应用注册和关联
+			define('DB_PUB',				_DBPRE_.'_'); 	// 公共表，由应用注册和关联
 			// 以下分别是内建应用RegEditor，Users和Cloud的表
 			define('DB_REG',				_DBPRE_.'reg_');		// 系统信息注册表
 			define('DB_USR',				_DBPRE_.'users_');		// 用户信息表

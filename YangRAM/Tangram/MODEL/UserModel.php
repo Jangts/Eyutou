@@ -22,9 +22,7 @@ final class UserModel extends ObjectModel {
     QUERY_ALL = 0,
     QUERY_UID = 1,
     QUERY_USERNAME = 2,
-    QUERY_EMAIL = 3,
-    QUERY_MOBILEPHONE = 4,
-    QUERY_UNICODENAME = 5;
+    QUERY_UNICODENAME = 3;
 
     private static
     $tablename = DB_REG.'users',
@@ -43,8 +41,6 @@ final class UserModel extends ObjectModel {
         'nickname'      =>  'Guest',
         'unicodename'   =>  'Guest',
         'avatar'        =>  NULL,
-        'email'         =>  '',
-        'mobile'        =>  '',
         'regtime'       =>  '1'.DATETIME,
         'lasttime'      =>  DATETIME,
         'remark'        =>  ''
@@ -83,12 +79,6 @@ final class UserModel extends ObjectModel {
                 break;
                 case self::QUERY_USERNAME:
                 $account = self::queryByUN($identification);
-                break;
-                case self::QUERY_EMAIL:
-                $account = self::queryByEM($identification);
-                break;
-                case self::QUERY_MOBILEPHONE:
-                $account = self::queryByMP($identification);
                 break;
                 case self::QUERY_UNICODENAME:
                 $account = self::queryByUC($identification);
