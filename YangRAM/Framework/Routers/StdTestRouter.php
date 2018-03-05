@@ -45,6 +45,9 @@ final class StdTestRouter extends BaseRouter {
     final private function getClassName($path, Request $request){
 		$classname = preg_replace('/\\\+/', '\\', $request->FORM->c).'Controller';
 		while(!is_file($path.$classname.'.php')){
+			if($classname==='exitController'){
+				exit('Thank You!');
+			}
 			fwrite(STDOUT,"Please specify controller alias:\r\n");
 			$classname = preg_replace('/\\\+/', '\\', trim(fgets(STDIN))).'Controller';
 		}

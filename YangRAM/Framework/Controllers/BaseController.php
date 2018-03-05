@@ -78,4 +78,8 @@ abstract class BaseController {
 		$this->app = $app;
 		$this->__init_cli_test();
 	}
+
+	final public function exit(){
+		exit('Thank You!');
+	}
 }

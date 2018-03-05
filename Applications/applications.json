@@ -2,133 +2,140 @@
     "SA": {
         "id": "SAMPLEAPPLICATION",
         "name": "Sample Application",
-        "scode": "Sa",
+        "scode": "SA",
         "installpath": "SampleApplication/",
+        "usedb": 0
+    },
+    "PAGES": {
+        "id": "PAGES",
+        "name": "YangRAM Pages",
+        "scode": "PG",
+        "installpath": "YangRAMPages/",
         "usedb": 0
     },
     "MSGCENTER": {
         "id": "MSGCENTER",
         "name": "YangRAM Message System",
-        "scode": "Ms",
+        "scode": "MS",
         "installpath": "Services/MessageSystem/",
         "usedb": 0
     },
     "TASKS": {
         "id": "TASKS",
         "name": "YangRAM Asynchrony Task Manage System",
-        "scode": "Tw",
+        "scode": "TW",
         "installpath": "Services/TaskManageSystem/",
         "usedb": 0
     },
     "USERS": {
         "id": "USERS",
         "name": "YangRAM User System",
-        "scode": "Us",
+        "scode": "US",
         "installpath": "Services/UserSystemm/",
         "usedb": 0
     },
     "CLOUD": {
         "id": "CLOUD",
         "name": "YangRAM Cloud Explorer",
-        "scode": "Ce",
+        "scode": "CE",
         "installpath": "YangRAMCloudSuit/Explorer",
         "usedb": 0
     },
     "CLOUDTABLES": {
         "id": "CLOUDTABLES",
         "name": "YangRAM Cloud Tables",
-        "scode": "Ct",
+        "scode": "CT",
         "installpath": "YangRAMCloudSuit/Tables/",
         "usedb": 0
     },
     "UPLOADS": {
         "id": "CLOUDFILES",
         "name": "YangRAM Cloud Files",
-        "scode": "Cl",
+        "scode": "CL",
         "installpath": "YangRAMCloudSuit/Files/",
         "usedb": 0
     },
     "STUDIO": {
         "id": "STUDIO",
         "name": "YangRAM Studio",
-        "scode": "St",
+        "scode": "ST",
         "installpath": "YangRAMAdminSuit/Studio/",
         "usedb": 0
     },
     "LOGGER": {
         "id": "LOGGER",
         "name": "YangRAM Logger",
-        "scode": "Lg",
+        "scode": "LG",
         "installpath": "YangRAMAdminSuit/Logger/",
         "usedb": 0
     },
     "I4PLAZA": {
         "id": "I4PLAZA",
         "name": "YangRAM I4s Plaza",
-        "scode": "St",
+        "scode": "PL",
         "installpath": "YangRAMAdminSuit/I4Plaza/",
         "usedb": 0
     },
     "REGEDIT": {
         "id": "REGEDIT",
         "name": "YangRAM Registry Editor",
-        "scode": "St",
+        "scode": "RE",
         "installpath": "YangRAMAdminSuit/RegistryEditor/",
         "usedb": 0
     },
     "SETTINGS": {
         "id": "SETTINGS",
         "name": "YangRAM All Settings",
-        "scode": "St",
+        "scode": "SE",
         "installpath": "YangRAMAdminSuit/Settings/",
         "usedb": 0
     },
     "SMARTIAN": {
         "id": "SMARTIAN",
         "name": "YangRAM Smartian",
-        "scode": "St",
+        "scode": "SM",
         "installpath": "YangRAMAdminSuit/Smartian/",
         "usedb": 0
     },
     "EYUTOU": {
         "id": "EYUTOU",
         "name": "Eyutou Building Projects Platform",
-        "scode": "St",
+        "scode": "EP",
         "installpath": "Eyutou/Projects/",
         "usedb": 1
     },
     "EYUTOUADMIN": {
         "id": "EYUTOUADMIN",
         "name": "Eyutou Administration Interface",
-        "scode": "St",
+        "scode": "EA",
         "installpath": "Eyutou/Administrationn/",
         "usedb": 1
     },
     "EYUTOUSEARCHER": {
         "id": "EYUTOUSEARCHER",
         "name": "Eyutou Searcher",
-        "scode": "St",
+        "scode": "ES",
         "installpath": "Eyutou/Searcher/",
         "usedb": 1
     },
     "EYUTOUSPIDER": {
         "id": "EYUTOUSPIDER",
         "name": "Eyutou Spider",
-        "scode": "St",
+        "scode": "SP",
         "installpath": "Eyutou/Spider/",
         "usedb": 1
     },
     "EYUTOUUC": {
         "id": "EYUTOUUC",
         "name": "Eyutou User Center",
-        "scode": "St",
+        "scode": "UC",
         "installpath": "Eyutou/UserCenter/",
         "usedb": 1
     },
     "EYUTOUWECHAT": {
         "id": "EYUTOUWECHAT",
         "name": "Eyutou WeChat Pages",
-        "scode": "St",
+        "scode": "WC",
         "installpath": "Eyutou/WeChat/",
         "usedb": 1
     },
@@ -138,42 +145,6 @@
         "name": "YangRAM Interactive Information Intelligent Integration System",
         "scode": "I4",
         "installpath": "",
-        "usedb": 0
-    },
-    "N": {
-        "id": "INSTALLER",
-        "name": "YangRAM Installer",
-        "scode": "In",
-        "installpath": "Installer/",
-        "usedb": 0
-    },
-    "CONTENTS": {
-        "id": "CONTENTS",
-        "name": "YangRAM Content System",
-        "scode": "Cs",
-        "installpath": "Services/ContentSystem/",
-        "usedb": 0
-    },
-    "UOI": {
-        "id": "UOI",
-        "name": "YangRAM Uniform Operator Interface Web Edition",
-        "scode": "Oi",
-        "installpath": "OperatorInterface/UOI/",
-        "usedb": 0
-    },
-
-    "EXPLORER": {
-        "id": "EXPLORER",
-        "name": "YangRAM Explorer",
-        "scode": "Xp",
-        "installpath": "OperatorInterface/Explorer/",
-        "usedb": 0
-    },
-    "TRASHCAN": {
-        "id": "TRASHCAN",
-        "name": "YangRAM Trash Can",
-        "scode": "Xp",
-        "installpath": "OperatorInterface/TrashCan/",
         "usedb": 0
     },
 

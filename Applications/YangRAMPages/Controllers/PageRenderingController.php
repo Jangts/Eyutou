@@ -7,7 +7,7 @@ use Request;
 use Response;
 use App;
 
-use PM\_7\ColumnModel;
+use PM\_PAGES\ColumnModel;
 
 use Pages\Views\DefaultPageRenderer;
 use Pages\Models\OptionsModel;

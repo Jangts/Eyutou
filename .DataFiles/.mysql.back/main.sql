@@ -1,14 +1,22 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 4.7.5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: 2018-03-04 23:12:39
--- 服务器版本： 5.6.35
--- PHP Version: 7.1.8
+-- Host: localhost
+-- Generation Time: 2018-03-05 09:15:05
+-- 服务器版本： 5.5.54-log
+-- PHP Version: 7.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `eyutou`
@@ -689,7 +697,7 @@ INSERT INTO `ni_pages_options` (`option_name`, `option_value`, `autoload`) VALUE
 ('default_page_title', '来利洪集团官网', 1),
 ('use_theme', 'default', 1),
 ('default_page_template', 'index.niml', 1),
-('logo', '/Users/Public/Themes/_7/default/images/logo.common.jpg', 1),
+('logo', '/Users/Public/Themes/_PAGES/default/images/logo.common.jpg', 1),
 ('default_page_content', '<div><br></div>', 1),
 ('common_bottom', '<span>版权所有© 2017 广州来利洪食品集团</span><span>地 址: 广州市白云区人和镇秀盛路三盛工业区自编1号</span><span>粤ICP备14012344号</span><span>技术支持：唐云科技</span>', 1),
 ('more', '附加内容', 1),
@@ -771,13 +779,13 @@ CREATE TABLE `ni_reg_apps` (
 --
 
 INSERT INTO `ni_reg_apps` (`app_id`, `dev_id`, `app_name`, `app_scode`, `app_authorname`, `app_installpath`, `app_usedb`, `app_build_time`) VALUES
-(0, 0, 'YangRAM Market', 'Ma', 'YangRAM', 'AdminSuit/Market/', 0, '0000-00-00 00:00:00'),
-(6, 0, 'YangRAM Statistics', 'St', 'YangRAM', 'Statistics/', 0, '2018-01-19 05:06:03'),
-(9, 0, 'YangRAM Jobs', 'Pr', 'YangRAM', 'Jobs/', 0, '2018-01-19 05:06:03'),
-(1, 0, 'YangRAM Contacts', 'Ct', 'YangRAM', 'AdminSuit/Contacts/', 0, '0000-00-00 00:00:00'),
-(8, 0, 'YangRAM Goods', 'Go', 'YangRAM', 'Goods/', 0, '0000-00-00 00:00:00'),
-(3, 0, 'YangRAM Registry', 'Rg', 'YangRAM', 'AdminSuit/Registry/', 0, '0000-00-00 00:00:00'),
-(2, 0, 'YangRAM Backstage', 'Bs', 'YangRAM', 'AdminSuit/Backstage/', 0, '0000-00-00 00:00:00'),
+(0, 0, 'YangRAM Market', 'MK', 'YangRAM', 'AdminSuit/Market/', 0, '0000-00-00 00:00:00'),
+(6, 0, 'YangRAM Statistics', 'ST', 'YangRAM', 'Statistics/', 0, '2018-01-19 05:06:03'),
+(9, 0, 'YangRAM Jobs', 'JB', 'YangRAM', 'Jobs/', 0, '2018-01-19 05:06:03'),
+(1, 0, 'YangRAM Contacts', 'CT', 'YangRAM', 'AdminSuit/Contacts/', 0, '0000-00-00 00:00:00'),
+(8, 0, 'YangRAM Goods', 'GD', 'YangRAM', 'Goods/', 0, '0000-00-00 00:00:00'),
+(3, 0, 'YangRAM Registry', 'RG', 'YangRAM', 'AdminSuit/Registry/', 0, '0000-00-00 00:00:00'),
+(2, 0, 'YangRAM Backstage', 'BS', 'YangRAM', 'AdminSuit/Backstage/', 0, '0000-00-00 00:00:00'),
 (1015, 0, 'Book+', 'Bp', 'Tangram', 'IP/BookPlus/', 0, '0000-00-00 00:00:00'),
 (1016, 0, 'Comment+', 'Cm', 'Tangram', 'IP/CommentPlus/', 0, '0000-00-00 00:00:00'),
 (1017, 0, 'Evaluate+', 'Ep', 'Tangram', 'IP/EvaluatePlus/', 0, '0000-00-00 00:00:00'),
@@ -1215,10 +1223,10 @@ CREATE TABLE `ni__map_mobiles` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `ni__map_oAuths`
+-- 表的结构 `ni__map_oauths`
 --
 
-CREATE TABLE `ni__map_oAuths` (
+CREATE TABLE `ni__map_oauths` (
   `oid` char(64) NOT NULL DEFAULT '' COMMENT '平台提高用来绑定的ID',
   `agency` char(7) NOT NULL COMMENT '认证或授权平台',
   `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID'
@@ -1612,9 +1620,9 @@ ALTER TABLE `ni__map_mobiles`
   ADD KEY `uid` (`uid`);
 
 --
--- Indexes for table `ni__map_oAuths`
+-- Indexes for table `ni__map_oauths`
 --
-ALTER TABLE `ni__map_oAuths`
+ALTER TABLE `ni__map_oauths`
   ADD PRIMARY KEY (`agency`,`oid`),
   ADD KEY `USERID` (`uid`);
 
@@ -1783,3 +1791,8 @@ ALTER TABLE `ni_studio_links`
 --
 ALTER TABLE `ni_users_relationcircles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

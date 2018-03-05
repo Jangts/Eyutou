@@ -1,8 +1,8 @@
 <?php
-namespace PM\_7;
+namespace PM\_PAGES;
 
 /**
- * @class PM\_7\ColumnModel
+ * @class PM\_PAGES\ColumnModel
  * General Column Model
  * 
  * @author     Jangts
