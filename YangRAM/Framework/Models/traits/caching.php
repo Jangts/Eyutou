@@ -38,10 +38,20 @@ trait caching {
         if(empty(self::$privateFileStorages[$class])){
             if(isset(static::$fileStoragePath)){
                 if(static::$fileStoragePath===true){
-                    self::$privateFileStorages[$class] = new Storage(RUNPATH_M.$class.'/', static::$fileStorageEncodeMode, true);
+                    if(stripos($class, 'pm\\')===0){
+                        self::$privateFileStorages[$class] = new Storage(RUNPATH_M.'Public/'.$class.'/', static::$fileStorageEncodeMode, true);
+                    }elseif(is_subclass_of($class, 'AF\Models\BaseR3Model')||is_subclass_of($class, 'AF\Models\BaseMapModel')){
+                        self::$privateFileStorages[$class] = new Storage(RUNPATH_M.'Protected/'.static::$tablenamePrefix.'/'.static::$tablenameAlias.'/', static::$fileStorageEncodeMode, true);
+                    }else{
+                        self::$privateFileStorages[$class] = new Storage(RUNPATH_M.'Pravite/_'.AI_CURR.'/'.$class.'/', static::$fileStorageEncodeMode, true);
+                    }
                 }elseif(static::$fileStoragePath===1){
-                    self::$privateFileStorages[$class] = new Storage(RUNPATH_M.'_'.AI_CURR.'/'.$class.'/', static::$fileStorageEncodeMode, true);
-                }elseif(is_string(static::$fileStoragePath)){
+                    if(is_subclass_of($class, 'AF\Models\BaseR3Model')||is_subclass_of($class, 'AF\Models\BaseMapModel')){
+                        self::$privateFileStorages[$class] = new Storage(RUNPATH_M.'Protected/'.static::$tablenamePrefix.'/'.static::$tablenameAlias.'/'.$class.'/', static::$fileStorageEncodeMode, true);
+                    }else{
+                        self::$privateFileStorages[$class] = new Storage(RUNPATH_M.'Pravite/_'.AI_CURR.'/'.$class.'/', static::$fileStorageEncodeMode, true);
+                    }
+                }elseif(static::$fileStoragePath&&is_string(static::$fileStoragePath)){
                     self::$privateFileStorages[$class] = new Storage(static::$fileStoragePath, static::$fileStorageEncodeMode, true);
                 }else{
                     return self::$privateFileStorages[$class] = NULL;

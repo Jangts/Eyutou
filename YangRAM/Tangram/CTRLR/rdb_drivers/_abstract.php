@@ -74,7 +74,11 @@ abstract class _abstract extends PDO {
             $this->user = $username;
             $this->dbname = $dbname;
 			parent::__construct ($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-            parent::exec('SET NAMES UTF8');
+            // try {
+            //     parent::exec('SET NAMES UTF8');
+            // } catch (PDOException $e) {
+            //     # 
+            // }
             return $this;
 		} catch (PDOException $e) {
             $sp = new Status(1416.2, 'Database Connect Error', $e->getMessage());

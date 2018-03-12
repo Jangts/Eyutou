@@ -102,34 +102,24 @@ trait crud {
         // 获取默认数据行查询器
         $querier = static::initQuerier();
 
-        // 检查子类是否存在实例方法destroy
-        if(method_exists(get_called_class(), 'destroy')){
-            $objs = self::query($require);
+        $objs = self::query($require);
 
-            // 开启事件，如果支持的话
-            $__key = $querier->beginAndLock();
+        // 开启事件，如果支持的话
+        $__key = $querier->beginAndLock();
             
-            // 遍历查询到的记录实例，使其自己销毁
-            // 使用自身定义的destroy方法，有助于彻底销毁记录和周边
-		    foreach($objs as $obj){
-                if($obj->destroy()){
-                    continue;
-                }
-                // 如果其中有一个失败，则回滚操作，并返回false
-                $querier->unlock($__key)->rollBack();
-                return false;
+        // 遍历查询到的记录实例，使其自己销毁
+        // 使用自身定义的destroy方法，有助于彻底销毁记录和周边
+        foreach($objs as $obj){
+            if($obj->destroy()){
+                continue;
             }
-            // 全部销毁成功，则提交事件
-		    $querier->unlock($__key)->commit();
-            return true;
+            // 如果其中有一个失败，则回滚操作，并返回false
+            $querier->unlock($__key)->rollBack();
+            return false;
         }
-
-        // 如果子类不存在destroy方法，则通过查询器直接删除数据表中的一行或多行
-        if($querier->requires($require)->delete()){
-            self::cleanFileStorage();
-            return true;
-        }
-        return false;        
+        // 全部销毁成功，则提交事件
+        $querier->unlock($__key)->commit();
+        return true;     
     }
 
     /**  

@@ -360,7 +360,7 @@ final class Application {
 		];
 		$content = json_encode($props);
 
-		$file = @fopen($filename, 'w') or Status::cast('Unable to write file! The current log file may be read-only.', 1411.3, 'Permission Denied');
+		$file = @fopen($filename, 'w') or Status::cast('Unable to write file! The current log file may be read-only.', 1411.7, 'Permission Denied');
 		fwrite($file, $content);
 		fclose($file);
 			

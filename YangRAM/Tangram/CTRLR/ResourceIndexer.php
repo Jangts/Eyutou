@@ -184,7 +184,7 @@ final class ResourceIndexer {
                     if($username=trim(fgets(STDIN))){
                         $_SESSION['username'] = $username;
                     }else{
-                        $_SESSION['username'] = 'admin';
+                        $_SESSION['username'] = 'system';
                     }
                 }
 
@@ -256,7 +256,7 @@ final class ResourceIndexer {
                         $sp = new StatusProcessor(1402, '', 'IPC must posted formdata.');
                         return $sp->respond(StatusProcessor::JLOG);
                     }
-                    exit;
+                    $_SESSION['username'] = 'system';
                     return $this->checked($patharr, $request, -3, $index);
                 }
                 // 未明确交互应用的ID

@@ -5,7 +5,7 @@ use PM\_CLOUD\FolderModel;
 use PM\_CLOUD\TableRowModel;
 use PM\_CLOUD\TableRowMetaModel;
 
-class Admin_AccountViewModel extends \PM\_2\BaseFormViewModel {
+class Admin_AccountViewModel extends \PM\_STUDIO\BaseFormViewModel {
 	public static $inputs = [
 		[
 			'field_name'	=>	'UID',

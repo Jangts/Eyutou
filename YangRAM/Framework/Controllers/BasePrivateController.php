@@ -24,7 +24,7 @@ abstract class BasePrivateController extends BaseController {
     /**
      * 检查当前权限，并返回权限代码
      */
-    abstract public function checkPower();
+    abstract public function checkAuthority($type = NULL, array $options = []);
 
     final public function getAccessCode(){
         return $this->accessCode;

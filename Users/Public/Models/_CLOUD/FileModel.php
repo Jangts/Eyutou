@@ -11,7 +11,7 @@ final class FileModel extends BaseCloudItemModel {
 	protected static
 	$extendedProperties = [],
 	$fileStoragePath = DPATH.'CLOUDS/files/',
-	$querier,
+	$staticQuerier,
 	$staticMemorizeStorage = [],
 	$staticFileStorage,
 	$tablenameAlias = 'filemeta';
@@ -23,7 +23,7 @@ final class FileModel extends BaseCloudItemModel {
 	private static function deleteFileMeta($id){
 		self::initQuerier();
 		self::$staticFileStorage->store($id);
-		if(self::$querier->requires()->where('ID', $id)->delete()){
+		if(self::$staticQuerier->requires()->where('ID', $id)->delete()){
 			return true;
 		}
 		return false;
@@ -39,6 +39,10 @@ final class FileModel extends BaseCloudItemModel {
 			}
 			self::deleteFileMeta($id);
 		}
+	}
+
+	public static function byFolderNameName($folder, $name){
+		#
 	}
 
 	public static function post(array $input){
@@ -69,7 +73,7 @@ final class FileModel extends BaseCloudItemModel {
 		#使用事务
 		#开启事务
 		self::initQuerier();
-		$__key = self::$querier->beginAndLock();
+		$__key = self::$staticQuerier->beginAndLock();
 		if($source = FileSourceModel::postIfNotExists($sourceInput)){
 			$metaInput['SRC_ID'] = $source->SID;
 			if(isset($metaInput['ID'])){
@@ -81,7 +85,7 @@ final class FileModel extends BaseCloudItemModel {
 			}
 			if($meta->put($metaInput)->save()){
 				#提交事务
-				self::$querier->unlock($__key)->commit();
+				self::$staticQuerier->unlock($__key)->commit();
 				$obj = new static;
 				$obj->meta = $meta;
 				$obj->source = $source;
@@ -89,7 +93,7 @@ final class FileModel extends BaseCloudItemModel {
 			}
 		}
 		#回滚事务
-		self::$querier->unlock($__key)->rollBack();
+		self::$staticQuerier->unlock($__key)->rollBack();
 		\unlink(PUBL_PATH.$sourceInput['LOCATION']);
 		return false;
 	}
@@ -97,21 +101,21 @@ final class FileModel extends BaseCloudItemModel {
 	public static function updateByID($id, array $input){
 		#使用事务
 		self::initQuerier();
-		$__key = self::$querier->beginAndLock();
+		$__key = self::$staticQuerier->beginAndLock();
 		if($source = FileSourceModel::postIfNotExists($input)){
 			$input['SRC_ID'] = $source->SID;
 			$meta = new FileMetaModel($id);
 			//var_dump($id, $meta);
 			if($meta->put($input)->save()){
 				//var_dump($meta);
-				self::$querier->unlock($__key)->commit();
+				self::$staticQuerier->unlock($__key)->commit();
 				$obj = new static;
 				$obj->meta = $meta;
 				$obj->source = $source;
 				return $obj->__put(array_merge($meta->getArrayCopy(), $source->getArrayCopy()), true);
 			}
 		}
-		self::$querier->unlock($__key)->rollBack();
+		self::$staticQuerier->unlock($__key)->rollBack();
 		return false;
 	}
 
@@ -134,17 +138,17 @@ final class FileModel extends BaseCloudItemModel {
 	 */
 	public static function delete($require){
 		self::initQuerier();
-        $__key = self::$querier->beginAndLock();
+        $__key = self::$staticQuerier->beginAndLock();
 		$metainfos = self::query($require);
 		foreach($metainfos as $meta){
             if($obj = $meta->extendedProperties()){
                 $obj->destroy();
             }else{
-                self::$querier->unlock($__key)->rollBack();
+                self::$staticQuerier->unlock($__key)->rollBack();
                 return false;
             }
 		}
-        self::$querier->unlock($__key)->commit();
+        self::$staticQuerier->unlock($__key)->commit();
 		return true;
 	}
 

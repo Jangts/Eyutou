@@ -23,14 +23,14 @@ final class FileMetaModel extends BaseCloudItemModel {
 	
 	protected static
 	$fileStoragePath = DPATH.'CLOUDS/files/',
-	$querier,
+	$staticQuerier,
     $staticMemorizeStorage = [],
 	$staticFileStorage,
 	$tablenameAlias = 'filemeta',
 	$defaultPorpertyValues = [
 		'ID'         		=>  '',
 		'SRC_ID'        	=>  0,
-		'FOLDER'        	=>  6,
+		'FOLDER'        	=>  5,
 		'FILE_NAME'     	=>  '',
 		'FILE_TYPE'     	=>  'archive',
 		'FILE_SIZE'     	=>  0,
@@ -78,11 +78,11 @@ final class FileMetaModel extends BaseCloudItemModel {
 		}
 
 		$ID = $basename . $suffix;
-		$result = self::$querier->requires()->where('FILE_NAME', $ID)->where('FOLDER', $folder)->where('SK_IS_RECYCLED', 0)->where('ID', $id, '<>')->take(1)->orderby(false)->count('ID');
+		$result = self::$staticQuerier->requires()->where('FILE_NAME', $ID)->where('FOLDER', $folder)->where('SK_IS_RECYCLED', 0)->where('ID', $id, '<>')->take(1)->orderby(false)->count('ID');
 		$num = 1;
 		while($result){
 			$ID = $basename . '(' . $num++ . ')' . $suffix;
-			$result = self::$querier->requires()->where('FILE_NAME', $ID)->where('FOLDER', $folder)->where('SK_IS_RECYCLED', 0)->where('ID', $id, '<>')->take(1)->orderby(false)->count('ID');
+			$result = self::$staticQuerier->requires()->where('FILE_NAME', $ID)->where('FOLDER', $folder)->where('SK_IS_RECYCLED', 0)->where('ID', $id, '<>')->take(1)->orderby(false)->count('ID');
 		}
 		return $ID;
 	}
@@ -133,7 +133,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 
 	public static function getCOUNT($type = NULL){
 		self::correctFileTypeQuerying($type);
-		return self::$querier->count('ID');
+		return self::$staticQuerier->count('ID');
 	}
 
 	public static function getCountOfSrouce($SRC_ID){
@@ -142,7 +142,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 
 	public static function getALL($type = NULL){
 		self::correctFileTypeQuerying($type);
-		return self::$querier->select();
+		return self::$staticQuerier->select();
 	}
 
 	public static function getFilesBySrouceID($SRC_ID, $take = 0){
@@ -171,7 +171,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 			}elseif($cache = self::$staticFileStorage->take($ID)){
 				$obj->modelProperties = $obj->savedProperties = self::$staticMemorizeStorage[$ID] = $cache;
 			}else{
-				$result = self::$querier->requires()->where('ID', $ID)->take(1)->select();
+				$result = self::$staticQuerier->requires()->where('ID', $ID)->take(1)->select();
 				if($result&&$row = $result->item()){
 					self::$staticFileStorage->store($ID, $obj->modelProperties = $obj->savedProperties = self::$staticMemorizeStorage[$ID] = $row);
 				}else{
@@ -208,15 +208,15 @@ final class FileMetaModel extends BaseCloudItemModel {
 	 */
 	public static function remove($require, $recycleType = self::RECYCLE){
 		self::initQuerier();
-		$__key = self::$querier->beginAndLock();
+		$__key = self::$staticQuerier->beginAndLock();
 		$objs = self::query($require);
 		foreach($objs as $obj){
 			if($obj->recycle($recycleType)==false){
-				self::$querier->unlock($__key)->rollBack();
+				self::$staticQuerier->unlock($__key)->rollBack();
                 return false;
 			}
 		}
-		self::$querier->unlock($__key)->commit();
+		self::$staticQuerier->unlock($__key)->commit();
 		return $objs;
 	}
 
@@ -283,11 +283,11 @@ final class FileMetaModel extends BaseCloudItemModel {
 	}
 
 	public function correctFolder(){
-		if($this->modelProperties['FOLDER']<6){
-			if($this->savedProperties['FOLDER']>5){
+		if($this->modelProperties['FOLDER']<5){
+			if($this->savedProperties && $this->savedProperties['FOLDER']>4){
 				$this->modelProperties['FOLDER'] = $this->savedProperties['FOLDER'];
 			}else{
-				$this->modelProperties['FOLDER'] = 6;
+				$this->modelProperties['FOLDER'] = 5;
 			}
 		}
 		if($folder = FolderModel::byGUID($this->modelProperties['FOLDER'])){
@@ -297,16 +297,16 @@ final class FileMetaModel extends BaseCloudItemModel {
 					$this->modelProperties['SK_IS_RECYCLED'] = self::HIDE;
 				}
 			}else{
-				$this->modelProperties['FOLDER'] = 6;
+				$this->modelProperties['FOLDER'] = 5;
 			}
 		}else{
-			$this->modelProperties['FOLDER'] = 6;
+			$this->modelProperties['FOLDER'] = 5;
 		}
 		return $this->modelProperties['FOLDER'];
 	}
 
 	public function __update(){
-		$querier = self::$querier;
+		$querier = self::$staticQuerier;
 
 		// 校正文件夹
 		$this->correctFolder();
@@ -351,7 +351,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 	}
 
 	public function __insert(){
-		$querier = self::$querier;
+		$querier = self::$staticQuerier;
 
 		// 校正文件夹
 		$this->correctFolder();

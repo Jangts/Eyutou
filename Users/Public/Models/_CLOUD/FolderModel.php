@@ -23,12 +23,10 @@ final class FolderModel extends \AF\Models\BaseDeepModel {
 	HIDE = 2;
 
 	protected static
-	$AIKEY = 'id',
 	$fileStoragePath = DPATH.'CLOUDS/'.'folders/',
 	$fileStoreLifetime = 0,
 	$tablenameAlias = 'folders',
 	$tablenamePrefix = DB_YUN,
-    $uniqueIndexes = ['id'],
 	$defaultPorpertyValues  = [
 		'id'				=>	0,
 		'type'				=>	'file',
@@ -75,7 +73,7 @@ final class FolderModel extends \AF\Models\BaseDeepModel {
 			if($parent->type===$folder->type){
 				// var_dump('5');
 				// 且两个目录同类型
-				if($parent->tablename===$folder->tablename){
+				if($parent->tablename==$folder->tablename){
 					// var_dump('6');
 					// 且两个目录同表(文件类型没有表，但都为NULL)
 
@@ -230,11 +228,11 @@ final class FolderModel extends \AF\Models\BaseDeepModel {
 	/**
 	 * 创建新的归档文件夹
 	 */
-	public static function postIfNotExists($parent_id, $name, $tablenameAlias = NULL, array $more = [], $getArrayCopy = true){
+	public static function postIfNotExists($parent_id, $name, $tablename = NULL, array $more = [], $getArrayCopy = true){
 		if(is_string($tablename)){
 			$array = self::query("`tablename` = '$tablename' AND `parent` = $parent_id AND `name` = '$name'" , [['id', false, self::SORT_REGULAR]], 1);	
 		}else{
-			$array = self::query("`tablename` = NULL AND `parent` = $parent_id AND `name` = '$name'" , [['id', false, self::SORT_REGULAR]], 1);
+			$array = self::query("`tablename` = '' AND `parent` = $parent_id AND `name` = '$name'" , [['id', false, self::SORT_REGULAR]], 1);
 		}
 		if($array&&isset($array[0])){
 			if($getArrayCopy){
@@ -257,7 +255,7 @@ final class FolderModel extends \AF\Models\BaseDeepModel {
 	/**
 	 * 创建新的归档文件夹
 	 */
-	public static function createAndSave($parent_id, $name = NULL, $tablenameAlias = NULL){
+	public static function createAndSave($parent_id, $name = NULL, $tablename = NULL){
 		if($obj = self::postIfNotExists($parent_id, $name, $tablename, false)){
 			return $obj;
 		}
@@ -333,7 +331,6 @@ final class FolderModel extends \AF\Models\BaseDeepModel {
 		if(!self::checkParentCanBeSet($this, $this->modelProperties['parent'])){
 			return NULL;
 		}
-
 		// 检查并校正文件夹名称
 		$this->modelProperties['name'] = self::correctSourcesFolderName($this->modelProperties['parent'], 0, $this->modelProperties['name']);
 		if($this->querier->insert($this->modelProperties)){

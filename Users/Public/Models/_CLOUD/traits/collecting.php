@@ -30,7 +30,7 @@ trait trmm_collecting {
 	 */
 	public static function query($require = "1 = 1", array $orderby = self::ID_ASC, $range = 0, $returnFormat = Model::LIST_AS_OBJS, $selecte = '*'){
         self::init();
-		$result = self::executeQuerySelect(self::$querier, $require, $orderby, $range);
+		$result = self::executeQuerySelect(self::$staticQuerier, $require, $orderby, $range);
         if($result){
 			return self::decodeReturnRows($result, $returnFormat);
         }
@@ -42,12 +42,9 @@ trait trmm_collecting {
 	 */
 	public static function getALL($tablename = NULL, $type = NULL){
 		self::init();
-		$querier = self::$querier->requires();
+		$querier = self::$staticQuerier->requires();
 		if(is_string($tablename)){
 			$querier->where('TABLENAME', $tablename);
-		}else{
-			// 此项操作是Folder才需要的
-			// $querier->where('TABLENAME', NULL, '<>');
 		}
 		if(is_string($type)&&($type!=='file')){
 			$querier->where('TYPE', $type);
@@ -63,7 +60,7 @@ trait trmm_collecting {
 	 * 按条件获取列表
 	 */
 	public static function getRows($tablename = NULL, $folder = NULL, $state = self::UNRECYCLED, array $orderby = self::ID_DESC, $start = 0, $num = 18, $returnFormat = Model::LIST_AS_OBJS){
-		if($state === self::PUBLISHED&&count($orderby)===1){
+		if($state === self::PUBLISHED&&count($orderby)===1&&(empty($orderby[0][2])||$orderby[0][2]===self::SORT_REGULAR)){
 			// 已发布行可以读取缓存
 			if($folder&&is_numeric($folder)){
 				if(is_string($tablename)){

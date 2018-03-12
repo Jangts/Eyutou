@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{$title}}</title>
+    <link rel="stylesheet" type="text/css" href="{{$__theme}}stylesheets/style.css" />
+    <script src="{{$__static}}Tangram/Block.JS/src/block.js" use-debug-mode></script>
+    <script src="{{$__theme}}scripts/index.js"></script>
+</head>
+
+<body>
+    {{@includes/header.niml}}
+    <div class="index-poster">
+        <div class="container">
+            <def name="$poster" onload="$this.readPluginResource" args="'promotion', '2', 'ads'" />
+            <a class="poster-anchor" href="{{$poster.link}}" target="_blank"><img src="{{$poster.content}}"></a>
+        </div>
+    </div>
+    <div class="container index-items">
+        <div class="index-intro">
+            <header><a href="/about/"><span>INTRODUCTION</span>公司简介</a></header>
+            <article class="index-intro-arti">
+                <a class="thumb" href="/about/"><img src="{{.showPageProp('about', 'thumb_inlist')}}"></a>
+                <h4><a href="/about/">广州来利洪饼业有限公司</a></h4>
+                <p>
+                    <a href="/about/"></a>{{.showPageProp('about', 'description')}}</a>
+                </p>
+                <a class="see-more" href="/about/"><img src="{{$__theme}}images/index/more.jpg"></a>
+            </article>
+        </div>
+        <div class="index-news">
+            <header><a href=""><span>NEWS</span>新闻中心</a></header>
+            <article class="index-news-arti">
+                <aside>
+                    <p class="index-news-year">{@year}</p>
+                    <p class="index-news-date">{@date}</p>
+                </aside>
+                <h4><a href="{@url}">{@title}</a></h4>
+                <p>{@desc}</p>
+                <a class="see-more" href="{@url}"><img src="{{$__theme}}images/index/more.jpg"></a>
+            </article>
+        </div>
+        <div class="index-propa">
+            <header><span>PROPAGANDA</span>产品宣传</header>
+            <article class="index-propa-arti">
+                <video id="index-video" width="100%" height="100%" autoplay loop muted>
+					<source src="{{.echoPluginResource('promotion', '3', 'ads-content');}}">
+				</video>
+            </article>
+        </div>
+    </div>
+    <div class="footer">{{$option_common_bottom}}</div>
+</body>
+
+</html>

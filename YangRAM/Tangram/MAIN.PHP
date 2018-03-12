@@ -191,7 +191,7 @@ final class IDEA {
 	**/
 	private function initialize(){
 		// 检查是否存在配置文件，并检查配置文件的正确性
-		if(is_file(__ROOT__.'/configuration.ini')&&$config = json_decode(str_replace('<%D%>', DPATH, file_get_contents(__ROOT__.'/configuration.ini')), true)){
+		if(is_file(__ROOT__.'/configuration.ini')&&$config = json_decode(file_get_contents(__ROOT__.'/configuration.ini'), true)){
 			// 检查系统运行模式
 			if(self::MODE==='DEVELOP'&&!defined('_USE_DEBUG_MODE_')){
 				define('_USE_DEBUG_MODE_', 1);

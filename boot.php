@@ -29,7 +29,7 @@
 //  | |                 iii.  create the bus control unit;                 | |
 //  | |                    iv.  run the kernel modules;                    | |
 //  | |            v.  run workers and check asyncronous tasks;            | |
-//  | |            v.  active and run the activity application;            | |
+//  | |           vi.  active and run the activity application..           | |
 //  | |                          -   E   N   D   -                         | |
 //  | |\                                                                  /| |
 //  |-<<+>>-|-<<<+>>>-|-<<<<+>>>>-|-<<<<<>>>>>-|-<<<<+>>>>-|-<<<+>>>-|-<<+>>-|

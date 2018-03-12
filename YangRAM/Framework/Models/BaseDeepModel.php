@@ -78,7 +78,7 @@ abstract class BaseDeepModel extends BaseR3Model {
 	}
 
 	protected function __checkInsertData(array $post){
-        $post = self::correctArrayByTemplate($post, static::$defaultPorpertyValues);
+        $post = self::__checkValues(self::correctArrayByTemplate($post, static::$defaultPorpertyValues), true);
         if(empty($post[static::$__parentFieldName])||static::byGUID($post[static::$__parentFieldName])){
             return $post;
 		}
@@ -86,7 +86,7 @@ abstract class BaseDeepModel extends BaseR3Model {
     }
 
     protected function __checkUpdateData(array $update, array $savedProperties){
-        $update = array_intersect_key($update, $savedProperties);
+        $update = self::__checkValues(array_intersect_key($update, $savedProperties));
         if(empty($update[static::$__parentFieldName])||static::byGUID($update[static::$__parentFieldName])){
             return $update;
 		}

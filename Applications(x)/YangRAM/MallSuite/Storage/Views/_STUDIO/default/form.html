@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/Block.JS/src/see/fa.css">
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/Block.JS/src/see/see.css">
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/Block.JS/src/Time/Picker/style.css">
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/AdminSrc/css/action.css">
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/AdminSrc/css/form.css">
+
+    <script src="{{$__lib__}}Tangram/Block.JS/src/block.js" use-debug-mode></script>
+    <script src="{{$__lib__}}Tangram/AdminSrc/js/action.js"></script>
+    <script src="{{$__lib__}}Tangram/AdminSrc/js/form.js"></script>
+    <script src="{{$__dir__}}js/production.js"></script>
+</head>
+
+<body>
+    <div class="action-container" data-apps-url="{{__aurl__}}">
+        <header class="formname"><strong>{{$formname}}</strong>
+            <if $formlinkname><span class="form-link"><a href="{{$formlinkhref}}" target="_blank">{{$formlinkname}}</a></span></if>
+        </header>
+        {{$form}}
+    </div>
+    <div class="action-buttons">
+        <for $button of $buttons>
+            <if $button>
+                <button data-order="{{$button[`order`]}}" data-order-form="{{$button[`form`]}}" data-submit-href="{{$button[`action`]}}" data-success-href="{{$button[`href`]}}">{{$button[`name`]}}</button>
+            </if>
+        </for>
+    </div>
+    <div class="action-timepicker">
+        <div id="timepicker"></div>
+    </div>
+
+</body>
+
+</html>

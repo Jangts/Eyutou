@@ -20,7 +20,7 @@ class Access extends _abstract {
                     $driverOptions = [];
                 }
     			$obj = new static;
-                self::$instances[$id] = $obj->connectAndReturnInstance($dsn, NULL, NULL, $driverOptions, null);
+                self::$instances[$id] = $obj->connectAndReturnInstance($dsn, NULL, NULL, $driverOptions, NULL);
     		}
     		return self::$instances[$id];
         }
@@ -29,15 +29,17 @@ class Access extends _abstract {
 
 	public static function parseDsn(array $options) {
         if(extension_loaded('PDO_ODBC')){
-            $path = realpath(str_replace(DBF_PATH, '<%D%>', $options['file']));
-            $dsn = 'odbc:DRIVER={Microsoft Access Driver (*.mdb)}; DBQ='.$path;
-            if (!empty($options['username'])) {
-                $dsn .= ';UID=' . $options['username'];
+            if($path = realpath(str_replace('<%D%>', DBF_PATH, $options['file']))){
+                $dsn = 'odbc:DRIVER={Microsoft Access Driver (*.mdb)}; DBQ='.$path;
+                if (!empty($options['username'])) {
+                    $dsn .= ';UID=' . $options['username'];
+                }
+                if (!empty($options['password'])) {
+                    $dsn .= ';PWD=' . $options['password'];
+                }
+                return $dsn;
             }
-            if (!empty($options['password'])) {
-                $dsn .= ';PWD=' . $options['password'];
-            }
-            return $dsn;
+            new Status(1501, '', 'Error File Option ['.$options['file'].'] For Access', true);
         }
         $sp = new Status(1501, '', 'Need SQL Driver PDO_ODBC');
         $sp->log();

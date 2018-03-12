@@ -12,7 +12,7 @@ final class AdministratorModel extends \AF\Models\BaseMemberModel {
         'OPERATORNAME'  =>  'NonAuth User',
         'PIN'           =>  '3fbfeb2d38abd0ddeb7976f78eb655d1',
         'OGROUP'        =>  '0',
-        'AVATAR'        =>  '/applications/uploads/files/ca28525a8b386236136.jpg',
+        'AVATAR'        =>  __aurl__.'uploads/files/ca28525a8b386236136.jpg',
         'LANGUAGE'      =>  REQUEST_LANGUAGE
     ];
 
@@ -35,17 +35,17 @@ final class AdministratorModel extends \AF\Models\BaseMemberModel {
     public function getBaseInfo(){
         if($this->savedProperties){
             return [
-                'UID'           =>  $this->__guid,
-                'OPERATORNAME'  =>  $this->savedProperties['OPERATORNAME'],
-                'AVATAR'        =>  $this->savedProperties['AVATAR'],
-                'LANGUAGE'      =>  $this->savedProperties['LANGUAGE']
+                'uid'           =>  $this->__guid,
+                'nickname'      =>  $this->savedProperties['OPERATORNAME'],
+                'avatar'        =>  $this->savedProperties['AVATAR'],
+                'language'      =>  $this->savedProperties['LANGUAGE']
             ];
         }
         return [
-            'UID'           =>  -1,
-            'OPERATORNAME'  =>  'NonAuth User',
-            'AVATAR'        =>  '/applications/uploads/files/ca28525a8b386236136.jpg',
-            'LANGUAGE'      =>  REQUEST_LANGUAGE
+            'uid'           =>  -1,
+            'nickname'      =>  'NonAuth User',
+            'avatar'        =>  __aurl__.'uploads/files/ca28525a8b386236136.jpg',
+            'language'      =>  REQUEST_LANGUAGE
         ];
     }
 }

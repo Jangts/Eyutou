@@ -69,6 +69,16 @@ abstract class BaseResourcesController extends BaseController {
         return [$start, $length];
     }
 
+    abstract public function checkCreateAuthority(array $options = []);
+
+    function checkReadAuthority(array $options = []){
+        return true;
+    }
+
+    abstract public function checkUpdateAuthority(array $options = []);
+
+    abstract public function checkDeleteAuthority(array $options = []);
+
     /**
      * MOF错误处理函数
      * MOF：Method Not Found

@@ -11,6 +11,8 @@ use PM\_CLOUD\TableRowMetaModel;
 use PM\_CLOUD\TableRowModel;
 
 class RowsController extends \AF\Controllers\BaseResourcesController {
+    use \Cloud\Tables\Controllers\traits\authorities;
+
     public static
     $__sorts = [
         'id_reverse'  =>  TableRowMetaModel::ID_DESC,
@@ -27,10 +29,29 @@ class RowsController extends \AF\Controllers\BaseResourcesController {
 	    'title'  =>  TableRowMetaModel::TITLE_ASC,
 	    'title_pinyin_reverse'  =>  TableRowMetaModel::TITLE_DESC_GBK,
         'title_pinyin'  =>  TableRowMetaModel::TITLE_ASC_GBK,
+
+        'ldcd'  =>  TableRowMetaModel::LDCD,
+        'ldca'  =>  TableRowMetaModel::LDCA,
+        'lacd'  =>  TableRowMetaModel::LACD,
+        'laca'  =>  TableRowMetaModel::LACA,
+        'ldpd'  =>  TableRowMetaModel::LDPD,
+        'ldpa'  =>  TableRowMetaModel::LDPA,
+        'lapd'  =>  TableRowMetaModel::LAPD,
+        'lapa'  =>  TableRowMetaModel::LAPA,
+        'ldtd'  =>  TableRowMetaModel::LDTD,
+        'ldta'  =>  TableRowMetaModel::LDTA,
+        'latd'  =>  TableRowMetaModel::LATD,
+        'lata'  =>  TableRowMetaModel::LATA,
+
+        'ldtd_pinyin'  =>  TableRowMetaModel::LDTD_GBK,
+        'ldta_pinyin'  =>  TableRowMetaModel::LDTA_GBK,
+        'latd_pinyin'  =>  TableRowMetaModel::LATD_GBK,
+        'lata_pinyin'  =>  TableRowMetaModel::LATA_GBK
     ],
     $__sortby = TableRowMetaModel::PUBTIME_DESC;
 
     public function get($id, array $options = []){
+        $this->checkAuthority('R', $options) or Status::cast('No permissions to read resources.', 1411.2);
         if(empty($id)){
             $rows = TableRowModel::getALL();
             foreach($rows as $i=>$row){
@@ -46,10 +67,11 @@ class RowsController extends \AF\Controllers\BaseResourcesController {
         if(!empty($id)){
             return $this->put($id, $options);
         }
-        if($this->request->FORM->state==='0'){
-            $_POST['SK_STATE']=0;
-        }else{
+        $this->checkAuthority('C', $options) or Status::cast('No permissions to create resource.', 1411.1);
+        if($this->request->FORM->state==='1'&&$this->checkReviewAuthority($options)){
             $_POST['SK_STATE']=1;
+        }else{
+            $_POST['SK_STATE']=0;
         }
         if($row=TableRowModel::post($_POST)){
             self::doneResponese($row->getArrayCopy(), 1201, 'Create Successed', false);
@@ -58,6 +80,7 @@ class RowsController extends \AF\Controllers\BaseResourcesController {
     }
 
     public function put($id, array $options = []){
+        $this->checkAuthority('U', $options) or Status::cast('No permissions to update resource.', 1411.3);
         if(empty($id)||($row = TableRowModel::byGUID($id))==NULL){
             Response::instance(1440, Response::JSON)->send(json_encode([
                 'code'      =>  404,
@@ -67,18 +90,19 @@ class RowsController extends \AF\Controllers\BaseResourcesController {
             ]));
         }
         $row->put($_POST);
-        if($this->request->FORM->state==='0'){
-            $row->set('SK_STATE', 0);
-        }else{
+        if($this->request->FORM->state==='1'&&$this->checkReviewAuthority($options)){
             $row->set('SK_STATE', 1);
+        }else{
+            $row->set('SK_STATE', 0);
         }
         if($row->save()){
-            self::doneResponese($row->getArrayCopy(), 1205, 'Update Successed', false);
+            self::doneResponese($row->getArrayCopy(), 1203, 'Update Successed', false);
         }
-        self::doneResponese([], 1405, 'Update Faild', false);
+        self::doneResponese([], 1403, 'Update Faild', false);
     }
 
     public function delete($id, array $options = []){
+        $this->checkAuthority('D', $options) or Status::cast('No permissions to update resource.', 1411.4);
         if(empty($id)||($row = TableRowModel::byGUID($id))==NULL){
             Response::instance(1440, Response::JSON)->send(json_encode([
                 'code'      =>  404,

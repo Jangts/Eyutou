@@ -18,10 +18,10 @@ final class TableMetaModel extends \AF\Models\BaseR3Model {
     const
     TYPES = ['album', 'article', 'artwork', 'bill', 'default', 'job', 'news', 'note', 'notice', 'project', 'resume', 'wiki'],
 
-	ID_DESC = [['name', true, ObjectModel::SORT_REGULAR]],
-	ID_ASC = [['name', false, ObjectModel::SORT_REGULAR]],
-    MTIME_DESC = [['SK_MTIME', true, ObjectModel::SORT_REGULAR]],
-	MTIME_ASC = [['SK_MTIME', false, ObjectModel::SORT_REGULAR]];
+	ID_DESC = [['name', true, self::SORT_REGULAR]],
+	ID_ASC = [['name', false, self::SORT_REGULAR]],
+    MTIME_DESC = [['SK_MTIME', true, self::SORT_REGULAR]],
+	MTIME_ASC = [['SK_MTIME', false, self::SORT_REGULAR]];
 
     protected static
     $AIKEY = NULL,
@@ -36,6 +36,8 @@ final class TableMetaModel extends \AF\Models\BaseR3Model {
 		'name'				=>	'newtable',
         'type'		        =>	'default',
         'item'			    =>	'Item',
+        'review'			=>	'0',
+        'comments'			=>	'1',
         'fields'			=>	'[]',
         'app_id'		    =>	1,
 		'app_data'			=>	'',
@@ -122,10 +124,18 @@ final class TableMetaModel extends \AF\Models\BaseR3Model {
         return false;
     }
 
-    public function getDefaultExtendedPropertyValues(){
+    public function getDefaultMetaPropertyValues(){
+        $filename = dirname(__FILE__).'/metapros_defval_providers/'.$this->savedProperties['type'].'.php';
+        if(is_file($filename)){
+            return include($filename);
+        }
+        return [];
+    }
+
+    public function getDefaultTypePropertyValues(){
         $filename = dirname(__FILE__).'/pros_val_providers/'.$this->savedProperties['type'].'.php';
         if(is_file($filename)){
-            return include_once($filename);
+            return include($filename);
         }
         return [];
     }
@@ -345,9 +355,11 @@ final class TableMetaModel extends \AF\Models\BaseR3Model {
             if(FolderModel::delete("`tablename` = '$this->__guid'")){
                 if(TableRowModel::delete("`TABLENAME` = '$this->__guid'")){
                     if(TagModel::delete("`tablename` = '$this->__guid'")){
-                        #提交事务
-			            $querier->unlock($__key)->commit();
-                        return true;
+                        if(TableAuthorityModel::delete("`tablename` = '$this->__guid'")){
+                            #提交事务
+                            $querier->unlock($__key)->commit();
+                            return true;
+                        }
                     }
                 }
             }

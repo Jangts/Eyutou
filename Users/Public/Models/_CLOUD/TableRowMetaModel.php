@@ -53,6 +53,26 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	TITLE_DESC_GBK = [['TITLE', true, self::SORT_CONVERT_GBK]],
 	TITLE_ASC_GBK = [['TITLE', false, self::SORT_CONVERT_GBK]],
 
+	LDCD = [['LEVEL', true, self::SORT_REGULAR], ['ID', true, self::SORT_REGULAR]],
+	LDCA = [['LEVEL', true, self::SORT_REGULAR], ['ID', false, self::SORT_REGULAR]],
+	LACD = [['LEVEL', false, self::SORT_REGULAR], ['ID', true, self::SORT_REGULAR]],
+	LACA = [['LEVEL', false, self::SORT_REGULAR], ['ID', false, self::SORT_REGULAR]],
+
+	LDPD = [['LEVEL', true, self::SORT_REGULAR], ['PUBTIME', true, self::SORT_REGULAR]],
+	LDPA = [['LEVEL', true, self::SORT_REGULAR], ['PUBTIME', false, self::SORT_REGULAR]],
+	LAPD = [['LEVEL', false, self::SORT_REGULAR], ['PUBTIME', true, self::SORT_REGULAR]],
+	LAPA = [['LEVEL', false, self::SORT_REGULAR], ['PUBTIME', false, self::SORT_REGULAR]],
+
+	LDTD = [['LEVEL', true, self::SORT_REGULAR], ['TITLE', true, self::SORT_REGULAR]],
+	LDTA = [['LEVEL', true, self::SORT_REGULAR], ['TITLE', false, self::SORT_REGULAR]],
+	LATD = [['LEVEL', false, self::SORT_REGULAR], ['TITLE', true, self::SORT_REGULAR]],
+	LATA = [['LEVEL', false, self::SORT_REGULAR], ['TITLE', false, self::SORT_REGULAR]],
+
+	LDTD_GBK = [['LEVEL', true, self::SORT_REGULAR], ['TITLE', true, self::SORT_CONVERT_GBK]],
+	LDTA_GBK = [['LEVEL', true, self::SORT_REGULAR], ['TITLE', false, self::SORT_CONVERT_GBK]],
+	LATD_GBK = [['LEVEL', false, self::SORT_REGULAR], ['TITLE', true, self::SORT_CONVERT_GBK]],
+	LATA_GBK = [['LEVEL', false, self::SORT_REGULAR], ['TITLE', false, self::SORT_CONVERT_GBK]],
+
 	SORTKEYS = ['ID', 'PUBTIME', 'SK_MTIME', 'TITLE'];
 	
 	protected static
@@ -60,7 +80,7 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	$fullStoragePath = DPATH.'CLOUDS/tablerows/rows/',
 	$listStoragePath = DPATH.'CLOUDS/tablerows/list/',
 	$listFileStorage,
-	$querier,
+	$staticQuerier,
     $staticMemorizeStorage = [],
     $staticFileStorage,
 	$tablenameAlias = 'tablerowmeta',
@@ -73,10 +93,16 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 		'DESCRIPTION'		=>	'',
 		'PUBTIME'			=>	DATETIME,
 		'LEVEL'				=>	0,
+		'SK_COMMENTS'		=>	1,
 		'SK_CTIME'          =>  DATETIME,
 		'SK_MTIME'			=>	DATETIME,
 		'SK_STATE'			=>	1,
 		'SK_IS_RECYCLED'	=>	0
+	],
+	$constraints  = [
+		'TABLENAME'			=>	'a',
+		'FOLDER'			=>	1,
+		'TITLE'				=>	'a'
 	];
 
 	protected static function init(){
@@ -104,20 +130,46 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 			$table = TableMetaModel::byGUID($table);
 		}
 		if(is_a($table, 'PM\_CLOUD\TableMetaModel')){
-			return array_merge(self::$defaultPorpertyValues, [
+			$props = $table->getDefaultMetaPropertyValues();
+			return array_merge(self::$defaultPorpertyValues, $props, [
 				'TYPE'				=>	$table->type,
-				'TABLENAME'			=>	$table->name,
+				'TABLENAME'			=>	$table->name
 			]);
 		}
+
 		return NULL;
 	}
+
+	public static function __checkValues($values, $isPost = false){
+		if($isPost){
+			if(empty($values['TABLENAME'])||!($table = TableMetaModel::byGUID($values['TABLENAME']))){
+				Status::cast(1418);
+			}
+			$defaultPorpertyValues = self::getDefaultPorpertyValues($table);
+		}else{
+			$defaultPorpertyValues = self::$defaultPorpertyValues;
+		}
+        foreach($values as $name=>$value){
+            if(!self::__checkValue($name, $value)){
+                if(isset($defaultPorpertyValues[$name])&&self::__checkValue($name, $defaultPorpertyValues[$name])){
+                    $values[$name] = $defaultPorpertyValues[$name];
+                }else{
+                    if($isPost){
+                        self::throwValueError($name, $value);
+                    }
+                    unset($values[$name]);
+                }
+            }
+        }
+        return $values;
+    }
 
 	/**
 	 * 获取预处理后的DBQ实例
 	 */
 	public static function getQuery($tablename = NULL, $folder = NULL, $state = self::UNRECYCLED, array $orderby = self::ID_DESC, $start = 0, $num = 18){
 		self::init();
-		$querier = self::$querier->requires();
+		$querier = self::$staticQuerier->requires();
 		if(is_string($tablename)||(is_numeric($folder)&&$folder!=0)){
 			if(is_string($tablename)){
 				$querier->where('TABLENAME', $tablename);
@@ -194,7 +246,7 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 			self::$staticMemorizeStorage['items'][$id] = $modelProperties;
 			$obj->__put($modelProperties, true);
 		}else{
-			$result = self::$querier->requires()->where('ID', $id)->take(1)->select();
+			$result = self::$staticQuerier->requires()->where('ID', $id)->take(1)->select();
 			if($result&&$modelProperties = $result->item()){
 				self::$staticFileStorage->store($id, $modelProperties);
 				self::$staticMemorizeStorage['items'][$id] = $modelProperties;
@@ -212,16 +264,16 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	 */
 	public static function moveto($require, $folder = 0){
 		self::init();
-		$__key = self::$querier->beginAndLock();
+		$__key = self::$staticQuerier->beginAndLock();
         $objs = self::query($require);
 		foreach($objs as $obj){
 			$obj->FOLDER = $folder;
 			if(!$obj->save()){
-				self::$querier->unlock($__key)->rollBack();
+				self::$staticQuerier->unlock($__key)->rollBack();
                 return false;
 			}
 		}
-		self::$querier->unlock($__key)->commit();
+		self::$staticQuerier->unlock($__key)->commit();
 		return $objs;
 	}
 
@@ -230,15 +282,15 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	 */
 	public static function remove($require, $recycleType = self::RECYCLE){
 		self::init();
-		$__key = self::$querier->beginAndLock();
+		$__key = self::$staticQuerier->beginAndLock();
 		$objs = self::query($require);
 		foreach($objs as $obj){
             if(!$obj->recycle($recycleType)){
-				self::$querier->unlock($__key)->rollBack();
+				self::$staticQuerier->unlock($__key)->rollBack();
                 return false;
 			}
 		}
-		self::$querier->unlock($__key)->commit();
+		self::$staticQuerier->unlock($__key)->commit();
 		return $objs;
 	}
 
@@ -311,8 +363,8 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 			unset($this->modelProperties['TYPE']);
 			unset($this->modelProperties['TABLENAME']);
 
-			$querier = self::$querier;
-			$this->modelProperties = self::checkUpdateData($this->modelProperties);
+			$querier = self::$staticQuerier;
+			$this->modelProperties = self::checkPutData($this->modelProperties);
             $diff = self::array_diff($this->savedProperties, $this->modelProperties, self::DIFF_SIMPLE);
 			$update = $diff['__M__'];
 

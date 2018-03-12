@@ -11,7 +11,7 @@ use Storage;
 class FileSourceModel extends BaseCloudItemModel {
     protected static
     $fileStoragePath = DPATH.'CLOUDS/'.'sources/',
-    $querier,
+    $staticQuerier,
     $staticMemorizeStorage = [],
     $staticFileStorage,
     $tablenameAlias = 'filesrc',
@@ -125,7 +125,7 @@ class FileSourceModel extends BaseCloudItemModel {
         if($cache = self::$staticFileStorage->take($SID)){
             return $obj->__put($cache, true);
         }else{
-            $result = self::$querier->requires()->where('SID', $SID)->take(1)->select();
+            $result = self::$staticQuerier->requires()->where('SID', $SID)->take(1)->select();
             if($result&&$row = $result->item()){
                 self::$staticFileStorage->store($row['SID'], $row);
                 return $obj->__put($row, true);
@@ -137,7 +137,7 @@ class FileSourceModel extends BaseCloudItemModel {
     public static function byHASH($HASH){
         self::init();
         $obj = new static;
-		$result = self::$querier->requires()->where('HASH', $HASH)->take(1)->select();
+		$result = self::$staticQuerier->requires()->where('HASH', $HASH)->take(1)->select();
 		if($result&&$row = $result->item()){
 			self::$staticFileStorage->store($row['SID'], $row);
             return $obj->__put($row, true);
@@ -199,7 +199,7 @@ class FileSourceModel extends BaseCloudItemModel {
     }
 
     protected function __insert(){
-        $querier = self::$querier;
+        $querier = self::$staticQuerier;
         unset($this->modelProperties['SID']);
         $this->modelProperties['SK_CTIME']   =	DATETIME;
         if(!$querier->insert($this->modelProperties)){
@@ -211,7 +211,7 @@ class FileSourceModel extends BaseCloudItemModel {
     }
     
     protected function __update(){
-        $querier = self::$querier;
+        $querier = self::$staticQuerier;
         if(empty($this->modelProperties['SID'])){
             return false;
         }
@@ -239,7 +239,7 @@ class FileSourceModel extends BaseCloudItemModel {
             $this->error_msg = 'STILL_IN_USE';
             return false;
         }
-        if(self::$querier->requires()->where('SID', $SID)->delete()){
+        if(self::$staticQuerier->requires()->where('SID', $SID)->delete()){
             \unlink(PUBL_PATH.$this->modelProperties['LOCATION']);
             $this->__afterDelete();
             return true;

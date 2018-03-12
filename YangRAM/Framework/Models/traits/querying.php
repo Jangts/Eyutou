@@ -2,11 +2,96 @@
 namespace AF\Models\traits;
 
 use PDO;
+use Status;
 use DBQ;
 use Tangram\CTRLR\RDBQuerierPlus;
 
 trait querying {
-    protected static $tablename;
+    protected static $tablename,
+    /**
+     * 值的约束规则
+     * 
+     * [a, b, c]    表示值仅能为a, b, c中的一个
+     * ''           表示值必须是字符串（数将被转为字符串），可为空
+     * 'a'          表示值必须是字符串（数将被转为字符串），不可为空
+     * 0            表示值必须是数字（数字字符串也可以），可为空
+     * 1            表示值必须是数字（数字字符串也可以），不可为空
+     */
+    $constraints = [];
+
+    final public static function __checkValue($name, $value){
+        if(isset(static::$constraints[$name])){
+            switch(static::$constraints[$name]){
+                case '':
+                if($value===NULL||$value===''){
+                    return true;
+                }
+                case 'a':
+                if($value&&is_string($value)){
+                    return true;
+                }
+                return false;
+
+                case 0:
+                if($value===NULL){
+                    return true;
+                }
+                case 1:
+                if(is_numeric($value)){
+                    return true;
+                }
+                return false;
+            }
+            if(is_array(static::$constraints[$name])){
+                if(in_array($value, static::$constraints[$name])){
+                    return true;
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+
+    final protected static function throwValueError($name, $value){
+        switch(static::$constraints[$name]){
+            case '':
+            $type = 'a string';
+            break;
+
+            case 'a':
+            $type = 'a string not null';
+            break;
+
+            case 0:
+            $type = 'a numeric';
+            break;
+
+            case 1:
+            $type = 'a numeric not null';
+            break;
+
+            default:
+            $type = 'in ["'.join('","', static::$constraints[$name]).'"]';
+        }
+        new Status(1415, '', 'Property ["'.$name.'"] of calss '.get_called_class().' must be '.$type.', "'.$value.'" given.',true);
+    }
+
+    public static function __checkValues($values, $isPost = false){
+        foreach($values as $name=>$value){
+            if(!self::__checkValue($name, $value)){
+                if(isset(static::$defaultPorpertyValues[$name])&&self::__checkValue($name, static::$defaultPorpertyValues[$name])){
+                    $values[$name] = static::$defaultPorpertyValues[$name];
+                }else{
+                    if($isPost){
+                        self::throwValueError($name, $value);
+                    }
+                    unset($values[$name]);
+                }
+            }
+        }
+        return $values;
+    }
+
     /**
 	 * 获取默认PDOX数据连接
      * 不调用则不会生成
@@ -191,15 +276,14 @@ trait querying {
     protected function __insert(){
         // 获取数据库链接
         $querier = $this->querier;
-
-        // 如果为新增记录
-        if(static::$AIKEY) {
-            // 剔除掉自增见
-            unset($this->modelProperties[static::$AIKEY]);
-        }
         
         // 直接将数据插入到数据表
         $data = $this->__checkInsertData($this->modelProperties);
+        // 如果为新增记录
+        if(static::$AIKEY) {
+            // 剔除掉自增见
+            unset($data[static::$AIKEY]);
+        }
         if(!$data||!$querier->insert($data)){
             return false;
         }

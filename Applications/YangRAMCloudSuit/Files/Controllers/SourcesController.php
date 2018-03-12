@@ -7,6 +7,8 @@ use PM\_CLOUD\FileMetaModel;
 use PM\_CLOUD\FileSourceModel;
 
 class SourcesController extends \AF\Controllers\BaseResourcesController {
+    use \Cloud\Files\Controllers\traits\authorities;
+    
     public function get($id, array $options = []){
         if($id){
             if(is_numeric($id)){

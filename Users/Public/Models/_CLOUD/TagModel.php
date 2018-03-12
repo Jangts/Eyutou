@@ -7,14 +7,11 @@ use Status;
  *Special Use Content Category Model
  *归档文件夹模型
 **/
-final class TagModel extends \AF\Models\BaseR3Model {
+final class TagModel extends \AF\Models\BaseMapModel {
 	protected static
-    $fileStoragePath = '',
     $tablenamePrefixRewritable = true,
     $tablenamePrefix = DB_YUN,
     $tablenameAlias = 'tagmaps',
-    $uniqueIndexes = ['id'],
-    $AIKEY = 'id',
     $defaultPorpertyValues = [
         'id'				=>	0,
         'tag'				=>	'',
@@ -23,20 +20,20 @@ final class TagModel extends \AF\Models\BaseR3Model {
         'item'     		=>	0
     ];
 
-    public static function byItem($item, $tablename){
+    public static function getTagsByItem($item, $tablename){
         return self::query(['tablename' => $tablename, 'item' => $item]);
     }
 
-    public static function byTablename($tablename){
+    public static function getTagsByTablename($tablename){
         if(is_string($tablename)){
             return self::query("`tablename` = '$tablename'");
         }else{
-            return self::query("`tablename` = NULL");
+            return self::query("`tablename` = ''");
         }
         return [];
     }
 
-    public static function byType($item, $type){
+    public static function getTagsByType($item, $type){
         return self::query(['type' => $type, 'item' => $item]);
 	}
 
@@ -54,10 +51,5 @@ final class TagModel extends \AF\Models\BaseR3Model {
                 'item'	    =>	$item
             ], true);
         }  
-    }
-
-    protected function __put(array $input, $isSaved = false){
-        parent::__put($input, $isSaved);
-        $this->readonly = true;
     }
 }

@@ -7,7 +7,6 @@ final class MemberModel extends \AF\Models\BaseMemberModel {
 
     protected static
     $tablename = DB_REG.'users',
-    $uniqueIndexes = ['uid'],
     $encryptedFields = ['password'],
     $defaultPorpertyValues = [
         'uid'           =>  -1,

@@ -68,26 +68,27 @@ final class UserPassportModel extends ObjectModel {
 
     public static function inGroup($gid = 'Administrators', $strictMode = false){
         self::init();
-        if($strictMode!=false||self::$powertype===2){
-            $ug = UserGroupReadolyModel::byGUID($gid);
-            if(!$ug){
-                $ug = UserGroupReadolyModel::byALIAS($gid);
-            }
-            if(!$ug){
-                return false;
-            }
-            switch($ug->TYPE){
-                case 'VISA':
+        $ug = UserGroupReadolyModel::byGUID($gid);
+        if(!$ug){
+            $ug = UserGroupReadolyModel::byALIAS($gid);
+        }
+        if(!$ug){
+            return false;
+        }
+        switch($ug->TYPE){
+            case 'VISA':
+            if($strictMode||self::$powertype===2){
                 $visa = self::$instance->checkVisa($ug->SYMBOL, $ug->APPID);
                 if($strictMode||$visa){
                     return $visa;
                 }
-
-                case 'USER':
-                case 'CARD':
-                return self::$instance->getUserAccountCopy()->isA($gid);    
             }
+            
+            case 'USER':
+            case 'CARD':
+            return self::$instance->getUserAccountCopy()->isA($gid);    
         }
+        
         return false;
     }
     
@@ -149,11 +150,20 @@ final class UserPassportModel extends ObjectModel {
         }else{
             $index = '_public_visa_for_'.AI_CURR.'_'.$salt;
         }
+        $value['username'] = $_SESSION['username'];
         $this->account->setGreenCard('VISA', AI_CURR, $value, $salt, $alias);
         $_SESSION[$index] = $value;
     }
 
     public function checkVisa($salt = '', $appid = AI_CURR){
+        if($this->uid==='-7'){
+            return [
+                'uid'           =>  '-7',
+                'username'      =>  'system',
+                'nickname'      =>  'System',
+                'avatar'        =>  __aurl__.'uploads/files/d78cf72c9a8f4731217.jpg'
+            ];
+        }
         if($appid===AI_CURR){
             $index = '_private_visa_for_'.AI_CURR.'_'.$salt;
             if(!empty($_SESSION[$index])){

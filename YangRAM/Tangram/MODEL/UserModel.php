@@ -29,8 +29,19 @@ final class UserModel extends ObjectModel {
     $registerable = true;
 
     private
+    $uid = '0',
     $querier = NULL,
-    $files = NULL;
+    $files = NULL,
+    $ystemProperties = [
+        'uid'           =>  '-7',
+        'username'      =>  'system',
+        'nickname'      =>  'System',
+        'unicodename'   =>  'System',
+        'avatar'        =>  __aurl__.'uploads/files/d78cf72c9a8f4731217.jpg',
+        'regtime'       =>  DATETIME,
+        'lasttime'      =>  DATETIME,
+        'remark'        =>  'YangRAM System'
+    ];
 
     protected
     $readonly = true, 
@@ -40,7 +51,7 @@ final class UserModel extends ObjectModel {
         'username'      =>  'guest',
         'nickname'      =>  'Guest',
         'unicodename'   =>  'Guest',
-        'avatar'        =>  NULL,
+        'avatar'        =>  __aurl__.'uploads/files/ca28525a8b386236136.jpg',
         'regtime'       =>  '1'.DATETIME,
         'lasttime'      =>  DATETIME,
         'remark'        =>  ''
@@ -93,11 +104,12 @@ final class UserModel extends ObjectModel {
                 }
                 $this->writeUserData('baseinfo', $this->modelProperties = self::trim($account));
             }
+            $this->uid = $this->modelProperties['uid'];
         }
     }
 
     public function checkPassWord($password, $rebuildPassport = true){
-        if($this->modelProperties['uid']){
+        if($this->uid){
             if($this->encodePassWord){
                 if(md5(hash('sha256', $password)) === $this->encodePassWord){
                     if($rebuildPassport){
@@ -125,6 +137,14 @@ final class UserModel extends ObjectModel {
     }
 
     public function isA($gid){
+        if($gid==='EveryOne'||$this->uid==='-7'){
+            return [
+                'uid'           =>  $this->uid,
+                'username'      =>  $this->modelProperties['username'],
+                'nickname'      =>  $this->modelProperties['nickname'],
+                'avatar'        =>  $this->modelProperties['avatar']
+            ];
+        }
         $this->initFileStorage($this->modelProperties['username']);
         if($info = $this->files->read('.usergroups/'.$gid)){
             return $info;
@@ -138,7 +158,7 @@ final class UserModel extends ObjectModel {
         }
         switch($ug->TYPE){
             case 'USER':
-            if($this->modelProperties['uid'] === $ug->SYMBOL){
+            if($this->uid === $ug->SYMBOL){
                 $info = $this->getBaseInfo();
                 break;
             }
@@ -149,12 +169,12 @@ final class UserModel extends ObjectModel {
                 $table = _DBPRE_.$ug->TABLENAME;
                 // 如果数据表为公共表
                 if($table === DB_PUB.'usergroupmap'){
-                    $info = DBQ::one($table, "`uid` = '".$this->modelProperties['uid']."' AND `usergroup` = '".$ug->SYMBOL."' AND `appid` = '".$ug->APPID."'");
+                    $info = DBQ::one($table, "`uid` = '".$this->uid."' AND `usergroup` = '".$ug->SYMBOL."' AND `appid` = '".$ug->APPID."'");
                 }else{
-                    $info = DBQ::one($table, "`uid` = '".$this->modelProperties['uid']."' AND `usergroup` = '".$ug->SYMBOL."'");
+                    $info = DBQ::one($table, "`uid` = '".$this->uid."' AND `usergroup` = '".$ug->SYMBOL."'");
                 }
             }else{
-                $info = DBQ::one(_DBPRE_.$ug->TABLENAME, "`uid` = '".$this->modelProperties['uid']."'");
+                $info = DBQ::one(_DBPRE_.$ug->TABLENAME, "`uid` = '".$this->uid."'");
             }
             if($info){
                 break;
@@ -165,18 +185,18 @@ final class UserModel extends ObjectModel {
         }
         return $this->setGreenCard($ug->TYPE, $ug->APPIDL, [
             'uid'           =>  $info['uid'],
-            'username'      =>  $info['username'],
             'nickname'      =>  $info['nickname'],
-            'avatar'        =>  $info['avatar']
+            'avatar'        =>  $info['avatar'],
+            'username'      =>  $info['username']
         ], $ug->SYMBO, $ug->ALIAS);
     }
 
     public function getBaseInfo(){
         return [
-            'uid'           =>  $this->modelProperties['uid'],
-            'username'      =>  $this->modelProperties['username'],
+            'uid'           =>  $this->uid,
             'nickname'      =>  $this->modelProperties['nickname'],
-            'avatar'        =>  $this->modelProperties['avatar']
+            'avatar'        =>  $this->modelProperties['avatar'],
+            'username'      =>  $this->modelProperties['username']
         ];
     }
 
@@ -216,6 +236,9 @@ final class UserModel extends ObjectModel {
     private function queryByUN($username){
         $username = strtolower($username);
         $this->initFileStorage($username);
+        if($username==='system'){
+            return $this->ystemProperties;
+        }
         if($modelProperties = $this->readUserData('baseinfo')){
             return $modelProperties;
         }
@@ -285,6 +308,7 @@ final class UserModel extends ObjectModel {
 
     public function setGreenCard($type = 'CARD', $appid = 'USERS', array $value = [], $salt = '', $alias = NULL){
         $this->initFileStorage($this->modelProperties['username']);
+        $value['username'] = $this->modelProperties['username'];
 		if($alias){
             $this->files->write('.usergroups/'.$alias, $value);
         }

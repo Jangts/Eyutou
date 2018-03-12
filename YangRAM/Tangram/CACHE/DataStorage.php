@@ -196,7 +196,7 @@ class DataStorage {
 			}elseif(($this->agent_type===NULL||$this->agent_type===self::USE_MEMCA)&&isset(self::$memca_conns[$options])){
 				$this->agent = $this->create_agent(self::USE_MEMCA, self::$memca_conns[$options], true);
 			}else{
-				new Status(1415.1, '', 'Unknow Storage Options', true);
+				new Status(1415.1, 'Error Storage Options', 'cannot find such memory cache preset ['.$options.'], or cache agent type not match.', true);
 			}
 			break;
 
@@ -208,7 +208,7 @@ class DataStorage {
 					'expiration'	=>	0
 				]);
 			}else{
-				new Status(1415.1, '', 'Unknow Storage Options', true);
+				new Status(1415.1, 'Error Storage Options', 'file cache path ['.$options.'] not in this i4s installpath, or cache agent type not match.', true);
 			}
 			break;
 
@@ -217,7 +217,7 @@ class DataStorage {
 				if($this->agent_type===NULL||$this->agent_type==$options['htype']){
 					$this->agent = $this->create_agent($options['htype'], $options);
 				}else{
-					new Status(1415.2, '', 'Cannot Redefine Agent Type '.$options['htype'], true);
+					new Status(1415.2, 'Error Storage Options', 'Cannot Redefine Agent Type '.$options['htype'], true);
 				}
 			}else{
 				if(is_numeric($this->agent_type)&&$this->agent_type>=0&&$this->agent_type<=4){
@@ -225,13 +225,13 @@ class DataStorage {
 				}elseif(isset($options['path'])){
 					$this->agent = $this->create_agent(self::USE_FILES, $options);
 				}else{
-					new Status(1415.0, 'Parameters Error', true);
+					new Status(1415.0, 'Error Storage Options', 'Unexpected Array Storage Options '.json_encode($options), true);
 				}
 			}
 			break;
 
 			default:
-			new Status(1415.1, '', 'Unknow Storage Options', true);
+			new Status(1415.1, 'Error Storage Options', 'Unknow Storage Options', true);
 		}
 		if($this->namespace){
 			$this->agent->setNameSpace($this->namespace);

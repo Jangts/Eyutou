@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{$page.title}} - 来利洪集团官网</title>
+    <link rel="stylesheet" type="text/css" href="{{$__theme}}stylesheets/style.css" />
+    <script src="{{$__static}}Tangram/Block.JS/src/block.js" use-debug-mode></script>
+    <script src="{{$__theme}}scripts/common.js"></script>
+</head>
+
+<body>
+    {{@includes/header.niml}}
+    <div class="common-banner">
+        <div class="container">
+            <img class="banner" src="{{$__theme}}images/banner.jpg">
+        </div>
+    </div>
+    <div class="outer-box">
+        <div class="mid1920">
+            <div class="container">
+                <aside class="left">
+                    <h1>联系我们</h1>
+                    <nav>
+                        <div class="left-mask">&nbsp;</div>
+                        <ul>
+                            <li class="on"><a href="/contactus/">联系方式</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+                <div class="main">
+                    <div class="main-top">
+                        <div class="main-top-dir"><a href="{{$archive_url}}">联系我们</a>&gt;<a href="{{$page_url}}">{{$page.title}}</a></div>
+                    </div>
+                    <div class="main-content">
+                        <figure id="map">
+                            <img src="{{$page.banner}}">
+                        </figure>
+                        <div class="contact-info">
+                            <h4>广州来利洪饼业有限公司</h4>
+                            <article>
+                                {{$page.content}}
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">{{$option_common_bottom}}</div>
+</body>
+
+</html>

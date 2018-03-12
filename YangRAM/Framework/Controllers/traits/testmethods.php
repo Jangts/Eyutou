@@ -1,7 +1,7 @@
 <?php
 namespace AF\Controllers\traits;
 
-trait testmethods{
+trait testmethods {
     public function __init_cli_test(){
         assert_options(ASSERT_ACTIVE,       0);
     }

@@ -35,7 +35,7 @@ trait r3like {
         return $objs;
     }
 
-     /**
+    /**
 	 * 查询全部记录并按指定字段值分组模型实例
 	 * 
 	 * @access public
@@ -118,8 +118,9 @@ trait r3like {
                     return $obj;
                 }
             }
+            return false;
         }
-        new Status(1422.2, 'Model File Be Tampered', 'R3like Model Must have an index key as the primary key.', true);
+        new Status(1422.2, 'Model File Be Tampered', 'R3like Model must have an index key as the primary key.', true);
     }
     
     /**  
@@ -190,11 +191,13 @@ trait r3like {
     }
 
     protected function __checkInsertData(array $post){
-        return self::correctArrayByTemplate($post, static::$defaultPorpertyValues);
+        $post = self::correctArrayByTemplate($post, static::$defaultPorpertyValues);
+        return self::__checkValues($post, true);
     }
 
     protected function __checkUpdateData(array $update, array $savedProperties){
-        return array_intersect_key($update, $savedProperties);
+        $update = array_intersect_key($update, $savedProperties);
+        return self::__checkValues($update);
     }
 
     /**  

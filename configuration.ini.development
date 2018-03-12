@@ -63,8 +63,8 @@
         默认首页文件名，多个值请用“/”隔开，当请求为如下所列文件名时，页面会指向首页。
         "_HOMEPAGE_": "index.htm\/index.html\/index.php\/index.asp\/index.jsp\/boot.php",
 
-        默认应用，用来处理首页的应用，此处填写应用ID即可，默认为“tangram”。
-        "_DEFAULT_APP_": "",
+        默认应用，用来处理首页的应用，此处填写应用ID即可，默认为“PAGES”。
+        "_DEFAULT_APP_": "PAGES",
 
         统一标准接口所使用的虚拟目录名，默认为“api”。
         "_STD_API_DIR_": "api",
@@ -142,7 +142,7 @@
         "_DBPRE_": "ni",
 
         应用权限表JSON备份文件名，切记在生产模式下修改此值，以防止子应用自赋特权
-        "_PERMISSIONS_FILE_NAME_": "developfilename",
+        "_PERMISSIONS_FILE_NAME_": "apppermissions",
 
         开启调试模式，可填写 1（开启）、 0（关闭），默认为 0。
         只有调试模下，状态处理器才会显示错误细节
@@ -230,15 +230,11 @@
     }, {
         "driver": "SQLite",
         "file": "",
-        "port": "1433",
-        "socket": "",
-        "charset": "utf8"
+        "username": "",
+        "password": ""
     }, {
         "driver": "SQLite2",
         "file": "",
-        "port": "1433",
-        "socket": "",
-        "charset": "utf8",
         "driverOptions": ""
     }, {
         "driver": "MSSQLServer",

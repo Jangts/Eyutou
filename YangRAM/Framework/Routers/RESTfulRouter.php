@@ -207,7 +207,7 @@ class RESTfulRouter extends BaseRouter {
 				return 'get';
 			}
 			if(method_exists($fullclassname, 'read')){
-				return 'select';
+				return 'read';
 			}
 			if(method_exists($fullclassname, 'select')){
 				return 'select';

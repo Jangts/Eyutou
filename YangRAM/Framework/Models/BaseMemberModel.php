@@ -199,11 +199,11 @@ abstract class BaseMemberModel extends BaseModel {
     public function getBaseInfo(){
         if($this->savedProperties){
             return [
-                $this->pk   =>  $this->__guid
+                'uid'   =>  $this->__guid
             ];
         }
         return [
-            $this->pk   =>  static::$defaultPorpertyValues[$this->pk]
+            'uid'   =>  static::$defaultPorpertyValues[$this->pk]
         ];
     }
 

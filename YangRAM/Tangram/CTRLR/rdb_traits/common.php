@@ -97,9 +97,11 @@ trait common {
     **/
     private static function conn($options){
         if(is_numeric($options)&&isset(self::$conns[$options])){
-            if(self::$conns[$options]['instance']){
+            // var_dump($options, self::$conns[$options]['instance']);
+            if(self::$conns[$options]['instance']!=NULL){
                 return self::$conns[$options]['instance'];
             }else{
+                // var_dump(CPATH.'CTRLR/rdb_drivers/'.self::$conns[$options]['driver'].'.php');
                 include_once(CPATH.'CTRLR/rdb_drivers/'.self::$conns[$options]['driver'].'.php');
 			    $class = 'Tangram\CTRLR\rdb_drivers\\'.self::$conns[$options]['driver'];
                 return self::$conns[$options]['instance'] = $class::instance(self::$conns[$options]['options']);
@@ -324,7 +326,7 @@ trait common {
             return true;
         }
         if(_USE_DEBUG_MODE_){
-            return new Status(1411, '', 'Application ['.AI_CURR.'] has no access to read data from the table ['.$table.']', true);
+            return new Status(1411.5, '', 'Application ['.AI_CURR.'] has no access to read data from the table ['.$table.']', true);
         }
         self::$unreadableTable = $table;
         return false;
@@ -346,7 +348,7 @@ trait common {
             return true;
         }
         if(_USE_DEBUG_MODE_){
-            return new Status(1411, '', 'Application ['.AI_CURR.'] has no access to write data to the table ['.$table.']', true);
+            return new Status(1411.6, '', 'Application ['.AI_CURR.'] has no access to write data to the table ['.$table.']', true);
         }
         self::$unwritableTable = $table;
         return false;

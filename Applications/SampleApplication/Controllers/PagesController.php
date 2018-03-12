@@ -7,6 +7,12 @@ use Request;
 use App;
 
 class PagesController extends \AF\Controllers\BaseResourcesController {
+    use \AF\Controllers\traits\administration;
+
+    public function checkReadAuthority(array $options = []){
+        return true;
+    }
+    
     public function get($id, array $options = []){
         var_dump($id, $options);
         exit('{"code":"200","status":"OK","msg":"Welcome to use RESTful API of YangRAM!"}');

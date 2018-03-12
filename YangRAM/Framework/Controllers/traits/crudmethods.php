@@ -3,23 +3,64 @@ namespace AF\Controllers\traits;
 
 use Status;
 use Response;
+use Passport;
 
-trait crudmethods{
+trait crudmethods {
     public static
     $model = '',
     // primary key
     $pk = 'id',
     // state key
-    $sk;
+    $sk = 'SK_STATE';
+
+    public function checkAdminAuthority(array $options = []){
+        if(Passport::inGroup('Administrators', false)){
+            return true;
+        }
+        return false;
+    }
+
+    public function checkReviewAuthority(array $options = []){
+        return $this->checkDeleteAuthority($options);
+    }
+
+    /**
+     * 检查权限
+     * 
+     * @access public
+     * @param string(1) $type 权限类型，可选值为C/R/U/D/A
+     * @param array $options 附加参数
+     * @return bool
+     */
+    public function checkAuthority($type, array $options = []){
+        switch($type){
+            case 'C':
+            return $this->checkCreateAuthority($options) || $this->checkAdminAuthority($options);
+
+            case 'R':
+            return $this->checkReadAuthority($options) || $this->checkAdminAuthority($options);
+
+            case 'U':
+            return $this->checkUpdateAuthority($options) || $this->checkAdminAuthority($options);
+
+            case 'D':
+            return $this->checkDeleteAuthority($options) || $this->checkAdminAuthority($options);
+
+            case 'A':
+            return $this->checkAdminAuthority($options);
+        }
+        return false;
+    }
 
     protected function create($id = NULL, array $options = []){
+        $this->checkAuthority('C', $options) or Status::cast('No permissions to create resource.', 1411.1);
         $modelname = static::$model or Status::cast('must specify a resource model.', 1422 );
         $modelname::__correctTablePrefix($this->app);
         if(static::$sk){
-            if($_GET['state']==='0'){
-                $_POST['SK_STATE']=0;
+            if($_GET['state']==='1'&&$this->checkReviewAuthority($options)){
+                $_POST[static::$sk]=1;
             }else{
-                $_POST['SK_STATE']=1;
+                $_POST[static::$sk]=0;
             }
         }
         if($item=$modelname::post($_POST)){
@@ -29,6 +70,7 @@ trait crudmethods{
     }
 
     protected function update($id, array $options = []){
+        $this->checkAuthority('U', $options) or Status::cast('No permissions to update resource.', 1411.3);
         $modelname = static::$model or Status::cast('must specify a resource model.', 1422 );
         $modelname::__correctTablePrefix($this->app);
         if(empty($id)||($item = $modelname::byGUID($id))==NULL){
@@ -41,19 +83,20 @@ trait crudmethods{
         }
         $item->put($_POST);
         if(static::$sk){
-            if($_GET['state']==='0'){
-                $item->set(static::$sk, 0);
-            }else{
+            if($_GET['state']==='1'&&$this->checkReviewAuthority($options)){
                 $item->set(static::$sk, 1);
+            }else{
+                $item->set(static::$sk, 0);
             }
         }
         if($item->save()){
-            \Controller::doneResponese($item->getArrayCopy(), 1205, 'Update Successed', false);
+            \Controller::doneResponese($item->getArrayCopy(), 1203, 'Update Successed', false);
         }
-        \Controller::doneResponese([], 1405, 'Update Faild', false);
+        \Controller::doneResponese([], 1403, 'Update Faild', false);
     }
 
     protected function delete($id, array $options = []){
+        $this->checkAuthority('D', $options) or Status::cast('No permissions to update resource.', 1411.4);
         $modelname = static::$model or Status::cast('must specify a resource model.', 1422 );
         $modelname::__correctTablePrefix($this->app);
         if(empty($id)||($item = $modelname::byGUID($id))==NULL){

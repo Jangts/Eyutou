@@ -243,7 +243,7 @@ final class StatusProcessor extends Exception {
 		if (!file_exists($path)){
 			mkdir($path, 0777, true);
 		}
-		$file = @fopen($filename, 'a') or new StatusProcessor(1411.3, 'Permission Denied', 'Unable to write run log! The current log file may be read-only.', true);
+		$file = @fopen($filename, 'a') or new StatusProcessor(1411.7, 'Permission Denied', 'Unable to write run log! The current log file may be read-only.', true);
 		fwrite($file, $text);
 		fclose($file);
 	}

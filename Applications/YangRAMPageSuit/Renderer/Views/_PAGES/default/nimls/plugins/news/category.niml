@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{$title}} - 新闻资讯</title>
+    <link rel="stylesheet" type="text/css" href="{{$__theme}}stylesheets/style.css" />
+    <script src="{{$__static}}Tangram/Block.JS/src/block.js" use-debug-mode></script>
+    <script src="{{$__theme}}scripts/common.js"></script>
+</head>
+
+<body>
+    {{@includes/header.niml}}
+    <div class="common-banner">
+        <div class="container">
+            <img class="banner" src="{{$__theme}}images/banner.jpg">
+        </div>
+    </div>
+    <div class="outer-box">
+        <div class="mid1920">
+            <div class="container">
+                <aside class="left">
+                    <h1>新闻资讯</h1>
+
+                    <nav>
+                        <div class="left-mask">&nbsp;</div>
+                        <ul>
+                            <li class="{{.checkcurrent('link_news/category/7', $column, 'on', '', true)}}"><a href="/news/category/7">集团新闻</a></li>
+                            <li class="{{.checkcurrent('link_news/category/8', $column, 'on', '', true)}}"><a href="/news/category/8">行业动态</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+                <div class="main">
+                    <div class="main-top">
+                        <div class="main-top-dir"><a href="/news/">新闻资讯</a>&gt;<a href="/news/category/{{$category.id}}">{{$category.name}}</a></div>
+                    </div>
+                    <div class="main-content news">
+                        <ul class="news-list">
+                            <for $item of $list>
+                                <li class="news-list-item">
+                                    <figure class="news-thumb">
+                                        <if $item.THUMB>
+                                            <a href="/news/detail/{{$item.ID}}"><img src="{{$item.THUMB}}"></a>
+                                            <else/>
+                                            <a href="/news/detail/{{$item.ID}}"><img src="/applications/uploads/files/defaultpic"></a>
+                                        </if>
+
+                                    </figure>
+                                    <header class="news-title">
+                                        <a href="/news/detail/{{$item.ID}}">
+                                            <str value="$item.TITLE" length="22" />
+                                        </a><span class="news-time"><time value="$item.PUBTIME" format="Y-m-d" /></span></header>
+                                    <p class="news-brief">
+                                        {{$desc = strip_tags($item.CONTENT);}}
+                                        <str value="$desc" length="165" />…
+                                    </p>
+                                    <a class="read-news" href="/news/detail/{{$item.ID}}">阅读全文&gt;&gt;</a>
+                                </li>
+                            </for>
+                        </ul>
+                        <ul class="pages-list">
+                            {{$pagelist}}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">{{$option_common_bottom}}</div>
+</body>
+
+</html>

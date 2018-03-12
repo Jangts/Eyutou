@@ -111,6 +111,9 @@ class UserGroupReadolyModel extends ObjectModel {
      * @param string        $alias 应用内部标识符
      */
     final public static function byALIAS($alias){
+        if($alias==='EveryOne'){
+            return new static;
+        }
         self::init();
         if($modelProperties = self::$staticFileStorage->take($alias)){
             $obj = new static;
@@ -163,7 +166,7 @@ class UserGroupReadolyModel extends ObjectModel {
     $savedProperties = NULL,
     $modelProperties = [
         'GUID'      =>  '',
-        'ALIAS'     =>  '',
+        'ALIAS'     =>  'EveryOne',
         'APPID'     =>  'USERS',
         'TYPE'      =>  'CARD',
         'SYMBOL'    =>  NULL,

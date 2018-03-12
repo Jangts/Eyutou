@@ -328,7 +328,7 @@ trait common {
             return true;
         }
         if(_USE_DEBUG_MODE_){
-            return new Status(1411, '', 'Application ['.AI_CURR.'] has no access to read data from the table ['.$table.']', true);
+            return new Status(1411.5, '', 'Application ['.AI_CURR.'] has no access to read data from the table ['.$table.']', true);
         }
         self::$unreadableTable = $table;
         return false;
@@ -350,7 +350,7 @@ trait common {
             return true;
         }
         if(_USE_DEBUG_MODE_){
-            return new Status(1411, '', 'Application ['.AI_CURR.'] has no access to write data to the table ['.$table.']', true);
+            return new Status(1411.6, '', 'Application ['.AI_CURR.'] has no access to write data to the table ['.$table.']', true);
         }
         self::$unwritableTable = $table;
         return false;

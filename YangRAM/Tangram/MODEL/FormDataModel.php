@@ -63,7 +63,7 @@ final class FormDataModel extends ObjectModel {
                     }
                     $_FILES[$matches[1]]['name'][] = $matches[2];
                     $_FILES[$matches[1]]['type'][] = $matches[3];
-                    $_FILES[$matches[1]]['tmp_name'][] = nuLL;
+                    $_FILES[$matches[1]]['tmp_name'][] = NULL;
                     $_FILES[$matches[1]]['blob'][] = $matches[4];
                     $_FILES[$matches[1]]['size'][] = strlen($matches[4]) - 5;
                     $_FILES[$matches[1]]['error'][] = 0;
@@ -74,7 +74,7 @@ final class FormDataModel extends ObjectModel {
                     $_FILES[$matches[1]] = [
                         'name'      =>  $matches[2],
                         'type'      =>  $matches[3],
-                        'tmp_name'  =>  nuLL,
+                        'tmp_name'  =>  NULL,
                         'blob'      =>  $matches[4],
                         'size'      =>  strlen($matches[4]) - 5,
                         'error'     =>  0

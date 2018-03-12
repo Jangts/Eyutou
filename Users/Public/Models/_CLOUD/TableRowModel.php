@@ -27,7 +27,7 @@ final class TableRowModel extends BaseCloudItemModel {
     $extendedProperties = [],
     $fileStoragePath = DPATH.'CLOUDS/tablerows/rows/',
     $propStoragePath = DPATH.'CLOUDS/tablemeta/',
-    $querier,
+    $staticQuerier,
     $staticMemorizeStorage = [],
     $staticFileStorage,
     $tablenameAlias = 'tablerowmeta',
@@ -49,10 +49,10 @@ final class TableRowModel extends BaseCloudItemModel {
             $tablemeta = TableMetaModel::byGUID($tablename);
         }
         if(is_a($tablemeta, 'PM\_CLOUD\TableMetaModel')){
-			$defaultPorpertyValues = TableRowMetaModel::getDefaultPorpertyValues($tablemeta);
-            $extendedPropertyValues = self::getDefaultPorpertyValues($tablemeta);
+			$defaultMetaPorpertyValues = TableRowMetaModel::getDefaultPorpertyValues($tablemeta);
+            $defaultTypePropertyValues = self::getDefaultPorpertyValues($tablemeta);
             $attrRestraint = $tablemeta->getAttributesRestraint();
-            $props = [$defaultPorpertyValues, $extendedPropertyValues, $attrRestraint];
+            $props = [$defaultMetaPorpertyValues, $defaultTypePropertyValues, $attrRestraint];
             $storage->store($tablename, $props);
             self::$staticMemorizeStorage['props'][$tablename] = $props;
             return $props;
@@ -68,13 +68,13 @@ final class TableRowModel extends BaseCloudItemModel {
         if($modelProperties = self::$staticFileStorage->take($id)){
             return $modelProperties;
         }
-        $result = self::$querier->using(DB_YUN.'schema_'.$type)->requires()->where('ID', $id)->select();
+        $result = self::$staticQuerier->using(DB_YUN.'schema_'.$type)->requires()->where('ID', $id)->select();
         if($result&&$rows = $result->item()){
             $rows = array_map('htmlspecialchars_decode', $rows);
             if($props = self::getFullDefaultPropertyValues($meta['TABLENAME'])){
                 $attrRestraint = $props[2];
             }else{
-                self::$querier->using(DB_YUN.'tablerowmeta')->requires('ID = '.$meta['ID'])->delete();
+                self::$staticQuerier->using(DB_YUN.'tablerowmeta')->requires('ID = '.$meta['ID'])->delete();
                 new Status(1443, '', 'Unknow Tablename', true);
             }
             if(is_object($meta)){
@@ -84,7 +84,7 @@ final class TableRowModel extends BaseCloudItemModel {
             self::$staticFileStorage->store($id, $modelProperties);
             return $modelProperties;
         }
-        self::$querier->using(DB_YUN.'tablerowmeta')->requires('ID = '.$meta['ID'])->delete();
+        self::$staticQuerier->using(DB_YUN.'tablerowmeta')->requires('ID = '.$meta['ID'])->delete();
         return false;
     }
 
@@ -125,7 +125,7 @@ final class TableRowModel extends BaseCloudItemModel {
 			$table = TableMetaModel::byGUID($table);
 		}
 		if(is_a($table, 'PM\_CLOUD\TableMetaModel')){
-            $props = $table->getDefaultExtendedPropertyValues();
+            $props = $table->getDefaultTypePropertyValues();
             if($fullprops){
                 return array_merge(TableRowMetaModel::getDefaultPorpertyValues($table), $props);
             }
@@ -211,10 +211,10 @@ final class TableRowModel extends BaseCloudItemModel {
         self::init();
         #使用事务
         #开启事务
-        $__key = self::$querier->beginAndLock();
-        if(self::$querier->using(DB_YUN.'tablerowmeta')->insert($inserts[0])){
-            $inserts[1]["ID"] = self::$querier->lastInsertId('ID');
-            if(self::$querier->using(DB_YUN.'schema_'.$post['TYPE'])->insert($inserts[1])){
+        $__key = self::$staticQuerier->beginAndLock();
+        if(self::$staticQuerier->using(DB_YUN.'tablerowmeta')->insert($inserts[0])){
+            $inserts[1]["ID"] = self::$staticQuerier->lastInsertId('ID');
+            if(self::$staticQuerier->using(DB_YUN.'schema_'.$post['TYPE'])->insert($inserts[1])){
                 if(!empty($post["TAGS"])){
                     $tags = explode(',', $post["TAGS"]);
                     $intersect_base["TAGS"] = join(",", $tags);
@@ -222,12 +222,12 @@ final class TableRowModel extends BaseCloudItemModel {
                     TagModel::resetTags($tags, $inserts[1]["ID"], $post['TYPE'], $post['TABLENAME']);
                 }
                 #提交事务
-                self::$querier->unlock($__key)->commit();
-                return self::byGUID($inserts[1]["ID"]);
+                self::$staticQuerier->unlock($__key)->commit();
+                return self::byGUID($inserts[1]["ID"])->clearRelativeCache();
             }
         }
         #回滚事务
-        self::$querier->unlock($__key)->rollBack();
+        self::$staticQuerier->unlock($__key)->rollBack();
         return false;
     }
     
@@ -236,15 +236,15 @@ final class TableRowModel extends BaseCloudItemModel {
 	 */
     public static function update($require, $input){
         self::init();
-        $__key = self::$querier->beginAndLock();
+        $__key = self::$staticQuerier->beginAndLock();
 		$objs = self::query($require);
 		foreach($objs as $obj){
             if(!$obj->put($input)->__update()){
-                self::$querier->unlock($__key)->rollBack();
+                self::$staticQuerier->unlock($__key)->rollBack();
                 return false;
             }
 		}
-        self::$querier->unlock($__key)->commit();
+        self::$staticQuerier->unlock($__key)->commit();
 		return true;
     }
     
@@ -269,15 +269,15 @@ final class TableRowModel extends BaseCloudItemModel {
      */
     public static function delete($require){
         self::init();
-        $__key = self::$querier->beginAndLock();
+        $__key = self::$staticQuerier->beginAndLock();
 		$objs = self::query($require);
 		foreach($objs as $obj){
             if(!$obj->destroy()){
-                self::$querier->unlock($__key)->rollBack();
+                self::$staticQuerier->unlock($__key)->rollBack();
                 return false;
             }
 		}
-        self::$querier->unlock($__key)->commit();
+        self::$staticQuerier->unlock($__key)->commit();
 		return true;
     }
 
@@ -329,12 +329,12 @@ final class TableRowModel extends BaseCloudItemModel {
         if(empty($this->savedProperties['ID'])){
             return false;
         }
-        $querier = self::$querier;
+        $querier = self::$staticQuerier;
         // 开启事件，并锁定
         $__key = $querier->beginAndLock();
         $meta = $this->meta;
         // 检查更新数据
-        $updates = self::checkUpdateData($this->modelProperties, $this->savedProperties);
+        $updates = self::checkPutData($this->modelProperties, $this->savedProperties);
 
         if($meta->put($updates[0])->save()){
             foreach ($meta as $key => $val) {
@@ -351,7 +351,7 @@ final class TableRowModel extends BaseCloudItemModel {
                 return $this;
             }
 
-            $result = self::$querier->using(DB_YUN.'schema_'.$this->modelProperties['TYPE'])->requires()->where('ID', $this->savedProperties['ID'])->update($update);
+            $result = self::$staticQuerier->using(DB_YUN.'schema_'.$this->modelProperties['TYPE'])->requires()->where('ID', $this->savedProperties['ID'])->update($update);
             if($result!==false){
                 foreach ($update as $key => $val) {
                     $this->savedProperties[$key] = $val;
@@ -381,18 +381,18 @@ final class TableRowModel extends BaseCloudItemModel {
     public function destroy() {
         if($this->savedProperties){
             #使用事务
-            $__key = self::$querier->beginAndLock();
-            if(self::$querier->using(DB_YUN.'tablerowmeta')->requires('ID = '.$this->savedProperties['ID'])->delete()){
-                if(self::$querier->using(DB_YUN.'schema_'.$this->modelProperties['TYPE'])->requires('ID = '.$this->savedProperties['ID'])->delete()){
-                    TagModel::__correctTablePrefix(new App('CLOUD'));
+            $__key = self::$staticQuerier->beginAndLock();
+            if(self::$staticQuerier->using(DB_YUN.'tablerowmeta')->requires('ID = '.$this->savedProperties['ID'])->delete()){
+                if(self::$staticQuerier->using(DB_YUN.'schema_'.$this->modelProperties['TYPE'])->requires('ID = '.$this->savedProperties['ID'])->delete()){
+                    // TagModel::__correctTablePrefix(new App('CLOUD'));
                     if(TagModel::delete('type = \''.$this->modelProperties['TYPE'].'\' AND item = '.$this->savedProperties['ID'])){
                         $this->meta->clearRelativeCache();
-                        self::$querier->unlock($__key)->commit();
+                        self::$staticQuerier->unlock($__key)->commit();
                         return true;
                     }
                 }
             }
-            self::$querier->unlock($__key)->rollBack();
+            self::$staticQuerier->unlock($__key)->rollBack();
 			return false;
 		}
     }

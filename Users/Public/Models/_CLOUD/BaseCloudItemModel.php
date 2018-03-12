@@ -23,10 +23,10 @@ abstract class BaseCloudItemModel extends ObjectModel {
 	}
 
     protected static function initQuerier(){
-        if(!static::$querier){
-			static::$querier = new RDBQuerierPlus;
+        if(!static::$staticQuerier){
+			static::$staticQuerier = new RDBQuerierPlus;
 		}
-        return static::$querier->using(DB_YUN.static::$tablenameAlias);
+        return static::$staticQuerier->using(DB_YUN.static::$tablenameAlias);
 	}  
 
 	public static function create(array $option){

@@ -9,6 +9,8 @@ use App;
 use Admin\Logger\Models\AdministratorModel;
 
 class AdministratorsController extends \AF\Controllers\BaseResourcesController {
+    use \AF\Controllers\traits\administration;
+    
     public function put($id, array $options = []){
         if(empty($id)||($obj = AdministratorModel::byGUID($id))==NULL){
             Response::instance(1440, Response::JSON)->send(json_encode([
@@ -21,17 +23,17 @@ class AdministratorsController extends \AF\Controllers\BaseResourcesController {
         if(empty($_POST['PIN'])){
             $obj->put($_POST);
             if($obj->save()){
-                self::doneResponese($obj->getArrayCopy(), 1205, 'Update Successed', false);
+                self::doneResponese($obj->getArrayCopy(), 1203, 'Update Successed', false);
             }
         }
         elseif(strlen($_POST['PIN'])===6){
             if(isset($_POST['OLDPIN'])&&$obj->checkPinCode($_POST['OLDPIN'])){
                 $obj->put($_POST);
                 if($obj->save()){
-                    self::doneResponese($obj->getArrayCopy(), 1205, 'Update Successed', false);
+                    self::doneResponese($obj->getArrayCopy(), 1203, 'Update Successed', false);
                 }
             }
         }
-        self::doneResponese([], 1405, 'Update Faild', false);
+        self::doneResponese([], 1403, 'Update Faild', false);
     }
 }

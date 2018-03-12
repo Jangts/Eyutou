@@ -21,7 +21,7 @@ abstract class BaseOISubmitter extends \AF\Controllers\BaseSubmitController {
         	$this->app = $app;
         	$this->passport = Passport::instance();
 		}else{
-            new Status(1411.5, '', 'Current Status [ '.$sp.' ]',true);
+            new Status(1411.0, '', 'Current Status [ '.$sp.' ]',true);
         }
 	}
 }

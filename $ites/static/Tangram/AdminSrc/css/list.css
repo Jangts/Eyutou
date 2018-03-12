@@ -1,0 +1,135 @@
+.action-container {
+    display: block;
+    min-width: 950px;
+    margin: 40px 30px 70px;
+    line-height: 30px;
+    color: #666;
+    z-index: 0;
+}
+
+ul.class-tabs {
+    display: block;
+    text-align: center;
+    font-size: 0;
+    line-height: 0;
+}
+
+ul.class-tabs li.tab-item {
+    display: inline-block;
+    width: 96px;
+    height: 24px;
+    line-height: 24px;
+    border: solid 1px #999;
+    border-right: none;
+    font-size: 12px;
+    color: #888;
+    overflow: hidden;
+}
+
+ul.class-tabs li.tab-item:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+ul.class-tabs li.tab-item:last-child {
+    border-right: solid 1px #999;
+    border-radius: 0 5px 5px 0;
+}
+
+ul.class-tabs li.tab-item i {
+    display: block;
+    border: solid 1px #999;
+    background-color: #999;
+    color: #fff;
+    cursor: default;
+}
+
+ul.class-tabs li.tab-item a {
+    display: block;
+}
+
+.action-container header.listname {
+    display: block;
+    font-weight: bold;
+    font-size: 21px;
+    border-bottom: solid 1px #ccc;
+    color: #999;
+}
+
+.action-container header.listname strong {
+    display: inline-block;
+    line-height: 36px;
+    border-bottom: solid 2px #ccc;
+}
+
+.list-view {
+    width: 930px;
+    margin-top: 20px;
+}
+
+.list-view li.list-item {
+    float: left;
+    width: 250px;
+    margin: 20px 30px;
+    padding: 5px 10px;
+    background-color: #f6f6f6;
+}
+
+.list-view li.list-item.left-item {
+    margin-left: 0;
+}
+
+.list-view li.list-item.right-item {
+    margin-right: 0;
+}
+
+.list-view li.list-item .list-title {
+    height: 30px;
+    line-height: 30px;
+    border-bottom: solid 1px #fff;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.list-view li.list-item .list-desc {
+    height: 48px;
+    line-height: 24px;
+    font-size: 12px;
+}
+
+.list-view li.list-item a.list-link {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 0;
+    right: 0;
+    line-height: 24px;
+    text-align: center;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.list-view li.list-item:hover a.list-link {
+    opacity: 1;
+}
+
+ul.page-list {
+    display: block;
+}
+
+ul.page-list li.page-list-item {
+    float: left;
+    height: 26px;
+    line-height: 22px;
+    margin: 6px 3px;
+    background-color: #ccc;
+}
+
+ul.page-list li.page-list-item:first-child {
+    margin-left: 0;
+}
+
+ul.page-list li.page-list-item a {
+    display: block;
+    height: 22px;
+    padding: 2px 12px;
+}

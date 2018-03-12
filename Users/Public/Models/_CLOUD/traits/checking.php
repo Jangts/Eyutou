@@ -8,7 +8,7 @@ trait trmm_checking {
     /**
      * 检查更新信息
      */
-    private static function checkUpdateData($input){
+    private static function checkPutData($input){
         $input = self::checkStatus($input);
         $form = array_map('htmlspecialchars', $input);
         // 英文只用作修改，所以不用补全
@@ -20,7 +20,7 @@ trait trmm_checking {
 		}else{
 			$intersect["DESCRIPTION"] = $desc;
 		}
-        return $intersect;
+        return self::__checkValues($intersect);
     }
 
     /**
@@ -72,13 +72,13 @@ trait trm_checking {
                 $xtnd = array_merge($extendedPropertyValues, $xtnd);
                 $meta["TABLENAME"] = $input['TABLENAME'];
                 $meta["SK_CTIME"] = DATETIME;
-                return self::checkSEO($meta, $xtnd);
+                return self::checkSEO(TableRowMetaModel::__checkValues($meta, true), $xtnd);
             }
         }
         new Status(1443, '', 'Unknow Tablename', true);       
     }
 
-    private static function checkUpdateData($input, $savedProperties){
+    private static function checkPutData($input, $savedProperties){
         // $input = TableRowMetaModel::checkStatus($input);
 
         $props = self::getFullDefaultPropertyValues($input['TABLENAME']);
@@ -109,7 +109,7 @@ trait trm_checking {
         $meta["TABLENAME"] = $savedProperties['TABLENAME'];
         $meta["SK_CTIME"] = $savedProperties['SK_CTIME'];
         
-        return self::checkSEO($meta, $xtnd);
+        return self::checkSEO(TableRowMetaModel::__checkValues($meta), $xtnd);
     }
 
     private static function checkSEO($meta, $xtnd){

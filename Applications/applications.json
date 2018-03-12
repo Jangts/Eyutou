@@ -10,7 +10,35 @@
         "id": "PAGES",
         "name": "YangRAM Pages",
         "scode": "PG",
-        "installpath": "YangRAMPages/",
+        "installpath": "YangRAMPageSuit/Renderer/",
+        "usedb": 0
+    },
+    "PAGEDESIGNER": {
+        "id": "PAGEDESIGNER",
+        "name": "YangRAM Page Designer",
+        "scode": "PG",
+        "installpath": "YangRAMPageSuit/Designer/",
+        "usedb": 0
+    },
+    "PAGEADS": {
+        "id": "PAGEADS",
+        "name": "YangRAM Page Poster",
+        "scode": "PG",
+        "installpath": "YangRAMPageSuit/Poster/",
+        "usedb": 0
+    },
+    "PAGEGUESTS": {
+        "id": "PAGEGUESTS",
+        "name": "YangRAM Page Recorder",
+        "scode": "PG",
+        "installpath": "YangRAMPageSuit/Recorder/",
+        "usedb": 0
+    },
+    "WRITER": {
+        "id": "WRITER",
+        "name": "YangRAM Article Page Writer",
+        "scode": "PG",
+        "installpath": "YangRAMPageSuit/Writer/",
         "usedb": 0
     },
     "MSGCENTER": {
@@ -97,6 +125,7 @@
         "installpath": "YangRAMAdminSuit/Smartian/",
         "usedb": 0
     },
+
     "EYUTOU": {
         "id": "EYUTOU",
         "name": "Eyutou Building Projects Platform",

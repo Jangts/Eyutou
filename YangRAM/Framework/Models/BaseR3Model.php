@@ -49,7 +49,7 @@ abstract class BaseR3Model extends BaseModel {
     $uniqueIndexes = ['id'],
 
     // 自增键，如果无则为NULL
-    $AIKEY = NULL,
+    $AIKEY = 'id',
 
     // 缓存位置
     $fileStoragePath = false,
@@ -57,9 +57,7 @@ abstract class BaseR3Model extends BaseModel {
     // 默认值，用于新增记录
     $defaultPorpertyValues  = [
         'id'    =>  0
-    ],
-    // 约束规则，不建议使用，可能会被废除的设计
-    $constraint = [];
+    ];
 
     /**
 	 * 以唯一索引键为方法名的查询单行记录的魔术方法
@@ -72,9 +70,7 @@ abstract class BaseR3Model extends BaseModel {
 	**/
     public static function __callStatic($name, array $arguments){
         if(count(static::$uniqueIndexes)>0&&count($arguments)>0){
-            // 确定存在索引
-
-            // 小写化字段名
+            // 确定存在索引，并小写化
             $name = strtolower($name);
 
             // 如果索引键为主键，默认第一索引键必须是主键

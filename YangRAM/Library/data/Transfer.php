@@ -2,39 +2,6 @@
 namespace Lib\data;
 
 Class Transfer {
-    public static function checkResourceModification($lastModified) {
-		if (isset($_SERVER["HTTP_IF_MODIFIED_SINCE"])){
-			if (strtotime($_SERVER["HTTP_IF_MODIFIED_SINCE"]) < $lastModified) {
-				return true;
-			}
-			return false;
-		}
-		if (isset($_SERVER['HTTP_IF_UNMODIFIED_SINCE'])){
-			if (strtotime($_SERVER['HTTP_IF_UNMODIFIED_SINCE']) > $lastModified) {
-				return true;
-			}
-			return false;
-		}
-		if (isset($_SERVER['HTTP_IF_NONE_MATCH'])){
-			if ($_SERVER['HTTP_IF_NONE_MATCH'] !== $etag) {
-				return true;
-			}
-			return false;
-		}
-		return true;
-	}
-
-    public static function checkFileModification($filename) {
-        if(is_file($filename)){
-            $lastModified = filemtime($filename);
-            if(self::checkResourceModification($lastModified)){
-                return $filename;
-            }
-            return false;
-        }
-        return $filename;
-    }
-    
     public static function execute($filePath, $mimeType = null, $filename = null){
         $transfer = new self($filePath, $mimeType, $filename);
 		$transfer->send();
@@ -67,7 +34,6 @@ Class Transfer {
 	}
 
 	public function send() {
-		self::checkFileModification($this->filePath);
 		$fileHandler = fopen($this->filePath, 'rb');
 		$ranges = $this->getRange();
 		header('Content-Type: '.$this->mimeType);

@@ -26,17 +26,20 @@ class SQLite2 extends SQLite {
 	}
 
 	public static function parseDsn(array $options) {
-        if(extension_loaded('PDO_SQLITE')&&$path = realpath(str_replace(DBF_PATH, '<%D%>', $options['file']))){
-            $dsn = 'sqlite2:'.$path;
-            if (!empty($options['port'])) {
-                $dsn .= ';port=' . $options['port'];
-            } elseif (!empty($options['socket'])) {
-                $dsn .= ';unix_socket=' . $options['socket'];
-            }
-            if (!empty($options['charset'])) {
-                $dsn .= ';charset=' . $options['charset'];
-            }
-            return $dsn;
+        if(extension_loaded('PDO_SQLITE')){
+			if($path = realpath(str_replace('<%D%>', DBF_PATH, $options['file']))){
+            	$dsn = 'sqlite2:'.$path;
+				if (!empty($options['port'])) {
+					$dsn .= ';port=' . $options['port'];
+				} elseif (!empty($options['socket'])) {
+					$dsn .= ';unix_socket=' . $options['socket'];
+				}
+				if (!empty($options['charset'])) {
+					$dsn .= ';charset=' . $options['charset'];
+				}
+				return $dsn;
+			}
+			new Status(1501, '', 'Error File Option ['.$options['file'].'] For SQLite2', true);
         }
 		$sp = new Status(1501, '', 'Need SQL Driver PDO_SQLITE');
         $sp->log();

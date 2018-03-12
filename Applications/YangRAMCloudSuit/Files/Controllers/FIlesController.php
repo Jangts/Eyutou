@@ -9,7 +9,9 @@ use PM\_CLOUD\FileMetaModel;
 use PM\_CLOUD\FileSourceModel;
 
 class FilesController extends \AF\Controllers\BaseResourcesController {
-	private static function getFolderID($options){
+	use \Cloud\Files\Controllers\traits\authorities;
+
+	protected static function getFolderID($options){
 		if(empty($options['folder'])){
 			$options['folder'] = 5;
 		}
@@ -55,20 +57,31 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 
     public
     $successed = [],
-    $failed = [];
+	$failed = [];
+	
+	protected function checkFileModification($filename) {
+        if(is_file($filename)){
+            $lastModified = filemtime($filename);
+            if($this->checkResourceModification($lastModified)){
+                return $filename;
+            }
+            return false;
+        }
+        return $filename;
+	}
 
-    private function returnUploadsData($options, $is2ndPass = false){
+    protected function returnUploadsData($options, $is2ndPass = false){
 		if(isset($options['returndetails'])){
 			foreach($this->successed as $name=>$successed){
 				foreach($successed as $i=>$file){
-					$data= array(
+					$data= [
 						'host'		=>	HOST,
 						'url'		=>	__aurl__.'uploads/files/'.$file["ID"].'.'.$file['SUFFIX'],
 						'name'		=>	$file['FILE_NAME'],
 						'type'		=>	$file['MIME'],
 						'size'		=>	$file['FILE_SIZE'],
 						'time'		=>	$file["SK_MTIME"]
-					);
+					];
 					switch($file['FILE_TYPE']){
 						case 'image':
 						$data["dimen"] = $file["IMAGE_SIZE"];
@@ -115,18 +128,35 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 	}
 
     public function get($id, array $options = []){
+		$this->checkAuthority('R', $options) or Status::cast('No permissions to read resources.', 1411.2);
 		list($id, $suffix) = FileMetaModel::getSplitFileNameArray($id);
 		if($id&&$file = FileModel::byGUID($id)){
-			if(is_file(PUBL_PATH.$file->LOCATION)){
-				if(isset($options['sizes'])&&$file->FILE_TYPE==='image'){
-					return $file->resizeImageAndTransfer($options['sizes']);
+			$filename = PUBL_PATH.$file->LOCATION;
+			if(is_file($filename)){
+				$CONFIG = $this->app->xProps['Config'];
+				$localResourceMtime = filemtime($filename);
+				$this->__cache($localResourceMtime, $CONFIG['fileCacheExpires'],  'public');
+				if($file->FILE_TYPE==='image'){
+					if($CONFIG['imageSecurityChain']&&isset($_SERVER['HTTP_REFERER'])){
+						$whiteList = $CONFIG['imageWhiteList'];
+						$preg = "/^(http:)?\/\/(".join('|', $whiteList).")?(\/.*)?$/";
+						if(!preg_match($preg, $_SERVER['HTTP_REFERER'])){
+							$file = FileModel::byFolderNameName(8, $GLOBALS['NEWIDEA']->LANGUAGE.'.jpg');
+							if(!$file){
+								$file = FileModel::byFolderNameName(8, 'en.jpg');
+							}
+						}
+					}
+					if(isset($options['sizes'])){
+						return $file->resizeImageAndTransfer($options['sizes']);
+					}
 				}
 				return $file->transfer();
 			}else{
 				$file->destroy();
 			}
 		}
-		new Status(1440, true);
+		new Status(404, true);
 	}
 
     public function post($id = NULL, array $options = []){
@@ -153,12 +183,12 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 		return $this->returnUploadsData($options);
 	}
 	
-	public function postFileMeta($SRC_ID, $options){
+	protected function postFileMeta($SRC_ID, $options){
 		$files = FileMetaModel::getFilesBySrouceID($SRC_ID, 1);
 		if($files&&count($files)){
 			$source = FileSourceModel::byGUID($SRC_ID);
 			$meta = $files[0]->getCopy();
-			$meta->FOLDER = self::getFolderID($options);
+			$meta->FOLDER = static::getFolderID($options);
 			$meta->FILE_NAME = $post['filename'];
 			$meta->ID = substr(substr($source->HASH, 8, 16).intval(BOOTTIME).uniqid(), 0, 44);
 			$meta->SK_IS_RECYCLED = 0;
@@ -175,7 +205,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 		}
 	}
 
-    public function postFiles($name, $file, $options){
+    protected function postFiles($name, $file, $options){
         if($count = count($file['name'])){
             if(isset($file["error"])){
 				if(empty($options["durations"])){
@@ -200,7 +230,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
                         ], $suffix, $type);
 
                         $metaInput = [
-                            'FOLDER'        	=>  self::getFolderID($options),
+                            'FOLDER'        	=>  static::getFolderID($options),
                             'FILE_NAME'     	=>  $filename,
                             'FILE_TYPE'     	=>  $type,
                             'FILE_SIZE'     	=>  $file["size"][$i],
@@ -229,7 +259,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 		}
 	}
     
-    public function postFile($name, $file, $options){
+    protected function postFile($name, $file, $options){
 		if(count($file['name'])){
             if(isset($file["error"])){
                 if($file["error"] > 0){
@@ -247,7 +277,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 						'blob'				=>  isset($file["blob"]) ? $file["blob"] : '',
 					], $suffix, $type);
 					$metaInput = [
-						'FOLDER'        	=>  self::getFolderID($options),
+						'FOLDER'        	=>  static::getFolderID($options),
 						'FILE_NAME'     	=>  $file['name'],
 						'FILE_TYPE'     	=>  $type,
 						'FILE_SIZE'     	=>  $file["size"],
@@ -307,7 +337,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 		return $this->returnUploadsData($options);
 	}
 
-	public function putFile($name, $meta, $file, $options){
+	protected function putFile($name, $meta, $file, $options){
 		if(count($file['name'])){
             if(isset($file["error"])){
                 if($file["error"] > 0){
@@ -346,7 +376,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 				];
             }
 		}else{
-			new Status(1405, 'File Update Error', 'File Not Found', true);
+			new Status(1403, 'File Update Error', 'File Not Found', true);
 		}
 	}
 	
@@ -364,4 +394,20 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 		}
         \Controller::doneResponese([], 1404, 'Remove Faild', false);
 	}
+
+	/**
+     * 文件类型检测
+     * @return bool
+     */
+    protected function checkType($suffix){
+        return in_array('.'.$suffix, $this->config["allowFiles"]);
+    }
+
+    /**
+     * 文件大小检测
+     * @return bool
+     */
+    protected function  checkSize($fileSize){
+        return $fileSize <= ($this->config["maxSize"]);
+    }
 }

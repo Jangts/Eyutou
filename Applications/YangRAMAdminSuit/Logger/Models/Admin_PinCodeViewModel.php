@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Logger\Models;
 
-class Admin_PinCodeViewModel extends \PM\_2\BaseFormViewModel {
+class Admin_PinCodeViewModel extends \PM\_STUDIO\BaseFormViewModel {
 	public static $inputs = [
 		[
 			'field_name'	=>	'UID',

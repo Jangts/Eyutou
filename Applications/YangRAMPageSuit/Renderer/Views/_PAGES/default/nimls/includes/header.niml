@@ -1,0 +1,19 @@
+<div class="header">
+    <div class="container">
+        <div class="logo">
+            <a href="/"><img src="{{$option_logo}}" alt="来利洪集团官网 " /></a>
+        </div>
+        <div class="target">
+            <def name="$ads" onload="$this.readPluginResource" args="'promotion', '1', 'ads'" />
+            <a href="{{$ads.link}}" target="_blank"><img src="{{$ads.content}}" alt="{{$ads.title}}" /></a>
+        </div>
+        <nav class="navigation">
+            <ul>
+                <def name="$menu" onload="$this.menu" args="0" />
+                <for $item of $menu>
+                    <li class="{{.checkcurrent($item, $column, 'on')}}" data-column="{{$item[`guid`]}}"><a href="{{$item[`url`]}}">{{$item[`name`]}}</a></li>
+                </for>
+            </ul>
+        </nav>
+    </div>
+</div>

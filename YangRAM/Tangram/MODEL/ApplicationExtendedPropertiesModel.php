@@ -37,24 +37,25 @@ final class ApplicationExtendedPropertiesModel extends ObjectModel {
 	$optionFilename = '';
 
 	protected $modelProperties = [
-		'Suitspace'		=>	'',
-		'Namespace'		=>	'',
-		'SCode'			=>	'',
-		'Name'			=>	'',
-		'Version'		=>	IDEA::VERSION,
-		'KeyWords'		=>	'',
-		'Description'	=>	'',
-		'Homepage'		=>	'',
-		'Issues'		=>	'',
 		'AuthorInfs'	=> [
 			'AuthorID'	=>	'',
 			'AuthorName'	=>	'',
 			'Developers'	=>	'',
 			'Homepage'		=>	''
 		],
-		'Routers'		=>	[],
+		'Config'		=>	[],
+		'Description'	=>	'',
+		'Homepage'		=>	'',
+		'Issues'		=>	'',
+		'KeyWords'		=>	'',
+		'Name'			=>	'',
+		'Namespace'		=>	'',
+		'Permissions'	=>	[],
 		'Requires'		=>	[],
-		'Permissions'	=>	[]
+		'Routers'		=>	[],
+		'SCode'			=>	'',
+		'Suitspace'		=>	'',		
+		'Version'		=>	IDEA::VERSION
 	];
 
 	
@@ -100,6 +101,9 @@ final class ApplicationExtendedPropertiesModel extends ObjectModel {
 			}
 			if(isset($props['requires'])){
 				$this->loadRequires($props['requires']);
+			}
+			if(isset($props['config'])&&is_array($props['config'])){
+				$this->modelProperties['Config'] = $props['config'];
 			}
 		}else{
 			new Status(1400.0, 'Application '.$appinfo['Name'].' Initialization Failure', 'Please Check You Options.json File.', true);

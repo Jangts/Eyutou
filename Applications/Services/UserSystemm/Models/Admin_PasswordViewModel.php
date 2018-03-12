@@ -1,7 +1,7 @@
 <?php
 namespace Services\Users\Models;
 
-class Admin_PasswordViewModel extends \PM\_2\BaseFormViewModel {
+class Admin_PasswordViewModel extends \PM\_STUDIO\BaseFormViewModel {
 	public static $inputs = [
 		[
 			'field_name'	=>	'uid',

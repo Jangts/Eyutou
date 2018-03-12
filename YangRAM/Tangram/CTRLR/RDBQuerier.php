@@ -52,7 +52,7 @@ class RDBQuerier {
 	$length = 0,
     $insertPrepare = [
         'queryString'   =>  NULL,
-        'PDOStatement'  =>  null
+        'PDOStatement'  =>  NULL
     ];
 
     /**
@@ -101,7 +101,7 @@ class RDBQuerier {
             }elseif(is_bool($val)){
                 $arr[] = "`".self::escape($key)."`"." = ".($val ? '1' : '0');
             }else{
-                $arr[] = "`".self::escape($key)."`"." = NULL";
+                $arr[] = "`".self::escape($key)."`"." = ''";
             }
 
 		}
@@ -150,7 +150,7 @@ class RDBQuerier {
             $this->pdox = $queryx;
         }else{
             // 链接失败，数据库不存在或者权限不足
-            $sp =  new StatusProcessor(1416.2, 'Database Connect Error', 'Please check your arguments for Tangram\RDBQuerier');
+            $sp =  new StatusProcessor(1416.3, 'Database Connect Error', 'Please check your arguments for Tangram\RDBQuerier');
             return $sp->respond(StatusProcessor::LOG);
         }
     }
@@ -266,7 +266,7 @@ class RDBQuerier {
                 }else{
                     $symbol = 'IS';
                 }
-                $this->requires[] = $field . ' ' . $symbol . ' NULL';
+                $this->requires[] = $field . ' ' . $symbol . ' \'\'';
             }
             elseif(is_bool($value)){
                 if(!in_array($symbol, ['=', '<>'])){

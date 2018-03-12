@@ -89,29 +89,32 @@ final class ResponseModel implements interfaces\model {
 
     public static function trimServerFilename($filename){
 		$filename = str_replace('\\', '/', $filename);
-		if(strpos($filename, CPATH)===0){
-			$filename = str_replace(CPATH, '<%K%>', $filename);
-		}
-		elseif(strpos($filename, I4s_PATH)===0){
-			$filename = str_replace(I4s_PATH, '<%S%>', $filename);
-		}
-		elseif(strpos($filename, APATH)===0){
+		if(strpos($filename, APATH)===0){
 			$filename = str_replace(APATH, '<%A%>', $filename);
         }
-        elseif(strpos($filename, APP_PATH)===0){
-			$filename = str_replace(APP_PATH, '<%X%>', $filename);
-		}
-		elseif(strpos($filename, RUNPATH)===0){
-			$filename = str_replace(DPATH, '<%R%>', $filename);
-		}
-		elseif(strpos($filename, USR_PATH)===0){
-			$filename = str_replace(USR_PATH, '<%U%>', $filename);
-		}
-		elseif(strpos($filename, __ROOT__.__BOOT__)===0){
+        elseif(strpos($filename, __ROOT__.__BOOT__)===0){
 			$filename = '<%BOOTSTRAP%>';
 		}
+        elseif(strpos($filename, DBF_PATH)===0){
+			$filename = str_replace(DBF_PATH, '<%D%>', $filename);
+		}
+        elseif(strpos($filename, CPATH)===0){
+			$filename = str_replace(CPATH, '<%K%>', $filename);
+        }
+        elseif(strpos($filename, RUNPATH)===0){
+			$filename = str_replace(RUNPATH, '<%R%>', $filename);
+        }
+		elseif(strpos($filename, I4s_PATH)===0){
+			$filename = str_replace(I4s_PATH, '<%S%>', $filename);
+        }
+        elseif(strpos($filename, USR_PATH)===0){
+			$filename = str_replace(USR_PATH, '<%U%>', $filename);
+		}
+		elseif(strpos($filename, APP_PATH)===0){
+			$filename = str_replace(APP_PATH, '<%X%>', $filename);
+		}
 		elseif(strpos($filename, __ROOT__)===0){
-			$filename = str_replace(__ROOT__, '<%R%>', $filename);
+			$filename = str_replace(__ROOT__, '<%/%>', $filename);
 		}else{
 			$filename = '<%******%>';
 		}
@@ -120,26 +123,32 @@ final class ResponseModel implements interfaces\model {
 
 	public static function restoreServerFilename($filename){
 		$filename = str_replace('\\', '/', $filename);
-		if(strpos($filename, '<%K%>')===0){
+		if(strpos($filename, '<%A%>')===0){
+			$filename = str_replace('<%A%>', APATH, $filename);
+        }
+        elseif(strpos($filename, '<%BOOTSTRAP%>')===0){
+			$filename = str_replace('<%BOOTSTRAP%>', __ROOT__.__BOOT__, $filename);
+        }
+        elseif(strpos($filename, '<%D%>')===0){
+			$filename = str_replace('<%D%>', DBF_PATH, $filename);
+        }
+		elseif(strpos($filename, '<%K%>')===0){
 			$filename = str_replace('<%K%>', CPATH, $filename);
-		}
+        }
+        elseif(strpos($filename, '<%R%>')===0){
+			$filename = str_replace('<%D%>', RUNPATH, $filename);
+        }
 		elseif(strpos($filename, '<%S%>')===0){
 			$filename = str_replace('<%S%>', I4s_PATH, $filename);
-		}
-		elseif(strpos($filename, '<%A%>')===0){
-			$filename = str_replace('<%A%>', APATH, $filename);
-		}
-		elseif(strpos($filename, '<%D%>')===0){
-			$filename = str_replace('<%D%>', DPATH, $filename);
 		}
 		elseif(strpos($filename, '<%U%>')===0){
 			$filename = str_replace('<%U%>', USR_PATH, $filename);
 		}
-		elseif(strpos($filename, '<%BOOTSTRAP%>')===0){
-			$filename = str_replace('<%BOOTSTRAP%>', __ROOT__.__BOOT__, $filename);
+		elseif(strpos($filename, '<%X%>')===0){
+			$filename = str_replace('<%X%>', APP_PATH, $filename);
 		}
-		elseif(strpos($filename, '<%R%>')===0){
-			$filename = str_replace('<%R%>', __ROOT__, $filename);
+		elseif(strpos($filename, '<%/%>')===0){
+			$filename = str_replace('<%/%>', __ROOT__, $filename);
 		}
 		return $filename;
 	}
