@@ -1,5 +1,5 @@
 <?php
-namespace AF\FileStorages;
+namespace AF\Storages;
 use Storage;
 
 /**

@@ -8,7 +8,7 @@ use Lib\compilers\OperationScript;
 use Lib\compilers\JSMin;
 use Lib\compilers\OIStyleSheets;
 use Lib\compilers\Scssc;
-use AF\FileStorages\AppCache;
+use AF\Storages\AppCache;
 
 use AF\Models\LocalizedDictMode;
 
