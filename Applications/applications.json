@@ -137,7 +137,7 @@
         "id": "EYUTOUADMIN",
         "name": "Eyutou Administration Interface",
         "scode": "EA",
-        "installpath": "Eyutou/Administrationn/",
+        "installpath": "Eyutou/Administration/",
         "usedb": 1
     },
     "EYUTOUSEARCHER": {

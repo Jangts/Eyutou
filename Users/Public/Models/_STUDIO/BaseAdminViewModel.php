@@ -10,7 +10,7 @@ use App;
 
 abstract class BaseAdminViewModel extends \PM\_STUDIO\AbstractViewModel {
 	public static function updateTemplateCache($templates=NULL){
-		return \Storage::clearPath(DPATH.'BACKSTAGE/templates/');
+		return \Storage::clearPath(DPATH.AI_CURR.'/templates/');
 	}
 
 	protected  $app, $request;
@@ -34,7 +34,7 @@ abstract class BaseAdminViewModel extends \PM\_STUDIO\AbstractViewModel {
 		$this->vars =  $this->initVars();
 		define('COMMON_ADMIN_VIEW_URL', __BURL__.$app->DIR.'Views/_STUDIO/');
 		define('COMMON_ADMIN_VIEW_PATH', $app->Path.'Views/_STUDIO/');
-		define('COMMON_ADMIN_VIEW_PATH_TPL', DPATH.'BACKSTAGE/templates/'.$app->ID.'/');
+		define('COMMON_ADMIN_VIEW_PATH_TPL', DPATH.AI_CURR.'/templates/'.$app->ID.'/');
 		return $this;
 	}
 

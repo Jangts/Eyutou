@@ -133,18 +133,18 @@ trait NIML_traits_analyzer_loops {
 				return $this->for_as($array);
             }
         }
-		exit('NIML_COMPILATION_ERROR: ERROR FOR TAG PARAMETERS');
+		exit('NIML_COMPILATION_ERROR: ERROR FOR TAG PARAMETERS ['.$string.']');
     }
 
 	private function for_of($array){
 		if(preg_match('/^\$\w+$/', $array[0])){
-			if(preg_match('/^\$\w[\$\w\[\`\]]+$/', $array[2])){
+			if(preg_match('/^\$\w[\$\w\.\[\'\`\]]+$/', $array[2])){
 				return array(
 					'type'  =>  'LoopExpression',
 					'name'  =>  'foreach',
 					'array_expression'    =>  array(
 						'type'  =>  'Variable',
-						'value' =>  $array[2]
+						'value' =>  str_replace('`', '\'', str_replace('.', '->', $array[2]))
 					),
 					'index' => '$index',
 					'item' => $array[0]
@@ -162,19 +162,21 @@ trait NIML_traits_analyzer_loops {
 					'item' => $array[0]
 				);
 			}
+			// var_dump($array);
 		}
-		exit('NIML_COMPILATION_ERROR: ERROR FOR TAG PARAMETERS [ FOR OF ]');
+		// var_dump($array);
+		exit('NIML_COMPILATION_ERROR: ERROR FOR TAG PARAMETERS [ FOR '.$array[0].' OF '.$array[2].']');
 	}
 
 	private function for_in($array){
 		if(preg_match('/^\$\w+$/', $array[0])){
-			if(preg_match('/^\$\w[\$\w\[\`\]]+$/', $array[2])){
+			if(preg_match('/^\$\w[\$\w\.\[\'\`\]]+$/', $array[2])){
 				return array(
 					'type'  =>  'LoopExpression',
 					'name'  =>  'foreach',
 					'array_expression'    =>  array(
 						'type'  =>  'Variable',
-						'value' =>  $array[2]
+						'value' =>  str_replace('`', '\'', str_replace('.', '->', $array[2]))
 					),
 					'index' => $array[0],
 					'item' => '$item'
@@ -205,7 +207,7 @@ trait NIML_traits_analyzer_loops {
 					'step'	=>	intval($step)
 				);
 			}
-			if(preg_match('/^(\[)(\d+|[\$\w\[\`\]\.\/]+)\s*,\s*(\d+|[\$\w\[\`\]\.\/]+)(\]|\))$/', $array[2], $matches)){
+			if(preg_match('/^(\[)(\d+|[\$\w\.\[\'\`\]\.\/]+)\s*,\s*(\d+|[\$\w\.\[\'\`\]\.\/]+)(\]|\))$/', $array[2], $matches)){
 				$start = $matches[2];
 				if($matches[4]===')'){
 					$isOpen = true;
@@ -222,11 +224,11 @@ trait NIML_traits_analyzer_loops {
 				);
 			}
 		}
-		exit('NIML_COMPILATION_ERROR: ERROR FOR TAG PARAMETERS [ FOR IN ]');
+		exit('NIML_COMPILATION_ERROR: ERROR FOR TAG PARAMETERS [ FOR '.$array[0].' IN '.$array[2].']');
 	}
 
 	private function for_as($array){
-		if(preg_match('/^\$\w[\$\w\[\`\]]+$/', $array[0])){
+		if(preg_match('/^\$\w[\$\w\.\[\'\`\]]+$/', $array[0])){
 			if(preg_match('/^\$\w+$/', $array[2])){
 				if(isset($array[3])&&preg_match('/^\$\w+$/', $array[3])){
 					return array(
@@ -234,7 +236,7 @@ trait NIML_traits_analyzer_loops {
 						'name'  =>  'foreach',
 						'array_expression'    =>  array(
 							'type'  =>  'Variable',
-							'value' =>  $array[0]
+							'value' =>  str_replace('`', '\'', str_replace('.', '->', $array[0]))
 						),
 						'index' => $array[2],
 						'item' => $array[3]
@@ -243,6 +245,6 @@ trait NIML_traits_analyzer_loops {
 			}
 		}
 		// var_dump($array);
-		exit('NIML_COMPILATION_ERROR: ERROR FOR TAG PARAMETERS [ FOR AS ] OR ERROR EACH TAG PARAMETERS');
+		exit('NIML_COMPILATION_ERROR: ERROR FOR TAG PARAMETERS [ FOR '.$array[0].' AS '.$array[2].'=>'.$array[3].'] OR ERROR EACH TAG PARAMETERS');
 	}
 }

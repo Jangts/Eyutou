@@ -13,7 +13,7 @@ final class NIML_Compiler extends NIML_SyntacticAnalyzer {
 
 	public function outputter($filename) {
 		if (!file_exists($path = dirname($filename))){
-			mkdir($path, 0777, true) or die("Unable create cache directory!");
+			mkdir($path, 0777, true) or die("Unable create cache directory [$filename]!");
 		}
 		$contents = '<?php'.PHP_EOL;
 		foreach ($this->CDS as $n => $code) {

@@ -11,7 +11,7 @@ use AF\Routers\BaseRouter;
 use AF\Controllers\BasePrivateController;
 use Tangram\MODEL\UserModel;
 
-class StudioBusController extends BasePrivateController {
+class AdminBusController extends BasePrivateController {
 
     public function __construct(App $app, Request $request){
         $this->request = $request;

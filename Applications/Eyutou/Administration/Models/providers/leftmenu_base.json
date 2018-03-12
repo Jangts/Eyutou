@@ -1,0 +1,57 @@
+[{
+    "groupname": "项目",
+    "link": "eyutou/projects/",
+    "menu": [{
+        "icon": "",
+        "name": "所有招标工程",
+        "link": "eyutou/projects/"
+    }, {
+        "icon": "",
+        "name": "待审招标工程",
+        "link": "eyutouspider/projects/"
+    }, {
+        "icon": "",
+        "name": "标签管理",
+        "link": "eyutou/tags/"
+    }, {
+        "icon": "",
+        "name": "待审标签映射",
+        "link": "eyutou/reviewtagmap/"
+    }, {
+        "icon": "",
+        "name": "数据采集计划",
+        "link": "eyutouspider/plans/"
+    }]
+}, {
+    "groupname": "地区与源",
+    "link": "eyutouspider/areas/",
+    "menu": [{
+        "icon": "",
+        "name": "适用地区管理",
+        "link": "eyutouspider/areas/"
+    }, {
+        "icon": "",
+        "name": "信息源平台",
+        "link": "eyutouspider/publishers/"
+    }]
+}, {
+    "groupname": "用户",
+    "link": "eyutouuc/members/",
+    "menu": [{
+        "icon": "",
+        "name": "用户列表",
+        "link": "eyutouuc/members/"
+    }, {
+        "icon": "",
+        "name": "新用户",
+        "link": "eyutouuc/members/?classtable=new"
+    }, {
+        "icon": "",
+        "name": "管理员",
+        "link": "studio/administrations/"
+    }, {
+        "icon": "",
+        "name": "用户充值",
+        "link": "wallet/recharges/"
+    }]
+}]
