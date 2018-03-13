@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{$page.title}} - 代加工服务</title>
+    <link rel="stylesheet" type="text/css" href="{{$__theme}}stylesheets/style.css" />
+    <script src="{{$__static}}Tangram/tangram.js/src/tangram.js" use-debug-mode></script>
+    <script src="{{$__theme}}scripts/common.js"></script>
+</head>
+
+<body>
+    {{@includes/header.niml}}
+    <div class="common-banner">
+        <div class="container">
+            <img class="banner" src="{{$__theme}}/images/banner.jpg">
+        </div>
+    </div>
+    <div class="outer-box">
+        <div class="mid1920">
+            <div class="container">
+                <aside class="left">
+                    <h1>代加工服务</h1>
+                    <nav>
+                        <div class="left-mask">&nbsp;</div>
+                        <ul>
+                            <li class="{{.checkcurrent('page_6', $column, 'on', '', true)}}"><a href="/oem/">合作品牌</a></li>
+                            <li class="{{.checkcurrent('page_7', $column, 'on', '', true)}}"><a href="/oem/scale/">生产规模</a></li>
+                            <li class="{{.checkcurrent('page_8', $column, 'on', '', true)}}"><a href="/oem/qualification/">生产资质</a></li>
+                            <li class="{{.checkcurrent('page_9', $column, 'on', '', true)}}"><a href="/oem/photos/">工厂实景</a></li>
+                            <li class="{{.checkcurrent('page_10', $column, 'on', '', true)}}"><a href="/oem/contact/">联系方式</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+                <div class="main">
+                    <div class="main-top">
+                        <div class="main-top-dir"><a href="{{$archive_url}}">代加工服务</a>&gt;<a href="{{$page_url}}">{{$page.title}}</a></div>
+                    </div>
+                    <div class="main-content">
+                        {{$page.content}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">{{$option_common_bottom}}</div>
+</body>
+
+</html>

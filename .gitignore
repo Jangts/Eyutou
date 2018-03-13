@@ -1,5 +1,6 @@
-/.Runtime/AppData/
-/.Runtime/Caches/
-/.Runtime/Models/
-/Users/@*
-/Users/Public/.usergroups/
+/server/.Runtime/AppData/
+/server/.Runtime/Caches/
+/server/.Runtime/Models/
+/server/Users/@*
+/server/Users/Public/.usergroups/
+/desktop/node_modules/

@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{$page.title}} - 人力招聘</title>
+    <link rel="stylesheet" type="text/css" href="{{$__theme}}stylesheets/style.css" />
+    <script src="{{$__static}}Tangram/tangram.js/src/tangram.js" use-debug-mode></script>
+    <script src="{{$__theme}}scripts/common.js"></script>
+    <script src="{{$__theme}}scripts/hr.js"></script>
+</head>
+
+<body>
+    {{@includes/header.niml}}
+    <div class="common-banner">
+        <div class="container">
+            <img class="banner" src="{{$__theme}}images/banner.jpg">
+        </div>
+    </div>
+    <div class="outer-box">
+        <div class="mid1920">
+            <div class="container">
+                <aside class="left">
+                    <h1>人力招聘</h1>
+                    <nav>
+                        <div class="left-mask">&nbsp;</div>
+                        <ul>
+                            <li class="on"><a href="/hr/">招聘岗位</a></li>
+                        </ul>
+                    </nav>
+                    <figure class="left-banner">
+                        <img src="{{$page.thumb_inlist}}">
+                    </figure>
+                    <div class="hr-info">
+                        {{$page.content}}
+                    </div>
+                </aside>
+                <div class="main">
+                    <div class="main-top">
+                        <div class="main-top-dir"><a href="{{$archive_url}}">人力招聘</a>&gt;<a href="{{$page_url}}">{{$page.title}}</a></div>
+                    </div>
+                    <div class="main-content">
+                        <figure class="hr-banner">
+                            <img src="{{$page.banner}}">
+                        </figure>
+                        <ul class="job-list">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">{{$option_common_bottom}}</div>
+    <script id="mytpl" type="blockjs/template">
+        <li>
+            <h3 class="job-name">{@TITLE}</h3>
+            <div class="job-desc">
+                <p>职位描述：</p>
+                {@POSI_DESC}
+                <p>任职要求：</p>
+                {@POSI_REQUIRE}
+            </div>
+        </li>
+    </script>
+</body>
+
+</html>

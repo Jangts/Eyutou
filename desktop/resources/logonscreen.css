@@ -1,0 +1,337 @@
+@charset "utf-8";
+* {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: none;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+yangram {
+    display: block;
+    width: 580px;
+    height: 350px;
+    margin: auto;
+    border-radius: 5px;
+    background-color: transparent;
+    cursor: default;
+    user-select: none;
+}
+
+yangram {
+    font: normal 14px "Microsoft YaHei", "Hiragino Sans";
+    letter-spacing: .5px;
+    background-color: #222222;
+}
+
+
+/* Topbar */
+
+yangram topbar {
+    display: block;
+    width: 580px;
+    height: 35px;
+    background-color: #181818;
+}
+
+yangram topbar yestangram {
+    position: absolute;
+    width: 180px;
+    height: 19px;
+    top: 8px;
+    left: 200px;
+    color: #FFF;
+    text-align: center;
+    -webkit-app-region: drag;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+yangram topbar setting,
+yangram topbar close {
+    float: right;
+    width: 19px;
+    height: 19px;
+    margin: 8px 6px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+yangram topbar setting {
+    background-color: #09C;
+}
+
+yangram topbar close {
+    background-color: #F36;
+    margin-right: 13px;
+}
+
+
+/* Logger */
+
+yangram logger {
+    display: block;
+    width: 580px;
+    height: 300px;
+    z-index: 0;
+    background-color: #222222;
+}
+
+yangram logger avatar {
+    display: block;
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    left: 90px;
+    top: 90px;
+    border-radius: 10px;
+    background-image: url(guest.jpg);
+    background-size: cover;
+    background-position: center;
+    overflow: visible;
+    cursor: pointer;
+    -webkit-app-region: drag;
+}
+
+yangram logger avatar {
+    transition: all ease .4s;
+    -webkit-transition: all ease .4s;
+}
+
+yangram logger avatar vision {
+    display: none;
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    top: 0px;
+    left: 0px;
+    text-align: center;
+    line-height: 120px;
+    color: #0CF;
+    font-size: 30px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, .7);
+    font-family: 'LiquidCrystal';
+}
+
+yangram logger avatar vision spcl {
+    font-size: 60px;
+    font-family: 'DigitalSystem';
+    overflow: visible;
+}
+
+yangram logger avatar border {
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 114px;
+    height: 114px;
+    margin-left: 0px;
+    margin-top: 0px;
+    border-radius: 9px;
+    border: #0CF solid 3px;
+    transition: all ease .1s;
+    -webkit-transition: all ease .1s;
+    z-index: 10;
+}
+
+yangram logger avatar:hover border {
+    margin-left: -5px;
+    margin-top: -5px;
+    border: #0CF solid 8px;
+    opacity: .7;
+    box-shadow: 0 0 5px #000;
+    border-radius: 11px;
+}
+
+yangram logger avatar[status=checked] border {
+    margin-left: -10px;
+    margin-top: -10px;
+    border-radius: 14px;
+    opacity: .7;
+    border: #0FC solid 13px;
+    box-shadow: 0 0 10px #000;
+}
+
+yangram logger form {
+    display: block;
+    position: absolute;
+    width: 300px;
+    height: 180px;
+    left: 280px;
+    top: 60px;
+}
+
+yangram logger form vision {
+    position: absolute;
+    display: block;
+    width: 188px;
+    height: 28px;
+    margin: 5px;
+    padding: 5px;
+    overflow: hidden;
+    border: rgba(0, 204, 255, .1) solid 1px;
+    border-radius: 5px;
+    transition: all ease .4s;
+    -webkit-transition: all ease .4s;
+}
+
+yangram logger form vision[name=username] {
+    top: 0px;
+}
+
+yangram logger form vision[name=password] {
+    top: 60px;
+}
+
+yangram logger form vision[name=pincode] {
+    top: 120px;
+}
+
+yangram logger form vision[name=pincode] pinshow {
+    display: none;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 5px;
+    left: 5px;
+    background-color: rgba(255, 255, 255, .3);
+    line-height: 30px;
+    color: #0CF;
+    text-align: center;
+}
+
+yangram logger form vision input {
+    width: 188px;
+    height: 28px;
+    background: #181818;
+    line-height: normal;
+    color: #FFF;
+}
+
+yangram logger form vision input {
+    transition: all ease .4s;
+    text-align: center;
+    outline: none;
+    font: normal 13px "Microsoft YaHei", "Hiragino Sans";
+}
+
+yangram logger form vision input:-webkit-autofill {
+    box-shadow: 0 0 0 1000px #181818 inset !important;
+    -webkit-text-fill-color: #FFF !important;
+}
+
+yangram logger form vision input::-webkit-input-placeholder {
+    color: #CCC;
+}
+
+
+/*********************************************************************************
+/* Setter */
+
+yangram setter {
+    display: none;
+    width: 580px;
+    height: 300px;
+    z-index: 1;
+    background-color: #222222;
+}
+
+yangram setter form {
+    display: block;
+    width: 380px;
+    height: 240px;
+    margin: 30px 100px;
+}
+
+yangram setter form vision {
+    position: absolute;
+    display: block;
+    width: 358px;
+    height: 28px;
+    margin: 5px;
+    padding: 5px;
+    overflow: hidden;
+    border: rgba(0, 204, 255, .1) solid 1px;
+    border-radius: 5px;
+    transition: all ease .4s;
+    -webkit-transition: all ease .4s;
+}
+
+yangram setter form vision[name=hostbox] {
+    top: 0px;
+}
+
+yangram setter form vision[name=codebox] {
+    top: 50px;
+}
+
+yangram setter form vision[name=sapibox] {
+    top: 100px;
+}
+
+yangram setter form vision[name=langbox] {
+    top: 150px;
+}
+
+yangram setter form vision[name=buttons] {
+    top: 200px;
+    width: 368px;
+    height: 38px;
+    padding: 0px;
+}
+
+yangram setter form vision label {
+    float: left;
+    width: 88px;
+    height: 28px;
+    font-size: 12px;
+    line-height: 28px;
+    margin: 0 10px;
+    color: #CCC;
+    text-align: center;
+}
+
+yangram setter form vision input {
+    float: left;
+    width: 240px;
+    height: 28px;
+    padding: 0 5px;
+    background: #181818;
+    line-height: normal;
+    color: #FFF;
+}
+
+yangram setter form vision click {
+    float: left;
+    width: 184px;
+    height: 38px;
+    text-align: center;
+    line-height: 38px;
+    background-color: rgba(0, 204, 255, .1);
+    cursor: pointer;
+    color: #CCC;
+}
+
+yangram setter form vision click:hover {
+    color: #FFF;
+}
+
+yangram setter form vision click[name=submit] {
+    background-color: rgba(0, 204, 255, .2);
+}
+
+
+/* Bottom */
+
+yangram bottom {
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 580px;
+    height: 15px;
+    background-color: #181818;
+}

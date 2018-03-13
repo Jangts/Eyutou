@@ -1,0 +1,18 @@
+{
+    "name": "yangram_uoi_desktop",
+    "version": "2.8.0",
+    "description": "",
+    "private": true,
+    "main": "main.js",
+    "scripts": {
+        "start": "./main.js"
+    },
+    "devDependencies": {
+        "require": "^2.4.20",
+        "path": "^0.12.7",
+        "fs": "^0.0.1-security"
+    },
+    "dependencies": {
+        "@jangts/tangram.js": "^2.0.1"
+    }
+}

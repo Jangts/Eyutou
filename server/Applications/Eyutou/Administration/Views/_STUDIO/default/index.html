@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>YangRAM Backstage</title>
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/see/fa.css">
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/see/see.css">
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/administrator-interface/css/main.css">
+    <script src="{{$__lib__}}Tangram/tangram.js/src/tangram.js" use-debug-mode></script>
+    <script src="{{$__lib__}}Tangram/administrator-interface/js/main.js"></script>
+</head>
+
+<body>
+    <div class="main-container">
+        <section class="top-section">
+            <div class="top-logo">
+                <a href="{{__admindir__}}pages/default-page/" target="maincontainer"><img src="{{$__lib__}}Tangram/administrator-interface/img/logo.png"></a>
+            </div>
+            <div class="top-options">
+                <ul>
+                    <li><img src="{{$avatar}}"></li>
+                    <li><a href="{{__admindir__}}logger/account/{{$uid}}" target="maincontainer">个人设置</a></li>
+                    <li><a data-submit-href="{{$__api__}}?app=logger&c=VISA&m=logout" href="javascript:;">登出</a></li>
+                </ul>
+            </div>
+            <div class="top-search">
+
+            </div>
+        </section>
+        <section class="side-section">
+
+            <div class="side-section-container">
+                <for $group of $menugroups>
+                    <div class="side-menu">
+                        <a class="side-menu-head" href="{{__admindir__}}pages/default-page/" target="maincontainer">{{$group[`groupname`]}}</a>
+                        <ul class="side-menu-list">
+                            <each item="$link" list="$group[`menu`]">
+                                <li class="side-menu-item">
+                                    <i class="fa fa-pencil"></i><a href="{{__admindir__}}{{$link[`link`]}}" target="maincontainer">{{$link[`name`]}}</a>
+                                </li>
+                            </each>
+                        </ul>
+                    </div>
+                </for>
+            </div>
+        </section>
+        <section class="main-section">
+            <div class="main-section-container">
+                <iframe id="maincontainer" name="maincontainer" src="{{__admindir__}}pages/default-page/"></iframe>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

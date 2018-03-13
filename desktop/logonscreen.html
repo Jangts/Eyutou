@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Yes, Tangram!</title>
+    <script src="resources/logonscreen.js" type="text/javascript" data-debug-mode></script>
+    <link href="resources/logonscreen.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+    <yangram>
+        <topbar>
+            <yestangram>Yes, Tangram!</yestangram>
+            <close></close>
+            <setting></setting>
+        </topbar>
+        <logger>
+            <avatar>
+                <vision></vision>
+                <border></border>
+            </avatar>
+            <form name="oui-login-form" autocomplete="off">
+                <vision name="username">
+                    <input name="opn" type="text" value="" placeholder="" />
+                </vision>
+                <vision name="password">
+                    <input name="opp" type="password" placeholder="" value="" />
+                </vision>
+                <vision name="pincode">
+                    <input name="pin" type="password" autocomplete="off" placeholder="" max-length="7" value="" />
+                    <pinshow></pinshow>
+                </vision>
+            </form>
+        </logger>
+        <setter>
+            <form name="oui-login-form" autocomplete="off">
+                <vision name="hostbox">
+                    <label>Host/Domain</label>
+                    <input name="host" type="text" value="" placeholder="" />
+                </vision>
+                <vision name="codebox">
+                    <label>Safety Code</label>
+                    <input name="code" type="text" value="" placeholder="" />
+                </vision>
+                <vision name="sapibox">
+                    <label>Submit Path</label>
+                    <input name="sapi" type="text" value="i" placeholder="" />
+                </vision>
+                <vision name="langbox">
+                    <label>Language</label>
+                    <input name="lang" type="text" value="zh-cn" placeholder="" />
+                </vision>
+                <vision name="buttons">
+                    <click name="return">Return</click>
+                    <click name="submit">Comfirm</click>
+                </vision>
+            </form>
+        </setter>
+        <bottom></bottom>
+    </yangram>
+</body>
+
+</html>

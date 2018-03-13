@@ -1,0 +1,28 @@
+{
+    "name": "yangram_backpages",
+    "version": "1.0.0",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "packageBackPagesWin32": "electron-packager ./backpages/win YangRAMBackPages --win --out ./dist/YangRAMBackPages --arch=ia32 --version=1.0.0 --overwrite --icon=./backpages/icon.ico",
+        "packageBackPagesWin64": "electron-packager ./backpages/win YangRAMBackPages --win --out ./dist/YangRAMBackPages --arch=x64 --version=1.0.0 --overwrite --icon=./backpages/icon.ico",
+        "packageBackPagesWin": "npm run packageBackPagesWin32 && npm run packageBackPagesWin64",
+        "packageStudioWin32": "electron-packager ./studio/win YangRAMBackPages --win --out ./dist/YangRAMStudio --arch=ia32 --version=1.0.0 --overwrite --icon=./studio/icon.ico",
+        "packageStudioWin64": "electron-packager ./studio/win YangRAMBackPages --win --out ./dist/YangRAMStudio --arch=x64 --version=1.0.0 --overwrite --icon=./studio/icon.ico",
+        "packageStudioWin": "npm run packageWin && npm run packageLLH32 && npm run packageLLH64",
+        "packageWin": "npm run packageBackPagesWin && npm run packageStudioWin",
+
+        "packageBackPagesLLH32": "electron-packager ./backpages/gzlaili YangRAMBackPages --win --out ./dist/Lailihong --arch=ia32 --version=1.0.0 --overwrite --icon=./backpages/icon.ico",
+        "packageBackPagesLLH64": "electron-packager ./backpages/gzlaili YangRAMBackPages --win --out ./dist/Lailihong --arch=x64 --version=1.0.0 --overwrite --icon=./backpages/icon.ico",
+        "packageLLH": "npm run packageBackPagesLLH32 && npm run packageBackPagesLLH64",
+
+        "packageBackPagesMac64": "electron-packager ./backpages/mac YangRAMBackPages --darwin --out ./dist/YangRAMBackPages --arch=x64 --version=1.0.0 --overwrite --icon=./backpages/icon.icns",
+        "packageStudioMac64": "electron-packager ./studio/mac YangRAMBackPages --darwin --out ./dist/YangRAMStudio --arch=x64 --version=1.0.0 --overwrite --icon=./studio/icon.icns",
+        "packageMac": "npm run packageBackPagesMac64 && npm run packageStudioMac64",
+
+        "package": "npm run packageBackPagesWin && npm run packageLLH"
+    },
+    "devDependencies": {
+        "electron-prebuilt": "^1.4.13"
+    }
+}
