@@ -13,6 +13,6 @@
         "fs": "^0.0.1-security"
     },
     "dependencies": {
-        "@jangts/tangram.js": "^2.0.1"
+        "@jangts/tangram.js": "^2.1.0"
     }
 }
