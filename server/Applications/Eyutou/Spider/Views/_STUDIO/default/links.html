@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/see/fa.css">
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/see/see.css">
+    <link rel="stylesheet" type="text/css" href="{{$__dir__}}css/links.css">
+    <script src="{{$__lib__}}Tangram/tangram.js/src/tangram.js" use-debug-mode></script>
+    <script src="{{$__dir__}}js/links.js" use-debug-mode></script>
+</head>
+
+<body>
+    <ul>
+        <for $provinces as $code $province>
+            <if $code=$selected>
+                <li data-href="{{__admindir__}}eyutouspider/province/{{$code}}/" class="selected">{{$province}}</li>
+                <else/>
+                <li data-href="{{__admindir__}}eyutouspider/province/{{$code}}/" class="">{{$province}}</li>
+            </if>
+
+        </for>
+    </ul>
+</body>
+
+</html>

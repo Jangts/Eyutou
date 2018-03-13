@@ -16,7 +16,7 @@ class Admin_MainViewModel extends \PM\_STUDIO\BaseMainViewModel {
 		}else{
 			$this->assign('avatar', $admininfo['avatar'].'?sizes=60');
 		}
-		$this->assign('menugroups', json_decode(file_get_contents(__DIR__.'/providers/leftmenu_base.json'), true));
+		$this->assign('menugroups', self::__loadData('leftmenu_base', __DIR__));
 		$this->template = 'index.html';
 		return $this;
 	}

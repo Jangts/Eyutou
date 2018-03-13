@@ -91,7 +91,6 @@ section::-webkit-scrollbar-corner {
     width: 190px;
     margin-top: 60px;
     padding-left: 9px;
-    border-right: solid 1px rgba(73, 139, 234, 0.3);
     background-color: #f2f2f2;
 }
 

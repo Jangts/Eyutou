@@ -21,6 +21,10 @@ abstract class AbstractViewModel extends \Packages\NIML implements \DataModel {
     public static function updateTemplateCache($templates=NULL){
 		return false;
     }
+
+    public static function __loadData($name, $dir = __DIR__){
+		return json_decode(file_get_contents($dir.'/providers/'.$name.'.json'), true);
+    }
     
     protected 
     $readonly = false,

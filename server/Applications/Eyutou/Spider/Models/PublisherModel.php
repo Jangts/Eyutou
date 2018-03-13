@@ -10,9 +10,11 @@ final class PublisherModel extends \AF\Models\BaseR3Model {
     $uniqueIndexes = ['code'],
     $AIKEY = NULL,
     $fileStoragePath = true,
+    $__parentFieldName = 'belong_to',
     $defaultPorpertyValues = [
         'code'      =>  '42000001',
         'grade'     =>  '1',
+        'belong_to' =>  '420000',
         'name'      =>  '',
         'sponsor'   =>  '',
         'homepage'  =>  '',
