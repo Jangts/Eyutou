@@ -23,20 +23,38 @@ trait querying {
         if(isset(static::$constraints[$name])){
             switch(static::$constraints[$name]){
                 case '':
+                // 可空字符串
                 if($value===NULL||$value===''){
                     return true;
                 }
                 case 'a':
+                // 非空字符串
                 if($value&&is_string($value)){
                     return true;
                 }
                 return false;
 
+                case 'd':
+                // 非空DATE字符串
+                if($value&&is_string($value)&&$date = strtotime($value)){
+                    return date('Y-m-d', $date);
+                }
+                return false;
+
+                case 't':
+                // 非空DATETIME字符串
+                if($value&&is_string($value)&&$time = strtotime($value)){
+                    return date('Y-m-d H:i:s', $time);
+                }
+                return false;
+
                 case 0:
+                // 可空数或数字
                 if($value===NULL){
                     return true;
                 }
                 case 1:
+                // 非空数或数字
                 if(is_numeric($value)){
                     return true;
                 }
