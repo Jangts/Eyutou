@@ -11,11 +11,18 @@ block([
     var hash = location.hash;
     if (location.hash) {
         var arr = location.hash.split(/(\#|\?)/g);
+
         arr[0] = arr[1] = '';
-        var $a = $('.side-menu-item a[href=' + arr[2] + ']');
-        if ($a.length) {
-            $('.side-menu-item.curr, .side-menu.curr').removeClass('curr');
-            $a.closet('li').addClass('curr').closet('div').addClass('curr');
+        subarr = arr[2].split(/\/+/g);
+        if (subarr.length > 4) {
+            // appid = subarr[2],
+            // placeholder = subarr[3],
+            var pagegroup = subarr[2] + '/' + subarr[3];
+            var $a = $('.side-menu-item a[data-page-group=' + pagegroup + ']');
+            if ($a.length) {
+                $('.side-menu-item.curr, .side-menu.curr').removeClass('curr');
+                $a.closet('li').addClass('curr').closet('div').addClass('curr');
+            }
         }
         workspace.src = arr.join('');
     }

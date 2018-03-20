@@ -87,11 +87,11 @@ final class RouteCollection implements interfaces\collection {
 	**/ 
 	public function __construct($mapid, $defhost, $superhost){
 		// 调试模式下，将关闭缓存功能
-		if(_USE_DEBUG_MODE_===0){
-            $this->storage = self::$staticFileStorage->take('map_'.$mapid);
+		if(_USE_DEBUG_MODE_===0&&$routes = self::$staticFileStorage->take('map_'.$mapid)){
+            $this->storage = $routes;
         }else{
 			$this->storage = [];
-            $this->collectFromDatabase($mapid, $defhost, $superhost);
+			$this->collectFromDatabase($mapid, $defhost, $superhost);
 		}
 	}
 

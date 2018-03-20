@@ -21,10 +21,10 @@ class Admin_PinCodeViewModel extends \PM\_STUDIO\BaseFormViewModel {
 	];
 
 	public function analysis($admininfo){
-		if(isset($this->request->ARI->patharr[2])&&is_numeric($this->request->ARI->patharr[2])&&$this->request->ARI->patharr[2]>0){
+		if(isset($this->request->ARI->patharr[3])&&is_numeric($this->request->ARI->patharr[3])&&$this->request->ARI->patharr[3]>0){
 			$basedir = $this->request->ARI->dirname.'/';
 			$baseurl = $basedir.$this->app->ID;
-			$guid = $this->request->ARI->patharr[2];
+			$guid = $this->request->ARI->patharr[3];
 			$item = AdministratorModel::byGUID($guid);
 
 			if($item){

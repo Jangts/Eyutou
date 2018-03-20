@@ -7,12 +7,11 @@
     "scripts": {
         "start": "./main.js"
     },
-    "devDependencies": {
-        "require": "^2.4.20",
-        "path": "^0.12.7",
-        "fs": "^0.0.1-security"
-    },
+    "devDependencies": {},
     "dependencies": {
-        "@jangts/tangram.js": "^2.1.0"
+        "@jangts/tangram.js": "^2.0.7",
+        "fs": "^0.0.1-security",
+        "path": "^0.12.7",
+        "request": "^2.85.0"
     }
 }

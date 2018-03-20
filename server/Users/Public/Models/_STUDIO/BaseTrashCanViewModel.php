@@ -48,7 +48,7 @@ abstract class BaseTrashCanViewModel extends BaseTableViewModel {
         $listurl = $stagedir.'?page='.$range[2];
 
         // 检查是否需要操作
-        if(isset($this->request->ARI->patharr[2])){
+        if(isset($this->request->ARI->patharr[3])){
             return $this->execDeletion($listurl);
         }
 
@@ -79,9 +79,9 @@ abstract class BaseTrashCanViewModel extends BaseTableViewModel {
     protected function execDeletion($listurl){
         $modelname = static::$model or Status::cast('must specify a resource model.', 1422 );
         $modelname::__correctTablePrefix($this->app);
-        if(is_numeric($this->request->ARI->patharr[2])&&$this->request->ARI->patharr[2]>0){
-            if($item = $modelname::byGUID($this->request->ARI->patharr[2])){
-                if(isset($this->request->ARI->patharr[3])&&$this->request->ARI->patharr[3]==='delete'){
+        if(is_numeric($this->request->ARI->patharr[3])&&$this->request->ARI->patharr[3]>0){
+            if($item = $modelname::byGUID($this->request->ARI->patharr[3])){
+                if(isset($this->request->ARI->patharr[4])&&$this->request->ARI->patharr[4]==='delete'){
                     $this->delete($item);
                 }else{
                     $this->recover($item);

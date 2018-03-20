@@ -73,7 +73,7 @@ System.ExtendsMethods((YangRAM, declare, global, undefined) => {
             Version: System.version,
             timeStamp: new Date().getTime(),
             MaxSize: System.UploadMaxSize,
-            extends: _.widgets.Component.prototype._x
+            extends: _.data.Component.prototype._x
         };
 
     /* extends Variables Methods For YangRAM */

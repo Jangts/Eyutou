@@ -97,7 +97,7 @@ function createLogonscreen() {
         'close': 'onclose'
     });
     // 打开开发者工具，方便调试
-    // logonscreen.testing();
+    logonscreen.testing();
 }
 
 function createWorkspace(username) {

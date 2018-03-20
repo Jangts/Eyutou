@@ -22,8 +22,8 @@ class Admin_PluginViewModel extends \PM\_STUDIO\BaseFormViewModel {
 	}
 	
 	public function analysis($admininfo){
-		if(isset($this->request->ARI->patharr[2])){
-			$guid = $this->request->ARI->patharr[2];
+		if(isset($this->request->ARI->patharr[3])){
+			$guid = $this->request->ARI->patharr[3];
 			$puglin = PluginModel::byGUID($guid);
 			$method = 'PUT';
 		}else{

@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>YangRAM Backstage</title>
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/see/fa.css">
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/see/see.css">
+    <link rel="stylesheet" type="text/css" href="{{$__dir__}}css/areas.css">
+    <script src="{{$__lib__}}Tangram/tangram.js/src/tangram.js" use-debug-mode></script>
+    <script src="{{$__lib__}}Tangram/ai/js/main.js"></script>
+</head>
+
+<body>
+    <div id="area-main-container"><iframe id="area-main" width="100%" height="100%" src="{{__admindir__}}eyutouspider/pub/publishers-of-province/{{$province}}/"></iframe></div>
+    <div id="area-menu-container"><iframe id="area-menu" width="100%" height="100%" src="{{__admindir__}}eyutouspider/pub/province-links-for-publishers/?selected={{$province}}"></iframe></div>
+</body>
+
+</html>

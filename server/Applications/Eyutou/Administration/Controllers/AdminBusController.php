@@ -47,8 +47,8 @@ class AdminBusController extends BasePrivateController {
     public function render($patharr){
         $admininfo = $this->checkAuthority();
         $app = $this->app;
-        if(isset($patharr[1])){
-            $classname = BaseRouter::correctClassName($patharr[1]);
+        if(isset($patharr[2])){
+            $classname = BaseRouter::correctClassName($patharr[2]);
             $viewModel = 'Admin_'.$classname.'ViewModel';
         }else{
             $viewModel = 'Admin_MainViewModel';

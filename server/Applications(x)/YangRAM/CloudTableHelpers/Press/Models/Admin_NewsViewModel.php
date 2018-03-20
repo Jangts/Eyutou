@@ -140,8 +140,8 @@ class Admin_NewsViewModel extends \PM\_STUDIO\BaseFormViewModel {
 	];
 
 	public function analysis($admininfo){
-		if(isset($this->request->ARI->patharr[2])&&is_numeric($this->request->ARI->patharr[2])&&$this->request->ARI->patharr[2]>0){
-			$guid = $this->request->ARI->patharr[2];
+		if(isset($this->request->ARI->patharr[3])&&is_numeric($this->request->ARI->patharr[3])&&$this->request->ARI->patharr[3]>0){
+			$guid = $this->request->ARI->patharr[3];
 			$news = TableRowModel::byGUID($guid);
 			if(!$news){
 				$this->assign('href', $this->request->ARI->dirname.'/'.$this->app->ID.'/news-list/');

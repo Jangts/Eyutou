@@ -159,7 +159,7 @@ trait r3like {
         $this->xml = NULL;
         // 如果已存在记录，则与存在的记录对比，否则与默认值数组对比
         if($isSaved){
-            $this->modelProperties = $this->savedProperties = $input;
+            $this->modelProperties = $this->savedProperties = self::correctArrayByTemplate($input, static::$defaultPorpertyValues);
             $this->__guid = $this->savedProperties[$this->pk];
         }else{
             if($this->savedProperties){

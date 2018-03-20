@@ -82,8 +82,8 @@ final class IDEA {
 	 * -- 关闭调试模式时，系统遇到异常时会选择忽略错误，容错，或友好地中断（并在服务器的运行时目录以文件形式记录问题）；
 	 * -- 如何使用调试模式取决于开发者，YangRAM鼓励但不强制要求开发者去使用（虽然这个明显有利于开发者）。
 	**/
-	const MODE = 'DEVELOP';
-	// const MODE = 'RELEASE';
+	// const MODE = 'DEVELOP';
+	const MODE = 'RELEASE';
 	
 	const PHP_REQUIRE = '5.4.0'; 	// 此版本YangRAM所需的最低PHP版本好
 
@@ -262,42 +262,48 @@ final class IDEA {
 		$CONNS = [];
 		if(count($connArray)){
 			foreach($connArray as $n => $conn){
-				if($n){
-					$CONNS[] = [
-						'driver'	=>  $conn['driver'],
-						'options'	=>	$conn,
-						'instance'	=>	NULL
-					];
-				}else{
-					/**
-					 * 数据库配置表中的第一个数据库是记录系统及应用信息的默认数据库，一般称作首选数据库，俗称零号库
-					 * 该数据库记录了系统运行的必要数据，系统会在初始化时就连接上
-					 * 其他数据库则在需要的时候才进行连接，这样可以减少资源的浪费
-					**/
-					// 引入首选数据库驱动文件
-					include_once(CPATH.'CTRLR/rdb_drivers/'.$conn['driver'].'.php');
+				$CONNS[] = [
+					'driver'	=>  $conn['driver'],
+					'options'	=>	$conn,
+					'instance'	=>	NULL
+				];
+				// 因为效率的原因不再测试零号库
+				// if($n){
+				// 	$CONNS[] = [
+				// 		'driver'	=>  $conn['driver'],
+				// 		'options'	=>	$conn,
+				// 		'instance'	=>	NULL
+				// 	];
+				// }else{
+				// 	/**
+				// 	 * 数据库配置表中的第一个数据库是记录系统及应用信息的默认数据库，一般称作首选数据库，俗称零号库
+				// 	 * 该数据库记录了系统运行的必要数据，系统会在初始化时就连接上
+				// 	 * 其他数据库则在需要的时候才进行连接，这样可以减少资源的浪费
+				// 	**/
+				// 	// 引入首选数据库驱动文件
+				// 	include_once(CPATH.'CTRLR/rdb_drivers/'.$conn['driver'].'.php');
 
-					// 实例化一个PDOX类拓展类，并使用它链接首选数据库
-					$class = 'Tangram\CTRLR\rdb_drivers\\'.$conn['driver'];
-					if($defaultpdox = $class::instance($conn)){
-						$CONNS[] = [
-							'driver'	=>  $conn['driver'],
-							'options'	=>	$conn,
-							'instance'	=>	$defaultpdox
-						];
-					}else{
-						// 指定了系统不支持的数据库类型，系统中断并抛出相应提示
-						$sp = new CTRLR\StatusProcessor(1501, 'Some needed pdo driver not found, please check your php on your web server.');
-						return $sp->respond(CTRLR\StatusProcessor::TLOG);
-					}
-				}
+				// 	// 实例化一个PDOX类拓展类，并使用它链接首选数据库
+				// 	$class = 'Tangram\CTRLR\rdb_drivers\\'.$conn['driver'];
+				// 	if($defaultpdox = $class::instance($conn)){
+				// 		$CONNS[] = [
+				// 			'driver'	=>  $conn['driver'],
+				// 			'options'	=>	$conn,
+				// 			'instance'	=>	$defaultpdox
+				// 		];
+				// 	}else{
+				// 		// 指定了系统不支持的数据库类型，系统中断并抛出相应提示
+				// 		$sp = new CTRLR\StatusProcessor(1501, 'Some needed pdo driver not found, please check your php on your web server.');
+				// 		return $sp->respond(CTRLR\StatusProcessor::TLOG);
+				// 	}
+				// }
 			}
 			$Permissions->DEFAULT_PDOX_USEABLE = true;
 
 			// 初始化关系数据库查询器RDBQuerier
 			CTRLR\RDBQuerier::initialize($Permissions, $CONNS);
 			// 链接首选数据库
-			CTRLR\RDBQuerier::connectPDOX(0);
+			// CTRLR\RDBQuerier::connectPDOX(0);
 
 			// 将进程权限表赋值给总控单元的$Permissions属性，以便全局调用
 			$this->Permissions = $Permissions;
@@ -334,13 +340,14 @@ final class IDEA {
 	 * @return null
 	**/
 	public function run_async_taskworkers(){
+		return;
 		if(_TASKER_ENABLE_&&AC_CURR!=='TASKS'){
 			// 如果AW尚未被创建，则创建之
 			if($this->AW===NULL){
 				$this->AW = new MODEL\Application('TASKS');
 			}
 			
-			return $this->RI->checktasks($this->AW);
+			// return $this->RI->checktasks($this->AW);
 		
 			switch (RT_CURR) {
 				case 1:

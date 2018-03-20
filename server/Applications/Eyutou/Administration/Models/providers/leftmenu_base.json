@@ -1,57 +1,68 @@
 [{
     "groupname": "项目",
-    "link": "eyutou/projects/",
+    "link": "eyutou/placeholder/projects/",
     "menu": [{
         "icon": "",
         "name": "所有招标工程",
-        "link": "eyutou/projects/"
+        "group": "eyutou/pro",
+        "link": "eyutou/pro/projects/"
     }, {
         "icon": "",
         "name": "待审招标工程",
-        "link": "eyutouspider/projects/"
+        "group": "eyutouspider/pro",
+        "link": "eyutouspider/pro/projects/"
     }, {
         "icon": "",
         "name": "标签管理",
-        "link": "eyutou/tags/"
+        "group": "eyutou/t",
+        "link": "eyutou/t/tags/"
     }, {
         "icon": "",
         "name": "待审标签映射",
-        "link": "eyutou/reviewtagmap/"
+        "group": "eyutou/rtm",
+        "link": "eyutou/rtm/reviewtagmap/"
     }, {
         "icon": "",
         "name": "数据采集计划",
-        "link": "eyutouspider/plans/"
+        "group": "eyutouspider/p",
+        "link": "eyutouspider/p/plans/"
     }]
 }, {
     "groupname": "地区与源",
-    "link": "eyutouspider/areas/",
+    "link": "eyutouspider/a/areas/",
     "menu": [{
         "icon": "",
         "name": "适用地区管理",
-        "link": "eyutouspider/areas/"
+        "group": "eyutouspider/a",
+        "link": "eyutouspider/a/areas/"
     }, {
         "icon": "",
         "name": "信息源平台",
-        "link": "eyutouspider/publishers/"
+        "group": "eyutouspider/pub/",
+        "link": "eyutouspider/pub/publishers/"
     }]
 }, {
     "groupname": "用户",
-    "link": "eyutouuc/members/",
+    "link": "eyutouuc/m/members/",
     "menu": [{
         "icon": "",
         "name": "用户列表",
-        "link": "eyutouuc/members/"
+        "group": "eyutouuc/m ",
+        "link": "eyutouuc/m/members/"
     }, {
         "icon": "",
         "name": "新用户",
-        "link": "eyutouuc/members/?classtable=new"
+        "group": "",
+        "link": "eyutouuc/m/members/?classtable=new"
     }, {
         "icon": "",
         "name": "管理员",
-        "link": "studio/administrations/"
+        "group": "studio/a",
+        "link": "studio/a/administrations/"
     }, {
         "icon": "",
         "name": "用户充值",
-        "link": "wallet/recharges/"
+        "group": "wallet/r",
+        "link": "wallet/r/recharges/"
     }]
 }]

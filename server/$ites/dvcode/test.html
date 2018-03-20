@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Drag Verification</title>
+    <link href="_dv_src/style.css?v=27" type="text/css" rel="stylesheet" />
+    <script src="//tangram.js/src/tangram.js"></script>
+    <script src="_dv_src/script.js"></script>
+    <style>
+        body {
+            text-align: center;
+        }
+        
+        .button {
+            text-align: center;
+            margin: 100px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="button">点击按钮进行验证</div>
+    <script>
+        tangram.auto([
+            'myscript',
+            '$_/dom/Elements/'
+        ], function(_, global, undefined) {
+            var $ = _.dom.select;
+
+            $('div.button').on(['click', 'touchstart'], function() {
+                dvcode.show();
+            });
+            dvcode = new _.DVCode({
+                baseUrl: 'http://www.eyutou.ni:8888/api/logger?c=drag-verification',
+                onsuccess: function() {
+                    //验证通过
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

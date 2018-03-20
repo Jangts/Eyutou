@@ -1,6 +1,7 @@
 const electron = require('electron');
 const path = require('path');
 const fs = require('fs');
+const tangram = require('@jangts/tangram.js');
 const ipc = electron.ipcRenderer;
 const remote = electron.remote;
 
@@ -10,41 +11,39 @@ if (localStorage.NTVOI_CONF_LANG) {
     var lang = 'zh-cn';
 }
 
-require('interblocks');
-
-iBlock.config({
-    corePath: './node_modules/interblocks/'
+tangram.config({
+    corePath: './node_modules/@jangts/tangram.js'
 });
 
-iBlock([
+tangram.block([
     '$_/util/imports.xtd',
     '$_/util/arr.xtd',
     '$_/util/obj.xtd',
     '$_/util/str.xtd',
     '$_/util/locales/en',
-    '$_/util/Time.Cls',
-    '$_/util/Promise.Cls',
+    '$_/util/Time.cls',
+    '$_/util/Promise.cls',
     '$_/data/hash.xtd',
-    '$_/data/MD5.Cls',
-    '$_/data/Uploader.Cls',
-    '$_/data/Clipboard.Cls',
-    '$_/data/Month.Cls',
+    '$_/data/MD5.cls',
+    '$_/data/Uploader.cls',
+    '$_/data/Clipboard.cls',
+    '$_/data/Component.cls',
+    '$_/data/Month.cls',
     '$_/dom/Elements/animation.clsx',
     '$_/dom/Elements/form.clsx',
-    '$_/dom/Template.Cls',
+    '$_/dom/Template.cls',
     '$_/form/Editor/toolbarTypes/complete.bar',
     '$_/form/Editor/toolbarTypes/normal.bar',
     '$_/form/Editor/toolbarTypes/simple.bar',
     '$_/form/Editor/emoticons/default.emt',
-    '$_/form/Data.Cls',
-    '$_/medias/Player.Cls',
-    '$_/medias/Image.Cls',
+    '$_/form/Data.cls',
+    '$_/medias/Player.cls',
+    '$_/medias/Image.cls',
     '$_/see/fa.css',
-    '$_/see/BasicScrollBAR.Cls',
+    '$_/see/BasicScrollBAR.cls',
     '$_/see/Slider/',
-    '$_/see/Tabs/TabViews.Cls',
-    '$_/widgets/Component.Cls',
-    '$_/widgets/Alerter.Cls',
+    '$_/see/Tabs/TabViews.cls',
+    '$_/see/widgets/Alerter.cls',
     /* ************ */
     'resources/scripts/System.js',
     'resources/scripts/Application.js',

@@ -1,6 +1,7 @@
 const electron = require('electron');
 const path = require('path');
 const fs = require('fs');
+const tangram = require('@jangts/tangram.js');
 const ipc = electron.ipcRenderer;
 const remote = electron.remote;
 
@@ -10,22 +11,23 @@ if (localStorage.NTVOI_CONF_LANG) {
     var lang = 'zh-cn';
 }
 
-require('Interblocks');
-iBlock.config({
-    corePath: './node_modules/interblocks/'
+console.log(window, document, tangram);
+
+tangram.config({
+    corePath: './node_modules/@jangts/tangram.js'
 });
 
-iBlock([
-    '$_/util/Time.Cls',
+tangram.block([
+    '$_/Time/',
     '$_/data/',
     '$_/data/hash.xtd',
-    '$_/data/Clipboard.Cls',
+    '$_/data/Clipboard.cls',
+    '$_/data/Component.cls',
     '$_/dom/Elements/form.clsx',
-    '$_/form/Data.Cls',
-    '$_/medias/Player.Cls',
-    '$_/see/BasicScrollBAR.Cls',
-    '$_/widgets/Component.Cls',
-    '$_/widgets/Alerter.Cls',
+    '$_/form/Data.cls',
+    '$_/medias/Player.cls',
+    '$_/see/BasicScrollBAR.cls',
+    '$_/see/widgets/Alerter.cls',
     /* ************ */
     'resources/scripts/System',
     'resources/scripts/Application',

@@ -96,6 +96,7 @@ trait common {
      * @return bool
     **/
     private static function conn($options){
+        new Status(400, true);
         if(is_numeric($options)&&isset(self::$conns[$options])){
             // var_dump($options, self::$conns[$options]['instance']);
             if(self::$conns[$options]['instance']!=NULL){

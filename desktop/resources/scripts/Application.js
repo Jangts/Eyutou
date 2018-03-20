@@ -200,5 +200,5 @@ System.DeclareModel('Application', (pandora, declare, global, undefined) => {
 
     System.ModuleSeeds.apis.Common = undefined;
 
-    return declare(_.widgets.Component, Interface);
+    return declare(_.data.Component, Interface);
 });

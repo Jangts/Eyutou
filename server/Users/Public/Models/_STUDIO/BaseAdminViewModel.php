@@ -9,6 +9,7 @@ use Tangram\MODEL\ObjectModel;
 use App;
 
 abstract class BaseAdminViewModel extends \PM\_STUDIO\AbstractViewModel {
+	public static $staticVasInited = false;
 	public static function updateTemplateCache($templates=NULL){
 		return \Storage::clearPath(DPATH.AI_CURR.'/templates/');
 	}
@@ -39,6 +40,9 @@ abstract class BaseAdminViewModel extends \PM\_STUDIO\AbstractViewModel {
 	}
 
     public function initVars(){
+		if(!static::$staticVasInited){
+			static::$staticVasInited = true;
+        }
 		return [];
     }	
 

@@ -5,117 +5,124 @@ namespace Admin\Logger\Controllers;
 use Status;
 
 class DragVerificationController extends \Controller {
-    var $im = null;
-    var $im_fullbg = null;
-    var $im_bg = null;
-    var $im_slide = null;
-    var $bg_width = 240;
-    var $bg_height = 150;
-    var $mark_width = 50;
-    var $mark_height = 50;
-    var $bg_num = 6;
-    var $_x = 0;
-    var $_y = 0;
-    //容错象素 越大体验越好，越小破解难道越高
-    var $_fault = 3;
-    function __init(){
-        //ini_set('display_errors','On');
-        //
-        error_reporting(0);
-        if(!isset($_SESSION)){
-            session_start();
-        }
-    }
-    function make(){
-        $this->_init();
-        $this->_createSlide();
-        $this->_createBg();
-        $this->_merge();
-        $this->_imgout();
-        $this->_destroy();
+    private
+    $options = [
+        'total'         =>  10,
+        'width'         =>  240,
+        'height'        =>  150,
+        'mark_width'    =>  50,
+        'mark_height'   =>  50,
+        'quality_web'   =>  60,
+        'quality'       =>  8
+    ],
+    $im = null,
+    $im_fullbg = null,
+    $im_bg = null,
+    $im_slide = null,
+    $position = [0, 0];
+
+    public function main(){
+        $this->make();
     }
 
+    public function make(){
+        error_reporting(0);
+        $this->init();
+        $this->createBackground();
+        $this->createSlide();
+        $this->merge();
+        $this->imgout();
+        $this->destroy();
+    }
+
+    private function init(){
+        $index = mt_rand(1, $this->options['total']);
+        $imgsrc = __DIR__.'/_dv_imgs/'.$index.'.png';
+        $this->im_fullbg = imagecreatefrompng($imgsrc);
+        $this->im_bg = imagecreatetruecolor($this->options['width'], $this->options['height']);
+        $this->im_slide = imagecreatetruecolor($this->options['mark_width'], $this->options['height']);
+
+        imagecopy($this->im_bg, $this->im_fullbg, 0, 0, 0, 0, $this->options['width'], $this->options['height']);
+        
+        $_SESSION['_logger_dvcode_err'] = 0;
+        $_SESSION['_logger_dvcode_r'] = $this->position[0] = mt_rand(50, $this->options['width'] - $this->options['mark_width'] - 1);
+        $this->position[1] = mt_rand(0, $this->options['height'] - $this->options['mark_height'] - 1);
+    }
+
+    private function createBackground(){
+        $filename = __DIR__.'/_dv_mark/bgimg.png';
+        $imgsrc = imagecreatefrompng($filename);
+        header('Content-Type: image/png');
+        // imagealphablending($imgsrc, true);
+        imagecolortransparent($imgsrc, 0);
+        // imagepng($im);
+        // exit;
+        imagecopy($this->im_bg, $imgsrc, $this->position[0], $this->position[1], 0, 0, $this->options['mark_width'], $this->options['mark_height']);
+        imagedestroy($imgsrc);
+    }
+
+    private function createSlide(){
+        $filename = __DIR__.'/_dv_mark/slider.png';
+        $imgsrc = imagecreatefrompng($filename);
+        imagecopy($this->im_slide, $this->im_fullbg,0, $this->position[1], $this->position[0], $this->position[1], $this->options['mark_width'], $this->options['mark_height']);
+        imagecopy($this->im_slide, $imgsrc,0, $this->position[1], 0, 0, $this->options['mark_width'], $this->options['mark_height']);
+        imagecolortransparent($this->im_slide, 0);
+        // header('Content-Type: image/png');
+        // imagepng($this->im_slide);
+        // exit;
+        imagedestroy($imgsrc);
+    }
+
+    private function merge(){
+        $this->im = imagecreatetruecolor($this->options['width'], $this->options['height'] * 3);
+        imagecopy($this->im, $this->im_bg, 0, 0, 0, 0, $this->options['width'], $this->options['height']);
+        imagecopy($this->im, $this->im_slide, 0, $this->options['height'], 0, 0, $this->options['mark_width'], $this->options['height']);
+        imagecopy($this->im, $this->im_fullbg, 0, $this->options['height'] * 2, 0, 0, $this->options['width'], $this->options['height']);
+        imagecolortransparent($this->im, 0);
+    }
+
+    private function imgout(){
+        if(!$_GET['nowebp']&&function_exists('imagewebp')){
+            // 优先webp格式，超高压缩率
+            $type = 'webp';
+            $quality = $this->options['quality_web'];      // 图片质量 0-100
+        }else{
+            $type = 'png';
+            $quality = $this->options['quality'];       // 图片质量 0-9
+        }
+        header('Content-Type: image/'.$type);
+        $func = "image".$type;
+        $func($this->im, null, $quality);
+    }
+
+
     function check($offset=''){
-        if(!$_SESSION['tncode_r']){
-            $_SESSION['tncode_check'] = 'error';
+        if(!$_SESSION['_logger_dvcode_r']){
+            $_SESSION['_logger_dvcode_check'] = 'error';
             echo "error";
             return false;
         }
         if(!$offset){
             $offset = $_REQUEST['tn_r'];
         }
-        $ret = abs($_SESSION['tncode_r']-$offset)<=$this->_fault;
+        $ret = abs($_SESSION['_logger_dvcode_r']-$offset)<=$this->_fault;
         if($ret){
-            unset($_SESSION['tncode_r']);
+            unset($_SESSION['_logger_dvcode_r']);
         }else{
-            $_SESSION['tncode_err']++;
-            if($_SESSION['tncode_err']>10){//错误10次必须刷新
-                unset($_SESSION['tncode_r']);
+            $_SESSION['_logger_dvcode_err']++;
+            if($_SESSION['_logger_dvcode_err']>10){//错误10次必须刷新
+                unset($_SESSION['_logger_dvcode_r']);
             }
         }
-        $_SESSION['tncode_check'] = 'ok';
+        $_SESSION['_logger_dvcode_check'] = 'ok';
         echo "ok";
         return $ret;
     }
 
-    private function _init(){
-        $bg = mt_rand(1,$this->bg_num);
-        $file_bg = dirname(__FILE__).'/_drag_erification_backgroud/'.$bg.'.png';
-        $this->im_fullbg = imagecreatefrompng($file_bg);
-        $this->im_bg = imagecreatetruecolor($this->bg_width, $this->bg_height);
-        imagecopy($this->im_bg,$this->im_fullbg,0,0,0,0,$this->bg_width, $this->bg_height);
-        $this->im_slide = imagecreatetruecolor($this->mark_width, $this->bg_height);
-        $_SESSION['tncode_r'] = $this->_x = mt_rand(50,$this->bg_width-$this->mark_width-1);
-        $_SESSION['tncode_err'] = 0;
-        $this->_y = mt_rand(0,$this->bg_height-$this->mark_height-1);
-    }
-
-    private function _destroy(){
+    private function destroy(){
         imagedestroy($this->im);
         imagedestroy($this->im_fullbg);
         imagedestroy($this->im_bg);
         imagedestroy($this->im_slide);
     }
-    private function _imgout(){
-        if(!$_GET['nowebp']&&function_exists('imagewebp')){//优先webp格式，超高压缩率
-            $type = 'webp';
-            $quality = 40;//图片质量 0-100
-        }else{
-            $type = 'png';
-            $quality = 7;//图片质量 0-9
-        }
-        header('Content-Type: image/'.$type);
-        $func = "image".$type;
-        $func($this->im,null,$quality);
-    }
-    private function _merge(){
-        $this->im = imagecreatetruecolor($this->bg_width, $this->bg_height*3);
-        imagecopy($this->im, $this->im_bg,0, 0 , 0, 0, $this->bg_width, $this->bg_height);
-        imagecopy($this->im, $this->im_slide,0, $this->bg_height , 0, 0, $this->mark_width, $this->bg_height);
-        imagecopy($this->im, $this->im_fullbg,0, $this->bg_height*2 , 0, 0, $this->bg_width, $this->bg_height);
-        imagecolortransparent($this->im,0);//16777215
-    }
-
-    private function _createBg(){
-        $file_mark = dirname(__FILE__).'/_drag_erification_mark/BackMark.png';
-        $im = imagecreatefrompng($file_mark);
-        header('Content-Type: image/png');
-        //imagealphablending( $im, true);
-        imagecolortransparent($im,0);//16777215
-        //imagepng($im);exit;
-        imagecopy($this->im_bg, $im, $this->_x, $this->_y  , 0  , 0 , $this->mark_width, $this->mark_height);
-        imagedestroy($im);
-    }
-
-    private function _createSlide(){
-        $file_mark = dirname(__FILE__).'/_drag_erification_mark/SlideMark.png';
-        $img_mark = imagecreatefrompng($file_mark);
-        imagecopy($this->im_slide, $this->im_fullbg,0, $this->_y , $this->_x, $this->_y, $this->mark_width, $this->mark_height);
-        imagecopy($this->im_slide, $img_mark,0, $this->_y , 0, 0, $this->mark_width, $this->mark_height);
-        imagecolortransparent($this->im_slide,0);//16777215
-        //header('Content-Type: image/png');
-        //imagepng($this->im_slide);exit;
-        imagedestroy($img_mark);
-    }
 }
-error_reporting(0);

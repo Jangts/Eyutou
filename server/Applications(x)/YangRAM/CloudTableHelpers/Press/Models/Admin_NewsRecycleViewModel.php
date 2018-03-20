@@ -71,9 +71,9 @@ class Admin_NewsRecycleViewModel extends \PM\_STUDIO\BaseTrashCanViewModel {
 	}
 
 	protected function execDeletion($listurl){
-		if(is_numeric($this->request->ARI->patharr[2])&&$this->request->ARI->patharr[2]>0){
-			if($news = TableRowModel::byGUID($this->request->ARI->patharr[2])){
-				if(isset($this->request->ARI->patharr[3])&&$this->request->ARI->patharr[3]==='delete'){
+		if(is_numeric($this->request->ARI->patharr[3])&&$this->request->ARI->patharr[3]>0){
+			if($news = TableRowModel::byGUID($this->request->ARI->patharr[3])){
+				if(isset($this->request->ARI->patharr[4])&&$this->request->ARI->patharr[4]==='delete'){
 					$news->destroy();
 					// $this->assign('msg', self::buildTable($rows));
 				}else{
