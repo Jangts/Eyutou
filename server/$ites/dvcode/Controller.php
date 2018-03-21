@@ -8,7 +8,8 @@ class Controller {
         'mark_width'    =>  50,
         'mark_height'   =>  50,
         'quality_web'   =>  60,
-        'quality'       =>  8
+        'quality'       =>  8,
+        'fault'         =>  3
     ],
     $im = null,
     $im_fullbg = null,
@@ -16,15 +17,8 @@ class Controller {
     $im_slide = null,
     $position = [0, 0];
 
-    public function main(){
-        $this->make();
-    }
-
     public function make(){
         error_reporting(0);
-        if(!isset($_SESSION)){
-            session_start();
-        }
         $this->init();
         $this->createBackground();
         $this->createSlide();
@@ -43,7 +37,7 @@ class Controller {
         imagecopy($this->im_bg, $this->im_fullbg, 0, 0, 0, 0, $this->options['width'], $this->options['height']);
         
         $_SESSION['_logger_dvcode_err'] = 0;
-        $_SESSION['_logger_dvcode_r'] = $this->position[0] = mt_rand(50, $this->options['width'] - $this->options['mark_width'] - 1);
+        $_SESSION['_logger_dvcode_token'] = $this->position[0] = mt_rand(50, $this->options['width'] - $this->options['mark_width'] - 1);
         $this->position[1] = mt_rand(0, $this->options['height'] - $this->options['mark_height'] - 1);
     }
 
@@ -93,28 +87,27 @@ class Controller {
         $func($this->im, null, $quality);
     }
 
-
     function check($offset=''){
-        if(!$_SESSION['_logger_dvcode_r']){
+        if(!$_SESSION['_logger_dvcode_token']){
             $_SESSION['_logger_dvcode_check'] = 'error';
-            echo "error";
-            return false;
+            exit('error');
         }
         if(!$offset){
-            $offset = $_REQUEST['tn_r'];
+            $offset = $_REQUEST['token'];
         }
-        $ret = abs($_SESSION['_logger_dvcode_r']-$offset)<=$this->_fault;
+        $ret = abs($_SESSION['_logger_dvcode_token']-$offset)<=$this->options['fault'];
         if($ret){
-            unset($_SESSION['_logger_dvcode_r']);
-        }else{
-            $_SESSION['_logger_dvcode_err']++;
-            if($_SESSION['_logger_dvcode_err']>10){//错误10次必须刷新
-                unset($_SESSION['_logger_dvcode_r']);
-            }
+            unset($_SESSION['_logger_dvcode_token']);
+            $_SESSION['_logger_dvcode_check'] = 'ok';
+            exit('ok');
         }
-        $_SESSION['_logger_dvcode_check'] = 'ok';
-        echo "ok";
-        return $ret;
+        $_SESSION['_logger_dvcode_err']++;
+        if($_SESSION['_logger_dvcode_err']>10){
+            //错误10次必须刷新
+            unset($_SESSION['_logger_dvcode_token']);
+        }
+        $_SESSION['_logger_dvcode_check'] = 'error';
+        exit('error');
     }
 
     private function destroy(){

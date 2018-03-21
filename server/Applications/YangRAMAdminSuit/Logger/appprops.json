@@ -39,5 +39,17 @@
 
         "ALL_REMOTEURL_GETABLE": "",
         "ALL_REMOTEURL_SETABLE": ""
+    },
+    "config": {
+        "dvoptions":{
+            "total"         :  10,
+            "width"         :  240,
+            "height"        :  150,
+            "mark_width"    :  50,
+            "mark_height"   :  50,
+            "quality_web"   :  60,
+            "quality"       :  8,
+            "fault"         :  3
+        }
     }
 }

@@ -7,16 +7,28 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Drag Verification</title>
     <link href="_dv_src/style.css?v=27" type="text/css" rel="stylesheet" />
-    <script src="//tangram.js/src/tangram.js"></script>
+    <script src="//tangram.js:94/src/tangram.js"></script>
     <script src="_dv_src/script.js"></script>
     <style>
         body {
-            text-align: center;
+            width: 100%;text-align: center;
+            overflow-x: hidden;
         }
-        
-        .button {
-            text-align: center;
+
+        .clear {
+            clear: both;
+        }
+
+        .button {  
+            width: 260px;
+            height: 44px;
             margin: 100px auto;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            line-height: 44px;
+            text-align: center;
+            opacity: 1;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -35,8 +47,9 @@
             });
             dvcode = new _.DVCode({
                 baseUrl: 'http://www.eyutou.ni:8888/api/logger?c=drag-verification',
-                onsuccess: function() {
-                    //验证通过
+                success: function() {
+                    alert('验证通过');
+                    $('div.button').html('验证通过');
                 }
             });
         });

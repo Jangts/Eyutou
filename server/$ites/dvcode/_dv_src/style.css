@@ -1,28 +1,6 @@
-/*按钮*/
-
-body {
-    width: 100%;
-    overflow-x: hidden;
-}
-
-.clear {
-    clear: both;
-}
-
-.button {
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    width: 260px;
-    height: 44px;
-    cursor: pointer;
-    opacity: 1;
-    line-height: 44px;
-}
-
-
 /*浮层*/
 
-.tncode_div_bg {
+.tangram-dvcode-mask {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -37,7 +15,7 @@ body {
     display: none;
 }
 
-.tncode_div {
+.tangram-dvcode {
     display: none;
     background-color: white;
     z-index: 1000000;
@@ -62,21 +40,21 @@ body {
     /*opera或ie9*/
 }
 
-.tncode_div .tncode_canvas_bg {
+.tangram-dvcode .dvcode-image {
     z-index: 0;
 }
 
-.tncode_div .tncode_canvas_mark {
+.tangram-dvcode .dvcode-mark {
     z-index: 10000;
 }
 
-.tncode_div canvas {
+.tangram-dvcode canvas {
     position: absolute;
     left: 10px;
     top: 10px;
 }
 
-.tncode_div .loading {
+.tangram-dvcode .loading {
     padding-top: 60px;
     position: absolute;
     left: 10px;
@@ -237,24 +215,24 @@ body {
 
 /*拉条*/
 
-.slide,
-.slide_block,
-.tools .tncode_close,
-.tools .tncode_refresh {
+.tangram-dvcode-slide,
+.tangram-dvcode-dragger,
+.tangram-dvcode-tools .dvcode-close,
+.tangram-dvcode-tools .dvcode-refresh {
     background-repeat: no-repeat;
     background-image: url('icon.png');
 }
 
-.tncode_msg_ok {
+.tangram-dvcode-ok {
     background-color: #24C628;
 }
 
-.tncode_msg_error {
+.tangram-dvcode-err {
     background-color: #DE5145;
 }
 
-.tncode_msg_ok,
-.tncode_msg_error {
+.tangram-dvcode-ok,
+.tangram-dvcode-err {
     position: absolute;
     top: 136px;
     left: 10px;
@@ -271,7 +249,7 @@ body {
     z-index: 10000;
 }
 
-.slide {
+.tangram-dvcode-slide {
     position: absolute;
     top: 160px;
     width: 93.52%;
@@ -284,7 +262,7 @@ body {
     background-position: 0px 0px;
 }
 
-.tools {
+.tangram-dvcode-tools {
     position: absolute;
     top: 210px;
     width: 93.52%;
@@ -298,7 +276,7 @@ body {
     border-top: 1px solid #EEEEEE;
 }
 
-.slide_block {
+.tangram-dvcode-dragger {
     background-position: 0px 12.9794%;
     width: 65px;
     height: 65px;
@@ -309,7 +287,7 @@ body {
     cursor: pointer;
 }
 
-.slide_block_text {
+.tangram-dvcode-tips {
     background-position: 0px 12.9794%;
     height: 65px;
     position: absolute;
@@ -321,7 +299,7 @@ body {
     color: rgb(136, 148, 157);
 }
 
-.tools .tncode_close {
+.tangram-dvcode-tools .dvcode-close {
     background-position: 0 50%;
     height: 30px;
     width: 30px;
@@ -330,7 +308,7 @@ body {
     cursor: pointer;
 }
 
-.tools .tncode_refresh {
+.tangram-dvcode-tools .dvcode-refresh {
     background-position: 0 94%;
     height: 30px;
     width: 30px;
@@ -338,11 +316,11 @@ body {
     cursor: pointer;
 }
 
-.tools .tncode_tips {
+.tangram-dvcode-tools .dvcode-tips {
     float: right;
 }
 
-.tools .tncode_tips a {
+.tangram-dvcode-tools .dvcode-tips a {
     text-decoration: none;
     font-size: 10px;
     color: rgb(136, 148, 157);
