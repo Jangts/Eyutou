@@ -68,7 +68,7 @@ class NewsPageController extends \Controller {
 
     public static function buildPageList($count, $page = NULL, $prepage = NULL){
         if($page === NULL){
-            $options = Request::instance()->FORM->__get;
+            $options = Request::instance()->INPUTS->__get;
             if(isset($options['page'])){
                 $page = $options['page'];
             }else{

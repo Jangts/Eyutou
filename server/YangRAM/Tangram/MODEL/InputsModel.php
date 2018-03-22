@@ -3,7 +3,7 @@
 namespace Tangram\MODEL;
 
 /**
- * @class Tangram\MODEL\FormDataModel
+ * @class Tangram\MODEL\InputsModel
  * StandardizedForm Submission Data
  * 标准表单数据对象
  * 一个通过安全检查和专用通道重写$_GET+$_POST+$_COOKIE的整合对象
@@ -14,7 +14,7 @@ namespace Tangram\MODEL;
  * @author      Jangts
  * @version     5.0.0
 **/
-final class FormDataModel extends ObjectModel {
+final class InputsModel extends ObjectModel {
     /**
      * 分析非GET和POST方法的输入
      * 
@@ -148,14 +148,17 @@ final class FormDataModel extends ObjectModel {
     **/
 	public static function checkSqlWords($string){
         if(is_array($string)){
-			$string = implode('<@TNI_SCAN_GAP>', $string);
-		}
-
-		if (preg_match('/\\b(and|or)\\s.{1,6}?(=|>|<|\\bin\\b|\\blike\\b)|\\/\\*.+?\\*\\/|<\\s*script\\b|\\bEXEC\\b|UNION.+?SELECT|UPDATE.+?SET|INSERT\\s+INTO.+?VALUES|(SELECT|DELETE).+?FROM|(CREATE|ALTER|DROP|TRUNCATE)\\s+(TABLE|DATABASE)/is',$string,$matches) == 1){
-			//var_dump($string, $matches);
-			return false;
+            $result = [];
+            foreach($string as $str){
+                $result[] = self::checkSqlWords($str);
+            }
+		}else{
+            if (preg_match('/\\b(AND|OR)\\s.{1,6}?(=|>|<|\\bIN\\b|\\bLIKE\\b)|\\/\\*.+?\\*\\/|\\bEXEC\\b|UNION.+?SELECT|UPDATE.+?SET|INSERT\\s+INTO.+?VALUES|(SELECT|DELETE).+?FROM|(CREATE|ALTER|DROP|TRUNCATE)\\s+(TABLE|DATABASE)/is', $string, $matches) == 1){
+			    //var_dump($string, $matches);
+			    return false;
+            }
+		    return true;
         }
-		return true;
     }
 
     /**
@@ -171,9 +174,23 @@ final class FormDataModel extends ObjectModel {
 			$string = implode('<@TNI_SCAN_GAP>', $string);
 		}
 
-		$string = preg_replace('/\\b(and|or)\\s.{1,6}?(=|>|<|\\bin\\b|\\blike\\b)|\\/\\*.+?\\*\\/|<\\s*script\\b|\\bEXEC\\b|UNION.+?SELECT|UPDATE.+?SET|INSERT\\s+INTO.+?VALUES|(SELECT|DELETE).+?FROM|(CREATE|ALTER|DROP|TRUNCATE)\\s+(TABLE|DATABASE)/is','',$string);
+		$string = preg_replace('/\\b(AND|OR)\\s.{1,6}?(=|>|<|\\bIN\\b|\\bLIKE\\b)|\\/\\*.+?\\*\\/|\\bEXEC\\b|UNION.+?SELECT|UPDATE.+?SET|INSERT\\s+INTO.+?VALUES|(SELECT|DELETE).+?FROM|(CREATE|ALTER|DROP|TRUNCATE)\\s+(TABLE|DATABASE)/is', '', $string);
 		
 		$array = explode('<@TNI_SCAN_GAP>', $string);
+		if(count($array)>1){
+			return $array;
+		}
+		return trim($string);
+    }
+
+    public static function filterScripts($string){
+        if(is_array($string)){
+			$string = implode('<@TNI_SCAN_GAP>', $string);
+		}
+
+        $string = preg_replace('/eval\s*\([^\)]*?\)\s*;*/is', '', preg_replace('/<\s*script[^>]*?>(.*?<\\/script>)?/is', '', $string));
+        
+        $array = explode('<@TNI_SCAN_GAP>', $string);
 		if(count($array)>1){
 			return $array;
 		}
@@ -231,7 +248,7 @@ final class FormDataModel extends ObjectModel {
     private function arrangeCookies(array $input){
         $__cookie = [];
         foreach ($_COOKIE as $key => $val) {
-            $__cookie[$key] = $input[$key] = $val;
+            $__cookie[$key] = $input[$key] = RequestModel::filterTags($val);
         }
         $this->__cookie = $__cookie;
         return $input;
@@ -247,7 +264,7 @@ final class FormDataModel extends ObjectModel {
     private function arrangeGets(array $input){
         $__get = [];
         foreach ($_GET as $key => $val) {
-            $__get[$key] = $input[$key] = $val;
+            $__get[$key] = $input[$key] = RequestModel::filterTags($val);
         }
         $this->__get = $__get;
         return $input;
@@ -274,7 +291,7 @@ final class FormDataModel extends ObjectModel {
      * 
      * @access public
      * @param bool $strict 是否严格剔除，如果此项为真，则含有非法词汇的项将被踢出，否则只是把语句中的非法词汇剔除
-     * @return object Tangram\MODEL\FormDataModel
+     * @return object Tangram\MODEL\InputsModel
     **/
     public function stopAttack($strict = false){
         // 如果开启剔词状态，这直接将含有非法词汇的键值组剔除
@@ -335,4 +352,19 @@ final class FormDataModel extends ObjectModel {
         return $string;
     }
     
+    public function __call($name, $args){
+        if(is_array($this->modelProperties)){
+            if(isset($this->modelProperties[$name])){
+                $val = $this->modelProperties[$name];
+                if(count($args)&&$args[0]){
+                    if(self::checkSqlWords($val)==false){
+                        return NULL;
+                    }
+                    return self::filterScripts($val);
+                }
+                return $val;
+            }
+        }
+        return NULL;
+    }
 }

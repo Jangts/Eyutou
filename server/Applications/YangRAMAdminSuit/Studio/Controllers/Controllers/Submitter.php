@@ -7,16 +7,16 @@ use CM\TableRowMetaModel;
 
 class Submitter extends \Controller {
 	public function sav(){
-		$post = $this->request->FORM;
+		$post = $this->request->INPUTS;
 		$this->saveContent(false, $post);
 	}
 	public function pub(){
-		$post = $this->request->FORM;
+		$post = $this->request->INPUTS;
 		$this->saveContent(true, $post);
 	}
 	
 	public function rmv(){
-		$post = $this->request->FORM;
+		$post = $this->request->INPUTS;
 		$this->remvContent($post);
 	}
 	

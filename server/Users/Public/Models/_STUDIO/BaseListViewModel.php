@@ -20,7 +20,7 @@ abstract class BaseListViewModel extends BaseAdminViewModel {
 
     protected static function __viewLimit($options = NULL){
         if(empty($options)){
-            $options = Request::instance()->FORM->__get;
+            $options = Request::instance()->INPUTS->__get;
         }
         // if(empty($options['prepage'])){
             if(is_numeric(static::$prepage)){
@@ -43,7 +43,7 @@ abstract class BaseListViewModel extends BaseAdminViewModel {
     
     protected static function __viewOrderBy($options = NULL){
         if(empty($options)){
-            $options = Request::instance()->FORM->__get;
+            $options = Request::instance()->INPUTS->__get;
         }
         if(isset($options['sort'])&&isset(static::$__sorts[$options['sort']])){
             $orderby = static::$__sorts[$options['sort']];
@@ -108,7 +108,7 @@ abstract class BaseListViewModel extends BaseAdminViewModel {
 
     public static function buildPageList($count, $page = NULL, $prepage = NULL){
         if($page === NULL){
-            $options = Request::instance()->FORM->__get;
+            $options = Request::instance()->INPUTS->__get;
             if(isset($options['page'])){
                 $page = $options['page'];
             }else{

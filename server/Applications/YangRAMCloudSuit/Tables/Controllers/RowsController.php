@@ -68,7 +68,7 @@ class RowsController extends \AF\Controllers\BaseResourcesController {
             return $this->put($id, $options);
         }
         $this->checkAuthority('C', $options) or Status::cast('No permissions to create resource.', 1411.1);
-        if($this->request->FORM->state==='1'&&$this->checkReviewAuthority($options)){
+        if($this->request->INPUTS->state==='1'&&$this->checkReviewAuthority($options)){
             $_POST['SK_STATE']=1;
         }else{
             $_POST['SK_STATE']=0;
@@ -90,7 +90,7 @@ class RowsController extends \AF\Controllers\BaseResourcesController {
             ]));
         }
         $row->put($_POST);
-        if($this->request->FORM->state==='1'&&$this->checkReviewAuthority($options)){
+        if($this->request->INPUTS->state==='1'&&$this->checkReviewAuthority($options)){
             $row->set('SK_STATE', 1);
         }else{
             $row->set('SK_STATE', 0);

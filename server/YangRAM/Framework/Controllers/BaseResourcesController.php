@@ -28,7 +28,7 @@ abstract class BaseResourcesController extends BaseController {
 
     public static function __standardOrderByOptions($options){
         if(empty($options)){
-            $options = $this->request->FORM->__get;
+            $options = $this->request->INPUTS->__get;
         }
         if(isset(static::$__sorts)&&is_array(static::$__sorts)){
             if(isset($options['sortby'])&&(isset(static::$__sorts[$options['sortby']]))){
@@ -44,7 +44,7 @@ abstract class BaseResourcesController extends BaseController {
 
     public static function __standardRangeByOptions($options){
         if(empty($options)){
-            $options = $this->request->FORM->__get;
+            $options = $this->request->INPUTS->__get;
         }
 
         if(isset($options['from'])){

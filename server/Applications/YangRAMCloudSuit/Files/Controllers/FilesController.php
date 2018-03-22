@@ -163,7 +163,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
         ignore_user_abort(true);
 		set_time_limit(0);
 		if(empty($_FILES)){
-			$SRC_ID = $this->request->FORM->src_id;
+			$SRC_ID = $this->request->INPUTS->src_id;
 			if($SRC_ID){
 				$this->postFileMeta($SRC_ID, $options);
 			}
@@ -220,7 +220,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
                             'error'     =>  $file["error"][$i]
                         ];
                     }else{
-                        // $post = $this->request->FORM->toArray();
+                        // $post = $this->request->INPUTS->toArray();
 						list($basename, $suffix, $type) = FileMetaModel::getSplitFileNameArray($filename, $file["type"][$i]);
                         $srcInput = FileSourceModel::completeInput([
                             'MIME'              =>  $file["type"][$i],
@@ -268,7 +268,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 						'error'     =>  $file["error"]
 					];
 				}else{
-					// $post = $this->request->FORM->toArray();
+					// $post = $this->request->INPUTS->toArray();
 					list($basename, $suffix, $type) = FileMetaModel::getSplitFileNameArray($file['name'], $file["type"]);
 					$srcInput = FileSourceModel::completeInput([
 						'MIME'              =>  $file["type"],
@@ -304,7 +304,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 	}
 
 	public function put($id, array $options = []){
-		if(($ID = $this->request->FORM->id)&&($meta = FileMetaModel::byGUID($ID))){
+		if(($ID = $this->request->INPUTS->id)&&($meta = FileMetaModel::byGUID($ID))){
 			ignore_user_abort(true);
 			set_time_limit(0);
 			if(empty($_FILES)){

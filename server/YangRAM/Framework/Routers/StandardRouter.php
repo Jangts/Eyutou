@@ -56,23 +56,18 @@ class StandardRouter extends BaseRouter {
 	 * @return string
 	**/
     final protected function getClassAlias(Request $request){
-		if($request->FORM->c){
-			$classalias = preg_replace('/\\\+/', '\\', $request->FORM->c);
-			if(!$classalias){
-				$classalias = $this->defaultc;
-			};
-			$classalias = self::correctClassName($classalias);
-			if(isset($this->controllers[$classalias])){
-				return $classalias;
-			}
-			new Status(1415.2, 'Class Specified Error', 'Class [' . $classalias.'Controller' . '] is nonexistent or private', true);
-		}else{
-			if(isset($this->controllers[$this->defaultc])){
-				return $this->defaultc;
-			}
-			new Status(1415.2, 'Class Specified Error', 'Class [' . $classalias.'Controller' . '] is nonexistent or private', true);
+		if($request->INPUTS->c){
+			$classalias = preg_replace('/\\\+/', '\\', $request->INPUTS->c);
+		}elseif(isset($request->ARI->patharr[0])){
+			$classalias = preg_replace('/\\\+/', '\\', preg_replace('/\..*$/', '', $request->ARI->patharr[0]));
+		}elseif($this->defaultc&&isset($this->controllers[$this->defaultc])){
+			return $this->defaultc;
 		}
-		new Status(1415.1, 'Classname Unspecified', true);
+		$classalias = self::correctClassName($classalias);
+		if(isset($this->controllers[$classalias])){
+			return $classalias;
+		}
+		new Status(1415.2, 'Class Specified Error', 'Class [' . $classalias.'Controller' . '] is nonexistent or private', true);
 	}
 
 	/**
@@ -85,7 +80,7 @@ class StandardRouter extends BaseRouter {
 	 * @return string
 	**/
 	final protected function getMethodName(Request $request, $classalias){
-		$methodname = preg_replace('/[\-\_]+/', '_', $request->FORM->m);;
+		$methodname = preg_replace('/[\-\_]+/', '_', $request->INPUTS->m);;
 		if(!$methodname){
 			$methodname = 'main';
 		};
@@ -111,8 +106,8 @@ class StandardRouter extends BaseRouter {
 	 * @return string
 	**/
 	final protected function getParameters(Request $request, $classname, $methodname){
-		if(is_string($request->FORM->args)){
-			$args = explode('/', $request->FORM->args);
+		if(is_string($request->INPUTS->args)){
+			$args = explode('/', $request->INPUTS->args);
 		}else{
 			$args = [];
 		}

@@ -234,10 +234,10 @@ class RESTfulRouter extends BaseRouter {
 		$pk = $this->options[$index][0];
 		if($this->pathPrevail){
 			// 路径优先
-			$options = array_merge($request->FORM->__get, $args);
+			$options = array_merge($request->INPUTS->__get, $args);
 		}else{
 			// 附参优先
-			$options = array_merge($args, $request->FORM->__get);
+			$options = array_merge($args, $request->INPUTS->__get);
 		}
 		$id = $args[$pk];
 		

@@ -27,7 +27,7 @@ tangram.block([
                 new _.dom.Animation(this, {
                     to: to,
                     duration: duration,
-                    tween: _.Animation.getTween(easing),
+                    tween: _.dom.Animation.getTween(easing),
                     callback: callback
                 }).play(1);
             });
@@ -46,9 +46,9 @@ tangram.block([
             });
             return this;
         },
-        animator: function(settings) {
+        animator: function(options) {
             this.each(function() {
-                _.dom.animator(this, settings).play();
+                _.dom.animator(this, options).play();
             });
             return this;
         },

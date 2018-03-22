@@ -47,8 +47,8 @@ class SLRouterWithAlias extends BaseRouter {
 	 * @return string
 	**/
     final protected function getClassName(Request $request){
-		if($request->FORM->_c){
-			$classalias = strtolower($request->FORM->_c);
+		if($request->INPUTS->c){
+			$classalias = strtolower($request->INPUTS->c);
 		}elseif(isset($request->ARI->patharr[0])){
 			$classalias = $request->ARI->patharr[0];
 		}else{
@@ -75,7 +75,7 @@ class SLRouterWithAlias extends BaseRouter {
 	**/
 	final protected function getMethodName(Request $request){
 		if(isset($this->controllers[$this->classalias]['methods'])){
-			$methodalias = strtolower(str_replace('-', '_', $request->FORM->m));
+			$methodalias = strtolower(str_replace('-', '_', $request->INPUTS->m));
 			if(!$methodalias){
 				if(isset($request->ARI->patharr[1])){
 					$methodalias = str_replace('-', '_', $request->ARI->patharr[1]);
@@ -106,10 +106,10 @@ class SLRouterWithAlias extends BaseRouter {
 	 * @return string
 	**/
 	final protected function getParameters(Request $request, $classname, $methodname){
-		if(is_string($request->FORM->_args)){
-			$args = explode('/', $request->FORM->_args);
-		}elseif(is_string($request->FORM->_a)){
-			$args = explode('/', $request->FORM->_a);
+		if(is_string($request->INPUTS->args)){
+			$args = explode('/', $request->INPUTS->args);
+		}elseif(is_string($request->INPUTS->a)){
+			$args = explode('/', $request->INPUTS->a);
 		}else{
 			$args = array_slice($request->ARI->patharr, 2);
 		}

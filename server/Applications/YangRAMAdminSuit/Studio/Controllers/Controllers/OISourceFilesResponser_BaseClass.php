@@ -21,7 +21,7 @@ abstract class OISourceFilesResponser_BaseClass extends BaseOICtrller {
 
 	private function send($code, $type = Response::TXT) {
 		if($type === Response::JS){
-			if(isset($this->request->FORM->check)){
+			if(isset($this->request->INPUTS->check)){
 				ResponseModel::instance(200, 'text/yangram.project-file')->send('');
 			}
         	// $counter = new Counter(DB_REG.'apps', 0);

@@ -1,39 +1,33 @@
 /*!
  * tangram.js framework source code
  * 互联代码块框架源码
- * A Web Front-end Development Javascript framework
+ * A Web Front-end Development Javascript Framework
  * 一个互联网前端开发脚本框架
  * Mainly Use For DOM Operation, Data Operation, Graphic Processing, Front-end UI, And Some Basic Calculations.
  * 主要用于DOM操作，数据操作，图形相关，前端视觉，和一些基础计算。
  *
  * Written and Designed By Jang Ts
- * http://nidn.yangram.com/tangram.js/
+ * http://nidn.yangram.com/tangram.js
  *
  * Date 2017-04-06
  */
 ;
 (function(global, factory) {
-    if (typeof exports === 'object' && typeof module === 'object') {
-        global.console = console;
-        global.tangram = factory(global);
-        exports = module.exports = {
-            tangram: global.tangram,
-            block: global.tangram.block
+    if (typeof exports === 'object') {
+        exports = factory(global);
+        if (typeof module === 'object') {
+            module.exports = exports;
         }
     } else if (typeof define === 'function' && define.amd) {
         // AMD
         define('tangram', [], function() {
             return factory(global);
         });
-    } else if (typeof exports === 'object') {
-        exports.tangram = factory(global);
-        exports.block = exports.tangram.block;
     } else {
         global.tangram = factory(global);
         global.block = global.tangram.block;
     }
-
-}(this, function(global, undefined) {
+}(window || this, function(global, undefined) {
 
     /**
      * ------------------------------------------------------------------
@@ -44,7 +38,7 @@
 
     var name = 'tangram.js JavaScript framework',
         version = '0.9.00',
-        website = 'nidn.yangram.com/tangram.js/',
+        website = 'nidn.yangram.com/tangram.js',
 
         /* 获取当前时间戳 */
         startTime = new Date(),
@@ -53,10 +47,11 @@
         useDebugMode = false,
 
         /* 备份全局变量的引用，以防止这些变量被其他代码修改 */
-        console = global.console,
+        console = global.console = global.console || console,
+        document = global.document,
         open = global.open,
         location = global.location,
-        document = global.document,
+
         // 获取页面的head元素，如果没有的话，创建之
         head = (function() {
             if (document !== undefined) {
@@ -140,6 +135,7 @@
                 pathname_array.length--;
                 return location.origin + pathname_array.join('/') + '/';
             }
+            return './';
         })(),
 
         /* 计算核心运行文件的相关信息 */
@@ -166,10 +162,14 @@
                         };
                     }
                 };
+                return {
+                    Element: null,
+                    Pathname: './'
+                };
             }
             return {
-                Element: null,
-                Pathname: './'
+                Element: undefined,
+                Pathname: './node_mudules/@jangts/tangram.js/'
             };
         })();
 
@@ -368,7 +368,7 @@
             classesSharedSpace: {},
             locales: {},
             core: runtime,
-            packagesUrl: runtime.Pathname,
+            addinUrl: runtime.Pathname + 'add-ins/',
             blocks: {
                 /* 临时代码块缓存 */
                 temp: [],
@@ -1362,18 +1362,17 @@
                     filetype,
                     url;
 
+                url = this.requires[this.onload].replace(/^\$_\//, storage.core.Pathname).replace(/^\$\.\//, storage.mainUrl).replace(/^\$\+\//, storage.addinUrl);
                 /* 检查引用文件类型 */
-                if (this.requires[this.onload].match(/\.css$/)) {
+                if (url.match(/\.css$/) || url.match(/^[\?]+\.css\?$/)) {
                     filetype = 'css';
-                    url = this.requires[this.onload].replace(/^\$_\//, storage.core.Pathname).replace(/^\$\.\//, storage.mainUrl).replace(/^\$pkg\//, storage.packagesUrl);
-                } else if (this.requires[this.onload].match(/\?/) || this.requires[this.onload].match(/\.js$/) || this.requires[this.onload].match(/\.json$/)) {
+                } else if (url.match(/\.js$/) || url.match(/\.json$/) || url.match(/^[\?]+\.js\?/) || url.match(/^[\?]+\.json\?/)) {
                     filetype = 'js';
-                    url = this.requires[this.onload].replace(/^\$_\//, storage.core.Pathname).replace(/^\$\.\//, storage.mainUrl).replace(/^\$pkg\//, storage.packagesUrl);
                 } else {
+                    url = url + '.js';
                     filetype = 'js';
-                    url = this.requires[this.onload].replace(/^\$_\//, storage.core.Pathname).replace(/^\$\.\//, storage.mainUrl).replace(/^\$pkg\//, storage.packagesUrl) + '.js';
-                    url = url.replace(/([A-Z][\w\$]+)\/.js$/, '$1/$1.cls.js').replace(/([a-z][\w\$]+)\/.js$/, '$1/$1.xtd.js');
                 }
+                url = url.replace(/([A-Z][\w\$]+)\/.js$/, '$1/$1.cls.js').replace(/([a-z][\w\$]+)\/.js$/, '$1/$1.xtd.js');
 
                 if (this.requires[this.onload]) {
                     var id = this.requires[this.onload].toLowerCase();
@@ -1449,8 +1448,8 @@
             options = options || {};
             useDebugMode = options.useDebugMode ? true : false;
 
-            if (options.packagesUrl) {
-                storage.packagesUrl = options.packagesUrl;
+            if (options.addinUrl) {
+                storage.addinUrl = options.addinUrl;
             }
 
             if (options.mainUrl) {
@@ -1458,16 +1457,24 @@
                     anchor = document.createElement('a');
                 anchor.href = options.mainUrl + '/';
                 maindir = anchor.href;
-                storage.mainUrl = calculateRelativePath(anchor.href, _maindir).replace(/\/+$/, '/');
+                storage.mainUrl = calculateRelativePath(anchor.href, _maindir).replace(/[\/\\]+$/, '/');
             }
 
-            if (storage.core.Element === null && options.corePath) {
-                var anchor = document.createElement('a');
-                anchor.href = options.corePath + '/';
-                var src = anchor.href;
-                storage.core.Pathname = calculateRelativePath(src);
-                storage.core.Element = undefined;
+            if (options.corePath) {
+                if (document) {
+                    if (storage.core.Element === null) {
+                        var anchor = document.createElement('a');
+                        anchor.href = (options.corePath + '/').replace(/[\/\\]+$/, '/');
+                        console.log(anchor.href);
+                        var src = anchor.href;
+                        storage.core.Pathname = calculateRelativePath(src);
+                        storage.core.Element = undefined;
+                    }
+                } else {
+                    storage.core.Pathname = calculateRelativePath((options.corePath + '/').replace(/[\/\\]+$/, '/'));
+                }
             }
+
             return block;
         },
 

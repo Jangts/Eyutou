@@ -72,7 +72,7 @@ class OperatorVISACtrller extends \AF\Controllers\VISA\VisaByAuthorizationCode_B
     public function myTitle(){}
 
     public function logon(){
-        $post = $this->request->FORM;
+        $post = $this->request->INPUTS;
         $username = $post->username;
         $password = $post->password;
         $pin = $post->pin;

@@ -6,7 +6,7 @@ namespace Tangram\MODEL;
 use stdClass;
 use Tangram\ClassLoader;
 use Tangram\MODEL\ObjectModel;
-use Tangram\MODEL\FormDataModel;
+use Tangram\MODEL\InputsModel;
 
 /**
  * @class Tangram\MODEL\Request
@@ -72,6 +72,14 @@ final class RequestModel implements interfaces\model {
 		return self::$instance;
     }
 
+    public static function filterTags($string){
+        $string = preg_replace('/&lt;/is', '<', $string);
+        $string = preg_replace('/&lt;/is', '<', $string);
+        $string = preg_replace('/(&amp;|&quot;|&apos|&copy;|©|\'|"|&|)/is', '', $string);
+        $string = preg_replace('/<\s*\w+[^>]*?>(.*?<\\/\w+>)?/is', '', $string);
+		return trim($string);
+    }
+
     private
     $headers = [],
     $modelProperties = [];
@@ -98,7 +106,8 @@ final class RequestModel implements interfaces\model {
          * 3. 分别截断$URI和$uri字符串，将得到两个数组赋值给$DIR_ARRAY和$dir_array
         **/
 
-		$URI = preg_replace('/(^\/|\/$)/', '', preg_replace('/[\\\\\/]+/', '/', $_SERVER['PHP_SELF']));
+        $URI = preg_replace('/(^\/|\/$)/', '', preg_replace('/[\\\\\/]+/', '/', $_SERVER['PHP_SELF']));
+        $URI = self::filterTags($URI);
         $uri = ClassLoader::formatRemoteFileName($URI);
         $DIR_ARRAY = explode('/', $URI);
         $dir_array = explode('/', $uri);
@@ -215,7 +224,7 @@ final class RequestModel implements interfaces\model {
     **/ 
     public function update($appid, $depth, $useCustomRouter = false, $route = 0, $dirname = '/dirname/dirname/dirname', array $defaults = []){
         // 检查是否已经更新过，防止二次更新
-        if(isset($this->modelProperties['FORM'])&&is_a($this->modelProperties['FORM'], '\Tangram\MODEL\FormDataModel')){
+        if(isset($this->modelProperties['INPUTS'])&&is_a($this->modelProperties['INPUTS'], '\Tangram\MODEL\InputsModel')){
             return $this;
         }
 
@@ -227,20 +236,20 @@ final class RequestModel implements interfaces\model {
             $this->modelProperties['ARI']->dirname = $dirname;
             $this->modelProperties['ARI']->depth = $depth;
             $this->modelProperties['ARI']->patharr = array_slice($this->modelProperties['TRI']->patharr, 1 + $depth);
-            $form = $this->modelProperties['FORM'] = new FormDataModel($defaults);
+            $inputs = $this->modelProperties['INPUTS'] = (new InputsModel($defaults))->stopAttack();
         }else{
             define('RI_CURR', $this->modelProperties['ARI']->route = -1);
-            $this->modelProperties['ARI']->patharr = $arr = array_slice($this->modelProperties['TRI']->patharr, 1, $depth);
+            $this->modelProperties['ARI']->patharr = $arr = array_slice($this->modelProperties['TRI']->patharr, 1 + $depth);
             $this->modelProperties['ARI']->dirname = '/'.implode('/', $arr);
             $this->modelProperties['ARI']->depth = $depth;
-            $form = $this->modelProperties['FORM'] = new FormDataModel();
+            $inputs = $this->modelProperties['INPUTS'] = (new InputsModel())->stopAttack();
         }
 
         
         if(array_key_exists('LANG', $this->modelProperties)){
             define('REQUEST_LANGUAGE', $this->modelProperties['LANGUAGE'] = $GLOBALS['NEWIDEA']->LANGUAGE = $this->modelProperties['LANG']);
         }else{
-            define('REQUEST_LANGUAGE', $this->modelProperties['LANGUAGE'] = $GLOBALS['NEWIDEA']->LANGUAGE = $this->modelProperties['LANG'] = $this->getLANG($form));
+            define('REQUEST_LANGUAGE', $this->modelProperties['LANGUAGE'] = $GLOBALS['NEWIDEA']->LANGUAGE = $this->modelProperties['LANG'] = $this->getLANG($inputs));
         }
         
         return $this;
@@ -258,7 +267,7 @@ final class RequestModel implements interfaces\model {
     public function get($name){
         // 因此方法只会映射到实例对象不存在或访问不到的属性
         // 所以对于对象而且，读取其属性存在如下优先关系
-        // 直接公共属性 > $this->modelProperties['FORM']对象的属性 > HEADERS属性 > get前缀方法相关的属性> $this->modelProperties数组中的元素
+        // 直接公共属性 > $this->modelProperties['INPUTS']对象的属性 > HEADERS属性 > get前缀方法相关的属性> $this->modelProperties数组中的元素
 
         // 如果$this->modelProperties数组中存在以该属性名作为键名的元素，则返回该元素的键值
         if(isset($this->modelProperties[$name])){
@@ -282,9 +291,9 @@ final class RequestModel implements interfaces\model {
         }
 
         // 最后，还需排查一下标准表单数据对象，看看它是否存在该属性，如果有则借用之
-        $form = $this->modelProperties['FORM'];
-        if(isset($form->$name)){
-            return $form->$name;
+        $inputs = $this->modelProperties['INPUTS'];
+        if(isset($inputs->$name)){
+            return $inputs->$name;
         }
 
         // 实在没有的话，只能返回NULL了
@@ -295,21 +304,21 @@ final class RequestModel implements interfaces\model {
      * 获得请求语言的方法
      * 
      * @access private
-     * @param object(Tangram\MODEL\FormDataModel) $form
+     * @param object(Tangram\MODEL\InputsModel) $inputs
      * @return string
     **/
-    private function getLANG($form){
+    private function getLANG($inputs){
         // 检查语言请求
         // 根据关键字所处位置的级别检查
-        // 语言频道值 > Tangram\MODEL\FormDataModel(POST > GET > COOKIE > DEFAULT) > 浏览器设置 > 系统配置项
+        // 语言频道值 > Tangram\MODEL\InputsModel(POST > GET > COOKIE > DEFAULT) > 浏览器设置 > 系统配置项
         // lang > language
 
-        if(isset($form->lang)&&preg_match(self::LANG_REGEXP, $form->lang)){
-            return $form->lang;
+        if(isset($inputs->lang)&&preg_match(self::LANG_REGEXP, $inputs->lang)){
+            return $inputs->lang;
         }
         
-        if(isset($form->language)&&preg_match(self::LANG_REGEXP, $form->language)){
-            return $form->language;
+        if(isset($inputs->language)&&preg_match(self::LANG_REGEXP, $inputs->language)){
+            return $inputs->language;
         }
 
         if(isset($_SESSION['language'])&&preg_match(self::LANG_REGEXP, $_SESSION['language'])){
@@ -462,7 +471,7 @@ final class RequestModel implements interfaces\model {
             'IP'        =>  $this->getIP(),
             'BROWSER'   =>  $this->getBROWSER(),
             'ADDR'      =>  $this->getADDR(),
-            'FORM'      =>  $this->modelProperties['FORM']->getArrayCopy()
+            'INPUTS'      =>  $this->modelProperties['INPUTS']->getArrayCopy()
         ],
         $this->modelProperties['TRI']->opath);
     }
@@ -483,7 +492,7 @@ final class RequestModel implements interfaces\model {
                 $string .= PHP_EOL.$index.': '.ObjectModel::arrayToQueryString($item);
             }
             if(is_object($item)){
-                if(is_a($item, 'Tangram\MODEL\FormDataModel')){
+                if(is_a($item, 'Tangram\MODEL\InputsModel')){
                     $string .= PHP_EOL.$item->str();
                 }else{
                     $array = get_object_vars($item);
@@ -543,5 +552,9 @@ final class RequestModel implements interfaces\model {
 	**/ 
     final public function __toString(){
         return $this->str();
+    }
+
+    public function __call($name, $args){
+        return $this->modelProperties['INPUTS']->__call($name, $args);
     }
 }

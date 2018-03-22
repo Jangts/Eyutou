@@ -43,7 +43,7 @@ final class StdTestRouter extends BaseRouter {
 	 * @return string
 	**/
     final private function getClassName($path, Request $request){
-		$classname = preg_replace('/\\\+/', '\\', $request->FORM->c).'Controller';
+		$classname = preg_replace('/\\\+/', '\\', $request->INPUTS->c).'Controller';
 		while(!is_file($path.$classname.'.php')){
 			if($classname==='__exitController'){
 				exit('Thank You!');
@@ -63,8 +63,8 @@ final class StdTestRouter extends BaseRouter {
 	 * @return string
 	**/
 	final private function getMethodName(Request $request){
-		if($request->FORM->m){
-			return str_replace('-', '_', $request->FORM->m);
+		if($request->INPUTS->m){
+			return str_replace('-', '_', $request->INPUTS->m);
 		}
 		fwrite(STDOUT,"Please specify a method (press the enter key means call main()):\r\n");
         if($input = trim(fgets(STDIN))){
@@ -82,8 +82,8 @@ final class StdTestRouter extends BaseRouter {
 	 * @return string
 	**/
 	final private function getParameters(Request $request){
-		if(is_string($request->FORM->args)){
-			return preg_split('/\s+/', $request->FORM->args);
+		if(is_string($request->INPUTS->args)){
+			return preg_split('/\s+/', $request->INPUTS->args);
 		}
 		return [];
 	}

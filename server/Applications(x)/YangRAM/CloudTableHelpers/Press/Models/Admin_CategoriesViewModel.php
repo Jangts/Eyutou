@@ -71,7 +71,7 @@ class Admin_CategoriesViewModel extends \PM\_STUDIO\BaseCRUDViewModel {
 	];
 
 	protected static function __viewWhere(){
-		$options = Request::instance()->FORM->__get;
+		$options = Request::instance()->INPUTS->__get;
 		return [
 			'tablename'			=>	'news',
 			'SK_IS_RECYCLED'	=>	0

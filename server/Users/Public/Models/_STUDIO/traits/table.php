@@ -28,7 +28,7 @@ trait table {
                 $th = $column['display_name'];
             }else{
                 if(empty($options)){
-                    $options = Request::instance()->FORM->__get;
+                    $options = Request::instance()->INPUTS->__get;
                 }
                 if(isset($options['sort'])&&($options['sort']===$column['sorting_name'].'_reverse')){
                     $th = '<a href="?page='.$page.'&sort='.$column['sorting_name'].'">'.$column['display_name'].'↓</a>';

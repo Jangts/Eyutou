@@ -17,12 +17,12 @@ class VISAController extends \Controller {
         // 检查是否拥有使用本应用的权限
         // 如果拥有使用权，则签证于护照中
         // 否则，返回签证失败的信息
-        if(isset($this->request->FORM->__post['username'])&&isset($this->request->FORM->__post['password'])&&isset($this->request->FORM->__post['pincode'])){
-            $user = new UserModel($this->request->FORM->__post['username'], UserModel::QUERY_USERNAME);
+        if(isset($this->request->INPUTS->__post['username'])&&isset($this->request->INPUTS->__post['password'])&&isset($this->request->INPUTS->__post['pincode'])){
+            $user = new UserModel($this->request->INPUTS->__post['username'], UserModel::QUERY_USERNAME);
             if($user->uid){
-                if($user->checkPassWord($this->request->FORM->__post['password'], true)){
+                if($user->checkPassWord($this->request->INPUTS->__post['password'], true)){
                     $member = AdministratorModel::byGUID(Passport::holder());
-                    if($member->checkPinCode($this->request->FORM->__post['pincode'])){
+                    if($member->checkPinCode($this->request->INPUTS->__post['pincode'])){
                         Passport::checkIn($member->getBaseInfo(), false, '', 'Administrators');
                         if($member->OGROUP==='1'){
                             Passport::checkIn($member->getBaseInfo(), false, 'OPTR', 'System Operators');

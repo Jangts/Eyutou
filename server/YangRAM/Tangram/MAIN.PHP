@@ -564,7 +564,7 @@ final class ClassLoader {
 		
 		include(CPATH.'MODEL/RequestModel.php');
 		include(CPATH.'MODEL/RouteCollection.php');
-		include(CPATH.'MODEL/FormDataModel.php');
+		include(CPATH.'MODEL/InputsModel.php');
 		include(CPATH.'MODEL/ResponseModel.php');
 
 		include(CPATH.'MODEL/Application.php');

@@ -19,6 +19,7 @@ class Controller {
 
     public function make(){
         error_reporting(0);
+        session_start();
         $this->init();
         $this->createBackground();
         $this->createSlide();
@@ -88,7 +89,8 @@ class Controller {
     }
 
     function check($offset=''){
-        if(!$_SESSION['_logger_dvcode_token']){
+        session_start();
+        if(empty($_SESSION['_logger_dvcode_token'])){
             $_SESSION['_logger_dvcode_check'] = 'error';
             exit('error');
         }

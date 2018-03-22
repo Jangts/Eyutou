@@ -26,7 +26,7 @@ abstract class BaseIPCController extends BaseController {
     final protected static function checkRequestToken(Request $request, $tokenname){
         if(_TASKER_ENABLE_){
             $addr = $request->ADDR;
-            $args = $request->FORM;
+            $args = $request->INPUTS;
             if($addr['FROM']===$addr['TO']){
                 if(isset($args->$tokenname)){
                     if(self::$staticFileStorage->setNameSpace('tokens/')->check($args->$tokenname)){
