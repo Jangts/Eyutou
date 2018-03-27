@@ -123,8 +123,13 @@ class Admin_PositionViewModel extends \PM\_STUDIO\BaseFormViewModel {
 			'input_type'	=>	'textarea'
 		],
 		[
+			'field_name'	=>	'RANK',
+			'display_name'	=>	'评星（等数）',
+			'input_type'	=>	'select'
+		],
+		[
 			'field_name'	=>	'LEVEL',
-			'display_name'	=>	'排序级数',
+			'display_name'	=>	'排序（级数）',
 			'input_type'	=>	'counter'
 		]
 	],
@@ -137,19 +142,29 @@ class Admin_PositionViewModel extends \PM\_STUDIO\BaseFormViewModel {
 			['0', '不限'],
 			['1', '仅男性'],
 			['2', '仅女性']
+		],
+		'RANK'		=>	[
+			['1', '★（低级）'],
+			['2', '★★（次低级）'],
+			['4', '★★★（中低级）'],
+			['3', '★★★★（中级）'],
+			['5', '★★★★★（中高级，默认）'],
+			['6', '★★★★★★（高级）'],
+			['7', '★★★★★★★（顶级，非置顶勿选）']
 		]
 	];
 
 	
 
 	public function analysis($admininfo){
+		$basedir = $this->request->ARI->dirname.'/'.$this->app->id.'/positions/positions/';
 		if(isset($this->request->ARI->patharr[3])&&is_numeric($this->request->ARI->patharr[3])&&$this->request->ARI->patharr[3]>0){
 			$guid = $this->request->ARI->patharr[3];
 			$news = TableRowModel::byGUID($guid);
 			if(!$news){
-				$this->assign('href', $this->request->ARI->dirname.'/'.$this->app->ID.'/Positions/');
+				$this->assign('href', $basedir);
 				
-				$this->template = 'news404.html';
+				$this->template = '404.html';
 				return $this;
 			}
 			$method = 'PUT';
@@ -158,7 +173,7 @@ class Admin_PositionViewModel extends \PM\_STUDIO\BaseFormViewModel {
 				'order'	=>	'delete',
 				'form'	=>	'myform',
 				'action'=>	__aurl__.'cloudtables/rows/'.$guid,
-				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->ID.'/Positions/'
+				'href'	=>	$basedir
 			];
 		}else{
 			$guid = 0;
@@ -199,7 +214,7 @@ class Admin_PositionViewModel extends \PM\_STUDIO\BaseFormViewModel {
 				'order'	=>	'anchor',
 				'form'	=>	'myform',
 				'action'=>	'',
-				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->ID.'/positions/'.$selects
+				'href'	=>	$basedir.$selects
 			],
 			$button2,
 			[
@@ -207,14 +222,14 @@ class Admin_PositionViewModel extends \PM\_STUDIO\BaseFormViewModel {
 				'order'	=>	'submit',
 				'form'	=>	'myform',
 				'action'=>	__aurl__.'cloudtables/rows/'.$guid.'?state=0',
-				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->ID.'/positions/'.$selects
+				'href'	=>	$basedir.$selects
 			],
 			[
 				'name' 	=>	'发布',
 				'order'	=>	'submit',
 				'form'	=>	'myform',
 				'action'=>	__aurl__.'cloudtables/rows/'.$guid.'?state=1',
-				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->ID.'/positions/'.$selects
+				'href'	=>	$basedir.$selects
 			]
 		]);
 		

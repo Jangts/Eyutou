@@ -42,8 +42,8 @@ class Admin_LinkGroupsViewModel extends \PM\_STUDIO\BaseListViewModel {
 	}
 
 	public function analysis($admininfo){
-		$stagedir = $this->request->ARI->dirname.'/'.$this->app->ID;
-		$basedir = $stagedir.'/links/';
+		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
+		$basedir = $stagedir.'/link/links/';
 		$rows = [];
 		foreach(self::$groups as $index=>$archive){
 			$rows[] = [

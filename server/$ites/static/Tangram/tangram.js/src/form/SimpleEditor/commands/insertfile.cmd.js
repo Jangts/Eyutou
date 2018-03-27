@@ -48,10 +48,10 @@ tangram.block([
         var html = '<dialog class="tangram se-dialog">';
         html += '<span class="tangram se-title">Insert Files</span>';
         html += '<div class="tangram se-aaa">';
-        html += '<label>Alias</label><input type="text" class="tangram se-input" placeholder="Enter Attachment Anchor Alias" />';
+        html += '<label><i>Alias</i><input type="text" class="tangram se-input" placeholder="Enter Attachment Anchor Alias" /></label>';
         html += '</div>';
         html += '<div class="tangram se-url">';
-        html += '<label>File URL</label><input type="text" class="tangram se-input" placeholder="Enter URL" />';
+        html += '<label><i>File URL</i><input type="text" class="tangram se-input" placeholder="Enter URL" /></label>';
         html += '</div>';
         html += '<input type="file" class="tangram se-files" value="" hidden="" />';
         html += '<div class="tangram se-btns">';
@@ -102,9 +102,13 @@ tangram.block([
                         }
 
                     }
-                    _.dom.toggleClass(that.loadmask, 'on', false);
+                    _.each(that.loadmasks, function(i, loadmask) {
+                        _.dom.toggleClass(loadmask, 'on', true);
+                    });
                 });
-                _.dom.toggleClass(this.loadmask, 'on', true);
+                _.each(that.loadmasks, function(i, loadmask) {
+                    _.dom.toggleClass(loadmask, 'on', true);
+                });
             } else {
                 alert('No Upload Configuration');
             }

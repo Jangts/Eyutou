@@ -25,8 +25,8 @@
                     <nav>
                         <div class="left-mask">&nbsp;</div>
                         <ul>
-                            <li class="{{.checkcurrent('link_news/category/7', $column, 'on')}}"><a href="/news/category/7">集团新闻</a></li>
-                            <li class="{{.checkcurrent('link_news/category/8', $column, 'on')}}"><a href="/news/category/8">行业动态</a></li>
+                            <li class="{{.checkcurrent('link_news/category/17', $column, 'on')}}"><a href="/news/category/17">集团新闻</a></li>
+                            <li class="{{.checkcurrent('link_news/category/16', $column, 'on')}}"><a href="/news/category/16">行业动态</a></li>
                         </ul>
                     </nav>
                 </aside>

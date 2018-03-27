@@ -47,7 +47,7 @@ class Admin_PluginsViewModel extends \PM\_STUDIO\BaseTableViewModel {
 	public function analysis($admininfo){
 		$rows = [];
 		$puglins = PluginModel::getALL();
-		$stagedir = $this->request->ARI->dirname.'/'.$this->app->ID;
+		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
 		$basedir = $stagedir.'/plugin/';
 
 		foreach($puglins as $index=>$puglin){

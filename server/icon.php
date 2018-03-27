@@ -58,7 +58,7 @@ if(isset($_GET['c'])){
 }
 echo <<<SVG
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> 
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/graphics/SVG/1.1/DTD/svg11.dtd"> 
 <svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="$width" height="$height" opacity="$opacity" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
 <g>
   <rect x="263.619" y="61.47" transform="matrix(-0.9239 -0.3826 0.3826 -0.9239 682.3155 516.4408)" fill="$yl" width="257.794" height="257.793"/>

@@ -1,7 +1,6 @@
 <?php
 return [
     'ID'                =>  0,
-    'RANK'              =>  6,
     'PRIMER'            =>  '',
     'SUBTITLE'          =>  '',
     'REPORTER'          =>  '佚名',

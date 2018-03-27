@@ -1,13 +1,13 @@
 <?php
 namespace Lib\graphics;
 use Status;
-use Lib\graphicss\QRCode\Input;
-use Lib\graphicss\QRCode\RawCode;
-use Lib\graphicss\QRCode\Tools;
-use Lib\graphicss\QRCode\Spec;
-use Lib\graphicss\QRCode\FrameFiller;
-use Lib\graphicss\QRCode\Mask;
-use Lib\graphicss\QRCode\Encode;
+use Lib\graphics\QRCode\Input;
+use Lib\graphics\QRCode\RawCode;
+use Lib\graphics\QRCode\Tools;
+use Lib\graphics\QRCode\Spec;
+use Lib\graphics\QRCode\FrameFiller;
+use Lib\graphics\QRCode\Mask;
+use Lib\graphics\QRCode\Encode;
 
 // Encoding modes
  

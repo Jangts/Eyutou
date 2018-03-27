@@ -6,6 +6,7 @@ use Request;
 class Admin_AdsViewModel extends \PM\_STUDIO\BaseCRUDViewModel {
 	public static
 	$model = 'Pages\Ads\Models\AdvertisementModel',
+	$sk = null,
 	$columns = [
 		[
 			'field_name'	=>	'__index',
@@ -92,7 +93,7 @@ class Admin_AdsViewModel extends \PM\_STUDIO\BaseCRUDViewModel {
             }else{
                 $type = ['图片链接'];
             }
-            $itemurl = $basedir.'/'.$item->id;
+            $itemurl = $basedir.'-'.$item->type.'/'.$item->id;
             $rows[] = [
                 '__index'	=>	[$index + 1],
                 'title'		=>	[$item->title, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],

@@ -75,7 +75,10 @@ abstract class BaseMemberModel extends BaseModel {
         $obj->__put($input, false);
         return $obj->__insert();
     }
-
+    
+    public static function __checkValues($values, $isPost = false){
+        return $values;
+    }
 
     protected
     // PDOX数据链接实例
@@ -214,7 +217,7 @@ abstract class BaseMemberModel extends BaseModel {
 	 * @return bool
 	**/ 
     public function destroy(){
-        if($this->savedProperties&&($this->querier->requires()->where($this->pk, $this->__guid)->delete())){
+        if($this->savedProperties&&($this->querier->requires()->where($this->pk, $this->__guid)->delete()!==false)){
             if($this->files) $this->files->store($this->__guid);
             return $this->__afterDelete();
         }

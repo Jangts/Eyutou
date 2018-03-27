@@ -47,6 +47,8 @@ class MVCRowsController extends \Controller {
         }
         
         $orderby = RowsController::__standardOrderByOptions(['sortby' => $sortcode]);
+        // var_dump($tablename, $folder, TableRowMetaModel::PUBLISHED, $orderby, $start, $length, \Model::LIST_AS_ARRS);
+        // exit;
         $rows = TableRowModel::getRows($tablename, $folder, TableRowMetaModel::PUBLISHED, $orderby, $start, $length, \Model::LIST_AS_ARRS);
         self::doneResponese($rows);
     }

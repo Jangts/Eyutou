@@ -13,7 +13,7 @@
     {{@includes/header.niml}}
     <div class="common-banner">
         <div class="container">
-            <img class="banner" src="{{$__theme}}/images/banner.jpg">
+            <img class="banner" src="{{$page.banner}}">
         </div>
     </div>
     <div class="outer-box">

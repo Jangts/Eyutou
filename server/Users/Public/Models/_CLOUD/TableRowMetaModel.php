@@ -73,6 +73,29 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	LATD_GBK = [['LEVEL', false, self::SORT_REGULAR], ['TITLE', true, self::SORT_CONVERT_GBK]],
 	LATA_GBK = [['LEVEL', false, self::SORT_REGULAR], ['TITLE', false, self::SORT_CONVERT_GBK]],
 
+	RLD = [['RANK', true, self::SORT_REGULAR], ['LEVEL', true, self::SORT_REGULAR]],
+	RLA = [['RANK', false, self::SORT_REGULAR], ['LEVEL', true, self::SORT_REGULAR]],
+
+	RLDCD = [['RANK', true, self::SORT_REGULAR], ['LEVEL', true, self::SORT_REGULAR], ['ID', true, self::SORT_REGULAR]],
+	RLDCA = [['RANK', true, self::SORT_REGULAR], ['LEVEL', true, self::SORT_REGULAR], ['ID', false, self::SORT_REGULAR]],
+	RLACD = [['RANK', false, self::SORT_REGULAR], ['LEVEL', false, self::SORT_REGULAR], ['ID', true, self::SORT_REGULAR]],
+	RLACA = [['RANK', false, self::SORT_REGULAR], ['LEVEL', false, self::SORT_REGULAR], ['ID', false, self::SORT_REGULAR]],
+
+	RLDPD = [['RANK', true, self::SORT_REGULAR], ['LEVEL', true, self::SORT_REGULAR], ['PUBTIME', true, self::SORT_REGULAR]],
+	RLDPA = [['RANK', true, self::SORT_REGULAR], ['LEVEL', true, self::SORT_REGULAR], ['PUBTIME', false, self::SORT_REGULAR]],
+	RLAPD = [['RANK', false, self::SORT_REGULAR], ['LEVEL', false, self::SORT_REGULAR], ['PUBTIME', true, self::SORT_REGULAR]],
+	RLAPA = [['RANK', false, self::SORT_REGULAR], ['LEVEL', false, self::SORT_REGULAR], ['PUBTIME', false, self::SORT_REGULAR]],
+
+	RLDTD = [['RANK', true, self::SORT_REGULAR], ['LEVEL', true, self::SORT_REGULAR], ['TITLE', true, self::SORT_REGULAR]],
+	RLDTA = [['RANK', true, self::SORT_REGULAR], ['LEVEL', true, self::SORT_REGULAR], ['TITLE', false, self::SORT_REGULAR]],
+	RLATD = [['RANK', false, self::SORT_REGULAR], ['LEVEL', false, self::SORT_REGULAR], ['TITLE', true, self::SORT_REGULAR]],
+	RLATA = [['RANK', false, self::SORT_REGULAR], ['LEVEL', false, self::SORT_REGULAR], ['TITLE', false, self::SORT_REGULAR]],
+
+	RLDTD_GBK = [['RANK', true, self::SORT_REGULAR], ['LEVEL', true, self::SORT_REGULAR], ['TITLE', true, self::SORT_CONVERT_GBK]],
+	RLDTA_GBK = [['RANK', true, self::SORT_REGULAR], ['LEVEL', true, self::SORT_REGULAR], ['TITLE', false, self::SORT_CONVERT_GBK]],
+	RLATD_GBK = [['RANK', false, self::SORT_REGULAR], ['LEVEL', false, self::SORT_REGULAR], ['TITLE', true, self::SORT_CONVERT_GBK]],
+	RLATA_GBK = [['RANK', false, self::SORT_REGULAR], ['LEVEL', false, self::SORT_REGULAR], ['TITLE', false, self::SORT_CONVERT_GBK]],
+
 	SORTKEYS = ['ID', 'PUBTIME', 'SK_MTIME', 'TITLE'];
 	
 	protected static
@@ -92,6 +115,7 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 		'TITLE'				=>	'',
 		'DESCRIPTION'		=>	'',
 		'PUBTIME'			=>	DATETIME,
+		'RANK'              =>  5,
 		'LEVEL'				=>	0,
 		'SK_COMMENTS'		=>	1,
 		'SK_CTIME'          =>  DATETIME,

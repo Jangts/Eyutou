@@ -22,13 +22,13 @@ class Admin_PinCodeViewModel extends \PM\_STUDIO\BaseFormViewModel {
 
 	public function analysis($admininfo){
 		if(isset($this->request->ARI->patharr[3])&&is_numeric($this->request->ARI->patharr[3])&&$this->request->ARI->patharr[3]>0){
-			$basedir = $this->request->ARI->dirname.'/';
-			$baseurl = $basedir.$this->app->ID;
+			$rootdir = $this->request->ARI->dirname.'/';
+			$basedir = $rootdir.$this->app->id;
 			$guid = $this->request->ARI->patharr[3];
 			$item = AdministratorModel::byGUID($guid);
 
 			if($item){
-				$this->assign('formname', '修改管理员认证码<a href="'.$basedir.'logger/account/'.$guid.'">编辑个人信息</a><a href="'.$basedir.'users/password/'.$guid.'">修改登录密码</a>');
+				$this->assign('formname', '修改管理员认证码<a href="'.$rootdir.'logger/ph/account/'.$guid.'">编辑个人信息</a><a href="'.$rootdir.'users/ph/password/'.$guid.'">修改登录密码</a>');
 				$this->assign('form', self::buildForm([
 					'UID'		=>	$item->UID,
 					'OLDPIN'	=>	'',

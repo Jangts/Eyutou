@@ -46,7 +46,25 @@ class RowsController extends \AF\Controllers\BaseResourcesController {
         'ldtd_pinyin'  =>  TableRowMetaModel::LDTD_GBK,
         'ldta_pinyin'  =>  TableRowMetaModel::LDTA_GBK,
         'latd_pinyin'  =>  TableRowMetaModel::LATD_GBK,
-        'lata_pinyin'  =>  TableRowMetaModel::LATA_GBK
+        'lata_pinyin'  =>  TableRowMetaModel::LATA_GBK,
+
+        'rldcd'  =>  TableRowMetaModel::RLDCD,
+        'rldca'  =>  TableRowMetaModel::RLDCA,
+        'rlacd'  =>  TableRowMetaModel::RLACD,
+        'rlaca'  =>  TableRowMetaModel::RLACA,
+        'rldpd'  =>  TableRowMetaModel::RLDPD,
+        'rldpa'  =>  TableRowMetaModel::RLDPA,
+        'rlapd'  =>  TableRowMetaModel::RLAPD,
+        'rlapa'  =>  TableRowMetaModel::RLAPA,
+        'rldtd'  =>  TableRowMetaModel::RLDTD,
+        'rldta'  =>  TableRowMetaModel::RLDTA,
+        'rlatd'  =>  TableRowMetaModel::RLATD,
+        'rlata'  =>  TableRowMetaModel::RLATA,
+
+        'rldtd_pinyin'  =>  TableRowMetaModel::RLDTD_GBK,
+        'rldta_pinyin'  =>  TableRowMetaModel::RLDTA_GBK,
+        'rlatd_pinyin'  =>  TableRowMetaModel::RLATD_GBK,
+        'rlata_pinyin'  =>  TableRowMetaModel::RLATA_GBK
     ],
     $__sortby = TableRowMetaModel::PUBTIME_DESC;
 

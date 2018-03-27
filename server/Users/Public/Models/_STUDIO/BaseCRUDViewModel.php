@@ -40,7 +40,7 @@ abstract class BaseCRUDViewModel extends BaseListViewModel {
     }
    
     final public function analysis($admininfo){
-        $basedir = $this->request->ARI->dirname.'/'.$this->app->ID.'/'.$this->request->ARI->patharr[1];
+        $basedir = $this->request->ARI->dirname.'/'.$this->app->id.'/'.$this->request->ARI->patharr[1].'/'.$this->request->ARI->patharr[2];
         if(isset($this->request->ARI->patharr[3])){
             $guid = $this->request->ARI->patharr[3];
         }else{

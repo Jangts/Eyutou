@@ -11,14 +11,14 @@ class Admin_newsListViewModel extends \PM\_STUDIO\BaseTableViewModel {
 			'name'	=>	'集团新闻',
 			'title'	=>	'集团新闻',
 			'where'	=>	[
-				'FOLDER'	=>	7
+				'FOLDER'	=>	17
 			]
 		],
 		'hydt'	=>	[
 			'name'	=>	'行业动态',
 			'title'	=>	'行业动态',
 			'where'	=>	[
-				'FOLDER'	=>	8
+				'FOLDER'	=>	16
 			]
 		]
 	],
@@ -37,15 +37,6 @@ class Admin_newsListViewModel extends \PM\_STUDIO\BaseTableViewModel {
 			'column_type'	=>	'',
 			'classname'		=>	''	
 		],
-		// 应该建立基于GUID的访问，但是模板的问题呢?
-		// 可设置显示形式，如自主显示，或作为别人的插件
-		// 仅自主现实时显示URL
-		// [
-		// 	'field_name'	=>	'url',
-		// 	'display_name'	=>	'默认访问地址',
-		// 	'column_type'	=>	'',
-		// 	'classname'		=>	'tangram al-left'	
-		// ],
 		[
 			'field_name'	=>	'crttime',
 			'sorting_name'	=>	'ctime',
@@ -121,8 +112,8 @@ class Admin_newsListViewModel extends \PM\_STUDIO\BaseTableViewModel {
 		$list  = TableRowMetaModel::getRows('news', $folder, TableRowMetaModel::UNRECYCLED, $orderby, $range[0], $range[1]);
 
 		$rows = [];
-		$stagedir = $this->request->ARI->dirname.'/'.$this->app->ID;
-		$basedir = $stagedir.'/news/';
+		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
+		$basedir = $stagedir.'/news/news/';
 		if(isset($_GET['sort'])){
             $sort = $_GET['sort'];
         }else{
@@ -148,7 +139,7 @@ class Admin_newsListViewModel extends \PM\_STUDIO\BaseTableViewModel {
         }
 		
 
-		$this->assign('classtabs', 	self::buildTabs($stagedir.'/news-list/'));
+		$this->assign('classtabs', 	self::buildTabs($stagedir.'/news/news-list/'));
 		$this->assign('itemlist', 	self::buildTable($rows, $range[2]));
 		$this->assign('pagelist', 	self::buildPageList($count));
 		

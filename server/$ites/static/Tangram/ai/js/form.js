@@ -1,6 +1,7 @@
 block([
     '$_/dom/Elements/form.clsx',
     '$_/form/SimpleEditor/',
+    '$_/form/PicturesUploader.cls',
     '$_/form/Data.cls',
     '$_/Time/Picker/'
 ], function(_) {
@@ -12,7 +13,7 @@ block([
     }
 
     var ueditors = [];
-    $('.uedit-item textarea.uedit-textarea').each(function() {
+    $('textarea.uedit-text-area').each(function() {
         var id = $(this).data('ueditorId'),
             text = $(this).val(),
             ue = UE.getEditor(id, {
@@ -46,9 +47,7 @@ block([
         });
     });
 
-    var editors = _.form.careatEditors('.edit-item textarea.edit-text-area', {
-            themeType: 'default',
-            toolbarType: 'complete',
+    var editors = _.form.careatEditors('textarea.edit-text-area', {
             uploader: {
                 maxsize: 1024 * 1024 * 20,
                 sfixs: false,
@@ -135,83 +134,13 @@ block([
         $timepicker.addClass('on');
     });
 
-    var failCallback = function(file, errtype) {
-        console.log(file, errtype);
-        return;
-        switch (errtype) {
-            case 0:
-                alert('Must Select Images!');
-                break;
-            case 1:
-                alert('Filesize OVER!');
-                break;
-            case 2:
-                alert('No Legal File Selected!');
-                break;
-        };
-    };
-
-    $('.input-section figure.img-item').click(function() {
-        var fileInput = $(this).find('.img-file')[0],
-            textInput = $(this).find('.img-url'),
-            showImage = $(this).find('.img-show')[0];
-
-        fileInput.onchange = function() {
-            var doneCallback = function(files) {
-                _.data.Uploader.transfer(files[0], {
-                    // this.transfer({
-                    url: '/applications/uploads/files/?returndetails=json',
-                    handlers: {
-                        before: function(response) {
-                            // console.log(response);
-                        },
-                        after: function(response) {
-                            // console.log(response);
-                        },
-                        done: function(response) {
-                            console.log(response);
-                            var response = _.data.decodeJSON(response.responseText) || {
-                                data: 500
-                            };
-
-                            if (response.data && response.data.successed && response.data.successed.myfile && response.data.successed.myfile.length) {
-                                var url = response.data.successed.myfile[0].url
-                                textInput.val(url);
-                                showImage.src = url;
-                            } else {
-                                console.log(response);
-                                alert('上传失败');
-                            }
-                        },
-                        fail: function(response) {
-                            alert('服务器错误');
-                            // console.log(response);
-                        },
-                        progress: function(response) {
-                            // console.log(response);
-                        }
-                    }
-                });
-                return;
-                previewer.innerHTML = list;
-                previewer.files = files;
-            };
-
-            var uploader = new _.data.Uploader(this.files, ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png'], ['jpg', 'png', 'gif'], 1024 * 1024 * 20);
-            uploader.isOnlyFilter = false;
-            uploader.checkType(doneCallback, failCallback);
-        };
-        fileInput.click();
-    });
-
-    $('.input-section i.reset-button').click(function() {
-        var section = this.parentNode,
-            textInput = $(section).find('.img-url'),
-            showImage = $(section).find('.img-show')[0],
-            url = $(this).data('src');
-        textInput.val(url);
-        showImage.src = url;
-    });
+    var imageUploaders = _.form.careatPicturesUploaders('.figure-items .pic-uploader', {
+            url: '/applications/uploads/files/?returndetails=json',
+        }),
+        videoUploaders = _.form.careatPicturesUploaders('.video-item .pic-uploader', {
+            url: '/applications/uploads/files/?returndetails=json',
+            type: 'video'
+        });
 
     $('.action-buttons button').click(function() {
         var order = $(this).data('order'),
@@ -220,8 +149,18 @@ block([
             case 'reset':
                 if (form) {
                     form.reset();
-                    $(form).find('.img-show').each(function() {
-                        this.src = $(this).data('resetSrc');
+                    // $(form).find('.img-show').each(function() {
+                    //     this.src = $(this).data('resetSrc');
+                    // });
+                    _.each(imageUploaders, function() {
+                        if (this.inForm(form)) {
+                            this.resetValue();
+                        }
+                    });
+                    _.each(videoUploaders, function() {
+                        if (this.inForm(form)) {
+                            this.resetValue();
+                        }
                     });
                     _.each(editors, function() {
                         if (this.inForm(form)) {

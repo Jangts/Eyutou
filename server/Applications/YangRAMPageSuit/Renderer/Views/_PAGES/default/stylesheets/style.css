@@ -161,6 +161,7 @@ body {
     margin-left: 255px;
     padding: 10px;
     background-color: white;
+    overflow: hidden;
 }
 
 .main-top {
@@ -207,20 +208,13 @@ body {
 
 .footer {
     width: 100%;
-    height: auto;
+    height: 26px;
+    padding: 10px 0;
     background-color: #f3f2f2;
     text-align: center;
-}
-
-.footer span {
-    display: inline-block;
-    height: 26px;
-    margin: 10px 16px;
     line-height: 26px;
     color: #888888;
-    /*
-    font-family: "宋体";
-    */
+    font-size: 13px;
 }
 
 
@@ -346,7 +340,8 @@ p.index-news-date {
 }
 
 .index-propa-arti,
-.index-propa-arti img {
+.index-propa-arti a,
+.index-propa-arti a video {
     width: 304px;
     height: 170px;
 }
@@ -380,10 +375,10 @@ p.index-news-date {
 
 .product-item {
     display: inline-block;
+    position: relative;
     width: 196px;
-    height: 132px;
-    margin-top: 34px;
-    margin-bottom: 35px;
+    height: 196px;
+    margin: 5 0;
     cursor: pointer;
     text-align: center;
 }
@@ -397,8 +392,14 @@ p.index-news-date {
 }
 
 .product-item img {
+    position: absolute;
     max-width: 196px;
-    max-height: 132px;
+    max-height: 196px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
 }
 
 #product-detail {
@@ -421,31 +422,38 @@ p.index-news-date {
 #product-detail .popup-box {
     position: absolute;
     width: 880px;
-    height: 313px;
+    height: 464px;
     top: 50%;
     left: 50%;
     margin-top: -274px;
     margin-left: -506px;
-    padding: 125px 66px 110px;
+    padding: 48px 66px 34px;
     background-color: white;
     box-shadow: 3px 4px 8px rgba(0, 0, 0, .7);
 }
 
 .product-image {
     float: left;
+    position: relative;
     width: 464px;
-    height: 313px;
+    height: 464px;
 }
 
 .product-image img {
     max-width: 100%;
     max-height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
 }
 
 .product-info {
     width: 350px;
     height: 265px;
-    margin-left: 530px;
+    margin: 76px 30px 0 500px;
 }
 
 .product-info h1 {
@@ -630,7 +638,7 @@ h2.news-title {
     margin: 35px auto 5px;
 }
 
-.left-banner img{
+.left-banner img {
     width: 231px;
     height: 116px;
 }
@@ -681,11 +689,6 @@ h2.news-title {
     width: 696px;
     height: 380px;
     margin: 60px auto 30px;
-}
-
-#map img {
-    max-width: 100%;
-    max-height: 100%;
 }
 
 .contact-info h4 {

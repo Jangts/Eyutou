@@ -21,7 +21,7 @@ class Admin_DefaultPageViewModel extends \PM\_STUDIO\BaseFormViewModel {
 		[
 			'field_name'	=>	'logo',
 			'display_name'	=>	'站点标识',
-			'input_type'	=>	'image'
+			'input_type'	=>	'banner'
 		],
 		[
 			'field_name'	=>	'default_page_content',

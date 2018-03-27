@@ -1,13 +1,13 @@
 /*!
  * tangram.js framework source code
  * 互联代码块框架源码
- * A Web Front-end Development Javascript Framework
- * 一个互联网前端开发脚本框架
+ * A Web Front-end Development Framework
+ * 一个互联网前端框架
  * Mainly Use For DOM Operation, Data Operation, Graphic Processing, Front-end UI, And Some Basic Calculations.
  * 主要用于DOM操作，数据操作，图形相关，前端视觉，和一些基础计算。
  *
  * Written and Designed By Jang Ts
- * http://nidn.yangram.com/tangram.js
+ * http://tangram.js.cn
  *
  * Date 2017-04-06
  */
@@ -38,7 +38,7 @@
 
     var name = 'tangram.js JavaScript framework',
         version = '0.9.00',
-        website = 'nidn.yangram.com/tangram.js',
+        website = 'tangram.js.cn',
 
         /* 获取当前时间戳 */
         startTime = new Date(),
@@ -972,6 +972,15 @@
                 Identifier: Identifier,
 
                 /**
+                 * 返回文件或目录所在目录的地址
+                 * 
+                 * @return string
+                 */
+                dirname: function(url) {
+                    return url.replace(/[^\\\/]+[\\\/]*$/, '');
+                },
+
+                /**
                  * 返回当前URL
                  * 
                  * @return string
@@ -1394,6 +1403,9 @@
                             storage.blocks.requires[id].status = 'loaded';
                             storage.blocks.requires[id].blocks = storage.blocks.temp;
                             storage.blocks.temp = [];
+                            each(storage.blocks.requires[id].blocks, function(i, block) {
+                                block.url = url;
+                            });
                             that.listene();
                         }, false, filetype);
                     }

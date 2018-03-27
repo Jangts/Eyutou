@@ -52,7 +52,7 @@ trait crudmethods {
         return false;
     }
 
-    protected function create($id = NULL, array $options = []){
+    public function create($id = NULL, array $options = []){
         $this->checkAuthority('C', $options) or Status::cast('No permissions to create resource.', 1411.1);
         $modelname = static::$model or Status::cast('must specify a resource model.', 1422 );
         $modelname::__correctTablePrefix($this->app);
@@ -69,7 +69,7 @@ trait crudmethods {
         \Controller::doneResponese([], 1401, 'Create Faild', false);
     }
 
-    protected function update($id, array $options = []){
+    public function update($id, array $options = []){
         $this->checkAuthority('U', $options) or Status::cast('No permissions to update resource.', 1411.3);
         $modelname = static::$model or Status::cast('must specify a resource model.', 1422 );
         $modelname::__correctTablePrefix($this->app);
@@ -95,7 +95,7 @@ trait crudmethods {
         \Controller::doneResponese([], 1403, 'Update Faild', false);
     }
 
-    protected function delete($id, array $options = []){
+    public function delete($id, array $options = []){
         $this->checkAuthority('D', $options) or Status::cast('No permissions to update resource.', 1411.4);
         $modelname = static::$model or Status::cast('must specify a resource model.', 1422 );
         $modelname::__correctTablePrefix($this->app);

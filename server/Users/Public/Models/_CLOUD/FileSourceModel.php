@@ -239,7 +239,7 @@ class FileSourceModel extends BaseCloudItemModel {
             $this->error_msg = 'STILL_IN_USE';
             return false;
         }
-        if(self::$staticQuerier->requires()->where('SID', $SID)->delete()){
+        if(self::$staticQuerier->requires()->where('SID', $SID)->delete()!==false){
             \unlink(PUBL_PATH.$this->modelProperties['LOCATION']);
             $this->__afterDelete();
             return true;

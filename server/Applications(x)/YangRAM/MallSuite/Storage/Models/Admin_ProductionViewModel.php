@@ -51,7 +51,7 @@ class Admin_ProductionViewModel extends \PM\_STUDIO\BaseFormViewModel {
 		[
 			'field_name'	=>	'image',
 			'display_name'	=>	'产品图片',
-			'input_type'	=>	'image'
+			'input_type'	=>	'avatar'
 		],
 		[
 			'field_name'	=>	'standard',
@@ -75,25 +75,26 @@ class Admin_ProductionViewModel extends \PM\_STUDIO\BaseFormViewModel {
 		],
 		[
 			'field_name'	=>	'rank',
-			'display_name'	=>	'产品评级',
+			'display_name'	=>	'评星（等数）',
 			'input_type'	=>	'select'
 		]
 	],
 	$selectOptions = [
 		'rank'		=>	[
-			['1', '★'],
-			['2', '★★'],
-			['4', '★★★'],
-			['3', '★★★★'],
-			['5', '★★★★★'],
-			['6', '★★★★★★'],
-			['7', '★★★★★★★']
+			['1', '★（低级）'],
+			['2', '★★（次低级）'],
+			['4', '★★★（中低级）'],
+			['3', '★★★★（中级）'],
+			['5', '★★★★★（中高级，默认）'],
+			['6', '★★★★★★（高级）'],
+			['7', '★★★★★★★（顶级，非置顶勿选）']
 		]
 	];
 
 	
 
 	public function analysis($admininfo){
+		$basedir = $this->request->ARI->dirname.'/'.$this->app->id.'/p/productions/';
 		$categoryOptions = [
 			['2',	'饼干糕点']
 		];
@@ -107,7 +108,7 @@ class Admin_ProductionViewModel extends \PM\_STUDIO\BaseFormViewModel {
 			$guid = $this->request->ARI->patharr[3];
 			$production = ProductionModel::byGUID($guid);
 			if(!$production){
-				$this->assign('href', $this->request->ARI->dirname.'/'.$this->app->ID.'/Productions/');
+				$this->assign('href', $basedir);
 				
 				$this->template = 'production404.html';
 				return $this;
@@ -118,7 +119,7 @@ class Admin_ProductionViewModel extends \PM\_STUDIO\BaseFormViewModel {
 				'order'	=>	'delete',
 				'form'	=>	'myform',
 				'action'=>	__aurl__.'1008/productions/'.$guid,
-				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->ID.'/Productions/'
+				'href'	=>	$basedir
 			];
 			if($production->category_id&&$category=CategoryModel::byGUID($production->category_id)){
 				$categories_ids = $category->getOffspringIds(true);
@@ -181,7 +182,7 @@ class Admin_ProductionViewModel extends \PM\_STUDIO\BaseFormViewModel {
 				'order'	=>	'anchor',
 				'form'	=>	'myform',
 				'action'=>	'',
-				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->ID.'/Productions/'.$selects
+				'href'	=>	$basedir.$selects
 			],
 			$button2,
 			[
@@ -189,14 +190,14 @@ class Admin_ProductionViewModel extends \PM\_STUDIO\BaseFormViewModel {
 				'order'	=>	'submit',
 				'form'	=>	'myform',
 				'action'=>	__aurl__.'1008/productions/'.$guid.'?state=0',
-				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->ID.'/Productions/'.$selects
+				'href'	=>	$basedir.$selects
 			],
 			[
 				'name' 	=>	'发布上架',
 				'order'	=>	'submit',
 				'form'	=>	'myform',
 				'action'=>	__aurl__.'1008/productions/'.$guid.'?state=1',
-				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->ID.'/Productions/'.$selects
+				'href'	=>	$basedir.$selects
 			]
 		]);
 		

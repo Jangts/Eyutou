@@ -22,17 +22,13 @@ abstract class BaseListViewModel extends BaseAdminViewModel {
         if(empty($options)){
             $options = Request::instance()->INPUTS->__get;
         }
-        // if(empty($options['prepage'])){
-            if(is_numeric(static::$prepage)){
-                $length = static::$prepage;
-            }else{
-                $length = 0;
-            }
-        // }else{
-        //     $length = $options['prepage'];
-        // }
-        if(isset($options['page'])){
-            $page = $options['page'];
+        if(is_numeric(static::$prepage)){
+            $length = static::$prepage;
+        }else{
+            $length = 0;
+        }
+        if(isset($options['page'])&&is_numeric($options['page'])&&$options['page']>0){
+            $page = intval($options['page']);
             $start = ($page - 1) * $length;
         }else{
             $page = 1;
@@ -107,20 +103,20 @@ abstract class BaseListViewModel extends BaseAdminViewModel {
     }
 
     public static function buildPageList($count, $page = NULL, $prepage = NULL){
+        $options = Request::instance()->INPUTS->__get;
         if($page === NULL){
-            $options = Request::instance()->INPUTS->__get;
-            if(isset($options['page'])){
-                $page = $options['page'];
+            if(isset($options['page'])&&is_numeric($options['page'])){
+                $page = intval($options['page']);
             }else{
                 $page = 1;
             }
         }
+        unset($options['page']);
         if($prepage === NULL){
             $prepage = static::$prepage;
         }
-
         $pagelist = new PageListModel($page, 9);
         $pagelist->setPageNumberByCount($count, $prepage);
-        return '<ul class="page-list">'.$pagelist->str('上一页', '下一页', '首页', '末页', 'page-list-item', 'on', false).'</ul>';
+        return '<ul class="page-list">'.$pagelist->str('上一页', '下一页', '首页', '末页', 'page-list-item', 'on', false, $options).'</ul>';
     }
 }

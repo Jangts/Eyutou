@@ -1,6 +1,6 @@
 .action-container {
     display: block;
-    min-width: 950px;
+    min-width: 860px;
     margin: 40px 30px 70px;
     line-height: 30px;
     color: #666;
@@ -29,223 +29,31 @@
     font-size: 14px;
 }
 
-form div.input-section-group {
+form div.inputs-section {
     margin: 10px 0;
     padding-bottom: 20px;
-    border-bottom: solid 1px #e6e6e6;
+    border-top: solid 1px #e6e6e6;
 }
 
-form div.input-section {
-    width: 950px;
+form div.inputs-section:first-child {
+    border-top: none;
 }
 
-form div.input-section-group:last-child {
-    border-bottom: none;
+form div.tangram-inputs {
+    width: 860px;
 }
 
-form div.input-section-group .input-section>input,
-form div.input-section-group .input-section>figure,
-form div.input-section-group .input-section>textarea,
-form div.input-section-group .input-section>div {
-    width: 800px;
-    margin: 7px 0 7px 110px;
-}
-
-form div.input-section-group .input-section>label.input-label {
-    display: block;
-    position: absolute;
-    width: 96px;
-    line-height: 24px;
-    margin: 8px 0;
-    text-align: right;
-}
-
-form input.text-item,
-form input.datetime-item,
-form input.fulldate-item,
-form input.timeofday-item {
-    height: 24px;
-    padding: 0 10px;
-    border: solid 1px #ddd;
-    border-radius: 3px;
-    line-height: 24px;
-    font-size: 12px;
-    color: #666;
-}
-
-form input.datetime-item,
-form input.fulldate-item,
-form input.timeofday-item {
-    cursor: pointer;
-}
-
-form input.num-item {
-    width: 270px !important;
-    height: 24px;
-    padding-left: 10px;
-    border: solid 1px #ddd;
-    line-height: 24px;
-    font-size: 12px;
-    color: #666;
-}
-
-form div.radios {
-    width: 822px !important;
-    margin: 7px 0 7px 110px;
-    padding: 0;
-    border-top: solid 1px #ddd;
-    border-bottom: solid 1px #ddd;
-    line-height: 24px;
-    font-size: 12px;
-    color: #666;
-}
-
-form div.radios input[type=radio] {
-    vertical-align: middle;
-    margin-top: -2px;
-    margin-right: 6px;
-    margin-bottom: 1px;
-}
-
-form div.radios label {
-    height: 24px;
-    line-height: 24px;
-    margin-right: 20px;
-    font-size: 12px;
-}
-
-form select.sel-items {
-    width: 820px;
-    height: 24px;
-    margin: 7px 0 7px 110px;
-    padding: 0 6px;
-    border: solid 1px #ddd;
-    border-radius: 3px;
-    line-height: 24px;
-    font-size: 12px;
-    color: #666;
-}
-
-form textarea.text-area,
-form textarea.long-item,
-form textarea.high-item {
-    height: 72px;
-    margin: 7px 0 7px 110px;
-    padding: 0 10px;
-    border: solid 1px #ddd;
-    border-radius: 3px;
-    line-height: 24px;
-    font-size: 12px;
-    color: #666;
-    resize: none;
-    font-family: inherit;
-}
-
-form textarea.long-item {
-    height: 144px;
-}
-
-form textarea.high-item {
+form .custom-items textarea.high-edit-text-area {
+    width: 100%;
     height: 360px;
     resize: vertical;
 }
 
-form div.uedit-item {
-    height: 420px;
-    overflow: visible;
-}
-
-form div.uedit-workspace {
-    width: 820px;
-    height: 310px;
-    line-height: normal;
-    overflow: visible;
-}
-
-.CodeMirror-scroll div,
-.edui-dialog,
-.edui-dialog-body,
-.edui-popup,
-.edui-popup-body,
-#edui_fixedlayer,
-#edui_fixedlayer .edui-dialog {
-    overflow: visible;
-}
-
-form figure {
-    margin-bottom: 0 !important;
-}
-
-form figure.img-item {
-    width: 200px !important;
-    padding: 30px;
-    border: solid 1px #ddd;
-    text-align: center;
-}
-
-form figure.img-item img.img-show {
-    display: block;
-    position: relative;
-    max-width: 200px;
-    max-height: 150px;
-    margin: 0 auto;
-}
-
-form figure.img-item i.image-button {
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-}
-
-form figure.img-item i.image-button:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-form i.reset-button {
-    display: block;
-    width: 120px;
-    height: 24px;
-    left: 110px;
-    margin-top: 8px;
-    margin-bottom: 12px;
-    background-color: #498bea;
-    line-height: 24px;
-    text-align: center;
-    color: #fff;
-    cursor: pointer;
-}
-
-form div.edit-item {
-    width: 822px !important;
-}
-
-form div.edit-item>textarea.edit-text-area {
-    width: 800px;
-    height: 240px;
-    padding: 0 10px;
+form .custom-items .edui-default .edui-editor {
+    box-sizing: border-box;
+    min-height: 300px;
     border: solid 1px #ddd;
     border-radius: 3px;
-    line-height: 24px;
-    font-size: 12px;
-    color: #666;
-    resize: none;
-    font-family: inherit;
-}
-
-form div.edit-item>div.tangram.editor-toolarea {
-    width: 820px;
-    border: solid 1px #ddd;
-    border-radius: 3px 3px 0 0;
-}
-
-form div.edit-item>div.tangram.editor {
-    width: 820px;
-    border: solid 1px #ddd;
-    border-radius: 0 0 3px 3px;
 }
 
 .action-buttons {

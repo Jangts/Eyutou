@@ -1,5 +1,5 @@
 <?php
-namespace Lib\graphicss\QRCode;
+namespace Lib\graphics\QRCode;
 
 define('N1', 3);
 define('N2', 3);

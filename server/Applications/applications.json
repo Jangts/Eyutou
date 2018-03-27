@@ -3,7 +3,7 @@
         "id": "SAMPLEAPPLICATION",
         "name": "Sample Application",
         "scode": "SA",
-        "installpath": "SampleApplication/",
+        "installpath": "SampleApplications/Common",
         "usedb": 0
     },
     "PAGES": {
@@ -126,6 +126,14 @@
         "usedb": 0
     },
 
+    "GZLAILI": {
+        "id": "GZLAILI",
+        "name": "Lailihong Administrationn Backstage",
+        "scode": "BS",
+        "installpath": "Lailihong/Backstage/",
+        "usedb": 0
+    },
+
     "EYUTOU": {
         "id": "EYUTOU",
         "name": "Eyutou Building Projects Platform",
@@ -168,7 +176,6 @@
         "installpath": "Eyutou/WeChat/",
         "usedb": 1
     },
-
     "YANGRAM": {
         "id": "SYSTEM",
         "name": "YangRAM Interactive Information Intelligent Integration System",
@@ -176,7 +183,6 @@
         "installpath": "",
         "usedb": 0
     },
-
     "SERVICE": {
         "id": "SERVER",
         "name": "YangRAM Service And Support Server",

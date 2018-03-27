@@ -1,6 +1,6 @@
 <?php
-namespace Lib\graphicss\QRCode;
-use Lib\graphicss\QRCode;
+namespace Lib\graphics\QRCode;
+use Lib\graphics\QRCode;
 
 define('SPEC_VERSION_MAX', 40);
 define('SPEC_WIDTH_MAX',   177);

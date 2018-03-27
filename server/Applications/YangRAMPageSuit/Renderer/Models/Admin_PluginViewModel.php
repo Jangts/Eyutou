@@ -49,14 +49,14 @@ class Admin_PluginViewModel extends \PM\_STUDIO\BaseFormViewModel {
 				'order'	=>	'anchor',
 				'form'	=>	'myform',
 				'action'=>	'',
-				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->ID.'/plugins/'
+				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->id.'/plugins/'
 			],
 			[
 				'name' 	=>	'提交保存',
 				'order'	=>	'submit',
 				'form'	=>	'myform',
 				'action'=>	__aurl__.$this->app->ID.'/plugins/'.$guid,
-				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->ID.'/plugins/'
+				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->id.'/plugins/'
 			]
 		]);
 

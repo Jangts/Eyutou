@@ -2968,13 +2968,16 @@ table.tangram.tangram-table {
       color: #333;
       font-weight: normal;
       font-size: 12px;
-      text-align: center; }
+      text-align: center;
+      vertical-align: middle; }
       table.tangram-table tr td a,
       table.tangram.tangram-table tr td a {
+        display: inline; }
+      table.tangram-table tr td a.block,
+      table.tangram.tangram-table tr td a.block {
         display: block;
         width: 100%;
-        height: 100%;
-        font-size: 14px; }
+        height: 100%; }
       table.tangram-table tr td .tangram-td-click,
       table.tangram.tangram-table tr td .tangram-td-click {
         display: block; }
@@ -3153,13 +3156,14 @@ table.tangram.tangram-table {
     background-color: transparent !important; }
     table.tangram-table tr.tangram-creator td,
     table.tangram.tangram-table tr.tangram-creator td {
-      background-color: green;
+      background-color: #6c9;
       height: 40px;
+      font-size: 14px;
       line-height: 40px;
       color: white; }
-  table.tangram-table tr.creator:hover,
-  table.tangram.tangram-table tr.creator:hover {
-    background-color: #ccc; }
+    table.tangram-table tr.tangram-creator td:hover,
+    table.tangram.tangram-table tr.tangram-creator td:hover {
+      background-color: #3a6; }
   table.tangram-table tr:nth-child(odd),
   table.tangram.tangram-table tr:nth-child(odd) {
     background-color: #ddd;
@@ -3170,8 +3174,7 @@ table.tangram.tangram-table {
     background: rgba(153, 153, 153, 0.3); }
   table.tangram-table tr:hover,
   table.tangram.tangram-table tr:hover {
-    background: rgba(153, 153, 153, 0.4);
-    color: #F6F6F6; }
+    background: rgba(153, 153, 153, 0.4); }
     table.tangram-table tr:hover td,
     table.tangram.tangram-table tr:hover td {
       cursor: pointer; }
@@ -3181,6 +3184,306 @@ table.tangram.tangram-table {
   table.tangram-table td:nth-child(even),
   table.tangram.tangram-table td:nth-child(even) {
     background: rgba(204, 204, 204, 0.3); }
+
+table.tangram-table[stripe] td:nth-child(odd),
+table.tangram.tangram-table[stripe] td:nth-child(odd) {
+  background: transparent; }
+
+table.tangram-table[stripe] td:nth-child(even),
+table.tangram.tangram-table[stripe] td:nth-child(even) {
+  background: transparent; }
+
+table.tangram-table[border],
+table.tangram.tangram-table[border],
+table.tangram-table[border="1"],
+table.tangram.tangram-table[border="1"] {
+  border-collapse: separate;
+  border: solid 1px #ccc; }
+  table.tangram-table[border] tr th,
+  table.tangram.tangram-table[border] tr th,
+  table.tangram-table[border="1"] tr th,
+  table.tangram.tangram-table[border="1"] tr th {
+    height: 30px;
+    line-height: 30px;
+    font-weight: bold;
+    background: #ccc;
+    color: #222; }
+  table.tangram-table[border] tr td,
+  table.tangram.tangram-table[border] tr td,
+  table.tangram-table[border="1"] tr td,
+  table.tangram.tangram-table[border="1"] tr td {
+    border-top: solid 1px #ccc;
+    border-left: solid 1px #ccc; }
+  table.tangram-table[border] tr td:first-child,
+  table.tangram.tangram-table[border] tr td:first-child,
+  table.tangram-table[border="1"] tr td:first-child,
+  table.tangram.tangram-table[border="1"] tr td:first-child {
+    border-left: none; }
+  table.tangram-table[border] tr td:nth-child(odd),
+  table.tangram.tangram-table[border] tr td:nth-child(odd),
+  table.tangram-table[border="1"] tr td:nth-child(odd),
+  table.tangram.tangram-table[border="1"] tr td:nth-child(odd) {
+    background: transparent; }
+  table.tangram-table[border] tr td:nth-child(even),
+  table.tangram.tangram-table[border] tr td:nth-child(even),
+  table.tangram-table[border="1"] tr td:nth-child(even),
+  table.tangram.tangram-table[border="1"] tr td:nth-child(even) {
+    background: transparent; }
+  table.tangram-table[border] tr:hover,
+  table.tangram.tangram-table[border] tr:hover,
+  table.tangram-table[border="1"] tr:hover,
+  table.tangram.tangram-table[border="1"] tr:hover {
+    background: rgba(153, 153, 153, 0.4); }
+    table.tangram-table[border] tr:hover td,
+    table.tangram.tangram-table[border] tr:hover td,
+    table.tangram-table[border="1"] tr:hover td,
+    table.tangram.tangram-table[border="1"] tr:hover td {
+      color: #222;
+      cursor: pointer; }
+  table.tangram-table[border] tr:first-child td,
+  table.tangram.tangram-table[border] tr:first-child td,
+  table.tangram-table[border="1"] tr:first-child td,
+  table.tangram.tangram-table[border="1"] tr:first-child td {
+    border-top: none; }
+  table.tangram-table[border] tr:nth-child(odd),
+  table.tangram.tangram-table[border] tr:nth-child(odd),
+  table.tangram-table[border="1"] tr:nth-child(odd),
+  table.tangram.tangram-table[border="1"] tr:nth-child(odd) {
+    background: transparent; }
+  table.tangram-table[border] tr:nth-child(even),
+  table.tangram.tangram-table[border] tr:nth-child(even),
+  table.tangram-table[border="1"] tr:nth-child(even),
+  table.tangram.tangram-table[border="1"] tr:nth-child(even) {
+    background: transparent; }
+
+table.tangram-table[border="2"],
+table.tangram.tangram-table[border="2"] {
+  border-collapse: separate;
+  border: solid 2px #ccc; }
+  table.tangram-table[border="2"] tr td,
+  table.tangram.tangram-table[border="2"] tr td {
+    border-top: solid 2px #ccc;
+    border-left: solid 2px #ccc; }
+
+table.tangram-table[border="aqua"],
+table.tangram.tangram-table[border="aqua"] {
+  border-collapse: separate;
+  border: solid 1px aqua; }
+  table.tangram-table[border="aqua"] tr th,
+  table.tangram.tangram-table[border="aqua"] tr th {
+    background: aqua; }
+  table.tangram-table[border="aqua"] tr td,
+  table.tangram.tangram-table[border="aqua"] tr td {
+    border-top: solid 1px aqua;
+    border-left: solid 1px aqua; }
+
+table.tangram-table[border="black"],
+table.tangram.tangram-table[border="black"] {
+  border-collapse: separate;
+  border: solid 1px black; }
+  table.tangram-table[border="black"] tr th,
+  table.tangram.tangram-table[border="black"] tr th {
+    background: black;
+    color: white; }
+  table.tangram-table[border="black"] tr td,
+  table.tangram.tangram-table[border="black"] tr td {
+    border-top: solid 1px black;
+    border-left: solid 1px black; }
+
+table.tangram-table[border="blue"],
+table.tangram.tangram-table[border="blue"] {
+  border-collapse: separate;
+  border: solid 1px blue; }
+  table.tangram-table[border="blue"] tr th,
+  table.tangram.tangram-table[border="blue"] tr th {
+    background: blue;
+    color: white; }
+  table.tangram-table[border="blue"] tr td,
+  table.tangram.tangram-table[border="blue"] tr td {
+    border-top: solid 1px blue;
+    border-left: solid 1px blue; }
+
+table.tangram-table[border="fuchsia"],
+table.tangram.tangram-table[border="fuchsia"] {
+  border-collapse: separate;
+  border: solid 1px fuchsia; }
+  table.tangram-table[border="fuchsia"] tr th,
+  table.tangram.tangram-table[border="fuchsia"] tr th {
+    background: fuchsia;
+    color: inline; }
+  table.tangram-table[border="fuchsia"] tr td,
+  table.tangram.tangram-table[border="fuchsia"] tr td {
+    border-top: solid 1px fuchsia;
+    border-left: solid 1px fuchsia; }
+
+table.tangram-table[border="gray"],
+table.tangram.tangram-table[border="gray"] {
+  border-collapse: separate;
+  border: solid 1px gray; }
+  table.tangram-table[border="gray"] tr th,
+  table.tangram.tangram-table[border="gray"] tr th {
+    background: gray;
+    color: inline; }
+  table.tangram-table[border="gray"] tr td,
+  table.tangram.tangram-table[border="gray"] tr td {
+    border-top: solid 1px gray;
+    border-left: solid 1px gray; }
+
+table.tangram-table[border="green"],
+table.tangram.tangram-table[border="green"] {
+  border-collapse: separate;
+  border: solid 1px green; }
+  table.tangram-table[border="green"] tr th,
+  table.tangram.tangram-table[border="green"] tr th {
+    background: green;
+    color: white; }
+  table.tangram-table[border="green"] tr td,
+  table.tangram.tangram-table[border="green"] tr td {
+    border-top: solid 1px green;
+    border-left: solid 1px green; }
+
+table.tangram-table[border="lime"],
+table.tangram.tangram-table[border="lime"] {
+  border-collapse: separate;
+  border: solid 1px lime; }
+  table.tangram-table[border="lime"] tr th,
+  table.tangram.tangram-table[border="lime"] tr th {
+    background: lime;
+    color: inline; }
+  table.tangram-table[border="lime"] tr td,
+  table.tangram.tangram-table[border="lime"] tr td {
+    border-top: solid 1px lime;
+    border-left: solid 1px lime; }
+
+table.tangram-table[border="maroon"],
+table.tangram.tangram-table[border="maroon"] {
+  border-collapse: separate;
+  border: solid 1px maroon; }
+  table.tangram-table[border="maroon"] tr th,
+  table.tangram.tangram-table[border="maroon"] tr th {
+    background: maroon;
+    color: white; }
+  table.tangram-table[border="maroon"] tr td,
+  table.tangram.tangram-table[border="maroon"] tr td {
+    border-top: solid 1px maroon;
+    border-left: solid 1px maroon; }
+
+table.tangram-table[border="navy"],
+table.tangram.tangram-table[border="navy"] {
+  border-collapse: separate;
+  border: solid 1px navy; }
+  table.tangram-table[border="navy"] tr th,
+  table.tangram.tangram-table[border="navy"] tr th {
+    background: navy;
+    color: white; }
+  table.tangram-table[border="navy"] tr td,
+  table.tangram.tangram-table[border="navy"] tr td {
+    border-top: solid 1px navy;
+    border-left: solid 1px navy; }
+
+table.tangram-table[border="olive"],
+table.tangram.tangram-table[border="olive"] {
+  border-collapse: separate;
+  border: solid 1px olive; }
+  table.tangram-table[border="olive"] tr th,
+  table.tangram.tangram-table[border="olive"] tr th {
+    background: olive;
+    color: white; }
+  table.tangram-table[border="olive"] tr td,
+  table.tangram.tangram-table[border="olive"] tr td {
+    border-top: solid 1px olive;
+    border-left: solid 1px olive; }
+
+table.tangram-table[border="orange"],
+table.tangram.tangram-table[border="orange"] {
+  border-collapse: separate;
+  border: solid 1px orange; }
+  table.tangram-table[border="orange"] tr th,
+  table.tangram.tangram-table[border="orange"] tr th {
+    background: orange;
+    color: inline; }
+  table.tangram-table[border="orange"] tr td,
+  table.tangram.tangram-table[border="orange"] tr td {
+    border-top: solid 1px orange;
+    border-left: solid 1px orange; }
+
+table.tangram-table[border="purple"],
+table.tangram.tangram-table[border="purple"] {
+  border-collapse: separate;
+  border: solid 1px purple; }
+  table.tangram-table[border="purple"] tr th,
+  table.tangram.tangram-table[border="purple"] tr th {
+    background: purple;
+    color: white; }
+  table.tangram-table[border="purple"] tr td,
+  table.tangram.tangram-table[border="purple"] tr td {
+    border-top: solid 1px purple;
+    border-left: solid 1px purple; }
+
+table.tangram-table[border="red"],
+table.tangram.tangram-table[border="red"] {
+  border-collapse: separate;
+  border: solid 1px red; }
+  table.tangram-table[border="red"] tr th,
+  table.tangram.tangram-table[border="red"] tr th {
+    background: red;
+    color: yellow; }
+  table.tangram-table[border="red"] tr td,
+  table.tangram.tangram-table[border="red"] tr td {
+    border-top: solid 1px red;
+    border-left: solid 1px red; }
+
+table.tangram-table[border="silver"],
+table.tangram.tangram-table[border="silver"] {
+  border-collapse: separate;
+  border: solid 1px silver; }
+  table.tangram-table[border="silver"] tr th,
+  table.tangram.tangram-table[border="silver"] tr th {
+    background: silver;
+    color: inline; }
+  table.tangram-table[border="silver"] tr td,
+  table.tangram.tangram-table[border="silver"] tr td {
+    border-top: solid 1px silver;
+    border-left: solid 1px silver; }
+
+table.tangram-table[border="teal"],
+table.tangram.tangram-table[border="teal"] {
+  border-collapse: separate;
+  border: solid 1px teal; }
+  table.tangram-table[border="teal"] tr th,
+  table.tangram.tangram-table[border="teal"] tr th {
+    background: teal;
+    color: inline; }
+  table.tangram-table[border="teal"] tr td,
+  table.tangram.tangram-table[border="teal"] tr td {
+    border-top: solid 1px teal;
+    border-left: solid 1px teal; }
+
+table.tangram-table[border="white"],
+table.tangram.tangram-table[border="white"] {
+  border-collapse: separate;
+  border: solid 1px white; }
+  table.tangram-table[border="white"] tr th,
+  table.tangram.tangram-table[border="white"] tr th {
+    background: white;
+    color: inline; }
+  table.tangram-table[border="white"] tr td,
+  table.tangram.tangram-table[border="white"] tr td {
+    border-top: solid 1px white;
+    border-left: solid 1px white; }
+
+table.tangram-table[border="yellow"],
+table.tangram.tangram-table[border="yellow"] {
+  border-collapse: separate;
+  border: solid 1px yellow; }
+  table.tangram-table[border="yellow"] tr th,
+  table.tangram.tangram-table[border="yellow"] tr th {
+    background: yellow;
+    color: inline; }
+  table.tangram-table[border="yellow"] tr td,
+  table.tangram.tangram-table[border="yellow"] tr td {
+    border-top: solid 1px yellow;
+    border-left: solid 1px yellow; }
 
 /* Widgets **/
 /** Line Tops **/

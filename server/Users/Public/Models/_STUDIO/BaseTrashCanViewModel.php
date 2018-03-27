@@ -44,7 +44,7 @@ abstract class BaseTrashCanViewModel extends BaseTableViewModel {
         // 根据当前分页信息获取选取区间
         $range = self::__viewLimit();
         // 计算相应的列表页地址
-		$stagedir = $this->request->ARI->dirname.'/'.$this->app->ID.'/'.$this->request->ARI->patharr[1].'/';
+		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id.'/'.$this->request->ARI->patharr[1].'/'.$this->request->ARI->patharr[2].'/';
         $listurl = $stagedir.'?page='.$range[2];
 
         // 检查是否需要操作

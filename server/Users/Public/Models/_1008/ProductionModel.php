@@ -354,7 +354,7 @@ class ProductionModel extends Model {
 
     public function destroy(){
         if($this->savedProperties){
-            if(self::initQuerier()->where('id', $this->__guid)->delete()){
+            if(self::initQuerier()->where('id', $this->__guid)->delete()!==false){
                 self::getFileStorage()->store($this->__guid);
                 return true;
             }

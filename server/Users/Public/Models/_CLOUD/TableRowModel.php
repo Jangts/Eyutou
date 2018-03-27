@@ -382,8 +382,8 @@ final class TableRowModel extends BaseCloudItemModel {
         if($this->savedProperties){
             #使用事务
             $__key = self::$staticQuerier->beginAndLock();
-            if(self::$staticQuerier->using(DB_YUN.'tablerowmeta')->requires('ID = '.$this->savedProperties['ID'])->delete()){
-                if(self::$staticQuerier->using(DB_YUN.'schema_'.$this->modelProperties['TYPE'])->requires('ID = '.$this->savedProperties['ID'])->delete()){
+            if(self::$staticQuerier->using(DB_YUN.'tablerowmeta')->requires('ID = '.$this->savedProperties['ID'])->delete()!==false){
+                if(self::$staticQuerier->using(DB_YUN.'schema_'.$this->modelProperties['TYPE'])->requires('ID = '.$this->savedProperties['ID'])->delete()!==false){
                     // TagModel::__correctTablePrefix(new App('CLOUD'));
                     if(TagModel::delete('type = \''.$this->modelProperties['TYPE'].'\' AND item = '.$this->savedProperties['ID'])){
                         $this->meta->clearRelativeCache();

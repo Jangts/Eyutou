@@ -13,7 +13,7 @@ trait table {
 
 	public static function buildTable($list, $page = 1, $options = NULL){
         $columns = self::__loadTableColumns();
-        $table = new DocumentElementModel('table');
+        $table = new DocumentElementModel('table.tangram-table');
         $tr = new DocumentElementModel('tr');
         foreach($columns as $index=>$column){
             if(empty($column['sorting_name'])){
@@ -75,11 +75,11 @@ trait table {
             $table->appendElement($tr);
         }
         if(!empty(static::$creater)){
-            $tr = new DocumentElementModel('tr.item-creater');
+            $tr = new DocumentElementModel('tr.tangram-creator');
             if(isset(static::$creater['name'])){
-                $td = '<a href="'.static::$creater['url'].'">'.static::$creater['name'].'</a>';
+                $td = '<a class="block" href="'.static::$creater['url'].'">'.static::$creater['name'].'</a>';
             }else{
-                $td = '<a href="'.static::$creater['url'].'">新建</a>';
+                $td = '<a class="block" href="'.static::$creater['url'].'">新建</a>';
             }
             $cell = new DocumentElementModel('td', $td);
             $cell->setAttr('colspan', count($columns));

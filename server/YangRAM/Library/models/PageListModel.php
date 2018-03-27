@@ -146,53 +146,55 @@ Class PageListModel implements \DataModel {
 		$gotoLastAnchorname = NULL,
 		$listTagClassname = 'page-list-item',
 		$currentTagClassname = 'curr',
-		$useOnclickAttr = true
+		$useOnclickAttr = true,
+		$options = []
 	){
 		$data = $this->modelProperties['data'];
 		$length = $this->modelProperties['length'];
 		$html = '';
+		$qssuffix = '&'.http_build_query($options);
 		if($useOnclickAttr){
 			if($length > 0){
 				if($gotoFirstAnchorname){
-					$html .= '<li class="'.$listTagClassname.'" onclick="window.location.href=\'?page='.$data["f"].'\'">'.$gotoFirstAnchorname.'</li>';
+					$html .= '<li class="'.$listTagClassname.'" onclick="window.location.href=\'?page='.$data["f"].$qssuffix.'\'">'.$gotoFirstAnchorname.'</li>';
 				}
 				if($this->currentPage>$data["f"]){
-					$html .= '<li class="'.$listTagClassname.'" onclick="window.location.href=\'?page='.$data["p"].'\'">'.$gotoPreviousAnchorname.'</li>';
+					$html .= '<li class="'.$listTagClassname.'" onclick="window.location.href=\'?page='.$data["p"].$qssuffix.'\'">'.$gotoPreviousAnchorname.'</li>';
 				}
 				for ($n = 0; $n < $length; $n++) {
 					if ($data[$n] == $this->currentPage) {
 						$html .= '<li class="'.$listTagClassname.' '.$currentTagClassname.'">'.$data[$n].'</li>';
 					}else{
-						$html .= '<li class="'.$listTagClassname.'" onclick="window.location.href=\'?page='.$data[$n].'\'">'.$data[$n].'</li>';
+						$html .= '<li class="'.$listTagClassname.'" onclick="window.location.href=\'?page='.$data[$n].$qssuffix.'\'">'.$data[$n].'</li>';
 					}
 				}
 				if($this->currentPage<$data["l"]){
-					$html .= '<li class="'.$listTagClassname.'" onclick="window.location.href=\'?page='.$data["n"].'\'">'.$gotoNextAnchorname.'</li>';
+					$html .= '<li class="'.$listTagClassname.'" onclick="window.location.href=\'?page='.$data["n"].$qssuffix.'\'">'.$gotoNextAnchorname.'</li>';
 				}
 				if($gotoLastAnchorname){
-					$html .= '<li class="'.$listTagClassname.'" onclick="window.location.href=\'?page='.$data["l"].'\'">'.$gotoLastAnchorname.'</li>';
+					$html .= '<li class="'.$listTagClassname.'" onclick="window.location.href=\'?page='.$data["l"].$qssuffix.'\'">'.$gotoLastAnchorname.'</li>';
 				}
 			}
 		}else{
 			if($length > 0){
 				if($gotoFirstAnchorname){
-					$html .= '<li class="'.$listTagClassname.'"><a href="?page='.$data["f"].'">'.$gotoFirstAnchorname.'</a></li>';
+					$html .= '<li class="'.$listTagClassname.'"><a href="?page='.$data["f"].$qssuffix.'">'.$gotoFirstAnchorname.'</a></li>';
 				}
 				if($this->currentPage>$data["f"]){
-					$html .= '<li class="'.$listTagClassname.'"><a href="?page='.$data["p"].'">'.$gotoPreviousAnchorname.'</a></li>';
+					$html .= '<li class="'.$listTagClassname.'"><a href="?page='.$data["p"].$qssuffix.'">'.$gotoPreviousAnchorname.'</a></li>';
 				}
 				for ($n = 0; $n < $length; $n++) {
 					if ($data[$n] == $this->currentPage) {
 						$html .= '<li class="'.$listTagClassname.' '.$currentTagClassname.'"><a href="javascript:;">'.$data[$n].'</a></li>';
 					}else{
-						$html .= '<li class="'.$listTagClassname.'"><a href="?page='.$data[$n].'">'.$data[$n].'</a></li>';
+						$html .= '<li class="'.$listTagClassname.'"><a href="?page='.$data[$n].$qssuffix.'">'.$data[$n].'</a></li>';
 					}
 				}
 				if($this->currentPage<$data["l"]){
-					$html .= '<li class="'.$listTagClassname.'"><a href="?page='.$data["n"].'">'.$gotoNextAnchorname.'</a></li>';
+					$html .= '<li class="'.$listTagClassname.'"><a href="?page='.$data["n"].$qssuffix.'">'.$gotoNextAnchorname.'</a></li>';
 				}
 				if($gotoLastAnchorname){
-					$html .= '<li class="'.$listTagClassname.'"><a href="?page='.$data["l"].'">'.$gotoLastAnchorname.'</a></li>';
+					$html .= '<li class="'.$listTagClassname.'"><a href="?page='.$data["l"].$qssuffix.'">'.$gotoLastAnchorname.'</a></li>';
 				}
 			}
 		}

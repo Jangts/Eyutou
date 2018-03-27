@@ -95,6 +95,9 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 						$data["DURATION"] = $file["DURATION"];
 						break;
 					}
+					if(1){
+						$data["src"] = PUBL_PATH.$file["LOCATION"];
+					}
 					$this->successed[$name][$i] = $data;
 				}
 			}
@@ -150,6 +153,10 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 					if(isset($options['sizes'])){
 						return $file->resizeImageAndTransfer($options['sizes']);
 					}
+				}
+				if(1){
+					header("Location: ".PUBL_URL.$file->LOCATION);
+					exit;
 				}
 				return $file->transfer();
 			}else{

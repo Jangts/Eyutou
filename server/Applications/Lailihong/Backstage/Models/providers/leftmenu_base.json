@@ -1,0 +1,96 @@
+[{
+    "groupname": "页面",
+    "link": "pages/default/default-page/",
+    "menu": [{
+        "icon": "pencil",
+        "name": "首页设置",
+        "group": "pages/default",
+        "link": "pages/default/default-page/"
+    }, {
+        "type": "hidden",
+        "icon": "pencil",
+        "name": "页面归档管理",
+        "group": "pages/archives",
+        "link": "pages/archives/archives/"
+    }, {
+        "icon": "pencil",
+        "name": "页面管理",
+        "group": "pages/pages",
+        "link": "pages/pages/pages/"
+    }, {
+        "icon": "pencil",
+        "name": "链接管理",
+        "group": "pages/link",
+        "link": "pages/link/link-groups/"
+    }, {
+        "type": "hidden",
+        "icon": "pencil",
+        "name": "插件管理",
+        "group": "pages/plugins",
+        "link": "pages/plugins/plugins/"
+    }, {
+        "icon": "pencil",
+        "name": "管理页面广告",
+        "group": "pageads/ads",
+        "link": "pageads/ads/ads/"
+    }]
+}, {
+    "groupname": "新闻",
+    "link": "1006/news/news-list/",
+    "menu": [{
+        "icon": "pencil",
+        "name": "新闻管理",
+        "group": "1006/news",
+        "link": "1006/news/news-list/"
+    }, {
+        "icon": "pencil",
+        "name": "新闻回收站",
+        "group": "1006/news-recycle",
+        "link": "1006/news-recycle/news-recycle/"
+    }]
+}, {
+    "groupname": "产品",
+    "link": "1008/cats/categories/",
+    "menu": [{
+        "type": "hidden",
+        "icon": "pencil",
+        "name": "类目管理",
+        "group": "1008/cats",
+        "link": "1008/cats/categories/"
+    }, {
+        "type": "hidden",
+        "icon": "pencil",
+        "name": "类目属性管理",
+        "group": "1008/attrs",
+        "link": "1008/attrs/attributes/"
+    }, {
+        "icon": "pencil",
+        "name": "品牌管理",
+        "group": "1008/b",
+        "link": "1008/b/brands/"
+    }, {
+        "icon": "pencil",
+        "name": "类型管理",
+        "group": "1008/t",
+        "link": "1008/t/types/"
+    }, {
+        "icon": "pencil",
+        "name": "产品管理",
+        "group": "1008/p",
+        "link": "1008/p/productions/"
+    }]
+}, {
+    "groupname": "招聘",
+    "link": "1004/positions/positions/",
+    "menu": [{
+        "icon": "pencil",
+        "name": "职位管理",
+        "group": "1004/positions",
+        "link": "1004/positions/positions/"
+    }, {
+        "icon": "pencil",
+        "name": "职位回收站",
+        "group": "1004/positions-recycle",
+        "link": "1004/positions-recycle/positions-recycle/"
+    }]
+}]

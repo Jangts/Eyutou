@@ -75,6 +75,7 @@ final class Application {
 			return [
 				'APPID'		=>	$code,
 				'ID'		=>	$app['app_id'],
+				'id'		=>	$app['app_id'],
 				'Name'		=>	$app['app_name'],
 				'SCode'		=>	strtoupper($app['app_scode']),
 				'Author'	=>	$app['app_authorname'],
@@ -104,6 +105,7 @@ final class Application {
 				return [
 					'APPID' 	=>	$app['id'],
 					'ID' 		=>	$app['id'],
+					'id'		=>	strtolower($app['id']),
 					'Name' 		=>	$app['name'],
 					'SCode'		=>	strtoupper($app['scode']),
 					'Author'	=>	'YangRAM',

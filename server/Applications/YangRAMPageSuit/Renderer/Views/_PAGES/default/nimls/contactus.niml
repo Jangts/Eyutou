@@ -7,13 +7,14 @@
     <link rel="stylesheet" type="text/css" href="{{$__theme}}stylesheets/style.css" />
     <script src="{{$__static}}Tangram/tangram.js/src/tangram.js" use-debug-mode></script>
     <script src="{{$__theme}}scripts/common.js"></script>
+    <script src="{{$__theme}}scripts/contactus.js"></script>
 </head>
 
 <body>
     {{@includes/header.niml}}
     <div class="common-banner">
         <div class="container">
-            <img class="banner" src="{{$__theme}}images/banner.jpg">
+            <img class="banner" src="{{$page.banner}}">
         </div>
     </div>
     <div class="outer-box">
@@ -33,8 +34,7 @@
                         <div class="main-top-dir"><a href="{{$archive_url}}">联系我们</a>&gt;<a href="{{$page_url}}">{{$page.title}}</a></div>
                     </div>
                     <div class="main-content">
-                        <figure id="map">
-                            <img src="{{$page.banner}}">
+                        <figure id="map" style="background-image:url({{$__theme}}images/contact/map.jpg);">
                         </figure>
                         <div class="contact-info">
                             <h4>广州来利洪饼业有限公司</h4>
@@ -48,6 +48,7 @@
         </div>
     </div>
     <div class="footer">{{$option_common_bottom}}</div>
+    <script id="more" type="text/infos">{{$page.more}}</script>
 </body>
 
 </html>

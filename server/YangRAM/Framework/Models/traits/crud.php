@@ -6,8 +6,8 @@ use DBQ;
 use Tangram\CTRLR\RDBQuerierPlus;
 
 trait crud {
-    use querying;
     use r3like;
+    use querying;
 
     /**
 	 * 查询全部记录并按指定字段值

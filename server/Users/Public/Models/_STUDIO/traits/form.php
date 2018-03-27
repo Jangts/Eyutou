@@ -12,9 +12,9 @@ trait form {
 
     public static function buildForm($data, $method = 'POST', $action = ''){
 		$inputs = self::__loadFormInputs();
-		$form = new DocumentElementModel('form');
+		$form = new DocumentElementModel('form.tangram-form');
 		$group = new DocumentElementModel('div');
-		$group->setAttr('class', 'input-section-group');
+		$group->setAttr('class', 'inputs-section');
 		foreach($inputs as $meta){
 			if(isset($data[$meta['field_name']])){
 				$value = $data[$meta['field_name']];
@@ -25,16 +25,17 @@ trait form {
 					$value = '';
 				}
 			}
-			$div = new DocumentElementModel('div', '<label class="input-label">'.$meta['display_name'].'</label>');
+			$inputs = new DocumentElementModel('div.tangram-inputs', '<label class="input-label">'.$meta['display_name'].'</label>');
 			$input = '';
 			switch($meta['input_type']){
 				case 'hide':
+				$inputs->setAttr('data-type', 'hidden');
 				$input = new DocumentElementModel('input', $value);
-				$input->addClass('hide-item');
+				// $input->addClass('hide-item');
 				$input->setAttr('hidden', 'hidden');
 				$input->setAttr('name', $meta['field_name']);
 				// input可以直接用初始内容来补全value
-				// $input->setAttr('value', $value);
+				$input->setAttr('value', $value);
 				break;
 
 				case 'select':
@@ -60,9 +61,9 @@ trait form {
 					$content = '';
 					foreach(static::$selectOptions[$meta['field_name']] as $option){
 						if(($option[0] === $value)||($option[0] == $value)){
-							$content .= '<label><input name="'.$meta['field_name'].'" type="radio" value ="'.$option[0].'" checked="checked">'.$option[1].'</label>';
+							$content .= '<label class="radio-label"><input name="'.$meta['field_name'].'" type="radio" value ="'.$option[0].'" checked="checked">'.$option[1].'</label>';
 						}else{
-							$content .= '<label><input name="'.$meta['field_name'].'" type="radio" value ="'.$option[0].'">'.$option[1].'</label>';
+							$content .= '<label class="radio-label"><input name="'.$meta['field_name'].'" type="radio" value ="'.$option[0].'">'.$option[1].'</label>';
 						}
 					}
 				}else{
@@ -92,7 +93,7 @@ trait form {
 
 				case 'editor':
 				$input = new DocumentElementModel('div');
-				$input->addClass('edit-item');
+				$input->addClass('custom-items');
 				$textarea = new DocumentElementModel('textarea', $value);
 				$textarea->addClass('edit-text-area');
 				$textarea->setAttr('name', $meta['field_name']);
@@ -102,9 +103,10 @@ trait form {
 				case 'ueditor':
 				$input = new DocumentElementModel('div');
 				$id = 'ueditor'.uniqid();
-				$input->addClass('uedit-item');
+				$input->addClass('custom-items');
 				$textarea = new DocumentElementModel('textarea', $value);
-				$textarea->addClass('uedit-textarea');
+				$textarea->addClass('uedit-text-area');
+				$textarea->addClass('high-edit-text-area');
 				$textarea->setAttr('name', $meta['field_name']);
 				$textarea->setAttr('data-ueditor-id', $id);
 				$textarea->setAttr('hidden', 'hidden');
@@ -134,26 +136,51 @@ trait form {
 				break;
 
 				case 'image':
-				$hidden = new DocumentElementModel('input');
-				$hidden->setAttr('hidden', 'hidden');
-				$hidden->setAttr('name', $meta['field_name']);
-				$hidden->addClass('img-url');
-				$hidden->setAttr('value', $value);
-				$file = new DocumentElementModel('input');
-				$file->setAttr('hidden', 'hidden');
-				$file->addClass('img-file');
-				$file->setAttr('type', 'file');
-				// $file->setAttr('multiple', 'multiple');
-				$input = new DocumentElementModel('figure', $hidden);
-				$input->appendElement($file);
+				case 'avatar':
+				case 'avatar1x1':
+				case 'figure':
+				case 'figure4x3':
+				case 'figure3x4':
+				case 'photo':
+				case 'photo3x2':
+				case 'photo2x3':
+				case 'banner':
+				case 'banner100':
+				$input = new DocumentElementModel('figure.figure-items');
+
+				$item = new DocumentElementModel('div.pic-uploader');
+				$item->setAttr('data-subtype', $meta['input_type']);
 				if($value){
-					$input->appendContent('<img class="img-show" src="'.$value.'" data-reset-src="'.$value.'"/><i class="image-button"></i>');
+					$item->setAttr('data-reset-src', $value);
 				}else{
-					$input->appendContent('<img class="img-show" src="'.__aurl__.'uploads/files/defaultpic" data-reset-src="'.__aurl__.'uploads/files/defaultpic"/><i class="image-button"></i>');
+					$item->setAttr('data-reset-src', __aurl__);
 				}
-				$input->addClass('img-item');
-				$div->appendContent($input);
-				$input = '<i class="reset-button" data-src="'.__aurl__.'uploads/files/defaultpic">使用默认图片</i>';
+				$hidden = new DocumentElementModel('input');
+				$hidden->setAttr('name', $meta['field_name']);
+				$hidden->addClass('pic-src');
+				$hidden->setAttr('value', $value);
+				$item->appendElement($hidden);
+				$input->appendElement($item);
+				break;
+				
+				case 'video':
+				case 'video4x3':
+				case 'video16x9':
+				$input = new DocumentElementModel('div.video-item');
+
+				$item = new DocumentElementModel('div.pic-uploader');
+				$item->setAttr('data-subtype', $meta['input_type']);
+				if($value){
+					$item->setAttr('data-reset-src', $value);
+				}else{
+					$item->setAttr('data-reset-src', __aurl__);
+				}
+				$hidden = new DocumentElementModel('input');
+				$hidden->setAttr('name', $meta['field_name']);
+				$hidden->addClass('pic-src');
+				$hidden->setAttr('value', $value);
+				$item->appendElement($hidden);
+				$input->appendElement($item);
 				break;
 
 				default:
@@ -163,9 +190,9 @@ trait form {
 				$input->setAttr('name', $meta['field_name']);
 				$input->setAttr('value', $value);
 			}
-			$div->appendContent($input);
-			$div->addClass('input-section');
-			$group->appendElement($div);
+			$inputs->appendContent($input);
+			$inputs->addClass('input-section');
+			$group->appendElement($inputs);
 		}
 		$form->appendElement($group);
 		$form->setAttr('name', 'myform');

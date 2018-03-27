@@ -91,8 +91,8 @@ class Admin_PositionsViewModel extends \PM\_STUDIO\BaseTableViewModel {
 		$positions  = TableRowModel::getRows('positions', NULL, TableRowMetaModel::UNRECYCLED, $orderby, $range[0], $range[1]);
 
 		$rows = [];
-		$stagedir = $this->request->ARI->dirname.'/'.$this->app->ID;
-		$basedir = $stagedir.'/position/';
+		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
+		$basedir = $stagedir.'/positions/position/';
 		if(isset($_GET['sort'])){
             $sort = $_GET['sort'];
         }else{

@@ -58,7 +58,7 @@ class Admin_BrandsViewModel extends \PM\_STUDIO\BaseCRUDViewModel {
 		[
 			'field_name'	=>	'brand_logo',
 			'display_name'	=>	'品牌标识',
-			'input_type'	=>	'image'
+			'input_type'	=>	'banner'
 		],
 		[
 			'field_name'	=>	'brand_desc',

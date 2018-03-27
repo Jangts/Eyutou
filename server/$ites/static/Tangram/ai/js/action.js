@@ -1,17 +1,11 @@
 block([
     '$_/dom/Elements/'
-], function(_) {
-    var
+], function (_, global) {
+    var location = global.location,
         $ = _.dom.select;
-    if (window.parent) {
-        window.alert = window.parent.alert;
-        $('a[href]').click(function() {
-            if ($(this).attr('href') != 'javascript:;') {
-                var target = $(this).attr('target');
-                if (target == null || target == '_self') {
-                    window.parent.location.hash = $(this).attr('href');
-                }
-            }
-        });
+    if (global.parent) {
+        global.alert = global.parent.alert;
+        window.parent.location.hash = location.pathname + location.search;
+        window.parent.onhashchange(window.parent.location.hash);
     }
 }, true);

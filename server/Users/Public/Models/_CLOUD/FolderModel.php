@@ -479,7 +479,7 @@ final class FolderModel extends \AF\Models\BaseDeepModel {
 				$result = TableRowModel::delete("`FOLDER` = '$this->__guid'");
 			}
 			if($result){
-				if($querier->requires()->where('id', $this->__guid)->delete()){
+				if($querier->requires()->where('id', $this->__guid)->delete()!==false){
 					$querier->unlock($__key)->commit();
 					if($this->files) $this->files->store($this->__guid);
             		return true;

@@ -1,30 +1,31 @@
 block([
     '$_/dom/Elements/',
     '$_/form/Data.cls'
-], function(_) {
-    var
+], function(_, global) {
+    var location = global.location,
         $ = _.dom.select,
         $main = $('.main-section, .side-section'),
         workspace = document.getElementById('maincontainer'),
         height = _.dom.getHeight(document);
 
-    var hash = location.hash;
-    if (location.hash) {
-        var arr = location.hash.split(/(\#|\?)/g);
+    var onhashchange = function (hash, reload){
+        if (hash&&_.util.bool.isStr(hash)&&hash.length>1){
+            var arr = hash.split(/(\#|\?)/g);
 
-        arr[0] = arr[1] = '';
-        subarr = arr[2].split(/\/+/g);
-        if (subarr.length > 4) {
-            // appid = subarr[2],
-            // placeholder = subarr[3],
-            var pagegroup = subarr[2] + '/' + subarr[3];
-            var $a = $('.side-menu-item a[data-page-group=' + pagegroup + ']');
-            if ($a.length) {
-                $('.side-menu-item.curr, .side-menu.curr').removeClass('curr');
-                $a.closet('li').addClass('curr').closet('div').addClass('curr');
+            arr[0] = arr[1] = '';
+            subarr = arr[2].split(/\/+/g);
+            if (subarr.length > 4) {
+                var pagegroup = subarr[2] + '/' + subarr[3];
+                var $a = $('.side-menu-item a[data-page-group=' + pagegroup + ']');
+                if ($a.length) {
+                    $('.side-menu-item.curr, .side-menu.curr').removeClass('curr');
+                    $a.closet('li').addClass('curr').closet('div').addClass('curr');
+                }
+            }
+            if (reload) {
+                workspace.src = arr.join('');
             }
         }
-        workspace.src = arr.join('');
     }
 
     $main.height(height - 60);
@@ -41,8 +42,8 @@ block([
     });
 
     $('.top-logo a').click(function() {
-        $('.side-menu-item.curr, .side-menu.curr').removeClass('curr');
-        location.hash = '';
+        location.hash = $(this).attr('href');
+        onhashchange();
     });
 
     $('.top-options a').click(function() {
@@ -66,8 +67,13 @@ block([
                 }
             });
         } else if (href = $(this).attr('href')) {
-            $('.side-menu-item.curr, .side-menu.curr').removeClass('curr');
             location.hash = href;
+            onhashchange(location.hash);
         }
     });
+
+    if (location.hash) {
+        onhashchange(location.hash, true);
+    }
+    global.onhashchange = onhashchange;
 }, true);

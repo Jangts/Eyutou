@@ -97,8 +97,8 @@ class Admin_ProductionsViewModel extends \PM\_STUDIO\BaseTableViewModel {
 		$productions  = ProductionModel::getRows(NULL, NULL, ProductionModel::ALL, $orderby, $range);
 
 		$rows = [];
-		$stagedir = $this->request->ARI->dirname.'/'.$this->app->ID;
-		$basedir = $stagedir.'/production/';
+		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
+		$basedir = $stagedir.'/p/production/';
 
 		if(isset($_GET['sort'])){
             $sort = $_GET['sort'];
@@ -124,7 +124,7 @@ class Admin_ProductionsViewModel extends \PM\_STUDIO\BaseTableViewModel {
 		
 		self::$creater['url'] = $basedir;
 
-		$this->assign('classtabs', 	self::buildTabs($stagedir.'/productions/'));
+		$this->assign('classtabs', 	self::buildTabs($stagedir.'/p/productions/'));
 		$this->assign('itemlist', 	self::buildTable($rows, $range[2]));
 		$this->assign('pagelist', 	self::buildPageList($count));
 		

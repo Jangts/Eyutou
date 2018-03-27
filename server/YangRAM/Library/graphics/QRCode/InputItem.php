@@ -1,5 +1,5 @@
 <?php
-namespace Lib\graphicss\QRCode;
+namespace Lib\graphics\QRCode;
 
 define('STRUCTURE_HEADER_BITS',  20);
 define('MAX_STRUCTURED_SYMBOLS', 16);

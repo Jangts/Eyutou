@@ -105,7 +105,7 @@ class Admin_PagesViewModel extends \PM\_STUDIO\BaseCRUDViewModel {
 		[
 			'field_name'	=>	'banner',
 			'display_name'	=>	'海报',
-			'input_type'	=>	'image'
+			'input_type'	=>	'banner100'
 		],
 		[
 			'field_name'	=>	'banner_link',

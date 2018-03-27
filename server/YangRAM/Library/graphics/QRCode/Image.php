@@ -1,5 +1,5 @@
 <?php
-namespace Lib\graphicss\QRCode;
+namespace Lib\graphics\QRCode;
 
 define('QR_IMAGE', true);
 

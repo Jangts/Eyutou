@@ -17,7 +17,8 @@
 }
 
 .tangram-addin-map img {
-    max-width: none;
+    max-width: none !important;
+    max-height: none !important;
 }
 
 .tangram-addin-map .iw_poi_title {

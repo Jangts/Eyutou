@@ -47,8 +47,8 @@ class NewsPageController extends \Controller {
             $options = OptionsModel::autoloadItems();
             $column = new ColumnModel('link_news/category/'.$folder->id);
             $column->push('link_news/');
-            $count = TableRowMetaModel::getCOUNT(NULL, $folder->id, TableRowMetaModel::PUBLISHED, TableRowMetaModel::PUBTIME_DESC);
-            $list = TableRowModel::getRows(NULL, $folder->id, TableRowMetaModel::PUBLISHED, TableRowMetaModel::PUBTIME_DESC, $start = 0, $num = static::$prepage);
+            $count = TableRowMetaModel::getCOUNT(NULL, $folder->id, TableRowMetaModel::PUBLISHED);
+            $list = TableRowModel::getRows(NULL, $folder->id, TableRowMetaModel::PUBLISHED, TableRowMetaModel::RLDPD, $start = 0, $num = static::$prepage);
 
             $renderer = new DefaultPageRenderer();
 

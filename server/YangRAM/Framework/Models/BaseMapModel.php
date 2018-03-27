@@ -310,7 +310,7 @@ abstract class BaseMapModel extends BaseModel {
         // 获取默认数据行查询器
         $querier = static::initQuerier();
 
-        if($querier->requires($require)->delete()){
+        if($querier->requires($require)->delete()!==false){
             self::cleanFileStorage();
             return true;
         }
@@ -352,7 +352,7 @@ abstract class BaseMapModel extends BaseModel {
 	**/ 
     public function destroy(){
         $keys = static::pickKeys($this->savedProperties);
-        if($this->savedProperties&&($this->querier->requires($keys)->delete())){
+        if($this->savedProperties&&($this->querier->requires($keys)->delete()!==false)){
             if($this->files) $this->files->store($this->__guid);
             return $this->__afterDelete();
         }

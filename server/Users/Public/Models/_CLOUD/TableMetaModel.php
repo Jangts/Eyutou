@@ -350,7 +350,7 @@ final class TableMetaModel extends \AF\Models\BaseR3Model {
         // 获取默认数据行查询器
         $querier = static::initQuerier();
 		$__key = $querier->beginAndLock();
-        if($this->savedProperties&&($querier->requires()->where('name', $this->__guid)->delete())){
+        if($this->savedProperties&&($querier->requires()->where('name', $this->__guid)->delete()!==false)){
             $this->cache();
             if(FolderModel::delete("`tablename` = '$this->__guid'")){
                 if(TableRowModel::delete("`TABLENAME` = '$this->__guid'")){

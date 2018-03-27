@@ -8,7 +8,7 @@
     overflow: visible;
     font-size: 0;
     line-height: 0;
-    z-index: 1024;
+    z-index: 2048;
     .tangram.se-toolgroup {
         display: inline-block;
         border-left: 1px solid #DDD;
@@ -71,7 +71,7 @@
     .tangram.se-tool.linebreak:hover {
         background-color: #E6E6E6;
     }
-    @import "toolbar-icons";
-    @import "toolbar-pickers";
-    @import "toolbar-dialogs";
+    @import "toolarea-icons";
+    @import "toolarea-pickers";
+    @import "toolarea-dialogs";
 }

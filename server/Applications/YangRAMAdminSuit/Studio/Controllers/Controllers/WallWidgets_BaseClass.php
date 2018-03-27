@@ -1,7 +1,7 @@
 <?php
 namespace OIC;
 use Response;
-use Lib\graphicss\ImagePrinter;
+use Lib\graphics\ImagePrinter;
 
 abstract class WallWidgets_BaseClass extends \Controller {
     protected function get_dynamic_image_source(){

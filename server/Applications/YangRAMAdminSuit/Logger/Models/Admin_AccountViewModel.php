@@ -20,7 +20,7 @@ class Admin_AccountViewModel extends \PM\_STUDIO\BaseFormViewModel {
 		[
 			'field_name'	=>	'AVATAR',
 			'display_name'	=>	'管理员头像',
-			'input_type'	=>	'image'
+			'input_type'	=>	'avatar'
 		],
 		[
 			'field_name'	=>	'LANGUAGE',
@@ -39,13 +39,13 @@ class Admin_AccountViewModel extends \PM\_STUDIO\BaseFormViewModel {
 
 	public function analysis($admininfo){
 		if(isset($this->request->ARI->patharr[3])&&is_numeric($this->request->ARI->patharr[3])&&$this->request->ARI->patharr[3]>0){
-			$basedir = $this->request->ARI->dirname.'/';
-			$baseurl = $basedir.$this->app->ID;
+			$rootdir = $this->request->ARI->dirname.'/';
+			$basedir = $rootdir.$this->app->id;
 			$guid = $this->request->ARI->patharr[3];
 			$item = AdministratorModel::byGUID($guid);
 
 			if($item){
-				$this->assign('formname', '编辑个人信息<a href="'.$basedir.'users/password/'.$guid.'">修改登录密码</a><a href="'.$basedir.'logger/pin-code/'.$guid.'">修改管理员认证码</a>');
+				$this->assign('formname', '编辑个人信息<a href="'.$rootdir.'users/ph/password/'.$guid.'">修改登录密码</a><a href="'.$rootdir.'logger/ph/pin-code/'.$guid.'">修改管理员认证码</a>');
 				$this->assign('form', self::buildForm($item->getArrayCopy(), 'PUT'));
 				$this->assign('buttons', [
 					[

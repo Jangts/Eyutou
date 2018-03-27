@@ -10,6 +10,23 @@ $table_cell_maxwidths: 540,
 860,
 950,
 1040;
+$table_border_colors: (aqua, initial),
+(black, white),
+(blue, white),
+(fuchsia, initial),
+(gray, initial),
+(green, white),
+(lime, initial),
+(maroon, white),
+(navy, white),
+(olive, white),
+(orange, initial),
+(purple, white),
+(red, yellow),
+(silver, initial),
+(teal, initial),
+(white, initial),
+(yellow, initial);
 table.tangram-table,
 table.tangram.tangram-table {
     margin: 20px auto 10px;
@@ -56,11 +73,14 @@ table.tangram.tangram-table {
             font-weight: normal;
             font-size: 12px;
             text-align: center;
+            vertical-align: middle;
             a {
+                display: inline;
+            }
+            a.block {
                 display: block;
                 width: 100%;
                 height: 100%;
-                font-size: 14px;
             }
             .tangram-td-click {
                 display: block;
@@ -128,14 +148,15 @@ table.tangram.tangram-table {
         border-top: solid 5px white;
         background-color: transparent !important;
         td {
-            background-color: green;
+            background-color: #6c9;
             height: 40px;
+            font-size: 14px;
             line-height: 40px;
             color: white;
         }
-    }
-    tr.creator:hover {
-        background-color: #ccc;
+        td:hover {
+            background-color: #3a6;
+        }
     }
     tr:nth-child(odd) {
         background-color: #ddd;
@@ -147,8 +168,8 @@ table.tangram.tangram-table {
     }
     tr:hover {
         background: rgba(153, 153, 153, .4);
-        color: #F6F6F6;
         td {
+            // color: #F6F6F6;
             cursor: pointer;
         }
     }
@@ -157,5 +178,94 @@ table.tangram.tangram-table {
     }
     td:nth-child(even) {
         background: rgba(204, 204, 204, .3);
+    }
+}
+
+table.tangram-table[stripe],
+table.tangram.tangram-table[stripe] {
+    td:nth-child(odd) {
+        background: transparent;
+    }
+    td:nth-child(even) {
+        background: transparent;
+    }
+}
+
+table.tangram-table[border],
+table.tangram.tangram-table[border],
+table.tangram-table[border="1"],
+table.tangram.tangram-table[border="1"] {
+    border-collapse: separate;
+    border: solid 1px #ccc;
+    tr {
+        th {
+            height: 30px;
+            line-height: 30px;
+            font-weight: bold;
+            background: #ccc;
+            color: #222;
+        }
+        td {
+            border-top: solid 1px #ccc;
+            border-left: solid 1px #ccc;
+        }
+        td:first-child {
+            border-left: none;
+        }
+        td:nth-child(odd) {
+            background: transparent;
+        }
+        td:nth-child(even) {
+            background: transparent;
+        }
+    }
+    tr:hover {
+        background: rgba(153, 153, 153, .4);
+        td {
+            color: #222;
+            cursor: pointer;
+        }
+    }
+    tr:first-child {
+        td {
+            border-top: none;
+        }
+    }
+    tr:nth-child(odd) {
+        background: transparent;
+    }
+    tr:nth-child(even) {
+        background: transparent;
+    }
+}
+
+table.tangram-table[border="2"],
+table.tangram.tangram-table[border="2"] {
+    border-collapse: separate;
+    border: solid 2px #ccc;
+    tr {
+        td {
+            border-top: solid 2px #ccc;
+            border-left: solid 2px #ccc;
+        }
+    }
+}
+
+@each $bordercolor,
+$color in $table_border_colors {
+    table.tangram-table[border="#{$bordercolor}"],
+    table.tangram.tangram-table[border="#{$bordercolor}"] {
+        border-collapse: separate;
+        border: solid 1px $bordercolor;
+        tr {
+            th {
+                background: $bordercolor;
+                color: $color;
+            }
+            td {
+                border-top: solid 1px $bordercolor;
+                border-left: solid 1px $bordercolor;
+            }
+        }
     }
 }

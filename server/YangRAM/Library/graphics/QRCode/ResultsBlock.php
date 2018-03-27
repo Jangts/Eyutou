@@ -1,5 +1,5 @@
 <?php
-namespace Lib\graphicss\QRCode;
+namespace Lib\graphics\QRCode;
 
 class ResultsBlock {
     public $dataLength;

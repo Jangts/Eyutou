@@ -20,7 +20,7 @@ class AdministratorsController extends \AF\Controllers\BaseResourcesController {
                 'url'       =>  $this->request->URI->src
             ]));
         }
-        if(empty($_POST['PIN'])){
+        if(!isset($_POST['PIN'])){
             $obj->put($_POST);
             if($obj->save()){
                 self::doneResponese($obj->getArrayCopy(), 1203, 'Update Successed', false);

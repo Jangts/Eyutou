@@ -23,7 +23,7 @@ final class FileModel extends BaseCloudItemModel {
 	private static function deleteFileMeta($id){
 		self::initQuerier();
 		self::$staticFileStorage->store($id);
-		if(self::$staticQuerier->requires()->where('ID', $id)->delete()){
+		if(self::$staticQuerier->requires()->where('ID', $id)->delete()!==false){
 			return true;
 		}
 		return false;

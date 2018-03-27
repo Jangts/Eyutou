@@ -31,20 +31,20 @@ tangram.block([
         ],
         statusTypes = {
             fontstatus: [
-                '<lable>color: </lable><input type="text" class="tangram se-color-input" data-name="fontcolor" value="#000000">'
+                '<label>color: <input type="text" class="tangram se-color-input" data-name="fontcolor" value="#000000"></label>'
             ],
             tablestatus: [
-                '<lable>width</lable><input type="text" class="tangram se-tablewidth-input" data-name="tablewidth" value="1">',
-                '<lable>rows: </lable><input type="text" class="tangram se-rowslen" value="1" readonly>',
+                '<label>width<input type="text" class="tangram se-tablewidth-input" data-name="tablewidth" value="1"></label>',
+                '<label>rows: <input type="text" class="tangram se-rowslen" value="1" readonly></label>',
                 '<i class="tangram se-table-adddata se-table-addrow">Add Row</i>',
-                '<lable>cols: </lable><input type="text" class="tangram se-colslen" value="1" readonly>',
+                '<label>cols: <input type="text" class="tangram se-colslen" value="1" readonly></label>',
                 '<i class="tangram se-table-adddata se-table-addcol">Add Column</i>',
-                '<lable>border: </lable><input type="text" class="tangram se-border-input" data-name="tableborder" value="0">'
+                '<label>border: <input type="text" class="tangram se-border-input" data-name="tableborder" value="0"></label>'
             ],
             imagestatus: [
-                '<lable>width</lable><input type="text" class="tangram se-imgwidth-input" data-name="imgwidth" value="1">',
-                '<lable>height</lable><input type="text" class="tangram se-imgheight-input" data-name="imgheight" value="1">',
-                '<lable>border:</lable><input type="text" class="tangram se-border-input" data-name="imgborder" value="0">',
+                '<label>width: <input type="number" class="tangram se-imgwidth-input" data-name="imgwidth" value="1"></label>',
+                '<label>height: <input type="number" class="tangram se-imgheight-input" data-name="imgheight" value="1"></label>',
+                '<label>border: <input type="number" class="tangram se-border-input" data-name="imgborder" value="0"></label>',
                 '<i class="tangram se-imgsize" data-size="3">L</i>' +
                 '<i class="tangram se-imgsize" data-size="2">M</i>' +
                 '<i class="tangram se-imgsize" data-size="1">S</i>' +
@@ -76,8 +76,8 @@ tangram.block([
             initEl: function(elem, options, textarea) {
                 var width, height;
                 if (textarea) {
-                    width = textarea.offsetWidth + 2;
-                    height = textarea.offsetHeight + 2;
+                    width = textarea.offsetWidth;
+                    height = textarea.offsetHeight;
                 } else {
                     width = elem.offsetWidth;
                     height = elem.offsetHeight;
@@ -123,7 +123,7 @@ tangram.block([
                 };
             },
             mainarea: function(options, text) {
-                var width = this.cElement.width - 2,
+                var width = this.cElement.width,
                     mainarea = _.dom.create('div', this.cElement.Element, {
                         className: 'tangram simpleeditor',
                         style: {
@@ -138,7 +138,7 @@ tangram.block([
                 return mainarea;
             },
             workspace: function(mainarea, options, isBuildStateBar) {
-                var width = this.cElement.width - 2,
+                var width = this.cElement.width,
                     height = this.cElement.height;
                 this.richareas.push(_.dom.create('div', mainarea, {
                     className: 'tangram se-richarea',
@@ -147,9 +147,9 @@ tangram.block([
                     spellcheck: 'true',
                     talistenex: 1,
                     style: {
-                        'width': width - 12,
+                        'width': width - 10,
                         'min-height': height,
-                        'height': height - 12,
+                        'height': height - 10,
                         'padding': '5px',
                         'outline': 'none'
                     },

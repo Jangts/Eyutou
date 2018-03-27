@@ -1,43 +1,92 @@
 .tangram-form {
-    figure {
-        margin-bottom: 0 !important;
-    }
-    figure.img-item {
-        width: 200px !important;
-        padding: 30px;
-        border: solid 1px #ddd;
-        text-align: center;
-    }
-    figure.img-item img.img-show {
+    figure,
+    .figure-items {
         display: block;
-        position: relative;
-        max-width: 200px;
-        max-height: 150px;
-        margin: 0 auto;
-    }
-    figure.img-item i.image-button {
-        display: block;
-        position: absolute;
         width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        cursor: pointer;
-    }
-    figure.img-item i.image-button:hover {
-        background-color: rgba(0, 0, 0, 0.5);
-    }
-    i.reset-button {
-        display: block;
-        width: 120px;
-        height: 24px;
-        left: 110px;
-        margin-top: 8px;
-        margin-bottom: 12px;
-        background-color: #498bea;
-        line-height: 24px;
-        text-align: center;
-        color: #fff;
-        cursor: pointer;
+        margin: 7px 0;
+        .image-uploader {
+            box-sizing: content-box;
+            padding: 19px;
+            border: solid 1px #ddd;
+            text-align: center;
+            input[type=file] {
+                display: none;
+                width: 0;
+                height: 0;
+            }
+            img.image-displayer {
+                display: block;
+                position: relative;
+                width: 100%;
+                height: 100%;
+                max-width: 100%;
+                max-height: 100%;
+                margin: 0 auto;
+            }
+            i.image-changer {
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                z-index: 10;
+                cursor: pointer;
+            }
+            i.image-changer:hover {
+                background-color: rgba(0, 0, 0, 0.3);
+            }
+            i.image-resetter {
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: 24px;
+                top: 160px;
+                left: 0;
+                background-color: #498bea;
+                line-height: 24px;
+                text-align: center;
+                color: #fff;
+                font-size: 12px;
+                opacity: 0;
+                z-index: 100;
+                cursor: pointer;
+                transition: opacity ease-in-out .3s, top ease-in-out .3s;
+            }
+        }
+        .image-uploader:hover {
+            i.image-resetter {
+                opacity: 1;
+                top: 136px;
+            }
+        }
+        .image-uploader,
+        .image-uploader.photo,
+        .image-uploader.photo3x2 {
+            width: 180px !important;
+            height: 120px !important;
+        }
+        .image-uploader.photo2x3 {
+            width: 80px !important;
+            height: 120px !important;
+        }
+        .image-uploader.figure,
+        .image-uploader.figure4x3 {
+            width: 160px !important;
+            height: 120px !important;
+        }
+        .image-uploader.figure3x4 {
+            width: 90px !important;
+            height: 120px !important;
+        }
+        .image-uploader.banner {
+            box-sizing: border-box;
+            width: 50% !important;
+            height: 160px !important;
+        }
+        .image-uploader.banner100 {
+            width: 100% !important;
+            height: 100px !important;
+        }
     }
 }
