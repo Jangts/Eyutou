@@ -32,7 +32,7 @@ body {
 }
 
 .main>header.text-icon {
-    background: url(/icon.php?o) center no-repeat;
+    background: url(./../../../../icon.php?o) center no-repeat;
 }
 
 .main>header.text-icon {
@@ -116,7 +116,7 @@ body {
 }
 
 body.apc.like404>.main>header.text-icon {
-    background: url(/icon.php?c=0&o) center no-repeat;
+    background: url(./../../../../icon.php?c=0&o) center no-repeat;
 }
 
 body.apc.like404>.main>header.text-icon,
@@ -155,7 +155,7 @@ body.azr.like1111 {
     background: rgba(51, 165, 221, 1);
 }
 
-body.mgt.like1408 {
+body.mgt.like1422 {
     background: #D41C53;
     background: rgba(212, 28, 83, 1);
 }
@@ -205,7 +205,7 @@ body.azr.like1111>.main>footer {
     border-bottom: #3DF 1px dashed;
 }
 
-body.mgt.like1408>.main>footer {
+body.mgt.like1422>.main>footer {
     color: #F9C;
     border-top: #F39 1px dashed;
     border-bottom: #F39 1px dashed;

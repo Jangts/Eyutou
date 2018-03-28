@@ -488,23 +488,23 @@ final class StatusProcessor extends Exception {
 					// 类的静态方法或实例的方法
 					if(isset($p['line'])){
 						// 普通调用
-						$place .= $n . "</span>" . $p['class'] . '::' . $p['function'] . '() on ' . str_replace(__ENTR__, '…', $p['file']) . " (line " . $p['line'] . ")</p>";
+						$place .= $n . "</span>" . $p['class'] . '::' . $p['function'] . '() on ' . str_replace($_SERVER['DOCUMENT_ROOT'], '…', $p['file']) . " (line " . $p['line'] . ")</p>";
 					}else{
 						// 服务器软件调用
-						$place .= $n . "</span>" . $p['class'] . '::' . $p['function'] . '() on ' . str_replace(__ENTR__, '…', $p['file']) . " (called by " . SRVR . ")</p>";
+						$place .= $n . "</span>" . $p['class'] . '::' . $p['function'] . '() on ' . str_replace($_SERVER['DOCUMENT_ROOT'], '…', $p['file']) . " (called by " . SRVR . ")</p>";
 					}
 				}elseif(isset($p['function'])){
 					// 普通函数
 					if(isset($p['line'])){
 						// 普通调用
-						$place .= $n . "</span>" . $p['function'] . '() on ' . str_replace(__ENTR__, '…', $p['file']) . " (line " . $p['line'] . ")</p>";
+						$place .= $n . "</span>" . $p['function'] . '() on ' . str_replace($_SERVER['DOCUMENT_ROOT'], '…', $p['file']) . " (line " . $p['line'] . ")</p>";
 					}else{
 						// 服务器软件调用
-						$place .= $n . "</span>" . $p['function'] . '() on ' . str_replace(__ENTR__, '…', $p['file']) . " (called by " . SRVR . ")</p>";
+						$place .= $n . "</span>" . $p['function'] . '() on ' . str_replace($_SERVER['DOCUMENT_ROOT'], '…', $p['file']) . " (called by " . SRVR . ")</p>";
 					}
 				}else{
 					// 表达式
-					$place .= $n . "</span>" . str_replace(__ENTR__, '…', $p['file']) . " (line " . $p['line'] . ")</p>";
+					$place .= $n . "</span>" . str_replace($_SERVER['DOCUMENT_ROOT'], '…', $p['file']) . " (line " . $p['line'] . ")</p>";
 				}
 			}
 		}else{
@@ -514,7 +514,7 @@ final class StatusProcessor extends Exception {
 		if(!is_string($template)){
 			$template = $this->getTemplate();
 		}
-
+		$title = $code . ' ' . $title;
 		if(is_file($template)){
 			include $template;
 		}else{

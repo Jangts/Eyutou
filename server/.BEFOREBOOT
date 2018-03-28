@@ -7,7 +7,7 @@
  * * relative pathname      相对路径名，目录相对于安装目录的相对路径，是计算remote url和full pathname的基础，多以'RPN'结尾
  * * remote url             远程地址，目录相对于服务器根目录（该目录为域名与IP所访问的根目录）的相对路径，主要用于远程直接访问静态文件用，由系统安装目录相对服务器根目录的相对路径与relative pathname组合而称，多以'URL'结尾
  * * full pathname          本地绝对路径名，目录在计算机中的绝对路径，主要用于载入系统和子应用脚本以及读取本地文件，由系统安装目录的绝对路径与relative pathname组合而称，多含有'PATH'字样
- * 其中'__ENTR__'、'__BOOT__'、'__ROOT__'、'__BURL__'为四个系统级的路径名，以后两者更为常用
+ * 其中'__BOOT__'、'__ROOT__'、'__BURL__'为三个系统级的路径名，以后两者更为常用
  * 
  * 注有'Writeable'的为可配置项，如有必要可以修改其中含有的字符串的内容，一般情况下请勿更改，以免造成某些应用无法正常使用
  * 
@@ -34,15 +34,16 @@ define('HOST',      	strtolower(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HO
 // 端口号，默认为80
 define('PORT',      	$_SERVER['SERVER_PORT']);
 
-// 入口文件目录，入口文件必需放置于服务器根目录
-define('__ENTR__',      dirname($_SERVER['SCRIPT_FILENAME']));
-
 // 启动文件目录，系统安装于服务器根目录时，启动文件可以作为入口文件
 define('__BOOT__',      dirname(__FILE__));
-// 格式化的启动文件目录，为统一不同平台的路径名规则而进行的强制转写
+// 系统安装目录，即格式化的启动文件目录，为统一不同平台的路径名规则而进行的强制转写
 define('__ROOT__',      strtr(__BOOT__, '\\', '/'));
 // 安装目录的网络地址，系统安装目录相对服务器根目录的相对路径
-define('__BURL__',    	str_replace(strtr(__ENTR__, '\\', '/'), '', __ROOT__));
+define('__BURL__',    	str_replace(strtr($_SERVER['DOCUMENT_ROOT'], '\\', '/'), '', __ROOT__));
+
+$_SERVER['SCRIPT_FILENAME'] = strtr($_SERVER['SCRIPT_FILENAME'], '\\', '/');
+$_SERVER['DOMAINS'] = parse_ini_file('domains.ini', true);
+$_SERVER['PHP_SELF'] = substr($_SERVER['PHP_SELF'], strlen(__BURL__));
 
 /** Defined relative pathname for four basic subdirectories. */
 // 原生应用安装目录根目录

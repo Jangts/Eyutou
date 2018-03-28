@@ -1,7 +1,12 @@
 <IfModule mod_rewrite.c>
-  Options +FollowSymlinks
+  Options -Indexes +FollowSymlinks
   RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} \/\.(DataFiles|Runtime).*$
+  RewriteRule .* error.php?code=404 [NC,L]
+  RewriteCond %{REQUEST_FILENAME} \/Users\/Public\/\..*$
+  RewriteRule .* error.php?code=403 [NC,L]
+  RewriteRule ^.*?users\/@(.*)$ boot.php/applications/users/users/$1 [NC,QSA,PT,L]
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+  RewriteRule ^(.*)$ boot.php/$1 [QSA,PT,L]
 </IfModule>

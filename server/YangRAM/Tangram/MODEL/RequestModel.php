@@ -23,7 +23,7 @@ use Tangram\MODEL\InputsModel;
  * @prop string     $URI->src                   原URL
  * @var object      $TRI                        为统一资源索引器优化后资源标识信息
  * @prop string     $TRI->hash                  缓存资源对象标识符
- * @prop string     $TRI->locale_channel        语言频道，仅开启语言频道后有效
+ * @prop string     $TRI->locale_channel_dir        语言频道，仅开启语言频道后有效
  * @prop string     $TRI->pathname              优化后的URL的路径部分
  * @prop string     $TRI->qs                    优化后的URL的查询部分
  * @prop array      $TRI->patharr               优化后的URL的路径部分的数组形态（不区分大小写）
@@ -92,6 +92,13 @@ final class RequestModel implements interfaces\model {
 	 * @return 构造函数无返回值
     **/ 
     private function __construct(){
+        // 计算相对URI
+        if(__BURL__&&(stripos($_SERVER['REQUEST_URI'], __BURL__.'/')===0)){
+            $_SERVER['RELATIVE_URI'] = substr($_SERVER['REQUEST_URI'], strlen(__BURL__)); 
+        }else{
+            $_SERVER['RELATIVE_URI'] = $_SERVER['REQUEST_URI'];
+        }
+        
         // 初始化一个数组对象$modelProperties
         $modelProperties = [
             'URI'           =>  $this->getURI(),                       // 统一资源标识
@@ -100,20 +107,20 @@ final class RequestModel implements interfaces\model {
         ];
 
         /**
-         * 来访URL分析
-         * 1. 格式化来访URL，并将它赋值给变量$URI
-         * 2. 统一来访URL的大小写为小写，并将它赋值给变量$uri
+         * 相对URI分析
+         * 1. 格式化相对URI，并将它赋值给变量$URI
+         * 2. 统一相对URI的大小写为小写，并将它赋值给变量$uri
          * 3. 分别截断$URI和$uri字符串，将得到两个数组赋值给$DIR_ARRAY和$dir_array
         **/
 
         $URI = preg_replace('/(^\/|\/$)/', '', preg_replace('/[\\\\\/]+/', '/', $_SERVER['PHP_SELF']));
         $URI = self::filterTags($URI);
-        $uri = ClassLoader::formatRemoteFileName($URI);
+        $uri = ClassLoader::formatPathnameCase($URI);
         $DIR_ARRAY = explode('/', $URI);
         $dir_array = explode('/', $uri);
 
         // 获取配置项中的主页文件名列表和语言列表
-        $homepages = explode('/', ClassLoader::formatRemoteFileName(_HOMEPAGE_));
+        $homepages = explode('/', ClassLoader::formatPathnameCase(_HOMEPAGE_));
         $i18n = $GLOBALS['NEWIDEA']->LANGS;
 
         // 在开启多语言频道的情况下，如果字符串$dir_array[1]存在于语言列表$i18n中，则把该匹配的语言项插入到$modelProperties中，并移除$DIR_ARRAY和$dir_array的第一元素
@@ -121,14 +128,16 @@ final class RequestModel implements interfaces\model {
             $modelProperties['LANG'] = $dir_array[1];
             array_shift($DIR_ARRAY);
             array_shift($dir_array);
+        }elseif(isset($_SERVER['DOMAINS'][HOST])&&isset($_SERVER['DOMAINS'][HOST]['lang'])){
+            $modelProperties['LANG'] = $_SERVER['DOMAINS'][HOST]['lang'];
         }
         
         // 生成全新的URI, 并覆盖给$dir_array[0];
         if(count($dir_array)===2&&in_array($dir_array[1], $homepages)){
-            // 如果数组$dir_array的长度为2，且第二个元素存在于数组$homepages之中，则重写来访URI
+            // 如果数组$dir_array的长度为2，且第二个元素存在于数组$homepages之中，则重写相对URI
             $DIR_ARRAY = ['/'];
             $dir_array = ['tangram'];
-            $_SERVER['REQUEST_URI'] = $modelProperties['TRI']->pathname = '';
+            $_SERVER['RELATIVE_URI'] = $modelProperties['TRI']->pathname = '';
         }else{
             $DIR_ARRAY[0] = $dir_array[0] = '';
             $DIR_ARRAY[0] = join('/', $DIR_ARRAY);     // 此项用于备份完整的新URI
@@ -139,11 +148,11 @@ final class RequestModel implements interfaces\model {
         // 提取query string，并整理应用资源标识和语言频道
         if($_SERVER['QUERY_STRING']){
             $modelProperties['TRI']->qs = $_SERVER['QUERY_STRING'];
-            $array = explode('?', ClassLoader::formatRemoteFileName($_SERVER['REQUEST_URI']));
-            $modelProperties['TRI']->locale_channel = preg_replace('/\/$/', '',str_replace($modelProperties['TRI']->pathname, '', $array[0]));
+            $array = explode('?', ClassLoader::formatPathnameCase($_SERVER['RELATIVE_URI']));
+            $modelProperties['TRI']->locale_channel_dir = preg_replace('/\/$/', '',str_replace($modelProperties['TRI']->pathname, '', $array[0]));
         }else{
             $modelProperties['TRI']->qs = '';
-            $modelProperties['TRI']->locale_channel = preg_replace('/\/$/', '', str_replace($modelProperties['TRI']->pathname, '',  ClassLoader::formatRemoteFileName(rawurldecode($_SERVER['REQUEST_URI']))));
+            $modelProperties['TRI']->locale_channel_dir = preg_replace('/\/$/', '', str_replace($modelProperties['TRI']->pathname, '',  ClassLoader::formatPathnameCase(rawurldecode($_SERVER['RELATIVE_URI']))));
         }
         
         // http method and directory array length
@@ -164,7 +173,7 @@ final class RequestModel implements interfaces\model {
         // 将（可能）调整后的$dir_array、$DIR_ARRAY以及计算出的hash值存入$modelProperties['TRI']
         $modelProperties['TRI']->patharr  = $dir_array;
         $modelProperties['TRI']->opath = $DIR_ARRAY;
-        $modelProperties['TRI']->hash  = md5(HOST.$modelProperties['TRI']->locale_channel.$modelProperties['TRI']->pathname.'?'.$modelProperties['TRI']->qs);
+        $modelProperties['TRI']->hash  = md5(HOST.$modelProperties['TRI']->locale_channel_dir.$modelProperties['TRI']->pathname.'?'.$modelProperties['TRI']->qs);
 
         // 将对象$modelProperties引用至实例的$modelProperties属性，以便外部访问
         $this->modelProperties = $modelProperties;
@@ -174,9 +183,12 @@ final class RequestModel implements interfaces\model {
 
         // 定义完整版的全局url常量
         define('__URL', HTTP_HOST.__BURL__);                                // 系统根目录远程路径名
-        define('__CHN', HTTP_HOST.$modelProperties['TRI']->locale_channel);            // 当前请求地址所在的语言频道的URL
+        define('__CHN', HTTP_HOST.$modelProperties['TRI']->locale_channel_dir);            // 当前请求地址所在的语言频道的URL
         define('__DIR', HTTP_HOST.explode('?', $modelProperties['URI']->src)[0]);      // 当前请求地址的远程路径名
         define('__URI', HTTP_HOST.$modelProperties['URI']->src);                       // 当前请求地址改写后的完整态
+
+        // var_dump(__BURL__, $_SERVER['PHP_SELF'], $_SERVER['REQUEST_URI'], $_SERVER['RELATIVE_URI'], $modelProperties);
+        // exit;
     }
 
     /**
@@ -210,7 +222,7 @@ final class RequestModel implements interfaces\model {
             # 遇到系统不能识别的主机名类型，理应报个错先
         }
         $info->port = PORT;
-        $info->src = '/' . preg_replace('/(^\/|\/$)/', '', preg_replace('/[\\\\\/]+/', '/', $_SERVER['REQUEST_URI']));
+        $info->src = '/' . preg_replace('/(^\/|\/$)/', '', preg_replace('/[\\\\\/]+/', '/', $_SERVER['RELATIVE_URI']));
         return $info;
     }
 

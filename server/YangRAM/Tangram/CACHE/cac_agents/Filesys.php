@@ -185,10 +185,10 @@ final class Filesys extends _abstract {
         }else{
             $expiration = 0;
         }
-        if(isset(self::$instances[$path.':'.$ext])){
-            return self::$instances[$path.':'.$ext];
+        if(isset(self::$instances[$path.':'.$extn])){
+            return self::$instances[$path.':'.$extn];
         }
-        return self::$instances[$path.':'.$ext] = new self($path, $extn, $expiration);
+        return self::$instances[$path.':'.$extn] = new self($path, $extn, $expiration);
 	}
     
     protected

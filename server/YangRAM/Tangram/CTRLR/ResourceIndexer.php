@@ -282,7 +282,7 @@ final class ResourceIndexer {
 	 * 
     **/ 
     private function matchDefaultREST($pathname, $patharr, $request, $defhost){
-        if(stripos($pathname, __aurl__)===0){
+        if(stripos($pathname, strtolower(A_RPN))===0){
             SESSION::init();
             if((count($patharr)>3&&$patharr[2]!=='')){
                 $appid = $patharr[2];

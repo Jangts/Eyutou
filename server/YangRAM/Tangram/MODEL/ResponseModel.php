@@ -163,8 +163,9 @@ final class ResponseModel implements interfaces\model {
     }
 
     public static function renderStatus($title, $alias, $code, $pre, $message, $place){
+        $icon = __BURL__.'/icon.php?o';
         echo <<<HTML
-			<!doctype html>
+<!doctype html>
 <html>
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
@@ -175,7 +176,7 @@ final class ResponseModel implements interfaces\model {
 body { color: #FFF; font-family: 'Microsoft Yahei', 'Microsoft Sans Serif', 'Hiragino Sans GB', 'sans-serif'; font-weight: lighter; }
 .main { width: 80%; max-width: 800px; height: 80%; padding: 10%; cursor: default; }
 .main > header.text-icon { width: 180px; height: 180px; letter-spacing: .2em; text-align: center; color: #FFF; line-height: 162px; font-size: 144px; }
-.main > header.text-icon { background: url(/icon.php?o) center no-repeat; }
+.main > header.text-icon { background: url($icon) center no-repeat; }
 .main > header.text-icon { width: 150px; height: 150px; padding: 15px; letter-spacing: 0; line-height: 132px; font-size: 114px; }
 .main > article { margin-top: 20px; font-size: 14px; }
 .main > article > header { border-bottom: #FFF 1px solid; margin-bottom: 10px; padding: 5px 0; color: #FFF;}

@@ -95,7 +95,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 		$extn = array_pop($array);
 		$basename = implode('.', $array);
 		if($mime==NULL){
-			return [$basename, $ext];
+			return [$basename, $extn];
 		}
 		$array = explode('/', $mime);
 		$type = $array[0];

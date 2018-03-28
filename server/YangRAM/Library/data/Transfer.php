@@ -18,6 +18,7 @@ Class Transfer {
 		$this->fileSize = filesize($filePath);
 		$this->mimeType = $mimeType ? $mimeType : 'application/octet-stream';
 		$this->filename = $filename;
+		$this->setSpeed($speed);
 	}
 
 	private function getRange() {

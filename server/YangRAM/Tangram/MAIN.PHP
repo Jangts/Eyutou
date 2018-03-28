@@ -160,7 +160,7 @@ final class IDEA {
 		$this->prepare_db_connections($this->initialize());
 
 		// 比对入口脚本，以保证系统的安全性
-		if(strcasecmp(strtr($_SERVER['DOCUMENT_ROOT'], '\\', '/'), __ROOT__)==0){
+		if(strcasecmp(dirname($_SERVER['SCRIPT_FILENAME']), __ROOT__)===0){
 			IDEA::$isBoot = true;
 
 			// 初始化资源索引器（又称总路由器）
@@ -178,6 +178,7 @@ final class IDEA {
 			}
 			return true;
 		}
+
 		$sp = new CTRLR\StatusProcessor(403);
 
 		return $sp->respond(CTRLR\StatusProcessor::TLOG);
@@ -236,6 +237,10 @@ final class IDEA {
 				$this->LANGS = $config['i18n'];
 			}
 
+			if(defined('__CODE__')){
+				new CTRLR\StatusProcessor(__CODE__, true);
+			}
+
 			// 初始化一般数据存储仓
 			CACHE\DataStorage::initialize($config['rdsconnections'], $config['memconnections']);
 
@@ -267,36 +272,6 @@ final class IDEA {
 					'options'	=>	$conn,
 					'instance'	=>	NULL
 				];
-				// 因为效率的原因不再测试零号库
-				// if($n){
-				// 	$CONNS[] = [
-				// 		'driver'	=>  $conn['driver'],
-				// 		'options'	=>	$conn,
-				// 		'instance'	=>	NULL
-				// 	];
-				// }else{
-				// 	/**
-				// 	 * 数据库配置表中的第一个数据库是记录系统及应用信息的默认数据库，一般称作首选数据库，俗称零号库
-				// 	 * 该数据库记录了系统运行的必要数据，系统会在初始化时就连接上
-				// 	 * 其他数据库则在需要的时候才进行连接，这样可以减少资源的浪费
-				// 	**/
-				// 	// 引入首选数据库驱动文件
-				// 	include_once(CPATH.'CTRLR/rdb_drivers/'.$conn['driver'].'.php');
-
-				// 	// 实例化一个PDOX类拓展类，并使用它链接首选数据库
-				// 	$class = 'Tangram\CTRLR\rdb_drivers\\'.$conn['driver'];
-				// 	if($defaultpdox = $class::instance($conn)){
-				// 		$CONNS[] = [
-				// 			'driver'	=>  $conn['driver'],
-				// 			'options'	=>	$conn,
-				// 			'instance'	=>	$defaultpdox
-				// 		];
-				// 	}else{
-				// 		// 指定了系统不支持的数据库类型，系统中断并抛出相应提示
-				// 		$sp = new CTRLR\StatusProcessor(1501, 'Some needed pdo driver not found, please check your php on your web server.');
-				// 		return $sp->respond(CTRLR\StatusProcessor::TLOG);
-				// 	}
-				// }
 			}
 			$Permissions->DEFAULT_PDOX_USEABLE = true;
 
@@ -456,7 +431,7 @@ final class ClassLoader {
 
 	/**
      * 服务器文件系统是否忽略大小写
-     * 由静态方法ClassLoader::formatRemoteFileName()初始化
+     * 由静态方法ClassLoader::formatPathnameCase()初始化
      * 
      * @access public
      * @var null|bool $is_ignore_case
@@ -473,14 +448,14 @@ final class ClassLoader {
      * @param string $string
 	 * @return bool
 	**/ 
-    public static function formatRemoteFileName($string){
+    public static function formatPathnameCase($string){
         if(self::$is_ignore_case===null){
-            if(is_file(dirname(__FILE__).'request.php')){
+            if(is_file(__DIR__.'/main.php')){
                 self::$is_ignore_case = true;
             }else{
                 self::$is_ignore_case = false;
             }
-        }
+		}
         if(self::$is_ignore_case===true){
             return strtolower($string);
         }
