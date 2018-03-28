@@ -6,6 +6,13 @@
         "installpath": "SampleApplications/Common",
         "usedb": 0
     },
+    "SB": {
+        "id": "SB",
+        "name": "Sample Administrationn Backstage",
+        "scode": "SB",
+        "installpath": "SampleApplications/Backstage/",
+        "usedb": 0
+    },
     "PAGES": {
         "id": "PAGES",
         "name": "YangRAM Pages",
@@ -125,15 +132,6 @@
         "installpath": "YangRAMAdminSuit/Smartian/",
         "usedb": 0
     },
-
-    "GZLAILI": {
-        "id": "GZLAILI",
-        "name": "Lailihong Administrationn Backstage",
-        "scode": "BS",
-        "installpath": "Lailihong/Backstage/",
-        "usedb": 0
-    },
-
     "EYUTOU": {
         "id": "EYUTOU",
         "name": "Eyutou Building Projects Platform",

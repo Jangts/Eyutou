@@ -76,7 +76,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 				foreach($successed as $i=>$file){
 					$data= [
 						'host'		=>	HOST,
-						'url'		=>	__aurl__.'uploads/files/'.$file["ID"].'.'.$file['SUFFIX'],
+						'url'		=>	__aurl__.'uploads/files/'.$file["ID"].'.'.$file['FILE_EXTN'],
 						'name'		=>	$file['FILE_NAME'],
 						'type'		=>	$file['MIME'],
 						'size'		=>	$file['FILE_SIZE'],
@@ -132,7 +132,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 
     public function get($id, array $options = []){
 		$this->checkAuthority('R', $options) or Status::cast('No permissions to read resources.', 1411.2);
-		list($id, $suffix) = FileMetaModel::getSplitFileNameArray($id);
+		list($id, $extn) = FileMetaModel::getSplitFileNameArray($id);
 		if($id&&$file = FileModel::byGUID($id)){
 			$filename = PUBL_PATH.$file->LOCATION;
 			if(is_file($filename)){
@@ -228,20 +228,20 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
                         ];
                     }else{
                         // $post = $this->request->INPUTS->toArray();
-						list($basename, $suffix, $type) = FileMetaModel::getSplitFileNameArray($filename, $file["type"][$i]);
+						list($basename, $extn, $type) = FileMetaModel::getSplitFileNameArray($filename, $file["type"][$i]);
                         $srcInput = FileSourceModel::completeInput([
                             'MIME'              =>  $file["type"][$i],
 							'DURATION' 	        =>	$durations[$i],
 							'tmp_name'          =>  $file["tmp_name"][$i],
 							'blob'				=>  isset($file["blob"]) ? $file["blob"][$i] : '',
-                        ], $suffix, $type);
+                        ], $extn, $type);
 
                         $metaInput = [
                             'FOLDER'        	=>  static::getFolderID($options),
                             'FILE_NAME'     	=>  $filename,
                             'FILE_TYPE'     	=>  $type,
                             'FILE_SIZE'     	=>  $file["size"][$i],
-                            'SUFFIX'        	=>  $suffix
+                            'FILE_EXTN'        	=>  $ext
                         ];
                         if($obj = FileModel::postByMateinfoAndSource($metaInput, $srcInput)){
 							$this->successed[$name][] = $obj->getArrayCopy();
@@ -276,19 +276,19 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 					];
 				}else{
 					// $post = $this->request->INPUTS->toArray();
-					list($basename, $suffix, $type) = FileMetaModel::getSplitFileNameArray($file['name'], $file["type"]);
+					list($basename, $extn, $type) = FileMetaModel::getSplitFileNameArray($file['name'], $file["type"]);
 					$srcInput = FileSourceModel::completeInput([
 						'MIME'              =>  $file["type"],
 						'DURATION' 	        =>	isset($options["duration"]) ? $options["duration"] : 0,
 						'tmp_name'          =>  $file["tmp_name"],
 						'blob'				=>  isset($file["blob"]) ? $file["blob"] : '',
-					], $suffix, $type);
+					], $extn, $type);
 					$metaInput = [
 						'FOLDER'        	=>  static::getFolderID($options),
 						'FILE_NAME'     	=>  $file['name'],
 						'FILE_TYPE'     	=>  $type,
 						'FILE_SIZE'     	=>  $file["size"],
-						'SUFFIX'        	=>  $suffix
+						'FILE_EXTN'        	=>  $ext
 					];
 					if($obj = FileModel::postByMateinfoAndSource($metaInput, $srcInput)){
 						$this->successed[$name][] = $obj->getArrayCopy();
@@ -353,14 +353,14 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 						'error'     =>  $file["error"]
 					];
 				}else{
-					list($basename, $suffix, $type) = FileMetaModel::getSplitFileNameArray($file['name'], $file["type"]);
-					if(($type===$meta->FILE_TYPE)&&($suffix===$meta->SUFFIX)){
+					list($basename, $extn, $type) = FileMetaModel::getSplitFileNameArray($file['name'], $file["type"]);
+					if(($type===$meta->FILE_TYPE)&&($ext===$meta->FILE_EXTN)){
 						if($source = FileSourceModel::postIfNotExists( FileSourceModel::completeInput([
 							'MIME'              =>  $file["type"],
 							'DURATION' 	        =>	isset($options["duration"]) ? $options["duration"] : 0,
 							'tmp_name'          =>  $file["tmp_name"],
 							'blob'				=>  isset($file["blob"]) ? $file["blob"] : '',
-						], $suffix, $type))){
+						], $extn, $type))){
 							// 不支持同时更改源和名称与文件夹等信息
 							if($meta->put( [
 								'FILE_SIZE'     	=>  $file["size"],
@@ -406,8 +406,8 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
      * 文件类型检测
      * @return bool
      */
-    protected function checkType($suffix){
-        return in_array('.'.$suffix, $this->config["allowFiles"]);
+    protected function checkType($extn){
+        return in_array('.'.$extn, $this->config["allowFiles"]);
     }
 
     /**

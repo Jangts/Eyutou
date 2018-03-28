@@ -14,8 +14,8 @@ final class FileMetaModel extends BaseCloudItemModel {
 	MTIME_ASC = [['SK_MTIME', false, self::SORT_REGULAR]],
 	FSIZE_DESC = [['FILE_SIZE', true, self::SORT_REGULAR]],
 	FSIZE_ASC = [['FILE_SIZE', false, self::SORT_REGULAR]],
-	FTYPE_DESC = [['SUFFIX', true, self::SORT_REGULAR]],
-	FTYPE_ASC = [['SUFFIX', false, self::SORT_REGULAR]],
+	FTYPE_DESC = [['FILE_EXTN', true, self::SORT_REGULAR]],
+	FTYPE_ASC = [['FILE_EXTN', false, self::SORT_REGULAR]],
 	FNAME_DESC = [['FILE_NAME', true, self::SORT_REGULAR]],
 	FNAME_ASC = [['FILE_NAME', false, self::SORT_REGULAR]],
 	FNAME_DESC_GBK = [['FILE_NAME', true, self::SORT_CONVERT_GBK]],
@@ -34,7 +34,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 		'FILE_NAME'     	=>  '',
 		'FILE_TYPE'     	=>  'archive',
 		'FILE_SIZE'     	=>  0,
-		'SUFFIX'        	=>  '',
+		'FILE_EXTN'        	=>  '',
 		'SK_MTIME'   		=>  DATETIME,
         'SK_IS_RECYCLED' 	=>  0
     ];
@@ -67,21 +67,21 @@ final class FileMetaModel extends BaseCloudItemModel {
 	 * 也就是说，YangRAM Cloud并不接受修改后缀名
 	 * 如果试图修改后缀名，系统会自动把原后缀名不在后面
 	 */
-	private static function correctFileName($ID, $suffix, $folder, $id){
+	private static function correctFileName($ID, $extn, $folder, $id){
 		// 剥离基础名
-		if($suffix){
-			$basename = preg_replace('/\\.'.$suffix.'$/', '', $ID);
-			$suffix = '.'.$suffix;
+		if($extn){
+			$basename = preg_replace('/\\.'.$ext.'$/', '', $ID);
+			$extn = '.'.$extn;
 		}else{
 			$basename = $ID;
-			$suffix = '';
+			$extn = '';
 		}
 
-		$ID = $basename . $suffix;
+		$ID = $basename . $extn;
 		$result = self::$staticQuerier->requires()->where('FILE_NAME', $ID)->where('FOLDER', $folder)->where('SK_IS_RECYCLED', 0)->where('ID', $id, '<>')->take(1)->orderby(false)->count('ID');
 		$num = 1;
 		while($result){
-			$ID = $basename . '(' . $num++ . ')' . $suffix;
+			$ID = $basename . '(' . $num++ . ')' . $extn;
 			$result = self::$staticQuerier->requires()->where('FILE_NAME', $ID)->where('FOLDER', $folder)->where('SK_IS_RECYCLED', 0)->where('ID', $id, '<>')->take(1)->orderby(false)->count('ID');
 		}
 		return $ID;
@@ -92,15 +92,15 @@ final class FileMetaModel extends BaseCloudItemModel {
 		if(count($array)===1){
 			return [$filename, ''];
 		}
-		$suffix = array_pop($array);
+		$extn = array_pop($array);
 		$basename = implode('.', $array);
 		if($mime==NULL){
-			return [$basename, $suffix];
+			return [$basename, $ext];
 		}
 		$array = explode('/', $mime);
 		$type = $array[0];
 		if($type==='application'){
-			switch($suffix){
+			switch($extn){
 				case 'doc':
 				case 'docx':
 				case 'xls':
@@ -128,7 +128,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 				break;
 			}
 		}
-		return [$basename, $suffix, $type];
+		return [$basename, $extn, $type];
 	}
 
 	public static function getCOUNT($type = NULL){
@@ -311,7 +311,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 		// 校正文件夹
 		$this->correctFolder();
 		// 矫正文件名
-		$this->modelProperties['FILE_NAME'] = self::correctFileName($this->modelProperties['FILE_NAME'], $this->modelProperties['SUFFIX'], $this->modelProperties['FOLDER'], $this->modelProperties['ID']);
+		$this->modelProperties['FILE_NAME'] = self::correctFileName($this->modelProperties['FILE_NAME'], $this->modelProperties['FILE_EXTN'], $this->modelProperties['FOLDER'], $this->modelProperties['ID']);
 		// 更新修改时间
 		$this->modelProperties['SK_MTIME']   =	DATETIME;
 
@@ -321,7 +321,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 		// 移除不可改键
 		unset($this->modelProperties['ID']);
 		unset($this->modelProperties['FILE_TYPE']);
-		unset($this->modelProperties['SUFFIX']);
+		unset($this->modelProperties['FILE_EXTN']);
 		$diff = self::array_diff($this->savedProperties, $this->modelProperties, self::DIFF_SIMPLE);
 		// 不支持同时更改源和名称与文件夹等信息
 		if(isset($diff['FILE_NAME'])||isset($diff['FOLDER'])){
@@ -337,7 +337,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 		$update = $diff['__M__'];
 		$this->modelProperties['ID'] = $this->savedProperties['ID'];
 		$this->modelProperties['FILE_TYPE'] = $this->savedProperties['FILE_TYPE'];
-		$this->modelProperties['SUFFIX'] = $this->savedProperties['SUFFIX'];
+		$this->modelProperties['FILE_EXTN'] = $this->savedProperties['FILE_EXTN'];
 		if(count($update)==0){
 			return true;
 		}
@@ -356,7 +356,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 		// 校正文件夹
 		$this->correctFolder();
 		// 矫正文件名
-		$this->modelProperties['FILE_NAME'] = self::correctFileName($this->modelProperties['FILE_NAME'], $this->modelProperties['SUFFIX'], $this->modelProperties['FOLDER'], $this->modelProperties['ID']);
+		$this->modelProperties['FILE_NAME'] = self::correctFileName($this->modelProperties['FILE_NAME'], $this->modelProperties['FILE_EXTN'], $this->modelProperties['FOLDER'], $this->modelProperties['ID']);
 		// 更新修改时间
 		$this->modelProperties['SK_MTIME']   =	DATETIME;
         if(!$querier->insert($this->modelProperties)){

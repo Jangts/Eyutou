@@ -5,7 +5,7 @@ use Response;
 use Controller;
 
 class Document extends Controller {
-	private $suffix, $filename;
+	private $extn, $filename;
 
 	public function wav($id){
 		$this->main($id, 'wav');
@@ -18,7 +18,7 @@ class Document extends Controller {
 			$src = SRC::byId($id, $type);
 			if($src&&$row = $src->toArray()){
 				$this->filename = trim(PATH_PUB.$row["LOCATION"]);
-				$this->suffix = $basename[1];
+				$this->extn = $basename[1];
 				if(is_file(PATH_PUB.$row["LOCATION"])){
 					$this->filetype = $row["MIME"];
 					$this->basename = $row["FILE_NAME"];
@@ -146,7 +146,7 @@ class Document extends Controller {
 
 	private function reSizePicture(){
 		if ($this->filename&&file_exists($this->filename)){
-			if(empty($this->resize[1])||$this->resize[1]==$this->suffix){
+			if(empty($this->resize[1])||$this->resize[1]==$this->extn){
 				$resize = explode("x", $this->resize[0]);
 				if(is_numeric($resize[0])&&is_file($this->filename)){
 					$imgWidth = $resize[0];

@@ -21,10 +21,10 @@ final class Filesys extends _abstract {
      * @final
      * @static
      * @param string $path 文件夹路径
-     * @param string $suffix 后缀名，因时间原因，暂未实现
+     * @param string $extn 后缀名，因时间原因，暂未实现
      * @return bool
      */
-    public static function clearPath($path, $suffix = '') {
+    public static function clearPath($path, $extn = '') {
 	    $dh = opendir($path);
 	    while ($file = readdir($dh)) {
 	        if ($file != "." && $file != "..") {
@@ -176,19 +176,19 @@ final class Filesys extends _abstract {
             new Status(1415, '', 'Must hava a pathname for Filesys Storage', true);
         }
         if(isset($options['filetype'])){
-            $suffix = '.'.strval($options['filetype']);
+            $extn = '.'.strval($options['filetype']);
         }else{
-            $suffix = '.ni';
+            $extn = '.ni';
         }
         if(isset($options['expiration'])){
             $expiration = intval($options['expiration']);
         }else{
             $expiration = 0;
         }
-        if(isset(self::$instances[$path.':'.$suffix])){
-            return self::$instances[$path.':'.$suffix];
+        if(isset(self::$instances[$path.':'.$ext])){
+            return self::$instances[$path.':'.$ext];
         }
-        return self::$instances[$path.':'.$suffix] = new self($path, $suffix, $expiration);
+        return self::$instances[$path.':'.$ext] = new self($path, $extn, $expiration);
 	}
     
     protected
@@ -202,17 +202,17 @@ final class Filesys extends _abstract {
      * 存取器实例(缓存介质)构造函数
      * 
      * @param string $path 缓存目录地址
-	 * @param string $suffix 文件名后缀
+	 * @param string $extn 文件名后缀
 	 * @param int $expiration 生存时间
 	 * @return 构造函数无返回值
      */
-    private function __construct($path, $suffix, $expiration){
+    private function __construct($path, $extn, $expiration){
         if(stripos($path, __ROOT__)===0){
             $this->path = str_replace('\\', '/', $path);
         }else{
             new Status(1414, '', 'Error Pathname For Filesys Storage', true);
         }
-        $this->suffix = $suffix;
+        $this->extn = $extn;
         $this->expiration = $expiration;
     }
 
@@ -224,7 +224,7 @@ final class Filesys extends _abstract {
 	 * @return string|int|bool
 	 */
 	public function filename($index){
-		return $this->path.$this->namespace.$index.$this->suffix;
+		return $this->path.$this->namespace.$index.$this->extn;
     }
 
     /**

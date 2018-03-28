@@ -14,12 +14,12 @@ final class AppCache extends Storage {
 	$isArray,
     $encodedMode = 1;
 
-	public function __construct($appid = 'Common', $isArray = true, $encodedMode = Storage::JSN, $suffix = '.ni'){
+	public function __construct($appid = 'Common', $isArray = true, $encodedMode = Storage::JSN, $extn = '.ni'){
 		$this->appid  = strtoupper($appid);
         $this->cachePath = RUNPATH_CA.$appid.'/';
         $this->isArray = ($isArray != false);
 		$this->encodedMode = $encodedMode;
-		$this->suffix = $suffix;
+		$this->extn = $extn;
 	}
 
     public function whose(){

@@ -27,7 +27,7 @@ class FileSourceModel extends BaseCloudItemModel {
         'SK_CTIME'       =>  DATETIME
     ];
 
-    private static function moveUploadedFile($type, $input, $suffix){
+    private static function moveUploadedFile($type, $input, $extn){
         switch($type){
 			case 'image':
 			case 'audio':
@@ -45,18 +45,18 @@ class FileSourceModel extends BaseCloudItemModel {
         
         if($input["tmp_name"]){
             $hash = md5_file($input["tmp_name"]);
-            $path = $dir.$hash.'.'.$suffix;
+            $path = $dir.$hash.'.'.$extn;
             move_uploaded_file($input["tmp_name"], PUBL_PATH.$path);
         }else{
             $hash = md5($input["blob"]);
-            $path = $dir.$hash.'.'.$suffix;
+            $path = $dir.$hash.'.'.$extn;
             file_put_contents(PUBL_PATH.$path, $input["blob"]);
         }
 		return [$path, $hash];
     }
     
-    public static function completeInput($input, $suffix, $type){
-        list($path, $hash) = self::moveUploadedFile($type, $input, $suffix);
+    public static function completeInput($input, $extn, $type){
+        list($path, $hash) = self::moveUploadedFile($type, $input, $extn);
         switch($type){
             case 'image':
             $size = getimagesize(PUBL_PATH.$path);

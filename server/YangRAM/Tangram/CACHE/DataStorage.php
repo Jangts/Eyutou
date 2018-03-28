@@ -204,7 +204,7 @@ class DataStorage {
 			if((stripos($options, __ROOT__)===0)&&!$this->agent_type){
 				$this->agent = $this->create_agent(self::USE_FILES, [
 					'path'			=>	$options,
-					'filetype'		=>	'ni',
+					'filetype'		=>	'tmp',
 					'expiration'	=>	0
 				]);
 			}else{

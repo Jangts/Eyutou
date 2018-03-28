@@ -46,7 +46,7 @@ final class FileModel extends BaseCloudItemModel {
 	}
 
 	public static function post(array $input){
-		list($basename, $suffix, $type) = FileMetaModel::getSplitFileNameArray($input['FILE_NAME'], $input['MIME']);
+		list($basename, $extn, $type) = FileMetaModel::getSplitFileNameArray($input['FILE_NAME'], $input['MIME']);
 		$srcInput = FileSourceModel::completeInput([
 			'MIME'              =>  $input['MIME'],
 			'DURATION' 	        =>	isset($input['DURATION']) ? $input['DURATION'] : 0,
@@ -54,14 +54,14 @@ final class FileModel extends BaseCloudItemModel {
 			'HEIGHT' 	        =>	isset($input['HEIGHT']) ? $input['HEIGHT'] : 0,
 			'tmp_name'          =>  isset($input["tmp_name"]) ? $input["tmp_name"] : '',
 			'blob'				=>  isset($input["blob"]) ? $input["blob"] : ''
-		], $suffix, $type);
+		], $extn, $type);
 
 		$metaInput = [
 			'FOLDER'        	=>  $input['FOLDER'],
 			'FILE_NAME'     	=>  $input['FILE_NAME'],
 			'FILE_TYPE'     	=>  $type,
 			'FILE_SIZE'     	=>  $input['FILE_SIZE'],
-			'SUFFIX'        	=>  $suffix
+			'FILE_EXTN'        	=>  $ext
 		];
 		if($obj = FileModel::postByMateinfoAndSource($metaInput, $srcInput)){
 			return $obj;

@@ -145,7 +145,7 @@ final class LocalizedDictModel implements \DataModel {
 	
 	protected function getFilename($type){
 		global $NEWIDEA;
-		$suffix = '.ini';
+		$extn = '.ini';
 		switch($type){
 			case 'ini':
 			case 'json':
@@ -153,14 +153,14 @@ final class LocalizedDictModel implements \DataModel {
 			break;
 
 			case 'phpini':
-			$suffix = '.ini';
+			$extn = '.ini';
 			break;
 	
 			default:
-			$suffix = '.php';
+			$extn = '.php';
 		}
 		$lang = strtolower($NEWIDEA->LANGUAGE);
-		$lang_check_result = self::checkLang(AP_CURR.'Locales/{{lang}}'.$suffix, false, $lang);
+		$lang_check_result = self::checkLang(AP_CURR.'Locales/{{lang}}'.$extn, false, $lang);
 		if($lang_check_result){
 			$this->code = $NEWIDEA->LANGUAGE = $lang_check_result[0];
 			return $lang_check_result[1];
@@ -168,13 +168,13 @@ final class LocalizedDictModel implements \DataModel {
 		$lang_check_result = self::checkLang(LPATH.'{{lang}}', true, $lang);
 		if($lang_check_result){
 			$this->code = $lang_check_result[0];
-			if(is_file($lang_check_result[1].'/'.strtolower(AI_CURR).$suffix)){
+			if(is_file($lang_check_result[1].'/'.strtolower(AI_CURR).$ext)){
 				$this->code = $NEWIDEA->LANGUAGE = $lang_check_result[0];
-				return $lang_check_result[1].'/'.strtolower(AI_CURR).$suffix;
+				return $lang_check_result[1].'/'.strtolower(AI_CURR).$extn;
 			}
-			if(is_file($lang_check_result[1].'/common'.$suffix)){
+			if(is_file($lang_check_result[1].'/common'.$ext)){
 				$this->code = $NEWIDEA->LANGUAGE = $lang_check_result[0];
-				return $lang_check_result[1].'/common'.$suffix;
+				return $lang_check_result[1].'/common'.$extn;
 			}
 		}
 		new Status(1444, 'No matching ['.$type.']['.$lang.'] dictionary file of this application ['.AI_CURR.']', true);

@@ -53,7 +53,7 @@ trait transfer {
 
 	public function transfer(){
 		$props = $this->savedProperties;
-		list($basename, $suffix, $type) = FileMetaModel::getSplitFileNameArray($props['FILE_NAME'], $props['MIME']);
+		list($basename, $extn, $type) = FileMetaModel::getSplitFileNameArray($props['FILE_NAME'], $props['MIME']);
 		switch($type){
 			case "image":
 			$this->transferImage($props);

@@ -59,10 +59,10 @@ class UEditorController extends FilesController {
             $file = $this->successed[$options['__fieldName']][0];
             $data= [
                 "state"     =>  static::$stateMap[0],                                                     //上传状态，上传成功时必须返回"SUCCESS"
-                "url"       =>  __aurl__.'uploads/files/'.$file["ID"].'.'.$file['SUFFIX'],              //返回的地址
+                "url"       =>  __aurl__.'uploads/files/'.$file["ID"].'.'.$file['FILE_EXTN'],              //返回的地址
                 "title"     =>  $file["FILE_NAME"],                                                     //新文件名
                 "original"  =>  $file["FILE_NAME"],                                                     //原始文件名
-                "type"      =>  ".".$file["SUFFIX"],                                              //文件类型
+                "type"      =>  ".".$file["FILE_EXTN"],                                              //文件类型
                 "size"      =>  $file["FILE_SIZE"]                                                      //文件大小
             ];
         }else{
@@ -121,7 +121,7 @@ class UEditorController extends FilesController {
         $objs = FileMetaModel::query($requires, FileMetaModel::MTIME_DESC, [$start, $size]);
         foreach ($objs as $file) {
             $files[] = array(
-                'url'   =>  __aurl__.'uploads/files/'.$file["ID"].'.'.$file['SUFFIX'],
+                'url'   =>  __aurl__.'uploads/files/'.$file["ID"].'.'.$file['FILE_EXTN'],
                 'mtime' =>  $file["SK_MTIME"]
             );
         }
