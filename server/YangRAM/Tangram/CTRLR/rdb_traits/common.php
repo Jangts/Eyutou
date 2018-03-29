@@ -59,7 +59,7 @@ trait common {
                 return true;
             }
             // 当前应用有权维护
-            if(isset($tables[$tablename][AI_CURR])){
+            if(isset($tables[$tablename][CACAI])){
                 return true;
             }
             return false;
@@ -209,13 +209,13 @@ trait common {
     **/
     private static function getApplicationPermissionsCode($table){
         // 进行处于核心态时，所有表可读写
-        if(!defined('TP_CURR')){
+        if(!defined('CACAT')){
             // 返回2
             return 2;
         }
 
         // 对应用自建表始终可读写
-        if(strpos($table, DB_PUB) === 0||strpos(strtolower($table), strtolower(TP_CURR)) === 0){
+        if(strpos($table, DB_PUB) === 0||strpos(strtolower($table), strtolower(CACAT)) === 0){
             // 返回2
             return 2;
         }
@@ -243,7 +243,7 @@ trait common {
         // 如果数据表为用户信息表
         if(strpos($table, DB_USR) === 0){
             // 用户应用始终可读写用户信息表
-            if(strpos(AI_CURR, 'USERS') === 0){
+            if(strpos(CACAI, 'USERS') === 0){
                 // 返回2
                 return 2;
             }
@@ -257,7 +257,7 @@ trait common {
         // 如果数据表为云盘表
         elseif(strpos($table, DB_YUN) === 0){
             // 云盘套件始终可读写云盘表
-            if(strpos(AI_CURR, 'CLOUD') === 0){
+            if(strpos(CACAI, 'CLOUD') === 0){
                 // 返回2
                 return 2;
             }
@@ -273,7 +273,7 @@ trait common {
             // 用户注册表
 
             // 用户应用始终可读写用户注册表
-            if(strpos(AI_CURR, 'USERS') === 0){
+            if(strpos(CACAI, 'USERS') === 0){
                 // 返回2
                 return 2;
             }
@@ -327,7 +327,7 @@ trait common {
             return true;
         }
         if(_USE_DEBUG_MODE_){
-            return new Status(1411.5, '', 'Application ['.AI_CURR.'] has no access to read data from the table ['.$table.']', true);
+            return new Status(1411.5, '', 'Application ['.CACAI.'] has no access to read data from the table ['.$table.']', true);
         }
         self::$unreadableTable = $table;
         return false;
@@ -349,7 +349,7 @@ trait common {
             return true;
         }
         if(_USE_DEBUG_MODE_){
-            return new Status(1411.6, '', 'Application ['.AI_CURR.'] has no access to write data to the table ['.$table.']', true);
+            return new Status(1411.6, '', 'Application ['.CACAI.'] has no access to write data to the table ['.$table.']', true);
         }
         self::$unwritableTable = $table;
         return false;

@@ -7,9 +7,9 @@ use AF\Models\BaseR3Model;
 class OptionsModel extends BaseR3Model {
 
     protected static
-    $rdbConnectionIndex = CI_CURR,
+    $rdbConnectionIndex = CACAC,
     $rdbConnectionType = 0,
-    $tablenamePrefix = TP_CURR,
+    $tablenamePrefix = CACAT,
     $tablenamePrefixRewritable = true,
     $tablenameAlias = 'options',
     $uniqueIndexes = ['option_name'],

@@ -74,7 +74,7 @@ trait staticmethods {
 
         // 拥有使用当表链接的权限
         if(self::$permissions->ACTIVITY_PDOX_USEABLE){
-            if(self::$id===CI_CURR){
+            if(self::$id===CACAC){
                 return self::$lastPDOXConn;
             }
 		}

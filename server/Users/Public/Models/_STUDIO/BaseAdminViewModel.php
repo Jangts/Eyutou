@@ -11,7 +11,7 @@ use App;
 abstract class BaseAdminViewModel extends \PM\_STUDIO\AbstractViewModel {
 	public static $staticVasInited = false;
 	public static function updateTemplateCache($templates=NULL){
-		return \Storage::clearPath(DPATH.AI_CURR.'/templates/');
+		return \Storage::clearPath(DPATH.CACAI.'/templates/');
 	}
 
 	protected  $app, $request;
@@ -33,9 +33,9 @@ abstract class BaseAdminViewModel extends \PM\_STUDIO\AbstractViewModel {
 		$this->request = $request;
 		$this->theme = $theme;
 		$this->vars =  $this->initVars();
-		define('COMMON_ADMIN_VIEW_URL', __BURL__.$app->DIR.'Views/_'.AI_CURR.'/');
-		define('COMMON_ADMIN_VIEW_PATH', $app->Path.'Views/_'.AI_CURR.'/');
-		define('COMMON_ADMIN_VIEW_PATH_TPL', DPATH.AI_CURR.'/templates/'.$app->ID.'/');
+		define('COMMON_ADMIN_VIEW_URL', __BURL__.$app->DIR.'Views/_'.CACAI.'/');
+		define('COMMON_ADMIN_VIEW_PATH', $app->Path.'Views/_'.CACAI.'/');
+		define('COMMON_ADMIN_VIEW_PATH_TPL', DPATH.CACAI.'/templates/'.$app->ID.'/');
 		return $this;
 	}
 

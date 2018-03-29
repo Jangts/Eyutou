@@ -23,7 +23,7 @@ use Tangram\CACHE\Resource;
  * @version    5.0.0
 **/
 final class ResourceIndexer {
-    protected static $instance = NULL, $defhost = NULL, $res = NULL;
+    protected static $instance = NULL, $apihost = NULL, $res = NULL;
 
     /**  
 	 * 资源索引器实例获取方法
@@ -41,6 +41,35 @@ final class ResourceIndexer {
     }
     
     /**  
+	 * 默认域名获取方法
+	 * 第一次调用时创建标注化请求对象
+	 * 
+	 * @access public
+     * @static
+	 * @return object(Tangram\MODEL\Request) 标注化请求对象
+	**/
+    public static function apihost(){
+        // 判断是否第一次被调用
+        if(self::$apihost===NULL){
+            if(_PRIMARY_DOMAIN_){
+                if(stripos(HOST, 'www.')===0){
+                    // 返回主域名的'www'子域名
+                    self::$apihost = 'www.'.strtolower(_PRIMARY_DOMAIN_);
+                }else{
+                    // 直接返回主域名
+                    self::$apihost = strtolower(_PRIMARY_DOMAIN_);
+                }
+            }else{
+			    // 没有指定主域名，则返回当前域名
+                self::$apihost = HOST;
+            }
+        }
+
+        // 返回默认域名
+		return self::$apihost;
+    }
+
+    /**  
 	 * 默认域名（如果有的话）获取方法
 	 * 第一次调用时创建标注化请求对象
 	 * 
@@ -48,27 +77,14 @@ final class ResourceIndexer {
      * @static
 	 * @return object(Tangram\MODEL\Request) 标注化请求对象
 	**/
-    public static function defhost(){
-        // 判断是否第一次被调用
-        if(self::$defhost===NULL){
-            if(_DEFAULT_DOMAIN_){
-                if(stripos(HOST, 'www.')===0){
-                    // 返回主域名的'www'子域名
-                    self::$defhost = 'www.'.strtolower(_DEFAULT_DOMAIN_);
-                }else{
-                    // 直接返回主域名
-                    self::$defhost = strtolower(_DEFAULT_DOMAIN_);
-                }
-            }else{
-			    // 没有指定主域名，则返回当前域名
-                self::$defhost = HOST;
-            }
+    public static function defai(){
+        if(isset($_SERVER['DOMAIN_NAMES'][HOST])&&isset($_SERVER['DOMAIN_NAMES'][HOST]['appid'])){
+            return $_SERVER['DOMAIN_NAMES'][HOST]['appid'];
         }
-
-        // var_dump(HOST, _DEFAULT_DOMAIN_, self::$defhost);
-
-        // 返回默认域名
-		return self::$defhost;
+        if(_DEFAULT_APP_){
+            return _DEFAULT_APP_;
+        }
+        return 'tangram';
     }
 
      /**  
@@ -99,7 +115,7 @@ final class ResourceIndexer {
         $request = Request::instance();
         $pathname = $request->TRI->pathname;
         $patharr = $request->TRI->patharr;
-        $defhost = self::defhost();
+        $apihost = self::apihost();
 
         // 检查是否有缓存，如果有则直接响应给客户端，否则返回false
         // ……
@@ -109,132 +125,86 @@ final class ResourceIndexer {
         self::$res = Resource::initialize($request)->render();
 
         // 检查是否为标准接口
-        $temporary = $this->matchStandardAPI($pathname, $patharr, $request, $defhost);
+        $temporary = $this->matchStandardAPI($pathname, $patharr, $request, $apihost);
 
         // 如果非标准接口，则进行默认路由表匹配
         // 如果返回路由表编号，则进行该路由表的匹配
-        if($temporary['map']===0){
+        if($temporary['map']===self::NOT_MATCH){
 
             // 检查是否启用且适用于默认RESTful API
-            if($defhost===HOST&&_USE_REST_API_){
-                $temporary = $this->matchDefaultREST($pathname, $patharr, $request, $defhost);
+            if($apihost===HOST&&_USE_REST_API_){
+                $temporary = $this->matchDefaultREST($pathname, $patharr, $request, $apihost);
             }
             RouteCollection::initialize();
-            while ($temporary['map']>=0){
-                $temporary = $this->matchRouteMap($temporary['map'], $pathname, $patharr, $request, $defhost);
+            while ($temporary['map']>=self::NOT_MATCH){
+                $temporary = $this->matchRouteMap($temporary['map'], $pathname, $patharr, $request, $apihost);
             }
         }
         
         setcookie('language', REQUEST_LANGUAGE, time()+315360000, '/', HOST, _OVER_SSL_, true);
         if(isset($temporary['app'])){
-            define('AC_CURR', $temporary['app']);
-            define('RT_CURR', abs($temporary['map']));
+            define('APPID', $temporary['app']);
+            define('ROUTE', $temporary['map']);
+            define('route', $request->ARI->route);
         }else{
             new StatusProcessor(404, true);//StatusProcessor::notFound();
         }
     }
 
-    private function checked($patharr, $request, $mapid, $index){
+    private function checked($patharr, $request, $mapid, $index, $callback){
         if((isset($patharr[$index])&&$patharr[$index]!=='')){
             $appid = $patharr[$index];
+            $route = abs($mapid);
         }else{
-            if(defined('_CLI_MODE_')){
-                $appid = 0;
-                while(empty($appid)){
-                    fwrite(STDOUT,"Please specify a subapp (press the APPID):\r\n");
-                    $appid=trim(fgets(STDIN));
-                }
-            }else{
-                $request->update('tangram', -1);
-                return [
-                    'map'       =>  -400,
-                    'app'       =>  'tangram'
-                ];
-            }
+            list($mapid, $appid, $route, $index) = $callback($index);
         }
-        $request->update($appid, $index);
+        $request->update($appid, $route, $index);
         return [
             'map'       =>  $mapid,
             'app'       =>  $appid
         ];
     }
 
-    /**  
-	 * 与标准接口格式进行匹配
-	 * 
-	 * @access private
-     * @param string $pathname
-     * @param array $patharr
-     * @param object(Tangram\MODEL\Request) $request
-     * @param string $defhost
-	 * @return array 一个数组格式的路由表
-    **/ 
-    private function matchStandardAPI($pathname, $patharr, $request, $defhost){
-        // 用来比较的目录名需要前缀当前访问域名
-        // 而用来被比较的目录名则前缀主域名（如果有的话）
-        $pathname = $pathname . '/';
-        
-        if(stripos($pathname, '/:test/')===0){
-            if(defined('_CLI_MODE_')){
-                SESSION::init('_test_session_id_');
-                echo "Unit Test In Cli Mode\r\n";
+    private function checkCLITestAPI($patharr, $request){
+        if (defined('_CLI_MODE_')) {
+            SESSION::init('_test_session_id_');
+            echo "Unit Test In Cli Mode\r\n";
 
-                if(empty($_SESSION['username'])){
-                    fwrite(STDOUT,"Please input username:\r\n");
-                    if($username=trim(fgets(STDIN))){
-                        $_SESSION['username'] = $username;
-                    }else{
-                        $_SESSION['username'] = 'system';
-                    }
+            if (empty($_SESSION['username'])) {
+                fwrite(STDOUT, "Please input username:\r\n");
+                if ($username = trim(fgets(STDIN))) {
+                    $_SESSION['username'] = $username;
+                } else {
+                    $_SESSION['username'] = 'system';
                 }
-
-                if(empty($_SESSION['language'])){
-                    fwrite(STDOUT,"Please input request language:\r\n");
-                    if($language=trim(fgets(STDIN))){
-                        $_COOKIE['language'] = $_SESSION['language'] = $language;
-                    }else{
-                        $_COOKIE['language'] = $_SESSION['language'] = REQUEST_LANGUAGE;
-                    }
-                }else{
-                    $_COOKIE['language'] = $_SESSION['language'];
-                }
-                
-                return $this->checked($patharr, $request, -2, 2);
-            }else{
-                new StatusProcessor(1402, '', 'Test api only runs in CLI mode.', true);
             }
-        }
 
-        // 标准开放路由仅支持主域名访问
-        $pathname = HOST. $pathname;
+            if (empty($_SESSION['language'])) {
+                fwrite(STDOUT, "Please input request language:\r\n");
+                if ($language = trim(fgets(STDIN))) {
+                    $_COOKIE['language'] = $_SESSION['language'] = $language;
+                } else {
+                    $_COOKIE['language'] = $_SESSION['language'] = REQUEST_LANGUAGE;
+                }
+            } else {
+                $_COOKIE['language'] = $_SESSION['language'];
+            }
 
-        // 子域名形式
-        if(_STD_API_DOMAIN_){
-            define('_STD_API_', _STD_API_DOMAIN_.'.'.$defhost.'/');
-            $index = 1;
+            return $this->checked($patharr, $request, self::STD_REST, 2, function($index){
+                $appid = 0;
+                while(empty($appid)){
+                    fwrite(STDOUT,"Please specify a subapp (press the APPID):\r\n");
+                    $appid=trim(fgets(STDIN));
+                }
+                return [self::STD_REST, $appid, abs(self::STD_REST), $index];
+            });
+        } else {
+            new StatusProcessor(1402, '', 'Test api only runs in CLI mode.', true);
         }
-        // 虚拟目录形式
-        // 使用了子域名形式的标准api之后，目录形式的会失效
-        elseif(_STD_API_DIR_){
-            define('_STD_API_', $defhost.'/'._STD_API_DIR_.'/');
-            $index = count(explode('/', preg_replace('/(^\/|\/$)/', '', preg_replace('/[\\\\\/]+/', '/', _STD_API_DIR_)))) + 1;
-        }else{
-            new Status(1402, '', 'Must Have a Standard API Configuration', true);
-        }
+    }
 
-        // GUID形式
-        if($pathname===_STD_API_&&isset($_GET['app'])&&$_GET['app']!==''){
-            SESSION::init();
-            $request->update($_GET['app'], 1);
-            return [
-                'map'       =>  -1,
-                'app'       =>  $_GET['app']
-            ];
-        }
-
-        // IPC接口
-        if(stripos($pathname, _STD_API_.':ipc/')===0){
-            // 读取两端主机信息
+    private function checkIPCRequestAPI($patharr, $request, $index){
+        // 读取两端主机信息
             $index ++;
             $addr = $request->ADDR;
             // 如果客、服两端的主机地址一致，且请求中含有私有会话标识（private_session_id），则断定为合法交互
@@ -257,7 +227,9 @@ final class ResourceIndexer {
                         return $sp->respond(StatusProcessor::JLOG);
                     }
                     $_SESSION['username'] = 'system';
-                    return $this->checked($patharr, $request, -3, $index);
+                    return $this->checked($patharr, $request, self::STD_IPC, $index, function($index){
+                        return [self::SYS_ERROR, 'tangram', 400, 0];
+                    });
                 }
                 // 未明确交互应用的ID
                 $sp = new StatusProcessor(1402, '', 'IPC needs specify an application.');
@@ -266,40 +238,88 @@ final class ResourceIndexer {
             // 否则抛出相应异常
             $sp = new StatusProcessor(1402, '', 'IPC must be a private session.');
             return $sp->respond(StatusProcessor::JLOG);
+    }
+
+    /**  
+	 * 与标准接口格式进行匹配
+	 * 
+	 * @access private
+     * @param string $pathname
+     * @param array $patharr
+     * @param object(Tangram\MODEL\Request) $request
+     * @param string $apihost
+	 * @return array 一个数组格式的路由表
+    **/ 
+    private function matchStandardAPI($pathname, $patharr, $request, $apihost){
+        // 用来比较的目录名需要前缀当前访问域名
+        // 而用来被比较的目录名则前缀主域名（如果有的话）
+        $pathname = $pathname . '/';
+        
+        if(stripos($pathname, '/:test/')===0){
+            return $this->checkCLITestAPI($patharr, $request);
+        }
+
+        // 标准开放路由仅支持主域名访问
+        $pathname = HOST. $pathname;
+
+        // 子域名形式
+        if(_STD_API_DOMAIN_){
+            define('_STD_API_', _STD_API_DOMAIN_.'.'.$apihost.'/');
+            $index = 1;
+        }
+        // 虚拟目录形式
+        // 使用了子域名形式的标准api之后，目录形式的会失效
+        elseif(_STD_API_DIR_){
+            define('_STD_API_', $apihost.'/'._STD_API_DIR_.'/');
+            $index = count(explode('/', preg_replace('/(^\/|\/$)/', '', preg_replace('/[\\\\\/]+/', '/', _STD_API_DIR_)))) + 1;
+        }else{
+            new Status(1402, '', 'Must Have a Standard API Configuration', true);
+        }
+
+        // IPC接口
+        if(stripos($pathname, _STD_API_.':ipc/')===0){
+            return $this->checkIPCRequestAPI($patharr, $request, $index);
         }
 
         // 标准API
         if(stripos($pathname, _STD_API_)===0){
             SESSION::init();
-            return $this->checked($patharr, $request, -1, $index);
+            return $this->checked($patharr, $request, self::STD_MVC, $index, function($index){
+                $index--;
+                if(isset($_GET['app'])&&$_GET['app']!==''){
+                    return [self::STD_MVC, $_GET['app'], self::STD_MVC,  $index];
+                }elseif(isset($_SERVER['DOMAIN_NAMES'][HOST])&&isset($_SERVER['DOMAIN_NAMES'][HOST]['appid'])){
+                    return [self::STD_MVC, $_SERVER['DOMAIN_NAMES'][HOST]['appid'], abs(self::STD_MVC), $index];
+                }else{
+                    return [self::SYS_ERROR, 'tangram', 400, 0];
+                }
+            });
         }
-        
-        return ['map' => 0];
+        return ['map' => self::NOT_MATCH];
     }
 
     /**  
 	 * 与路由总表进行匹配
 	 * 
     **/ 
-    private function matchDefaultREST($pathname, $patharr, $request, $defhost){
+    private function matchDefaultREST($pathname, $patharr, $request, $apihost){
         if(stripos($pathname, strtolower(A_RPN))===0){
             SESSION::init();
             if((count($patharr)>3&&$patharr[2]!=='')){
                 $appid = $patharr[2];
-                $request->update($appid, 2, true, -1, __aurl__.$appid);
+                $request->update($appid, abs(self::STD_REST), 2, __aurl__.$appid);
                 return [
-                    'map'       =>  -7,
+                    'map'       =>  self::STD_REST,
                     'app'       =>  $appid
                 ];
             }
-            $request->update('tangram', -1);
+            $request->update('tangram', 400, 0);
             return [
-                'map'       =>  -400,
+                'map'       =>  self::SYS_ERROR,
                 'app'       =>  'tangram'
             ];
         }
-
-        return ['map' => 0];
+        return ['map' => self::NOT_MATCH];
     }
 
     /**  
@@ -310,11 +330,11 @@ final class ResourceIndexer {
      * @param string $pathname
      * @param array $patharr
      * @param object(Tangram\MODEL\Request) $request
-     * @param string $defhost
+     * @param string $apihost
 	 * @return array 一个数组格式的路由表
     **/ 
-    private function matchRouteMap($map, $pathname, $patharr, $request, $defhost){
-        $map = new RouteCollection($map, $defhost, $request->URI->spuerhost);
+    private function matchRouteMap($map, $pathname, $patharr, $request, $apihost){
+        $map = new RouteCollection($map, $apihost, $request->URI->spuerhost);
         $item = $map->match($pathname);
         if($item['STATE']===2){
             return [
@@ -322,32 +342,44 @@ final class ResourceIndexer {
             ];
         }elseif($item['STATE']===1){
             SESSION::init();
-            $request->update($item['HANDLER'], $item['DEPTH'], true, $item['ROUTE'], $item['DIRNAME'], $item['DEFAULTS']);
+            $request->update($item['HANDLER'], $item['ROUTE'], $item['DEPTH'], $item['DIRNAME'], $item['DEFAULTS']);
             return [
-                'map'       =>  -5,
+                'map'       =>  self::DIR_MATCH,
                 'app'       =>  $item['HANDLER']
             ];
-        }elseif($item['STATE']===3){
-            SESSION::init();
-            $request->update(_DEFAULT_APP_, 0, true, 0, '/', []);
-            return [
-                'map'       =>  -6,
-                'app'       =>  _DEFAULT_APP_
-            ];
         }else{
-            $request->update('tangram', 0);
             if($pathname === ''){
-                return [
-                    'map'       =>  -200,
-                    'app'       =>  'tangram'
-                ];
+                if(empty($_GET["error"])){
+                    $app    =   self::defai();
+                    $map    =   self::APP_DEFAULT;
+                    $route  =   0;
+                }else{
+                    $app    =   'tangram';
+                    $map    =   self::SYS_ERROR;
+                    $route  =   $_GET["error"];
+                }
+            }else{
+                $app    =   self::defai();
+                $map    =   self::APP_DEFAULT;
+                $route  =   404;
             }
+            $request->update($app, $route, 0);
             return [
-                'map'       =>  -404,
-                'app'       =>  'tangram'
+                'map'       =>  $map,
+                'app'       =>  $app
             ];
         }
     }
+
+    const
+    NOT_MATCH       =   0,
+    STD_MVC         =   -1,
+    STD_TEST        =   -2,
+    STD_IPC         =   -3,
+    STD_REST        =   -7,
+    DIR_MATCH       =   -5,
+    APP_DEFAULT     =   -6,
+    SYS_ERROR       =   -4;
 
     /**
      * 配置子路由
@@ -358,8 +390,10 @@ final class ResourceIndexer {
      * @return null
     **/ 
     public function route(App $app, ApplicationPermissions $permissions){
+        var_dump($app);
+        exit;
         include(FPATH.'Routers/BaseRouter.php');
-        if(RT_CURR===2){
+        if(ROUTE===self::STD_TEST){
             include(FPATH.'Controllers/traits/.testmethods.php');
         }
         include(FPATH.'Controllers/BaseController.php');
@@ -367,30 +401,26 @@ final class ResourceIndexer {
         class_alias('AF\Controllers\BaseController', 'Controller');
         class_alias('AF\Models\BaseModel', 'Model');
 
-        switch (RT_CURR) {
-            case 1:
-            case 3:
+        switch (ROUTE) {
+            case self::STD_IPC:
+            include(FPATH.'Controllers/IPCController.php');
+            case self::STD_MVC:
             include(FPATH.'Routers/StandardRouter.php');
-            if(RT_CURR===3){
-                include(FPATH.'Controllers/IPCController.php');
-            }
-            return $app->handleStdAPI();
+            $app->handleStdAPI();
 
-            case 2:
-            return $app->testController();
+            case self::STD_TEST:
+            $app->testController();
 
-            case 404:
-            
-            return $app->handleError();
+            case self::APP_DEFAULT:
+            $app->handleDefaultResource();
+            case self::DIR_MATCH:
+            $app->handleRouterById();
 
-            case 5:
-            case 6:
-            return $app->handleRouterById();
-
-            case 7:
+            case self::STD_REST:
             include(FPATH.'Controllers/BaseResourcesController.php');
-            return $app->handleResource();
-        }   
+            $app->handleResource();
+        }
+        return new StatusProcessor(route, '', $_SERVER['REQUEST_URI'], true);
     }
 
     /**

@@ -58,7 +58,7 @@
 
         绑定主域名，请省略域名最前面的www
         如果此项存在值，其他域名将不能访问标准接口系统。
-        "_DEFAULT_DOMAIN_": "",
+        "_PRIMARY_DOMAIN_": "",
 
         默认首页文件名，多个值请用“/”隔开，当请求为如下所列文件名时，页面会指向首页。
         "_HOMEPAGE_": "index.htm\/index.html\/index.php\/index.asp\/index.jsp\/boot.php",

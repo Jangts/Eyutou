@@ -38,7 +38,7 @@ class AdminBusController extends BasePrivateController {
     public function reject($href = NULL){
         $viewModel = 'Admin_LoginViewModel';
         $fullclassname = '\Lailihong\Backstage\Models\\'.$viewModel;
-        $filename = AP_CURR.'Models/'.$viewModel;
+        $filename = CACAP.'Models/'.$viewModel;
         ClassLoader::execute($filename);
         $model = new $fullclassname;
         $model->init($GLOBALS['NEWIDEA']->AA, $this->request, 'default')->analysis($this->request)->render();     

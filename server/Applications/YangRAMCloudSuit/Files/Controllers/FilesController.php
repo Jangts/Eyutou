@@ -22,7 +22,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 			case '3':
 			case '4':
 			if(empty($options['appid'])){
-				$options['appid'] = AI_CURR;
+				$options['appid'] = CACAI;
 			}
 			if($folder = FolderModel::postIfNotExists(4, $options['appid'])){
 				$id = $folder['id'];

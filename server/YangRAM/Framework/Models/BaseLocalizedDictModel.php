@@ -160,7 +160,7 @@ final class LocalizedDictModel implements \DataModel {
 			$extn = '.php';
 		}
 		$lang = strtolower($NEWIDEA->LANGUAGE);
-		$lang_check_result = self::checkLang(AP_CURR.'Locales/{{lang}}'.$extn, false, $lang);
+		$lang_check_result = self::checkLang(CACAP.'Locales/{{lang}}'.$extn, false, $lang);
 		if($lang_check_result){
 			$this->code = $NEWIDEA->LANGUAGE = $lang_check_result[0];
 			return $lang_check_result[1];
@@ -168,16 +168,16 @@ final class LocalizedDictModel implements \DataModel {
 		$lang_check_result = self::checkLang(LPATH.'{{lang}}', true, $lang);
 		if($lang_check_result){
 			$this->code = $lang_check_result[0];
-			if(is_file($lang_check_result[1].'/'.strtolower(AI_CURR).$ext)){
+			if(is_file($lang_check_result[1].'/'.strtolower(CACAI).$ext)){
 				$this->code = $NEWIDEA->LANGUAGE = $lang_check_result[0];
-				return $lang_check_result[1].'/'.strtolower(AI_CURR).$extn;
+				return $lang_check_result[1].'/'.strtolower(CACAI).$extn;
 			}
 			if(is_file($lang_check_result[1].'/common'.$ext)){
 				$this->code = $NEWIDEA->LANGUAGE = $lang_check_result[0];
 				return $lang_check_result[1].'/common'.$extn;
 			}
 		}
-		new Status(1444, 'No matching ['.$type.']['.$lang.'] dictionary file of this application ['.AI_CURR.']', true);
+		new Status(1444, 'No matching ['.$type.']['.$lang.'] dictionary file of this application ['.CACAI.']', true);
 	}
 
 	final public function has($index){

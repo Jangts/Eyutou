@@ -130,7 +130,7 @@ class RDBQuerier {
             return $sql;
         }
         if(self::$unreadableTable){
-            $this->errorMessage = 'current actived application ['.AI_CURR.'] cannot read data from table ['.self::$unreadableTable.'].';
+            $this->errorMessage = 'current actived application ['.CACAI.'] cannot read data from table ['.self::$unreadableTable.'].';
         }else{
             $this->errorMessage = 'there some errors with your given tablenames';
         }
@@ -456,7 +456,7 @@ class RDBQuerier {
             $this->errorMessage = 'unknow error';
         }
         elseif(self::$unwritableTable){
-            $this->errorMessage = 'current actived application ['.AI_CURR.'] cannot write data to table ['.self::$unwritableTable.'].';
+            $this->errorMessage = 'current actived application ['.CACAI.'] cannot write data to table ['.self::$unwritableTable.'].';
         }
 		return false;
     }
@@ -500,7 +500,7 @@ class RDBQuerier {
             $this->errorMessage = 'unknow error';
         }
         elseif(self::$unwritableTable){
-            $this->errorMessage = 'current actived application ['.AI_CURR.'] cannot write data to table ['.self::$unwritableTable.'].';
+            $this->errorMessage = 'current actived application ['.CACAI.'] cannot write data to table ['.self::$unwritableTable.'].';
         }
 		return false;
     }
@@ -549,7 +549,7 @@ class RDBQuerier {
             }
         }
         elseif(self::$unwritableTable){
-            $this->errorMessage = 'current actived application ['.AI_CURR.'] cannot write data to table ['.self::$unwritableTable.'].';
+            $this->errorMessage = 'current actived application ['.CACAI.'] cannot write data to table ['.self::$unwritableTable.'].';
         }
 		return false;
 	}
@@ -574,7 +574,7 @@ class RDBQuerier {
             $this->errorMessage = 'unknow error';
         }
         elseif(self::$unwritableTable){
-            $this->errorMessage = 'current actived application ['.AI_CURR.'] cannot delete data to table ['.self::$unwritableTable.'].';
+            $this->errorMessage = 'current actived application ['.CACAI.'] cannot delete data to table ['.self::$unwritableTable.'].';
         }
         return false;
     }

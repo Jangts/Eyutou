@@ -42,7 +42,7 @@ define('__ROOT__',      strtr(__BOOT__, '\\', '/'));
 define('__BURL__',    	str_replace(strtr($_SERVER['DOCUMENT_ROOT'], '\\', '/'), '', __ROOT__));
 
 $_SERVER['SCRIPT_FILENAME'] = strtr($_SERVER['SCRIPT_FILENAME'], '\\', '/');
-$_SERVER['DOMAINS'] = parse_ini_file('domains.ini', true);
+$_SERVER['DOMAIN_NAMES'] = parse_ini_file('domainnames.ini', true);
 $_SERVER['PHP_SELF'] = substr($_SERVER['PHP_SELF'], strlen(__BURL__));
 
 /** Defined relative pathname for four basic subdirectories. */

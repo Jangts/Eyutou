@@ -46,7 +46,7 @@ final class UserPassportModel extends ObjectModel {
 		return self::$instance->abstain();
     }
 
-    public static function hasVisaed($salt = '', $appid = AI_CURR){
+    public static function hasVisaed($salt = '', $appid = CACAI){
         self::init();
 		return self::$instance->checkVisa($salt, $appid);
     }
@@ -146,16 +146,16 @@ final class UserPassportModel extends ObjectModel {
 
     public function visa(array $value = [], $private = true, $salt = '', $alias = NULL){
         if($private){
-            $index = '_private_visa_for_'.AI_CURR.'_'.$salt;
+            $index = '_private_visa_for_'.CACAI.'_'.$salt;
         }else{
-            $index = '_public_visa_for_'.AI_CURR.'_'.$salt;
+            $index = '_public_visa_for_'.CACAI.'_'.$salt;
         }
         $value['username'] = $_SESSION['username'];
-        $this->account->setGreenCard('VISA', AI_CURR, $value, $salt, $alias);
+        $this->account->setGreenCard('VISA', CACAI, $value, $salt, $alias);
         $_SESSION[$index] = $value;
     }
 
-    public function checkVisa($salt = '', $appid = AI_CURR){
+    public function checkVisa($salt = '', $appid = CACAI){
         if($this->uid==='-7'){
             return [
                 'uid'           =>  '-7',
@@ -164,8 +164,8 @@ final class UserPassportModel extends ObjectModel {
                 'avatar'        =>  __aurl__.'uploads/files/d78cf72c9a8f4731217.jpg'
             ];
         }
-        if($appid===AI_CURR){
-            $index = '_private_visa_for_'.AI_CURR.'_'.$salt;
+        if($appid===CACAI){
+            $index = '_private_visa_for_'.CACAI.'_'.$salt;
             if(!empty($_SESSION[$index])){
                 return $_SESSION[$index];
             }

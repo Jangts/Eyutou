@@ -10,7 +10,7 @@ class DefaultRouter extends \AF\Routers\BaseRouter {
 		$classname = 'PageRenderingController';
 		$filename = $app->Path.'Controllers/'.$classname;
 		$fullclassname = '\\'.$app->xProps['Namespace'].'\\Controllers\\'.$classname;
-		// if(RT_CURR===6){
+		// if(ROUTE===6){
 		// 	return [$filename, $fullclassname, 'renderDefaultPage', [$request->ARI->patharr]];
 		// }
 		if($result = $this->checkPluginDirs($app->Path, $app->xProps['Namespace'], $request->ARI->patharr)){

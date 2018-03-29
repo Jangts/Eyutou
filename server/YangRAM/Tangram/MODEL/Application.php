@@ -381,16 +381,16 @@ final class Application {
 	 * @return object
 	**/
 	public function active(ApplicationPermissions $permissions){
-		if(defined('AI_CURR')){
+		if(defined('CACAI')){
 			return false;
 		}
 		$appdata = $this->extendsProperties();
 
-		define('AI_CURR', $appdata['APPID']);
-		define('TP_CURR', $appdata['DBTPrefix']);
-		define('CI_CURR', $appdata['CONN']);
-		define('AD_CURR', $appdata['DIR']);
-		define('AP_CURR', $appdata['Path']);
+		define('CACAI', $appdata['APPID']);
+		define('CACAT', $appdata['DBTPrefix']);
+		define('CACAC', $appdata['CONN']);
+		define('CACAR', $appdata['DIR']);
+		define('CACAP', $appdata['Path']);
 		return $this->properties['POWERS'] = $permissions;
 	}
 
@@ -421,7 +421,7 @@ final class Application {
 	    }
 	}
 
-	public function handleError(){
+	public function DefaultResource(){
 		$appdata = $this->properties;
 		if(is_file($classFile = $appdata['Path'].'Routers/ResourceNotFound.php')){
 			$className = $appdata['NAMESPACE'].'Routers\ResourceNotFound';
@@ -445,13 +445,13 @@ final class Application {
 
 	public function handleRouterById(){
 		$appdata = $this->properties;
-		if(isset($this->xProps['Routers'][RI_CURR])){
-			$classFile = $appdata['Path'].'Routers/'.$this->xProps['Routers'][RI_CURR].'.php';
-			$className = $appdata['NAMESPACE'].'Routers\\'.$this->xProps['Routers'][RI_CURR];
+		if(isset($this->xProps['Routers'][ROUTE_INDEX])){
+			$classFile = $appdata['Path'].'Routers/'.$this->xProps['Routers'][ROUTE_INDEX].'.php';
+			$className = $appdata['NAMESPACE'].'Routers\\'.$this->xProps['Routers'][ROUTE_INDEX];
 			return $this->run($classFile, $className);
 		}
 		// 如果指定路由不存在
-		new Status(1442, '', 'Router ['.RI_CURR.'] Not Defined', true);
+		new Status(1442, '', 'Router ['.ROUTE_INDEX.'] Not Defined', true);
 	}
 
 	public function testController(){

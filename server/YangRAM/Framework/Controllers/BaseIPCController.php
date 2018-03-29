@@ -77,9 +77,9 @@ abstract class BaseIPCController extends BaseController {
         }else{
             self::$staticFileStorage->setNameSpace('gets/');
         }
-        $key = hash('md4', AI_CURR.'->'.$this->app->APPID.'_'.microtime().uniqid());
+        $key = hash('md4', CACAI.'->'.$this->app->APPID.'_'.microtime().uniqid());
         while(self::$staticFileStorage->check($key)){
-            $key = hash('md4', AI_CURR.'->'.$this->app->APPID.'_'.microtime().uniqid());
+            $key = hash('md4', CACAI.'->'.$this->app->APPID.'_'.microtime().uniqid());
         }
         self::$staticFileStorage->store($key, $data);
         return $key;

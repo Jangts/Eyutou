@@ -10,12 +10,12 @@ use Storage;
 **/
 class UsrFiles extends Storage {
     protected
-	$appid = AI_CURR,
+	$appid = CACAI,
 	$cachePath,
 	$encodedMode = 1,
 	$isArray = true;
 
 	public function __construct($username = 'Public'){
-		$this->cachePath  = USR_PATH.$username.'/_'.AI_CURR.'/';
+		$this->cachePath  = USR_PATH.$username.'/_'.CACAI.'/';
 	}
 }

@@ -25,10 +25,10 @@ class DefaultPageRenderer extends NIML {
     public function getFilenames($template, $is_include = false){
 		if($is_include==false){
 			$this->assign("__host", '//'.HOST);
-			$this->assign("__theme", __BURL__.AD_CURR."/Views/_".AI_CURR."/".$this->theme."/");
+			$this->assign("__theme", __BURL__.CACAR."/Views/_".CACAI."/".$this->theme."/");
 			$this->assign("__static", SIS_URL."static/");
 		}
-		return [$this->sourcedir."_".AI_CURR."/".$this->theme."/nimls/".$template, $this->compileddir.'niml/_'.AI_CURR."/".hash('md4', $this->theme."/".$template).".php"];
+		return [$this->sourcedir."_".CACAI."/".$this->theme."/nimls/".$template, $this->compileddir.'niml/_'.CACAI."/".hash('md4', $this->theme."/".$template).".php"];
     }
     
     /**

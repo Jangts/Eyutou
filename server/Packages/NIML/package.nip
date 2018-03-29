@@ -6,16 +6,16 @@ require_once('NIML.php');
 class NIML extends \NIML {
 	protected
 	$theme = '',
-	$sourcedir = AP_CURR.'Views/',
+	$sourcedir = CACAP.'Views/',
 	$compileddir = DPATH_TPL;
 
 	public static function updateTemplateCache($templates=NULL){
 		if(is_array($templates)){
 			foreach($templates as $template){
-				\unlink(DPATH_TPL.'niml/_'.AI_CURR."/".hash('md4', $template).".php");
+				\unlink(DPATH_TPL.'niml/_'.CACAI."/".hash('md4', $template).".php");
 			}
 		}else{
-			return \Storage::clearPath(DPATH_TPL.'niml/_'.AI_CURR."/");
+			return \Storage::clearPath(DPATH_TPL.'niml/_'.CACAI."/");
 		}
 		return true;
 	}
@@ -27,9 +27,9 @@ class NIML extends \NIML {
 	public function getFilenames($template, $is_include = false){
 		if($is_include==false){
 			$this->assign("__host", '//'.HOST);
-			$this->assign("__layout", __BURL__.AD_CURR."Views/");
+			$this->assign("__layout", __BURL__.CACAR."Views/");
 			$this->assign("__static", SIS_URL."static/");
 		}
-		return [$this->sourcedir."nimls/".$template, $this->compileddir.'niml/_'.AI_CURR."/".hash('md4', $template).".php"];
+		return [$this->sourcedir."nimls/".$template, $this->compileddir.'niml/_'.CACAI."/".hash('md4', $template).".php"];
 	}
 }

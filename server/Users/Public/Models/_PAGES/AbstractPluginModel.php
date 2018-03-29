@@ -9,7 +9,7 @@ class AbstractPluginModel extends ObjectModel{
     protected static $fp;
 
     protected static function dbfilename(){
-        return AP_CURR.'/Plugins/plugins.json';
+        return CACAP.'/Plugins/plugins.json';
     }
 
     final private static function readPluginsJSON(){

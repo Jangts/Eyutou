@@ -51,7 +51,7 @@ abstract class OISourceFilesResponser_BaseClass extends BaseOICtrller {
 	}
 
 	private function getSplashScreen(){
-		$appid = AI_CURR;
+		$appid = CACAI;
 		$storge = new AppCache($appid, false, Storage::STR, '.xml');
 		if($body = $storge->take('SplashScreen')){
 			return [$storge->time('SplashScreen'), $body];
@@ -61,9 +61,9 @@ abstract class OISourceFilesResponser_BaseClass extends BaseOICtrller {
 			$body .= '<atitle>'.$this->app->Name.'</atitle>';
 			$body .= '</info>';
 			$body .= '<view loading>';
-			if($appid!='SETTINGS'&&$this->posterimage&&file_exists(AP_CURR.'Sources/'.$this->posterimage)){
+			if($appid!='SETTINGS'&&$this->posterimage&&file_exists(CACAP.'Sources/'.$this->posterimage)){
 				$body .= '<weclome left><appname>'.$this->app->Name.'</appname><appvrsn>'.$this->app->Version.'</appvrsn><spinner class="app-launching-spinner"></spinner></weclome>';
-				$body .= '<poster right><img width="640" height="360" src="'.HTTP_PID.AD_CURR.'Sources/'.$this->posterimage.'" /></poster>';
+				$body .= '<poster right><img width="640" height="360" src="'.HTTP_PID.CACAR.'Sources/'.$this->posterimage.'" /></poster>';
 			}else{
 				if($appid=='SETTINGS'){
 					$body .= '<weclome><appname>'.$this->app->Name.'</appname><appvrsn>'.$this->app->Version.'</appvrsn>';
@@ -80,9 +80,9 @@ abstract class OISourceFilesResponser_BaseClass extends BaseOICtrller {
 
 	final public function returnMainOS(){
         global $RUNTIME;
-        $osfile = AP_CURR.$this->main_os_file.'.os';
-        $outfile = AP_CURR.$this->os_outdir.$RUNTIME->LANGUAGE.'.js';
-        $minfile = AP_CURR.$this->os_outdir.$RUNTIME->LANGUAGE.'.min.js';
+        $osfile = CACAP.$this->main_os_file.'.os';
+        $outfile = CACAP.$this->os_outdir.$RUNTIME->LANGUAGE.'.js';
+        $minfile = CACAP.$this->os_outdir.$RUNTIME->LANGUAGE.'.min.js';
         if(is_file($minfile)){
             if($this->checkFileModification($minfile)){
                 if(_USE_DEBUG_MODE_){
@@ -94,7 +94,7 @@ abstract class OISourceFilesResponser_BaseClass extends BaseOICtrller {
                 return $this->send('', Response::JS);
             }
         }elseif(is_file($osfile)){
-			$complier = new OperationScript(AP_CURR);
+			$complier = new OperationScript(CACAP);
 			$code = $complier->complie($osfile, $outfile, $minfile, $this->checklang($RUNTIME->LANGUAGE));
             return $this->send($code, Response::JS);
         }
@@ -111,17 +111,17 @@ abstract class OISourceFilesResponser_BaseClass extends BaseOICtrller {
 
     final public function returnStyleSheets($basename = ''){
 		if($basename){
-			$filename = AP_CURR.'Sources/'.$basename.'.css';
+			$filename = CACAP.'Sources/'.$basename.'.css';
 			return $this->getStyleSheets($filename, false);
 		}
-		$filename = AP_CURR.'Sources/'.$this->main_oiss_file.'.css';
+		$filename = CACAP.'Sources/'.$this->main_oiss_file.'.css';
 		return $this->getStyleSheets($filename, true);	
     }
 
 	private function getStyleSheets($filename, $is_main){
         if(is_file($filename)){
             if($this->checkFileModification($filename)){
-				$complier = new OIStyleSheets(AI_CURR, HTTP_PID.AD_CURR,
+				$complier = new OIStyleSheets(CACAI, HTTP_PID.CACAR,
 					HTTP_HOST.APP_PID.$this->app->Author.'/'.$this->app->xProps['Suitspace'].'/');
 				$code = $complier->cssFilter(file_get_contents($filename), $is_main);
                 return $this->send($code, Response::CSS);
@@ -139,8 +139,8 @@ abstract class OISourceFilesResponser_BaseClass extends BaseOICtrller {
     }
 
 	final public function clear(){
-        if(is_dir(AP_CURR.$this->os_outdir)){
-            Storage::clearPath(AP_CURR.$this->os_outdir);
+        if(is_dir(CACAP.$this->os_outdir)){
+            Storage::clearPath(CACAP.$this->os_outdir);
         }
         exit('{"msg":"cleared"}');
     }

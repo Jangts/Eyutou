@@ -18,7 +18,7 @@ class RunData extends Storage {
 
 	public function __construct($pathname = 'Data', $isArray = true){
 		$this->pathname = $pathname;
-        $this->cachePath = DPATH.AI_CURR.'/'.$pathname.'/';
+        $this->cachePath = DPATH.CACAI.'/'.$pathname.'/';
         $this->isArray = ($isArray != false);
 	}
 }

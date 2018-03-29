@@ -28,7 +28,7 @@ abstract class BaseMemberModel extends BaseModel {
     $rdbConnectionIndex = 0,
 
     // 数据表前缀(默认为应用数据表前缀)
-    $tablename = TP_CURR.'members',
+    $tablename = CACAT.'members',
 
     // 唯一索引键组
     $uniqueIndexes = ['uid'],

@@ -439,12 +439,12 @@ class OperationScript {
     }
 
     private function generator($RUNTIME, $outfile, $minfile, $lang){
-        if(in_array(AI_CURR, ['SETTINGS', 'I4PLAZA', 'EXPLORER', 'TRASHCAN'])){
-            $code = "RegApplication('".AI_CURR."', (__thisapp__, System, YangRAM, Using, Global, undefined) => {\n";
+        if(in_array(CACAI, ['SETTINGS', 'I4PLAZA', 'EXPLORER', 'TRASHCAN'])){
+            $code = "RegApplication('".CACAI."', (__thisapp__, System, YangRAM, Using, Global, undefined) => {\n";
             $code .= "'use strict';\n";
-            $code .= "const __LANG__ = System.Runtime.locales.".AI_CURR.";\n";
+            $code .= "const __LANG__ = System.Runtime.locales.".CACAI.";\n";
         }else{
-            $code = "RegApplication(".AI_CURR.", (__thisapp__, YangRAM, Using, Global, undefined) => {\n";
+            $code = "RegApplication(".CACAI.", (__thisapp__, YangRAM, Using, Global, undefined) => {\n";
             $code .= "'use strict';\n";
             if($lang){
                 $code .= "const __LANG__ = ".$lang.";\n";
@@ -467,7 +467,7 @@ class OperationScript {
         $code .= "};\n"; 
         
         //$code .= 'const '. join(",\n\t", $this->constnames) . ";\n";
-        $code .= "const __APPDIR__ = '".AD_CURR."';\n";
+        $code .= "const __APPDIR__ = '".CACAR."';\n";
         foreach($this->ast['body'] as $const){
             $code .= 'const '.$const['name'];
             $code .= ' = ';

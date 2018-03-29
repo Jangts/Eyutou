@@ -24,7 +24,7 @@ abstract class BaseMapModel extends BaseModel {
     $rdbConnectionIndex = 0,
 
     // 数据表前缀(默认为应用数据表前缀)
-    $tablenamePrefix = TP_CURR,
+    $tablenamePrefix = CACAT,
 
     // 数据表前缀(默认为应用数据表前缀)
     $tablenamePrefixRewritable = false,

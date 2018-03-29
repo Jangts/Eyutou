@@ -7,9 +7,9 @@ use AF\Models\BaseDeepModel;
 class LinkModel extends BaseDeepModel {
 
     protected static
-    $rdbConnectionIndex = CI_CURR,
+    $rdbConnectionIndex = CACAC,
     $rdbConnectionType = 0,
-    $tablenamePrefix = TP_CURR,
+    $tablenamePrefix = CACAT,
     $tablenamePrefixRewritable = true,
     $tablenameAlias = 'links',
     $__parentFieldName = 'parent_id',

@@ -128,8 +128,8 @@ final class RequestModel implements interfaces\model {
             $modelProperties['LANG'] = $dir_array[1];
             array_shift($DIR_ARRAY);
             array_shift($dir_array);
-        }elseif(isset($_SERVER['DOMAINS'][HOST])&&isset($_SERVER['DOMAINS'][HOST]['lang'])){
-            $modelProperties['LANG'] = $_SERVER['DOMAINS'][HOST]['lang'];
+        }elseif(isset($_SERVER['DOMAIN_NAMES'][HOST])&&isset($_SERVER['DOMAIN_NAMES'][HOST]['lang'])){
+            $modelProperties['LANG'] = $_SERVER['DOMAIN_NAMES'][HOST]['lang'];
         }
         
         // 生成全新的URI, 并覆盖给$dir_array[0];
@@ -186,9 +186,6 @@ final class RequestModel implements interfaces\model {
         define('__CHN', HTTP_HOST.$modelProperties['TRI']->locale_channel_dir);            // 当前请求地址所在的语言频道的URL
         define('__DIR', HTTP_HOST.explode('?', $modelProperties['URI']->src)[0]);      // 当前请求地址的远程路径名
         define('__URI', HTTP_HOST.$modelProperties['URI']->src);                       // 当前请求地址改写后的完整态
-
-        // var_dump(__BURL__, $_SERVER['PHP_SELF'], $_SERVER['REQUEST_URI'], $_SERVER['RELATIVE_URI'], $modelProperties);
-        // exit;
     }
 
     /**
@@ -234,28 +231,25 @@ final class RequestModel implements interfaces\model {
      * @param bool $useCustomRouter
 	 * @return object(Tangram\MODEL\Request)
     **/ 
-    public function update($appid, $depth, $useCustomRouter = false, $route = 0, $dirname = '/dirname/dirname/dirname', array $defaults = []){
+    public function update($appid, $route = 0, $depth, $dirname = false, array $defaults = []){
         // 检查是否已经更新过，防止二次更新
         if(isset($this->modelProperties['INPUTS'])&&is_a($this->modelProperties['INPUTS'], '\Tangram\MODEL\InputsModel')){
             return $this;
         }
-
         $this->modelProperties['ARI']->appid = $this->modelProperties['TRI']->patharr[0] = $appid;
 
+
+        define('ROUTE_INDEX', $this->modelProperties['ARI']->route = $route);
         // 如果使用自定义路由
-        if($useCustomRouter){
-            define('RI_CURR', $this->modelProperties['ARI']->route = $route);
-            $this->modelProperties['ARI']->dirname = $dirname;
-            $this->modelProperties['ARI']->depth = $depth;
+        if($dirname!==false){         
             $this->modelProperties['ARI']->patharr = array_slice($this->modelProperties['TRI']->patharr, 1 + $depth);
-            $inputs = $this->modelProperties['INPUTS'] = (new InputsModel($defaults))->stopAttack();
+            $this->modelProperties['ARI']->dirname = $dirname;
         }else{
-            define('RI_CURR', $this->modelProperties['ARI']->route = -1);
             $this->modelProperties['ARI']->patharr = $arr = array_slice($this->modelProperties['TRI']->patharr, 1 + $depth);
-            $this->modelProperties['ARI']->dirname = '/'.implode('/', $arr);
-            $this->modelProperties['ARI']->depth = $depth;
-            $inputs = $this->modelProperties['INPUTS'] = (new InputsModel())->stopAttack();
+            $this->modelProperties['ARI']->dirname = '/'.implode('/', $arr);  
         }
+        $this->modelProperties['ARI']->depth = $depth;
+        $inputs = $this->modelProperties['INPUTS'] = (new InputsModel($defaults))->stopAttack();
 
         
         if(array_key_exists('LANG', $this->modelProperties)){

@@ -43,13 +43,13 @@ trait caching {
                     }elseif(is_subclass_of($class, 'AF\Models\BaseR3Model')||is_subclass_of($class, 'AF\Models\BaseMapModel')){
                         self::$privateFileStorages[$class] = new Storage(RUNPATH_M.'Protected/'.static::$tablenamePrefix.'/'.static::$tablenameAlias.'/', static::$fileStorageEncodeMode, true);
                     }else{
-                        self::$privateFileStorages[$class] = new Storage(RUNPATH_M.'Pravite/_'.AI_CURR.'/'.$class.'/', static::$fileStorageEncodeMode, true);
+                        self::$privateFileStorages[$class] = new Storage(RUNPATH_M.'Pravite/_'.CACAI.'/'.$class.'/', static::$fileStorageEncodeMode, true);
                     }
                 }elseif(static::$fileStoragePath===1){
                     if(is_subclass_of($class, 'AF\Models\BaseR3Model')||is_subclass_of($class, 'AF\Models\BaseMapModel')){
                         self::$privateFileStorages[$class] = new Storage(RUNPATH_M.'Protected/'.static::$tablenamePrefix.'/'.static::$tablenameAlias.'/'.$class.'/', static::$fileStorageEncodeMode, true);
                     }else{
-                        self::$privateFileStorages[$class] = new Storage(RUNPATH_M.'Pravite/_'.AI_CURR.'/'.$class.'/', static::$fileStorageEncodeMode, true);
+                        self::$privateFileStorages[$class] = new Storage(RUNPATH_M.'Pravite/_'.CACAI.'/'.$class.'/', static::$fileStorageEncodeMode, true);
                     }
                 }elseif(static::$fileStoragePath&&is_string(static::$fileStoragePath)){
                     self::$privateFileStorages[$class] = new Storage(static::$fileStoragePath, static::$fileStorageEncodeMode, true);

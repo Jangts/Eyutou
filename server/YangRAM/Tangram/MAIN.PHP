@@ -166,15 +166,15 @@ final class IDEA {
 			// 初始化资源索引器（又称总路由器）
 			$this->RI = CTRLR\ResourceIndexer::instance();
 			$this->RQ = MODEL\RequestModel::instance();
-			if(AC_CURR==='tangram'){
-				if(str_replace('/', '', $this->RQ->TRI->pathname)){
-					if(RT_CURR===400){
+			if(APPID==='tangram'){
+				if(route){
+					if(route===400){
 						return new StatusProcessor(400, '', 'Please Specify The Application ID Or Resource Type!', true);
 					}
-					return new StatusProcessor(RT_CURR, '', $_SERVER['REQUEST_URI'], true);
+					return new StatusProcessor(route, '', $_SERVER['REQUEST_URI'], true);
 				}
 				$sp = new StatusProcessor(200);
-				return $sp->respond(StatusProcessor::PAGE);
+				return $sp->respond(StatusProcessor::AUTO);
 			}
 			return true;
 		}
@@ -316,15 +316,13 @@ final class IDEA {
 	**/
 	public function run_async_taskworkers(){
 		return;
-		if(_TASKER_ENABLE_&&AC_CURR!=='TASKS'){
+		if(_TASKER_ENABLE_&&APPID!=='TASKS'){
 			// 如果AW尚未被创建，则创建之
 			if($this->AW===NULL){
 				$this->AW = new MODEL\Application('TASKS');
 			}
-			
-			// return $this->RI->checktasks($this->AW);
 		
-			switch (RT_CURR) {
+			switch (ROUTE) {
 				case 1:
 				case 3:
 				if(($_SERVER['REQUEST_METHOD']!='GET')&&(substr(DATETIME, 17, 1)=='1')) $this->RI->checktasks($this->AW);
@@ -349,9 +347,9 @@ final class IDEA {
 	public function run_activity_application(){
 		// 如果AA尚未被激活
 		if($this->AA===NULL){
-			$this->AI = AC_CURR;
+			$this->AI = APPID;
 			// 创建活动应用实例
-			$this->AA = new MODEL\Application(AC_CURR);
+			$this->AA = new MODEL\Application(APPID);
 
 			// 重写进程权限表，关闭权限表的写权限
 			$Permissions = $this->AA->rewritePermissions();

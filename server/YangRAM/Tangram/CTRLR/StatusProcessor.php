@@ -230,11 +230,11 @@ final class StatusProcessor extends Exception {
 	public function log(){
 		if($this->code>=300){
 			// 如果状态码大于等于300，则被认为是错误日志，将记录在'errors/'文件夹
-			$path = RUNPATH_LOG . 'errors/' . (defined('AC_CURR') ? AC_CURR : 'TANGRAM') . '/' . date('Ym') . '/';
+			$path = RUNPATH_LOG . 'errors/' . (defined('APPID') ? APPID : 'TANGRAM') . '/' . date('Ym') . '/';
 			$text = $this->lotxt();
 		}else{
 			// 否则被认为是普通日志，将记录在'notes/status/' 文件夹
-			$path = RUNPATH_LOG . 'notes/status/' . (defined('AC_CURR') ? AC_CURR : 'TANGRAM') . '/' . date('Ym') . '/';
+			$path = RUNPATH_LOG . 'notes/status/' . (defined('APPID') ? APPID : 'TANGRAM') . '/' . date('Ym') . '/';
 			$text = $this->notxt();
 		}
 

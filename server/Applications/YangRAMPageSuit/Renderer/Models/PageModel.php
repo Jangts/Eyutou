@@ -16,9 +16,9 @@ class PageModel extends BaseR3Model {
     PUBTIME_DESC	=	[['pubtime', true, PageModel::SORT_REGULAR]];
 
     protected static
-    $rdbConnectionIndex = CI_CURR,
+    $rdbConnectionIndex = CACAC,
     $rdbConnectionType = 0,
-    $tablenamePrefix = TP_CURR,
+    $tablenamePrefix = CACAT,
     $tablenamePrefixRewritable = true,
     $tablenameAlias = 'pages',
     $fileStoragePath = true,

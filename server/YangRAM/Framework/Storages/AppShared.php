@@ -11,7 +11,7 @@ use Storage;
 class AppShared {
     protected $appid;
 
-	public function __construct($appid = AI_CURR){
+	public function __construct($appid = CACAI){
 		$this->appid  = $appid;
         $this->cachePath = SIS_PATH.'shared/'.$appid.'/';
 	}
