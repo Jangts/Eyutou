@@ -7,6 +7,7 @@ use Status;
 use Storage;
 use Tangram\ClassLoader;
 use Tangram\CTRLR\RDBQuerier;
+use Tangram\CTRLR\ResourceIndexer;
 
 /**
  * @class Tangram\MODEL\Application
@@ -421,46 +422,49 @@ final class Application {
 	    }
 	}
 
-	public function DefaultResource(){
-		$appdata = $this->properties;
-		if(is_file($classFile = $appdata['Path'].'Routers/ResourceNotFound.php')){
-			$className = $appdata['NAMESPACE'].'Routers\ResourceNotFound';
-			return $this->run($classFile, $className);
-		}
-		return $this->handleRouterById();
-	}
-
-	public function handleResource(){
-		$classFile = FPATH.'Routers/RESTfulRouter.php';
-		$className = 'AF\Routers\RESTfulRouter';
-		return $this->run($classFile, $className);
-	}
-
-	public function handleStdAPI(){
+	public function executeStdMVCAction(){
 		$appdata = $this->properties;
 		$classFile = $appdata['Path'].'Routers/StandardRouter.php';
 		$className = $appdata['NAMESPACE'].'Routers\StandardRouter';
 		return $this->run($classFile, $className);
 	}
 
-	public function handleRouterById(){
-		$appdata = $this->properties;
-		if(isset($this->xProps['Routers'][ROUTE_INDEX])){
-			$classFile = $appdata['Path'].'Routers/'.$this->xProps['Routers'][ROUTE_INDEX].'.php';
-			$className = $appdata['NAMESPACE'].'Routers\\'.$this->xProps['Routers'][ROUTE_INDEX];
-			return $this->run($classFile, $className);
-		}
-		// 如果指定路由不存在
-		new Status(1442, '', 'Router ['.ROUTE_INDEX.'] Not Defined', true);
-	}
-
-	public function testController(){
+	public function testCLIController(){
 		$classFile = FPATH.'Routers/StdTestRouter.php';
 		$className = 'AF\Routers\StdTestRouter';
 		return $this->run($classFile, $className);
 	}
 
-	public function workInOtherProcess(array $ipcOptions){
+	public function routeDefaultResource(){
+		$appdata = $this->properties;
+		if(is_file($classFile = $appdata['Path'].'Routers/DefaultResourceRoute.php')){
+			$className = $appdata['NAMESPACE'].'Routers\DefaultResourceRoute';
+			return $this->run($classFile, $className);
+		}
+	}
+
+	public function routeCustomResource(){
+		$appdata = $this->properties;
+		if(isset($this->xProps['Routers'][route])){
+			$classFile = $appdata['Path'].'Routers/'.$this->xProps['Routers'][route].'.php';
+			$className = $appdata['NAMESPACE'].'Routers\\'.$this->xProps['Routers'][route];
+			return $this->run($classFile, $className);
+		}
+		
+		// 如果指定路由不存在
+		if(ROUTE===ResourceIndexer::APP_DEFAULT){
+			new Status(route, '', $_SERVER['REQUEST_URI'], true);
+		}
+		new Status(1442, '', 'Router ['.route.'] Not Defined', true);
+	}
+
+	public function crudStandardResource(){
+		$classFile = FPATH.'Routers/RESTfulRouter.php';
+		$className = 'AF\Routers\RESTfulRouter';
+		return $this->run($classFile, $className);
+	}
+
+	public function callOtherProcess(array $ipcOptions){
 		$appdata = $this->extendsProperties();
 		$classFile = $appdata['Path'].'Routers/IPCInterface.php';
 		$className = $appdata['NAMESPACE'].'Routers\IPCInterface';

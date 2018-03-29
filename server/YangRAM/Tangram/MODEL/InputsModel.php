@@ -218,22 +218,6 @@ final class InputsModel extends ObjectModel {
             $_GET = array_map("addslashes", $_GET);
             $_POST = array_map("addslashes", $_POST);
         }
-
-        // // 创建一个空数组，用来存放对象的各个属性值
-        // $input = [];
-        // // 将路由默认值写入$input
-        // foreach($defaults as $key=>$val){
-        //     $this->modelProperties[$key] = $val;
-        // }
-        // // 将整理后的Cookie键值组写入$input
-        // $this->arrangeCookies($input);
-        // // 将整理后的Get键值组写入$input
-        // $this->arrangeGets($input);
-        // // 将整理后的Post键值组写入$input
-        // $this->arrangePosts($input);
-        // // 将整理后的$input赋值给对象的$input属性
-        // $this->modelProperties = $input;
-
         // 以上代码整理为一句
         $this->modelProperties = $this->arrangePosts($this->arrangeGets($this->arrangeCookies($this->__default = $defaults)));
     }

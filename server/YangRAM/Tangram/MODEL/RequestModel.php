@@ -239,7 +239,7 @@ final class RequestModel implements interfaces\model {
         $this->modelProperties['ARI']->appid = $this->modelProperties['TRI']->patharr[0] = $appid;
 
 
-        define('ROUTE_INDEX', $this->modelProperties['ARI']->route = $route);
+        define('route', $this->modelProperties['ARI']->route = $route);
         // 如果使用自定义路由
         if($dirname!==false){         
             $this->modelProperties['ARI']->patharr = array_slice($this->modelProperties['TRI']->patharr, 1 + $depth);

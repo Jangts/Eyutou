@@ -85,13 +85,13 @@ final class RouteCollection implements interfaces\collection {
 	 * @param int $mapid
 	 * @return 构造函数无返回值
 	**/ 
-	public function __construct($mapid, $apihost, $superhost){
+	public function __construct($mapid, $stdhost, $superhost){
 		// 调试模式下，将关闭缓存功能
 		if(_USE_DEBUG_MODE_===0&&$routes = self::$staticFileStorage->take('map_'.$mapid)){
             $this->storage = $routes;
         }else{
 			$this->storage = [];
-			$this->collectFromDatabase($mapid, $apihost, $superhost);
+			$this->collectFromDatabase($mapid, $stdhost, $superhost);
 		}
 	}
 
@@ -100,17 +100,18 @@ final class RouteCollection implements interfaces\collection {
 	 * 
 	 * @access public
 	 * @param int $mapid 		路由表id
-	 * @param string $apihost	默认主机名
+	 * @param string $stdhost	默认主机名
 	 * @param string $superhost	上级域名
 	 * @return 构造函数无返回值
 	**/ 
-	public function collectFromDatabase($mapid, $apihost, $superhost){
+	public function collectFromDatabase($mapid, $stdhost, $superhost){
 		// 链接数据库
 		self::$querier != NULL or self::initRDBConnection();
 
 		// 设置搜索条件
 		self::$querier->where('MAP_ID', $mapid)->where('SK_STATE', [1, 2]);
-		if($apihost===HOST){
+
+		if($stdhost===HOST){
 			if($superhost){
 				self::$querier->where('DOMAIN', ['<STD>', '<ANY>', HOST, '<SUB>'.$superhost])->select();
 			}else{

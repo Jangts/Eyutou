@@ -23,7 +23,7 @@ use Tangram\CACHE\Resource;
  * @version    5.0.0
 **/
 final class ResourceIndexer {
-    protected static $instance = NULL, $apihost = NULL, $res = NULL;
+    protected static $instance = NULL, $stdhost = NULL, $res = NULL;
 
     /**  
 	 * 资源索引器实例获取方法
@@ -48,25 +48,25 @@ final class ResourceIndexer {
      * @static
 	 * @return object(Tangram\MODEL\Request) 标注化请求对象
 	**/
-    public static function apihost(){
+    public static function stdhost(){
         // 判断是否第一次被调用
-        if(self::$apihost===NULL){
+        if(self::$stdhost===NULL){
             if(_PRIMARY_DOMAIN_){
                 if(stripos(HOST, 'www.')===0){
                     // 返回主域名的'www'子域名
-                    self::$apihost = 'www.'.strtolower(_PRIMARY_DOMAIN_);
+                    self::$stdhost = 'www.'.strtolower(_PRIMARY_DOMAIN_);
                 }else{
                     // 直接返回主域名
-                    self::$apihost = strtolower(_PRIMARY_DOMAIN_);
+                    self::$stdhost = strtolower(_PRIMARY_DOMAIN_);
                 }
             }else{
 			    // 没有指定主域名，则返回当前域名
-                self::$apihost = HOST;
+                self::$stdhost = HOST;
             }
         }
 
         // 返回默认域名
-		return self::$apihost;
+		return self::$stdhost;
     }
 
     /**  
@@ -115,7 +115,7 @@ final class ResourceIndexer {
         $request = Request::instance();
         $pathname = $request->TRI->pathname;
         $patharr = $request->TRI->patharr;
-        $apihost = self::apihost();
+        $stdhost = self::stdhost();
 
         // 检查是否有缓存，如果有则直接响应给客户端，否则返回false
         // ……
@@ -125,19 +125,19 @@ final class ResourceIndexer {
         self::$res = Resource::initialize($request)->render();
 
         // 检查是否为标准接口
-        $temporary = $this->matchStandardAPI($pathname, $patharr, $request, $apihost);
+        $temporary = $this->matchStandardAPI($pathname, $patharr, $request, $stdhost);
 
         // 如果非标准接口，则进行默认路由表匹配
         // 如果返回路由表编号，则进行该路由表的匹配
         if($temporary['map']===self::NOT_MATCH){
 
             // 检查是否启用且适用于默认RESTful API
-            if($apihost===HOST&&_USE_REST_API_){
-                $temporary = $this->matchDefaultREST($pathname, $patharr, $request, $apihost);
+            if($stdhost===HOST&&_USE_REST_API_){
+                $temporary = $this->matchDefaultREST($pathname, $patharr, $request, $stdhost);
             }
             RouteCollection::initialize();
             while ($temporary['map']>=self::NOT_MATCH){
-                $temporary = $this->matchRouteMap($temporary['map'], $pathname, $patharr, $request, $apihost);
+                $temporary = $this->matchRouteMap($temporary['map'], $pathname, $patharr, $request, $stdhost);
             }
         }
         
@@ -145,9 +145,8 @@ final class ResourceIndexer {
         if(isset($temporary['app'])){
             define('APPID', $temporary['app']);
             define('ROUTE', $temporary['map']);
-            define('route', $request->ARI->route);
         }else{
-            new StatusProcessor(404, true);//StatusProcessor::notFound();
+            new StatusProcessor(404, true);
         }
     }
 
@@ -247,10 +246,10 @@ final class ResourceIndexer {
      * @param string $pathname
      * @param array $patharr
      * @param object(Tangram\MODEL\Request) $request
-     * @param string $apihost
+     * @param string $stdhost
 	 * @return array 一个数组格式的路由表
     **/ 
-    private function matchStandardAPI($pathname, $patharr, $request, $apihost){
+    private function matchStandardAPI($pathname, $patharr, $request, $stdhost){
         // 用来比较的目录名需要前缀当前访问域名
         // 而用来被比较的目录名则前缀主域名（如果有的话）
         $pathname = $pathname . '/';
@@ -264,13 +263,13 @@ final class ResourceIndexer {
 
         // 子域名形式
         if(_STD_API_DOMAIN_){
-            define('_STD_API_', _STD_API_DOMAIN_.'.'.$apihost.'/');
+            define('_STD_API_', _STD_API_DOMAIN_.'.'.$stdhost.'/');
             $index = 1;
         }
         // 虚拟目录形式
         // 使用了子域名形式的标准api之后，目录形式的会失效
         elseif(_STD_API_DIR_){
-            define('_STD_API_', $apihost.'/'._STD_API_DIR_.'/');
+            define('_STD_API_', $stdhost.'/'._STD_API_DIR_.'/');
             $index = count(explode('/', preg_replace('/(^\/|\/$)/', '', preg_replace('/[\\\\\/]+/', '/', _STD_API_DIR_)))) + 1;
         }else{
             new Status(1402, '', 'Must Have a Standard API Configuration', true);
@@ -302,7 +301,7 @@ final class ResourceIndexer {
 	 * 与路由总表进行匹配
 	 * 
     **/ 
-    private function matchDefaultREST($pathname, $patharr, $request, $apihost){
+    private function matchDefaultREST($pathname, $patharr, $request, $stdhost){
         if(stripos($pathname, strtolower(A_RPN))===0){
             SESSION::init();
             if((count($patharr)>3&&$patharr[2]!=='')){
@@ -330,11 +329,11 @@ final class ResourceIndexer {
      * @param string $pathname
      * @param array $patharr
      * @param object(Tangram\MODEL\Request) $request
-     * @param string $apihost
+     * @param string $stdhost
 	 * @return array 一个数组格式的路由表
     **/ 
-    private function matchRouteMap($map, $pathname, $patharr, $request, $apihost){
-        $map = new RouteCollection($map, $apihost, $request->URI->spuerhost);
+    private function matchRouteMap($map, $pathname, $patharr, $request, $stdhost){
+        $map = new RouteCollection($map, $stdhost, $request->URI->spuerhost);
         $item = $map->match($pathname);
         if($item['STATE']===2){
             return [
@@ -390,8 +389,6 @@ final class ResourceIndexer {
      * @return null
     **/ 
     public function route(App $app, ApplicationPermissions $permissions){
-        var_dump($app);
-        exit;
         include(FPATH.'Routers/BaseRouter.php');
         if(ROUTE===self::STD_TEST){
             include(FPATH.'Controllers/traits/.testmethods.php');
@@ -406,19 +403,19 @@ final class ResourceIndexer {
             include(FPATH.'Controllers/IPCController.php');
             case self::STD_MVC:
             include(FPATH.'Routers/StandardRouter.php');
-            $app->handleStdAPI();
+            $app->executeStdMVCAction();
 
             case self::STD_TEST:
-            $app->testController();
+            $app->testCLIController();
 
             case self::APP_DEFAULT:
-            $app->handleDefaultResource();
+            $app->routeDefaultResource();
             case self::DIR_MATCH:
-            $app->handleRouterById();
+            $app->routeCustomResource();
 
             case self::STD_REST:
             include(FPATH.'Controllers/BaseResourcesController.php');
-            $app->handleResource();
+            $app->crudStandardResource();
         }
         return new StatusProcessor(route, '', $_SERVER['REQUEST_URI'], true);
     }
@@ -431,7 +428,7 @@ final class ResourceIndexer {
      * @return null
     **/ 
     public function checktasks(App $app){
-        return $app->workInOtherProcess([
+        return $app->callOtherProcess([
             'preset'    =>  'master',
             'args'      =>  [],
             'sData'     =>  [],
