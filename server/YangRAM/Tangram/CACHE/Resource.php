@@ -64,7 +64,7 @@ final class Resource extends ObjectModel {
 	 * @return self 初次执行会返回一个实例
      * @return boolean false
     **/ 
-    public static function initialize($request){
+    public static function config($request){
 		if(self::$request === NULL){
             self::$request = $request;
             return new static;

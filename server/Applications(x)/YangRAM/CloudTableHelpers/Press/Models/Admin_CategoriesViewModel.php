@@ -82,7 +82,7 @@ class Admin_CategoriesViewModel extends \PM\_STUDIO\BaseCRUDViewModel {
         return FolderModel::create([0, '', 'news']);
     }
 
-	public function initVars(){
+	public function initialize(){
 		return [
 			'listname'	=>	'新闻分类列表',
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',

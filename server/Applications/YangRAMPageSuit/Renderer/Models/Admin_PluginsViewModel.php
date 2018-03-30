@@ -36,7 +36,7 @@ class Admin_PluginsViewModel extends \PM\_STUDIO\BaseTableViewModel {
 		]
 	];
 
-	public function initVars(){
+	public function initialize(){
 		return [
 			'listname'	=>	'插件列表',
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',

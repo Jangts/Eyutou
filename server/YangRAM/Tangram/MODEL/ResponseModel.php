@@ -116,7 +116,7 @@ final class ResponseModel implements interfaces\model {
 		elseif(strpos($filename, __ROOT__)===0){
 			$filename = str_replace(__ROOT__, '<%/%>', $filename);
 		}else{
-			$filename = '<%******%>';
+			$filename = '<%File-Not-On-YangRAM-Install-Path%>';
 		}
 		return $filename;
 	}

@@ -16,7 +16,7 @@ trait common {
     private static $public_tables;
 
     protected static
-    $initialized = false,
+    $configured = false,
     $conns = NULL,
     $lastPDOXConn = NULL,
     $permissions = NULL;
@@ -77,11 +77,11 @@ trait common {
      * @param array $conns                                      拷贝一份PDOX链接配置表
      * @return bool
     **/
-    public static function initialize(ApplicationPermissions $permissions, array $conns){
-		if(self::$initialized==false){
+    public static function config(ApplicationPermissions $permissions, array $conns){
+		if(self::$configured==false){
             self::$permissions = $permissions;
             self::$conns = $conns;
-			self::$initialized = true;
+			self::$configured = true;
             return true;
 		}
         return false;

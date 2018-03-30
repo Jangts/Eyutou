@@ -76,7 +76,7 @@ class Admin_AdsViewModel extends \PM\_STUDIO\BaseCRUDViewModel {
 		'name'	=>	'创建广告'
 	];
 
-	public function initVars(){
+	public function initialize(){
 		return [
 			'listname'	=>	'广告列表',
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',

@@ -122,7 +122,7 @@ final class ResourceIndexer {
         // 初始化Resource
         // 实例化一个Resource
         // 尝试输出资源（如果有的话）
-        self::$res = Resource::initialize($request)->render();
+        self::$res = Resource::config($request)->render();
 
         // 检查是否为标准接口
         $temporary = $this->matchStandardAPI($pathname, $patharr, $request, $stdhost);
@@ -135,7 +135,8 @@ final class ResourceIndexer {
             if($stdhost===HOST&&_USE_REST_API_){
                 $temporary = $this->matchDefaultREST($pathname, $patharr, $request, $stdhost);
             }
-            RouteCollection::initialize();
+            
+            RouteCollection::config();
             while ($temporary['map']>=self::NOT_MATCH){
                 $temporary = $this->matchRouteMap($temporary['map'], $pathname, $patharr, $request, $stdhost);
             }
@@ -403,19 +404,19 @@ final class ResourceIndexer {
             include(FPATH.'Controllers/IPCController.php');
             case self::STD_MVC:
             include(FPATH.'Routers/StandardRouter.php');
-            $app->executeStdMVCAction();
+            return $app->executeStdMVCAction();
 
             case self::STD_TEST:
-            $app->testCLIController();
+            return $app->testCLIController();
 
             case self::APP_DEFAULT:
             $app->routeDefaultResource();
             case self::DIR_MATCH:
-            $app->routeCustomResource();
+            return $app->routeCustomResource();
 
             case self::STD_REST:
             include(FPATH.'Controllers/BaseResourcesController.php');
-            $app->crudStandardResource();
+            return $app->crudStandardResource();
         }
         return new StatusProcessor(route, '', $_SERVER['REQUEST_URI'], true);
     }

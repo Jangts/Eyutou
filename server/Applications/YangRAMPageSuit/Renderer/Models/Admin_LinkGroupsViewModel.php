@@ -34,7 +34,7 @@ class Admin_LinkGroupsViewModel extends \PM\_STUDIO\BaseListViewModel {
 		]
 	];
 
-	public function initVars(){
+	public function initialize(){
 		return [
 			'listname'	=>	'菜单列表',
 			'itemlist'	=>	'<ul class="list-view"><li><p class="list-title"><a href="javascript:;">TITLE</a></p><p class="list-desc">Description</p></li></ul>'

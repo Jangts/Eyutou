@@ -187,5 +187,13 @@
         "scode": "Sv",
         "installpath": "Server/",
         "usedb": 0
+    },
+
+    "GZLAILI": {
+        "id": "GZLAILI",
+        "name": "Lailihong Administrationn Backstage",
+        "scode": "BS",
+        "installpath": "Lailihong/Backstage/",
+        "usedb": 0
     }
 }

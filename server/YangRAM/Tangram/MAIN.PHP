@@ -242,7 +242,7 @@ final class IDEA {
 			}
 
 			// 初始化一般数据存储仓
-			CACHE\DataStorage::initialize($config['rdsconnections'], $config['memconnections']);
+			CACHE\DataStorage::config($config['rdsconnections'], $config['memconnections']);
 
 			// 返回数据库配置
 			return $config['rdbconnections'];
@@ -276,7 +276,7 @@ final class IDEA {
 			$Permissions->DEFAULT_PDOX_USEABLE = true;
 
 			// 初始化关系数据库查询器RDBQuerier
-			CTRLR\RDBQuerier::initialize($Permissions, $CONNS);
+			CTRLR\RDBQuerier::config($Permissions, $CONNS);
 			// 链接首选数据库
 			// CTRLR\RDBQuerier::connectPDOX(0);
 
@@ -578,6 +578,9 @@ final class ClassLoader {
 		if($realpath){
 			include_once($realpath);
 		}else{
+			if(_USE_DEBUG_MODE_){
+				new StatusProcessor(1444, '', 'Could Not Find Required File : '.$filename, true);
+			}
 			new StatusProcessor(1444, '', 'Could Not Find Required File : '.ResponseModel::trimServerFilename($filename), true);
 		}
 	}

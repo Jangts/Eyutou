@@ -15,7 +15,7 @@ class Admin_PluginViewModel extends \PM\_STUDIO\BaseFormViewModel {
 		]
 	];
 
-	public function initVars(){
+	public function initialize(){
 		return [
 			'formname'	=>	'编辑插件信息'
 		];

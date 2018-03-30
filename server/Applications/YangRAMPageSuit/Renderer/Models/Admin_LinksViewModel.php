@@ -128,7 +128,7 @@ class Admin_LinksViewModel extends \PM\_STUDIO\BaseCRUDViewModel {
         return $link;
     }
 
-	public function initVars(){
+	public function initialize(){
 		OptionsModel::__correctTablePrefix($this->app);
 		LinkModel::__correctTablePrefix($this->app);
 		PageModel::__correctTablePrefix($this->app);

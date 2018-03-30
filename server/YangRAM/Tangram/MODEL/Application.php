@@ -22,7 +22,7 @@ use Tangram\CTRLR\ResourceIndexer;
 **/
 final class Application {
     protected static
-    $initialized = false,
+    $checked = false,
     $conn = NULL,
 	$public = [];
 	
@@ -37,8 +37,8 @@ final class Application {
 	 * @return bool
 	**/
     public static function cacheActivityAppPDOXConn($conn){
-        if(self::$initialized===false){
-			self::$initialized = true;
+        if(self::$checked===false){
+			self::$checked = true;
 			if(is_a($conn, 'Tangram\CTRLR\rdb_drivers\_abstract')){
 				self::$conn = $conn;
 				return true;
@@ -423,6 +423,7 @@ final class Application {
 	}
 
 	public function executeStdMVCAction(){
+
 		$appdata = $this->properties;
 		$classFile = $appdata['Path'].'Routers/StandardRouter.php';
 		$className = $appdata['NAMESPACE'].'Routers\StandardRouter';

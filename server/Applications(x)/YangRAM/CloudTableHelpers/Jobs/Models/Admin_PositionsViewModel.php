@@ -76,7 +76,7 @@ class Admin_PositionsViewModel extends \PM\_STUDIO\BaseTableViewModel {
 	],
 	$__sortby = TableRowMetaModel::PUBTIME_DESC;
 
-	public function initVars(){
+	public function initialize(){
         return [
 			'listname'	=>	'职位列表',
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',

@@ -36,7 +36,7 @@ class Admin_NewsRecycleViewModel extends \PM\_STUDIO\BaseTrashCanViewModel {
 	],
 	$__sortby = TableRowMetaModel::MTIME_DESC;
 
-	public function initVars(){
+	public function initialize(){
 		return [
 			'listname'	=>	'回收站新闻列表',
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',

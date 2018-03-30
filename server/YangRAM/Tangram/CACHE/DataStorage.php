@@ -32,7 +32,7 @@ class DataStorage {
 
 	protected static
 	// 是否已初始化
-	$initialized = false,
+	$configured = false,
 	// 链接配置表
 	$redis_conns = [],
 	$memca_conns = [];
@@ -46,11 +46,11 @@ class DataStorage {
      * @param array $memca_conns	拷贝一份Memcache链接配置表
      * @return bool
     **/
-    public static function initialize(array $redis_conns, array $memca_conns){
-		if(self::$initialized==false){
+    public static function config(array $redis_conns, array $memca_conns){
+		if(self::$configured==false){
 			self::$redis_conns = $redis_conns;
             self::$memca_conns = $memca_conns;
-			self::$initialized = true;
+			self::$configured = true;
             return true;
 		}
         return false;

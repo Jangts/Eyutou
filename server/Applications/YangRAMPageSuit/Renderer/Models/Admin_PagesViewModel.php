@@ -139,7 +139,7 @@ class Admin_PagesViewModel extends \PM\_STUDIO\BaseCRUDViewModel {
 		]
 	];
 
-	public function initVars(){
+	public function initialize(){
 		return [
 			'listname'	=>	'页面列表',
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',

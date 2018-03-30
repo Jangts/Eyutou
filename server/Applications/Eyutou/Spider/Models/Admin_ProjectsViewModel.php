@@ -79,7 +79,7 @@ class Admin_ProjectsViewModel extends \PM\_STUDIO\BaseTableViewModel {
 	],
 	$__sortby = TableRowMetaModel::PUBTIME_DESC;
 
-    public function initVars(){
+    public function initialize(){
         if(!static::$staticVasInited){
             // static::$classtabs = [
             //     'jtxw'	=>	[

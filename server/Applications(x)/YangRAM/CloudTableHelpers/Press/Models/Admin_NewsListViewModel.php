@@ -92,7 +92,7 @@ class Admin_newsListViewModel extends \PM\_STUDIO\BaseTableViewModel {
 	],
 	$__sortby = TableRowMetaModel::PUBTIME_DESC;
 
-	public function initVars(){
+	public function initialize(){
 		return [
 			'listname'	=>	'新闻列表',
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',

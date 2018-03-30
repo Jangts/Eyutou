@@ -42,7 +42,7 @@ final class RouteCollection implements interfaces\collection {
 	 * @static
 	 * @return bool
 	**/
-    public static function initialize(){
+    public static function config(){
         self::$staticFileStorage = new Storage([
 			'path'		=>	DPATH_RMAP,
 			'filetype'	=>	'json'
@@ -71,7 +71,7 @@ final class RouteCollection implements interfaces\collection {
 	 * @return bool
 	**/
     private static function initRDBConnection(){
-        self::$querier = new DBQ;
+		self::$querier = new DBQ;
 		self::$querier->using(DB_REG.'appdirs');
 		return true;
 	}
@@ -113,15 +113,15 @@ final class RouteCollection implements interfaces\collection {
 
 		if($stdhost===HOST){
 			if($superhost){
-				self::$querier->where('DOMAIN', ['<STD>', '<ANY>', HOST, '<SUB>'.$superhost])->select();
+				self::$querier->where('DOMAIN', ['<STD>', '<ANY>', HOST, '<SUB>'.$superhost]);
 			}else{
-				self::$querier->where('DOMAIN', ['<STD>', '<ANY>', HOST])->select();
+				self::$querier->where('DOMAIN', ['<STD>', '<ANY>', HOST]);
 			}
 		}else{
 			if($superhost){
-				self::$querier->where('DOMAIN', ['<ANY>', HOST, '<SUB>'.$superhost])->select();
+				self::$querier->where('DOMAIN', ['<ANY>', HOST, '<SUB>'.$superhost]);
 			}else{
-				self::$querier->where('DOMAIN', ['<ANY>', HOST])->select();
+				self::$querier->where('DOMAIN', ['<ANY>', HOST]);
 			}
 		}
 

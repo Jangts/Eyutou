@@ -41,7 +41,7 @@ class Admin_CategoriesRecycleViewModel extends \PM\_STUDIO\BaseTrashCanViewModel
 		];
     }
 
-	public function initVars(){
+	public function initialize(){
 		return [
 			'listname'	=>	'回收站新闻列表',
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',

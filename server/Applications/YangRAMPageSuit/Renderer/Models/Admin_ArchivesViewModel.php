@@ -71,7 +71,7 @@ class Admin_ArchivesViewModel extends \PM\_STUDIO\BaseCRUDViewModel {
 		'name'	=>	'创建分类'
 	];
 
-	public function initVars(){
+	public function initialize(){
 		return [
 			'listname'	=>	'归档列表',
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',

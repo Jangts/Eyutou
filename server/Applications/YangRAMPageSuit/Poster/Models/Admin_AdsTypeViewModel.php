@@ -4,7 +4,7 @@ namespace Pages\Ads\Models;
 use Request;
 
 abstract class Admin_AdsTypeViewModel extends \PM\_STUDIO\BaseFormViewModel {
-	public function initVars(){
+	public function initialize(){
 		return [
 			'formname'	=>	'编辑广告信息'
 		];

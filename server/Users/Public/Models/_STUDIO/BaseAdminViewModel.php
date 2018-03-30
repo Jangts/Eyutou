@@ -32,14 +32,14 @@ abstract class BaseAdminViewModel extends \PM\_STUDIO\AbstractViewModel {
 		$this->app = $app;
 		$this->request = $request;
 		$this->theme = $theme;
-		$this->vars =  $this->initVars();
+		$this->vars =  $this->initialize();
 		define('COMMON_ADMIN_VIEW_URL', __BURL__.$app->DIR.'Views/_'.CACAI.'/');
 		define('COMMON_ADMIN_VIEW_PATH', $app->Path.'Views/_'.CACAI.'/');
 		define('COMMON_ADMIN_VIEW_PATH_TPL', DPATH.CACAI.'/templates/'.$app->ID.'/');
 		return $this;
 	}
 
-    public function initVars(){
+    public function initialize(){
 		if(!static::$staticVasInited){
 			static::$staticVasInited = true;
         }
