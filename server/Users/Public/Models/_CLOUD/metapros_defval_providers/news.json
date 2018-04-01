@@ -1,0 +1,69 @@
+{
+    "classtabs": {
+        "jtxw": {
+            "name": "集团新闻",
+            "title": "集团新闻",
+            "where": {
+                "GROUPID": 1
+            }
+        },
+        "hydt": {
+            "name": "行业动态",
+            "title": "行业动态",
+            "where": {
+                "GROUPID": 2
+            }
+        }
+    },
+    "columns": [{
+            "field_name": "__index",
+            "display_name": "序号",
+            "column_type": "",
+            "classname": ""
+        },
+        {
+            "field_name": "title",
+            "sorting_name": "title_gb",
+            "display_name": "新闻标题",
+            "length": 30,
+            "column_type": "",
+            "classname": ""
+        },
+        {
+            "field_name": "crttime",
+            "sorting_name": "ctime",
+            "display_name": "创建时间",
+            "column_type": "",
+            "classname": ""
+        },
+        {
+            "field_name": "modtime",
+            "sorting_name": "mtime",
+            "display_name": "修改时间",
+            "column_type": "",
+            "classname": ""
+        },
+        {
+            "field_name": "pubtime",
+            "sorting_name": "ptime",
+            "display_name": "发布时间",
+            "column_type": "",
+            "classname": ""
+        },
+        {
+            "field_name": "__count",
+            "display_name": "点击量",
+            "column_type": "",
+            "classname": ""
+        },
+        {
+            "field_name": "__ops",
+            "display_name": "操作",
+            "column_type": "",
+            "classname": ""
+        }
+    ],
+    "creater": {
+        "name": "创建新资讯"
+    }
+}

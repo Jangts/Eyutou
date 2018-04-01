@@ -36,7 +36,7 @@ class AdminBusController extends BasePrivateController {
     }
 
     public function reject($href = NULL){
-        $viewModel = 'Admin_LoginViewModel';
+        $viewModel = 'LoginAVModel';
         $fullclassname = '\Lailihong\Backstage\Models\\'.$viewModel;
         $filename = CACAP.'Models/'.$viewModel;
         ClassLoader::execute($filename);
@@ -49,9 +49,9 @@ class AdminBusController extends BasePrivateController {
         $app = $this->app;
         if(isset($patharr[2])){
             $classname = BaseRouter::correctClassName($patharr[2]);
-            $viewModel = 'Admin_'.$classname.'ViewModel';
+            $viewModel = $classname.'AVModel';
         }else{
-            $viewModel = 'Admin_MainViewModel';
+            $viewModel = 'IndexAVModel';
         }
         $fullclassname = '\\'.$app->xProps['Namespace'].'\\Models\\'.$viewModel;
         $filename = $app->Path.'Models/'.$viewModel;

@@ -8,7 +8,7 @@ use Response;
 use Tangram\MODEL\ObjectModel;
 use App;
 
-abstract class BaseAdminViewModel extends \PM\_STUDIO\AbstractViewModel {
+abstract class BaseAdminViewModel extends \AF\Models\BaseViewModel {
 	public static $staticVasInited = false;
 	public static function updateTemplateCache($templates=NULL){
 		return \Storage::clearPath(DPATH.CACAI.'/templates/');

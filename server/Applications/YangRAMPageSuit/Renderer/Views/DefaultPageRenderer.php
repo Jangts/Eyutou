@@ -17,7 +17,7 @@ use Pages\Main\Models\PageModel;
 use Pages\Main\Models\MenuModel;
 use Pages\Main\Models\PluginModel;
 
-class DefaultPageRenderer extends NIML {
+class DefaultPageRenderer extends \AF\Models\BaseViewModel {
     protected
     $theme = 'default',
     $_pages = [];
@@ -101,5 +101,9 @@ class DefaultPageRenderer extends NIML {
 
     public function echoPluginResource($pluginalias, $guid, $restype = '', $options = ''){
         echo $this->readPluginResource($pluginalias, $guid, $restype, $options);
+    }
+
+    public function render(){
+		$this->display($this->template);
     }
 }
