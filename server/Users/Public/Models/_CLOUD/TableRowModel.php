@@ -137,8 +137,8 @@ final class TableRowModel extends BaseCloudItemModel {
     /**
      * 统计数量
      */
-    public static function getCOUNT($tablename = NULL, $folder = NULL, $state = TableRowMetaModel::UNRECYCLED) {
-		return TableRowMetaModel::getCOUNT($tablename, $folder, $state);
+    public static function getCOUNT($tablename = NULL, $group_id = NULL, $state = TableRowMetaModel::UNRECYCLED) {
+		return TableRowMetaModel::getCOUNT($tablename, $group_id, $state);
     }
     
     /**

@@ -11,8 +11,8 @@ trait trmm_context {
 				case self::SEARCH_TABLE:
 				$array = self::query("`ID` < $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `TABLENAME` = '$this->TABLENAME'", self::ID_DESC, 1);
 				break;
-				case self::SEARCH_FOLDER:
-				$array = self::query("`ID` < $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `TABLENAME` = '$this->TABLENAME' AND `FOLDER` = $this->FOLDER", self::ID_DESC, 1);
+				case self::SEARCH_GROUPID:
+				$array = self::query("`ID` < $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `TABLENAME` = '$this->TABLENAME' AND `GROUPID` = $this->GROUPID", self::ID_DESC, 1);
 				break;
 				default:
 				$array = self::query("`ID` < $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0", self::ID_DESC, 1);
@@ -33,8 +33,8 @@ trait trmm_context {
 				case self::SEARCH_TABLE:
 				$array = self::query("`ID` > $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `TABLENAME` = '$this->TABLENAME'", self::ID_ASC, 1);
 				break;
-				case self::SEARCH_FOLDER:
-				$array = self::query("`ID` > $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `TABLENAME` = '$this->TABLENAME' AND `FOLDER` = $this->FOLDER", self::ID_ASC, 1);
+				case self::SEARCH_GROUPID:
+				$array = self::query("`ID` > $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `TABLENAME` = '$this->TABLENAME' AND `GROUPID` = $this->GROUPID", self::ID_ASC, 1);
 				break;
 				default:
 				$array = self::query("`ID` > $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0", self::ID_ASC, 1);
@@ -55,8 +55,8 @@ trait trmm_context {
 				case self::SEARCH_TABLE:
 				$array = self::query("`PUBTIME` <= '$this->PUBTIME' AND `ID` <> $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `TABLENAME` = '$this->TABLENAME'", self::PUBTIME_DESC, 1);
 				break;
-				case self::SEARCH_FOLDER:
-				$array = self::query("`PUBTIME` <= '$this->PUBTIME' AND `ID` <> $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `TABLENAME` = '$this->TABLENAME' AND `FOLDER` = $this->FOLDER", self::PUBTIME_DESC, 1);
+				case self::SEARCH_GROUPID:
+				$array = self::query("`PUBTIME` <= '$this->PUBTIME' AND `ID` <> $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `TABLENAME` = '$this->TABLENAME' AND `GROUPID` = $this->GROUPID", self::PUBTIME_DESC, 1);
 				break;
 				default:
 				$array = self::query("`PUBTIME` <= '$this->PUBTIME' AND `ID` <> $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0", self::PUBTIME_DESC, 1);
@@ -77,8 +77,8 @@ trait trmm_context {
 				case self::SEARCH_TABLE:
 				$array = self::query("`PUBTIME` >= '$this->PUBTIME' AND `ID` <> $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `TABLENAME` = '$this->TABLENAME'", self::PUBTIME_ASC, 1);
 				break;
-				case self::SEARCH_FOLDER:
-				$array = self::query("`PUBTIME` >= '$this->PUBTIME' AND `ID` <> $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `TABLENAME` = '$this->TABLENAME' AND `FOLDER` = $this->FOLDER", self::PUBTIME_ASC, 1);
+				case self::SEARCH_GROUPID:
+				$array = self::query("`PUBTIME` >= '$this->PUBTIME' AND `ID` <> $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `TABLENAME` = '$this->TABLENAME' AND `GROUPID` = $this->GROUPID", self::PUBTIME_ASC, 1);
 				break;
 				default:
 				$array = self::query("`PUBTIME` >= '$this->PUBTIME' AND `ID` <> $id AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0", self::PUBTIME_ASC, 1);
@@ -99,22 +99,22 @@ trait trm_context {
             'Previous' => $meta->prev(),
             'Previous_InSameSchema' => $meta->prev(TableRowMetaModel::SEARCH_TYPE),
             'Previous_InSameTable' => $meta->prev(TableRowMetaModel::SEARCH_TABLE),
-            'Previous_InSameFolder' => $meta->prev(TableRowMetaModel::SEARCH_FOLDER),
+            'Previous_InSameGROUP' => $meta->prev(TableRowMetaModel::SEARCH_GROUPID),
 
             'Next' => $meta->next(),
             'Next_InSameSchema' => $meta->next(TableRowMetaModel::SEARCH_TYPE),
             'Next_InSameTable' => $meta->next(TableRowMetaModel::SEARCH_TABLE),
-            'Next_InSameFolder' => $meta->next(TableRowMetaModel::SEARCH_FOLDER),
+            'Next_InSameGROUP' => $meta->next(TableRowMetaModel::SEARCH_GROUPID),
         
             'Earlier' => $meta->early(),
             'Earlier_InSameSchema' => $meta->early(TableRowMetaModel::SEARCH_TYPE),
             'Earlier_InSameTable' => $meta->early(TableRowMetaModel::SEARCH_TABLE),
-            'Earlier_InSameFolder' => $meta->early(TableRowMetaModel::SEARCH_FOLDER),
+            'Earlier_InSameGROUP' => $meta->early(TableRowMetaModel::SEARCH_GROUPID),
 
             'Later' => $meta->later(),
             'Later_InSameSchema' => $meta->later(TableRowMetaModel::SEARCH_TYPE),
             'Later_InSameTable' => $meta->later(TableRowMetaModel::SEARCH_TABLE),
-            'Later_InSameFolder' => $meta->later(TableRowMetaModel::SEARCH_FOLDER),
+            'Later_InSameGROUP' => $meta->later(TableRowMetaModel::SEARCH_GROUPID),
         ];
     }
 }

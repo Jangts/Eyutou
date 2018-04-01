@@ -3,7 +3,7 @@ return [
     'ID'				=>	NULL,
     'TYPE'				=>	'default',
     'TABLENAME'			=>	'cloudnotes',
-    'FOLDER'			=>	0,
+    'GROUPID'			=>	0,
     'TITLE'				=>	'未命名笔记',
     'DESCRIPTION'		=>	'',
     'PUBTIME'			=>	DATETIME,

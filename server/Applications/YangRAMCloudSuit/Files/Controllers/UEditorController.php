@@ -43,7 +43,7 @@ class UEditorController extends FilesController {
                 if($folder = FolderModel::postIfNotExists($id, $name)){
                     $id = $folder['id'];
                 }else{
-                    new Stutus(400);
+                    new Status(400);
                 }
             }
         }else{

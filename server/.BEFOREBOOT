@@ -140,6 +140,7 @@ define('PUBL_URL',      __BURL__.PUBL_RPN);
 /** Defined full pathname for public directories. */
 // 用户公共文件夹
 define('PUBL_PATH',     __ROOT__.PUBL_RPN);
+// define('PRTC_PATH',     PUBL_PATH.'.attachments/');
 // 共享模型文件夹
 define('PMPATH',        PUBL_PATH.'Models/');
 // 通用主题文件夹

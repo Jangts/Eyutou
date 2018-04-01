@@ -14,11 +14,6 @@ trait authorities {
 
     public function checkReadAuthority(array $options = []){
         if(isset($options['files'])){
-            if($file = FileMetaModel::byGUID($options['files'])){
-                if(stripos($file->FILE_NAME, '.')===0){
-                    return false;
-                }
-            }
             return true;
         }
         new Status(404, true);

@@ -157,6 +157,7 @@ body {
 
 .mid1920 .main {
     width: 845px;
+    min-height: 400px;
     margin-bottom: 40px;
     margin-left: 255px;
     padding: 10px;
@@ -377,8 +378,8 @@ p.index-news-date {
     display: inline-block;
     position: relative;
     width: 196px;
-    height: 196px;
-    margin: 5 0;
+    height: 220px;
+    margin: 12px 0;
     cursor: pointer;
     text-align: center;
 }
@@ -391,6 +392,12 @@ p.index-news-date {
     margin-left: 54px;
 }
 
+.product-item figure {
+    position: relative;
+    width: 196px;
+    height: 196px;
+}
+
 .product-item img {
     position: absolute;
     max-width: 196px;
@@ -400,6 +407,15 @@ p.index-news-date {
     bottom: 0;
     left: 0;
     margin: auto;
+}
+
+.product-item p {
+    position: relative;
+    width: 196px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    overflow: hidden;
 }
 
 #product-detail {
@@ -454,6 +470,10 @@ p.index-news-date {
     width: 350px;
     height: 265px;
     margin: 76px 30px 0 500px;
+    line-height: 25px;
+    font-size: 12px;
+    text-align: justify;
+    color: #6e6e6e;
 }
 
 .product-info h1 {
@@ -464,6 +484,7 @@ p.index-news-date {
     font-weight: normal;
 }
 
+.product-info div,
 .product-info p {
     line-height: 25px;
     font-size: 12px;
@@ -525,6 +546,7 @@ a.go2buy {
     font-size: 12px;
     color: #3e3a39;
     text-indent: 24px;
+    margin-bottom: 10px;
 }
 
 

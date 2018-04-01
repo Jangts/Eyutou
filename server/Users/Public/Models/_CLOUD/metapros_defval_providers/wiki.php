@@ -3,7 +3,7 @@ return [
     'ID'				=>	NULL,
     'TYPE'				=>	'default',
     'TABLENAME'			=>	'encyclopedia',
-    'FOLDER'			=>	0,
+    'GROUPID'			=>	0,
     'TITLE'				=>	'新词条',
     'DESCRIPTION'		=>	'',
     'PUBTIME'			=>	DATETIME,

@@ -27,8 +27,6 @@ final class TagModel extends \AF\Models\BaseMapModel {
     public static function getTagsByTablename($tablename){
         if(is_string($tablename)){
             return self::query("`tablename` = '$tablename'");
-        }else{
-            return self::query("`tablename` = ''");
         }
         return [];
     }

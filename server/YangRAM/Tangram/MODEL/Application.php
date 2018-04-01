@@ -72,7 +72,7 @@ final class Application {
 	**/
 	private static function getOAMAppInfo($code){
 		$querier = new RDBQuerier;
-		$result = $querier->using(DB_REG.'apps')->where('app_id', $code)->select('app_id, app_name, app_scode, app_authorname, app_installpath, app_usedb');
+		$result = $querier->using(DB_REG.'apps')->where('app_id', $code)->select('app_id, app_name, app_scode, app_authorname, app_installpath, app_usedb, app_build_time');
 		if($result&&$app = $result->item()){
 			return [
 				'APPID'		=>	$code,

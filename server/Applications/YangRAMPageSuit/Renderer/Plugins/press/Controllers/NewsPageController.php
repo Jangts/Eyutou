@@ -23,7 +23,7 @@ class NewsPageController extends \Controller {
 
     public function main($patharr){
         if(isset($patharr[1])){
-            if(in_array($patharr[1], ['detail', 'category'])){
+            if(in_array($patharr[1], ['detail', 'archive'])){
                 if(isset($patharr[2])){
                     $methodname = 'get'.$patharr[1];
                     $this->$methodname($patharr[2]);
@@ -32,36 +32,36 @@ class NewsPageController extends \Controller {
                 # 404
             }
         }else{
-            $methodname = 'getCategory';
-            $folder = TRGroupModel::getDefaultFolder('news');
-            $this->$methodname($folder);
+            $methodname = 'getArchive';
+            $archive = TRGroupModel::getDefaultGroup('news');
+            $this->$methodname($archive);
         }
         return false;
     }
 
-    private function getCategory($folder){
-        if(is_numeric($folder)){
-            $folder = TRGroupModel::byGUID($folder);
+    private function getArchive($archive){
+        if(is_numeric($archive)){
+            $archive = TRGroupModel::byGUID($archive);
         }
-        if(is_a($folder, 'PM\_CLOUD\TRGroupModel')){
+        if(is_a($archive, 'PM\_CLOUD\TRGroupModel')){
             $options = OptionsModel::autoloadItems();
-            $column = new ColumnModel('link_news/category/'.$folder->id);
+            $column = new ColumnModel('link_news/archive/'.$archive->id);
             $column->push('link_news/');
-            $count = TableRowMetaModel::getCOUNT(NULL, $folder->id, TableRowMetaModel::PUBLISHED);
-            $list = TableRowModel::getRows(NULL, $folder->id, TableRowMetaModel::PUBLISHED, TableRowMetaModel::RLDPD, $start = 0, $num = static::$prepage);
+            $count = TableRowMetaModel::getCOUNT(NULL, $archive->id, TableRowMetaModel::PUBLISHED);
+            $list = TableRowModel::getRows(NULL, $archive->id, TableRowMetaModel::PUBLISHED, TableRowMetaModel::RLDPD, $start = 0, $num = static::$prepage);
 
             $renderer = new DefaultPageRenderer();
 
-		    $renderer->assign("title", $folder->name);
+		    $renderer->assign("title", $archive->name);
 		    $renderer->assign($options, "option_");
             $renderer->assign("column", $column);
-            $renderer->assign("category", $folder);
+            $renderer->assign("archive", $archive);
             $renderer->assign("list", $list);
             $renderer->assign('pagelist', self::buildPageList($count));
 		
             $renderer->using($options['use_theme']);
 
-		    $renderer->display('plugins/news/category.niml');
+		    $renderer->display('plugins/news/archive.niml');
         }
         # 404
     }
@@ -89,7 +89,7 @@ class NewsPageController extends \Controller {
             if($news = TableRowModel::byGUID($id)){
                 $options = OptionsModel::autoloadItems();
                 $column = new ColumnModel('link_news/detail/'.$id);
-                $column->push('link_news/category/'.$news->FOLDER);
+                $column->push('link_news/archive/'.$news->archiveID);
                 $column->push('link_news/');
 
                 $renderer = new DefaultPageRenderer();
@@ -99,7 +99,7 @@ class NewsPageController extends \Controller {
                 $renderer->assign($news->getArrayCopy(), "");
                 $renderer->assign("column", $column);
                 $renderer->assign("tablemeta", TableMetaModel::byGUID($news->TABLENAME));
-                $renderer->assign("category", TRGroupModel::byGUID($news->FOLDER));
+                $renderer->assign("archive", TRGroupModel::byGUID($news->archiveID));
 		
                 $renderer->using($options['use_theme']);
 

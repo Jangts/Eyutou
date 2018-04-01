@@ -3,7 +3,7 @@ return [
     'ID'				=>	NULL,
     'TYPE'				=>	'job',
     'TABLENAME'			=>	'positions',
-    'FOLDER'			=>	0,
+    'GROUPID'			=>	0,
     'TITLE'				=>	'新职位',
     'DESCRIPTION'		=>	'',
     'PUBTIME'			=>	DATETIME,

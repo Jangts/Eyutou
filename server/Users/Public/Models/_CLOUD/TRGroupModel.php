@@ -8,6 +8,8 @@ use Status;
  *归档文件夹模型
 **/
 final class TRGroupModel extends \AF\Models\BaseDeepModel {
+	use traits\grouping;
+
 	const
 	ID_DESC = [['id', true, self::SORT_REGULAR]],
 	ID_ASC = [['id', false, self::SORT_REGULAR]],
@@ -20,7 +22,9 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 
 	UNRECYCLE = 0,
 	RECYCLE = 1,
-	HIDE = 2;
+	HIDE = 2,
+	
+	NEW_ITEM_NAME = 'New Group';
 
 	protected static
 	$fileStoragePath = DPATH.'CLOUDS/'.'trgroups/',
@@ -30,7 +34,7 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 	$defaultPorpertyValues  = [
 		'id'				=>	0,
 		'tablename'			=>	NULL,
-		'name'				=>	'New Group',
+		'name'				=>	self::NEW_ITEM_NAME,
 		'description'		=>	'',
         'parent'		    =>	6,
 		'SK_IS_RECYCLED'	=>	0,
@@ -52,48 +56,31 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 		return false;
 	}
 
-	
-
 	/**
-	 * 检查并校正文件夹名称
+	 * 检查父级目录可用性
 	 */
-	private static function correctSourcesGroupName($parent_id, $group_id, $name = NULL){
-		if(empty($name)){
-			// 如果未指定文件夹名，则命名为New Group
-			$name = 'New Group';
+	private static function checkParentCanBeSet($group, $parent_id){
+		if($parent_id===$group->id){
+			// 父级id不能是当前id
+            return false;
 		}
-
-		// 获取默认数据行查询器
-		$querier = static::initQuerier();
-
-		$result = $querier->requires()
-		->where('parent', $parent_id)
-		->where('id', $group_id, '<>')
-		->where('name', $name)
-		->where('SK_IS_RECYCLED', 0)
-		->select('name');
-
-		if($row = $result->item()){
-			// 查询所有同级文件夹名称
-			$names = [];
-			$result = $querier->requires()
-			->where('parent', $parent_id)
-			->where('id', $group_id, '<>')
-			->where('SK_IS_RECYCLED', 0)
-			->select('name');
-
-			foreach($result as $row){
-				$names[] = $row['name'];
-			}
-			
-			$newname = $name.'(2)';
-			$i = 2;
-			while(in_array($newname, $names, true)){
-				$newname = $name.'('.++$i.')';
-			}
-			return $newname;
+		if($parent_id==0){
+			return true;
 		}
-		return $name;
+		if($parent = self::byGUID($parent_id)){
+			// 存在父级目录
+			if($parent->tablename==$group->tablename){
+				// 检查指定目录的祖先目录中是否存在此目录
+				$ancestors = $parent->getAncestors();
+				foreach($ancestors as $ancestor){
+					if($ancestor->id===$group->id){
+						return false;
+					}
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -106,22 +93,7 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 				return self::query("`tablename` = '$tablename' AND `parent` = 0 AND `SK_IS_RECYCLED` = 0" , $orderby);
 			}
 		}
-		// 文件的根目录其实固定的几个，实际上不用判断移除和隐藏
-		return self::query("`type` = 'file' AND `parent` = 0 AND `SK_IS_RECYCLED` = 0" , $orderby);
-	}
-
-	/**
-	 * 获取子目录
-	 */
-	public static function getChildren($id, array $options = [], array $orderby = self::ID_ASC){
-		return self::query(['parent' => $id, 'SK_IS_RECYCLED' => 0], $orderby);
-	}
-
-	/**
-	 * 获取文件根目录
-	 */
-	public static function getFilsRootGroups(array $orderby = self::ID_ASC){
-		return self::getRoots(NULL, $orderby);
+		return [];
 	}
 
 	/**
@@ -143,7 +115,7 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 	 */
     public static function getDefaultGroup($tablename){
 		if(is_string($tablename)&&$tablename&&($tablemeta = TableMetaModel::byGUID($tablename))){
-			$array = self::query("`tablename` = '$tablename' AND `parent` = 0 AND `SK_IS_RECYCLED` = 0" , [['id', false, self::SORT_REGULAR]], 1);
+			$array = self::query("`tablename` = '$tablename' AND `parent` = 0 AND `SK_IS_RECYCLED` = 0" , [['sortno', false, self::SORT_REGULAR], ['id', false, self::SORT_REGULAR]], 1);
 			if($array&&isset($array[0])){
 				return $array[0];
 			}
@@ -205,36 +177,26 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 	/**
 	 * 创建新的归档文件夹
 	 */
-	public static function createAndSave($tablename, $parent_id, $name = 'New Group'){
-		if($obj = self::postIfNotExists($name, $tablename, [
-			'parent' => $parent_id
-		], false)){
-			return $obj;
-		}
-		return false;
-	}
-
-	/**
-	 * 创建新的归档文件夹
-	 */
 	public static function post(array $input){
 		if(isset($input['name'])){
 			$name = $input['name'];
 			unset($input['name']);
 		}else{
-			$name = 'New Group';
+			$name = self::NEW_ITEM_NAME;
 		}
 		if(isset($input['tablename'])){
 			$tablename = $input['tablename'];
 			unset($input['tablename']);
-		}else{
-			return false;
+				if($obj = self::postIfNotExists($name, $tablename, $input, false)){
+				return $obj;
+			}
 		}
-		if($obj = self::postIfNotExists($name, $tablename, $input, false)){
-			return $obj;
-		}
+		
 		return false;
 	}
+
+	// 设置模型为只读模型,从而关闭对象的set等可写方法
+	protected $readonly = true;
 
 	protected function __update(){
 		// 检查父级目录可用性

@@ -23,7 +23,7 @@ class Admin_PositionViewModel extends \PM\_STUDIO\BaseFormViewModel {
 			'input_type'	=>	'hide'
 		],
 		[
-			'field_name'	=>	'FOLDER',
+			'field_name'	=>	'GROUPID',
 			'display_name'	=>	'新闻分类',
 			'input_type'	=>	'hide'
 		],
@@ -182,12 +182,12 @@ class Admin_PositionViewModel extends \PM\_STUDIO\BaseFormViewModel {
 			$button2 = NULL;
 		}
 
-		$categories = TRGroupModel::getFoldersByTableName('positions');
-		$categoryOptions = [];
-		foreach($categories as $category){
-			$categoryOptions[] = [$category['id'], $category['name']];
+		$groups = TRGroupModel::getGroupsByTableName('positions');
+		$groupOptions = [];
+		foreach($groups as $group){
+			$groupOptions[] = [$group['id'], $group['name']];
 		}
-		static::$selectOptions['FOLDER'] = $categoryOptions;
+		static::$selectOptions['GROUPID'] = $groupOptions;
 
 		$this->assign('formname', '编辑招聘信息');
 		$this->assign('form', self::buildForm($news->getArrayCopy(), $method));

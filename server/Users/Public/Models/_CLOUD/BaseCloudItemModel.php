@@ -16,8 +16,10 @@ abstract class BaseCloudItemModel extends ObjectModel {
 	protected static $tablenameAlias = '';
 
 	protected static function init(){
-		if(!static::$staticFileStorage){
-			static::$staticFileStorage = new Storage(static::$fileStoragePath, Storage::JSN, true);
+		if(!static::$staticQuerier){
+			if(static::$fileStoragePath){
+				static::$staticFileStorage = new Storage(static::$fileStoragePath, Storage::JSN, true);
+			}
 			self::initQuerier();
 		}
 	}

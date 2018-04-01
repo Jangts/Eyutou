@@ -7,41 +7,66 @@ use Lib\graphics\ImagePrinter;
 use PM\_CLOUD\FileMetaModel;
 
 trait grouping {
-    /**
-	 * 检查父级目录可用性
+	/**
+	 * 检查并校正文件夹名称
 	 */
-	private static function checkParentCanBeSet($folder, $parent_id){
-		if($parent_id===$folder->id){
-			// 父级id不能是当前id
-            return false;
+	private static function correctSourcesFolderName($parent_id, $folder_id/*$group_id*/, $name = NULL){
+		if(empty($name)){
+			// 如果未指定文件夹名，则命名为New Folder
+			$name = self::NEW_ITEM_NAME;
 		}
-		if($parent_id==0){
-			if($folder->tablename){
-				return true;
-			}
-			return false;
-		}
-		if($parent = self::byGUID($parent_id)){
-			// 存在父级目录
-			if($parent->type===$folder->type){
-				// var_dump('5');
-				// 且两个目录同类型
-				if($parent->tablename==$folder->tablename){
-					// 且两个目录同表(文件类型没有表，但都为NULL)
 
-					// 检查指定目录的祖先目录中是否存在此目录
-					$ancestors = $parent->getAncestors();
-					foreach($ancestors as $ancestor){
-						if($ancestor->id===$folder->id){
-							return false;
-						}
-					}
-					return true;
-				}
+		// 获取默认数据行查询器
+		$querier = static::initQuerier();
+
+		$result = $querier->requires()
+		->where('parent', $parent_id)
+		->where('id', $folder_id/*$group_id*/, '<>')
+		->where('name', $name)
+		->where('SK_IS_RECYCLED', 0)
+		->select('name');
+
+		if($row = $result->item()){
+			// 查询所有同级文件夹名称
+			$names = [];
+			$result = $querier->requires()
+			->where('parent', $parent_id)
+			->where('id', $folder_id/*$group_id*/, '<>')
+			->where('SK_IS_RECYCLED', 0)
+			->select('name');
+
+			foreach($result as $row){
+				$names[] = $row['name'];
 			}
+			
+			$newname = $name.'(2)';
+			$i = 2;
+			while(in_array($newname, $names, true)){
+				$newname = $name.'('.++$i.')';
+			}
+			return $newname;
+		}
+		return $name;
+	}
+	
+	/**
+	 * 获取子目录
+	 */
+	public static function getChildren($id, array $options = [], array $orderby = self::ID_ASC){
+		return self::query(['parent' => $id, 'SK_IS_RECYCLED' => 0], $orderby);
+	}
+
+	/**
+	 * 创建新的归档文件夹
+	 */
+	public static function createAndSave($type/*$tablename*/, $parent_id, $name = self::NEW_ITEM_NAME){
+		if($obj = self::postIfNotExists($name, $type/*$tablename*/, [
+			'parent' => $parent_id
+		], false)){
+			return $obj;
 		}
 		return false;
-    }
+	}
 
     /**
 	 * 按条件批量移除
@@ -57,17 +82,14 @@ trait grouping {
 	/**
 	 * 按ID移除
 	 */
-	public static function removeById($folder_id, $recycleType = self::RECYCLE){
-		$obj = self::byGUID($folder_id);
+	public static function removeById($folder_id/*$group_id*/, $recycleType = self::RECYCLE){
+		$obj = self::byGUID($folder_id/*$group_id*/);
 		if($obj->recycle($recycleType)){
 			return $obj;
 		}
 		return false;
     }
     
-    // 设置模型为只读模型,从而关闭对象的set等可写方法
-	protected $readonly = true;
-
     protected function __insert(){
 		// 检查父级目录可用性
 		if(!self::checkParentCanBeSet($this, $this->modelProperties['parent'])){
@@ -125,23 +147,24 @@ trait grouping {
 			// 隐藏子分组或文件夹
 			self::remove(['parent' => $this->__guid, 'SK_IS_RECYCLED' => 0], self::HIDE);
 			if($this->type==='A'){
-				// 隐藏文件
+				// 隐藏受保护的文件
 				AttachmentMetaModel::remove(['FOLDER' => $this->__guid, 'SK_IS_RECYCLED' => 0], self::HIDE);
 			}elseif($this->type==='F'){
-				// 隐藏表格行
+				// 隐藏文件
 				FileMetaModel::remove(['FOLDER' => $this->__guid, 'SK_IS_RECYCLED' => 0], self::HIDE);
 			}else{
-                TableRowMetaModel::remove(['FOLDER' => $this->__guid, 'SK_IS_RECYCLED' => 0], self::HIDE);
+				// 隐藏表格行
+                TableRowMetaModel::remove(['GROUPID' => $this->__guid, 'SK_IS_RECYCLED' => 0], self::HIDE);
             }
 		}else{
 			// 恢复
 			self::remove(['parent' => $this->__guid, 'SK_IS_RECYCLED' => 2], self::UNRECYCLE);
-			if($this->type==='F'){
+			if($this->type==='A'){
                 AttachmentMetaModel::remove(['FOLDER' => $this->__guid, 'SK_IS_RECYCLED' => 2], self::UNRECYCLE);
 			}elseif($this->type==='F'){
 				FileMetaModel::remove(['FOLDER' => $this->__guid, 'SK_IS_RECYCLED' => 2], self::UNRECYCLE);
 			}else{
-                TableRowMetaModel::remove(['FOLDER' => $this->__guid, 'SK_IS_RECYCLED' => 2], self::UNRECYCLE);
+                TableRowMetaModel::remove(['GROUPID' => $this->__guid, 'SK_IS_RECYCLED' => 2], self::UNRECYCLE);
             }
 		}
 		$this->modelProperties['SK_IS_RECYCLED'] = $recycleType;
@@ -160,21 +183,23 @@ trait grouping {
 			$__key = $querier->beginAndLock();
 			self::delete(['parent' => $this->__guid]);
 			if($this->type==='A'){
-                $result = FileModel::delete("`FOLDER` = '$this->__guid'");
-            if($this->type==='F'){
 				$result = FileAttachmentModel::delete("`FOLDER` = '$this->__guid'");
+	        }elseif($this->type==='F'){
+				$result = FileModel::delete("`FOLDER` = '$this->__guid'");
 			}else{
-				$result = TableRowModel::delete("`FOLDER` = '$this->__guid'");
+				$result = TableRowModel::delete("`GROUPID` = '$this->__guid'");
 			}
 			if($result){
 				if($querier->requires()->where('id', $this->__guid)->delete()!==false){
 					$querier->unlock($__key)->commit();
-					if($this->files) $this->files->store($this->__guid);
-            		return true;
-        		}
+					if($this->files) {
+						$this->files->store($this->__guid);
+					}
+        			return true;
+    			}
 			}
 			$querier->unlock($__key)->rollBack();
 		}
-        return false;
+		return false;
 	}
 }

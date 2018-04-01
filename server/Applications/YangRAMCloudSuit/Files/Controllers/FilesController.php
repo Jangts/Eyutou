@@ -4,12 +4,14 @@ namespace Cloud\Files\Controllers;
 // 引入相关命名空间，以简化书写
 use Status;
 use PM\_CLOUD\FolderModel;
-use PM\_CLOUD\FileModel;
-use PM\_CLOUD\FileMetaModel;
-use PM\_CLOUD\FileSourceModel;
 
 class FilesController extends \AF\Controllers\BaseResourcesController {
 	use \Cloud\Files\Controllers\traits\authorities;
+
+	protected static
+	$fullmodel = 'PM\_CLOUD\FileModel',
+	$metamodel = 'PM\_CLOUD\FileMetaModel',
+	$srcmodel  = 'PM\_CLOUD\FileSourceModel';
 
 	protected static function getFolderID($options){
 		if(empty($options['folder'])){
@@ -24,35 +26,36 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 			if(empty($options['appid'])){
 				$options['appid'] = CACAI;
 			}
-			if($folder = FolderModel::postIfNotExists(4, $options['appid'])){
+			if($folder = FolderModel::postIfNotExists($options['appid'], 'F', ['parent' => 4])){
 				$id = $folder['id'];
 				if(!empty($options['path'])){
 					$array = explode('/', $options['path']);
 					foreach($array as $name){
-						if($folder = FolderModel::postIfNotExists($id, $name)){
+						if($folder = FolderModel::postIfNotExists($name, 'F', ['parent' => $id])){
 							$id = $folder['id'];
 						}else{
-							new Stutus(400);
+							new Status(400, true);
 						}
 					}
 				}
 			}else{
-				new Stutus(400);
+				new Status(400, true);
 			}
 			break;
 
 			case '5':
 			$id = 5;
+			break;
 
 			default:
 			$folder = FolderModel::byGUID($options['folder']);
-			if($folder&&$folder->id>5&&$folder->type==='file'){
+			if($folder&&$folder->id>5&&$folder->type==='F'){
 				$id = $folder->id;
 			}else{
-				$id = 5;
+				new Status(400, true);
 			}
-			return $id;
 		}
+		return $id;
 	}
 
     public
@@ -76,6 +79,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 				foreach($successed as $i=>$file){
 					$data= [
 						'host'		=>	HOST,
+						'src'		=>	PUBL_PATH.$file["LOCATION"],
 						'url'		=>	__aurl__.'uploads/files/'.$file["ID"].'.'.$file['FILE_EXTN'],
 						'name'		=>	$file['FILE_NAME'],
 						'type'		=>	$file['MIME'],
@@ -94,9 +98,6 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 						case 'audio':
 						$data["DURATION"] = $file["DURATION"];
 						break;
-					}
-					if(1){
-						$data["src"] = PUBL_PATH.$file["LOCATION"];
 					}
 					$this->successed[$name][$i] = $data;
 				}
@@ -132,8 +133,8 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 
     public function get($id, array $options = []){
 		$this->checkAuthority('R', $options) or Status::cast('No permissions to read resources.', 1411.2);
-		list($id, $extn) = FileMetaModel::getSplitFileNameArray($id);
-		if($id&&$file = FileModel::byGUID($id)){
+		list($id, $extn) = static::$metamodel::getSplitFileNameArray($id);
+		if($id&&$file = static::$fullmodel::byGUID($id)){
 			$filename = PUBL_PATH.$file->LOCATION;
 			if(is_file($filename)){
 				$CONFIG = $this->app->xProps['Config'];
@@ -144,9 +145,9 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 						$whiteList = $CONFIG['imageWhiteList'];
 						$preg = "/^(http:)?\/\/(".join('|', $whiteList).")?(\/.*)?$/";
 						if(!preg_match($preg, $_SERVER['HTTP_REFERER'])){
-							$file = FileModel::byFolderNameName(8, $GLOBALS['NEWIDEA']->LANGUAGE.'.jpg');
+							$file = static::$fullmodel::byFolderNameName(8, $GLOBALS['NEWIDEA']->LANGUAGE.'.jpg');
 							if(!$file){
-								$file = FileModel::byFolderNameName(8, 'en.jpg');
+								$file = static::$fullmodel::byFolderNameName(8, 'en.jpg');
 							}
 						}
 					}
@@ -154,11 +155,12 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 						return $file->resizeImageAndTransfer($options['sizes']);
 					}
 				}
-				if(1){
-					header("Location: ".PUBL_URL.$file->LOCATION);
-					exit;
+				if(0){
+					// 如果限速
+					return $file->transfer();
 				}
-				return $file->transfer();
+				header("Location: ".PUBL_URL.$file->LOCATION);
+				exit;
 			}else{
 				$file->destroy();
 			}
@@ -191,9 +193,9 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 	}
 	
 	protected function postFileMeta($SRC_ID, $options){
-		$files = FileMetaModel::getFilesBySrouceID($SRC_ID, 1);
+		$files = static::$metamodel::getFilesBySrouceID($SRC_ID, 1);
 		if($files&&count($files)){
-			$source = FileSourceModel::byGUID($SRC_ID);
+			$source = static::$srcmodel::byGUID($SRC_ID);
 			$meta = $files[0]->getCopy();
 			$meta->FOLDER = static::getFolderID($options);
 			$meta->FILE_NAME = $post['filename'];
@@ -228,8 +230,8 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
                         ];
                     }else{
                         // $post = $this->request->INPUTS->toArray();
-						list($basename, $extn, $type) = FileMetaModel::getSplitFileNameArray($filename, $file["type"][$i]);
-                        $srcInput = FileSourceModel::completeInput([
+						list($basename, $extn, $type) = static::$metamodel::getSplitFileNameArray($filename, $file["type"][$i]);
+                        $srcInput = static::$srcmodel::completeInput([
                             'MIME'              =>  $file["type"][$i],
 							'DURATION' 	        =>	$durations[$i],
 							'tmp_name'          =>  $file["tmp_name"][$i],
@@ -241,9 +243,9 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
                             'FILE_NAME'     	=>  $filename,
                             'FILE_TYPE'     	=>  $type,
                             'FILE_SIZE'     	=>  $file["size"][$i],
-                            'FILE_EXTN'        	=>  $ext
+                            'FILE_EXTN'        	=>  $extn
                         ];
-                        if($obj = FileModel::postByMateinfoAndSource($metaInput, $srcInput)){
+                        if($obj = static::$fullmodel::postByMateinfoAndSource($metaInput, $srcInput)){
 							$this->successed[$name][] = $obj->getArrayCopy();
 						}else{
 							$this->failed[$name][] = [
@@ -276,8 +278,8 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 					];
 				}else{
 					// $post = $this->request->INPUTS->toArray();
-					list($basename, $extn, $type) = FileMetaModel::getSplitFileNameArray($file['name'], $file["type"]);
-					$srcInput = FileSourceModel::completeInput([
+					list($basename, $extn, $type) = static::$metamodel::getSplitFileNameArray($file['name'], $file["type"]);
+					$srcInput = static::$srcmodel::completeInput([
 						'MIME'              =>  $file["type"],
 						'DURATION' 	        =>	isset($options["duration"]) ? $options["duration"] : 0,
 						'tmp_name'          =>  $file["tmp_name"],
@@ -288,9 +290,9 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 						'FILE_NAME'     	=>  $file['name'],
 						'FILE_TYPE'     	=>  $type,
 						'FILE_SIZE'     	=>  $file["size"],
-						'FILE_EXTN'        	=>  $ext
+						'FILE_EXTN'        	=>  $extn
 					];
-					if($obj = FileModel::postByMateinfoAndSource($metaInput, $srcInput)){
+					if($obj = static::$fullmodel::postByMateinfoAndSource($metaInput, $srcInput)){
 						$this->successed[$name][] = $obj->getArrayCopy();
 					}else{
 						$this->failed[$name][] = [
@@ -311,7 +313,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 	}
 
 	public function put($id, array $options = []){
-		if(($ID = $this->request->INPUTS->id)&&($meta = FileMetaModel::byGUID($ID))){
+		if(($ID = $this->request->INPUTS->id)&&($meta = static::$metamodel::byGUID($ID))){
 			ignore_user_abort(true);
 			set_time_limit(0);
 			if(empty($_FILES)){
@@ -324,7 +326,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 					];
 				}
 			}else{
-				$files = FileMetaModel::getFilesBySrouceID($SRC_ID, 1);
+				$files = static::$metamodel::getFilesBySrouceID($SRC_ID, 1);
 				foreach($_FILES as $name=>$file){
 					if(is_array($file['name'])){
 						# 更新一次只能传递一个文件
@@ -353,9 +355,9 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 						'error'     =>  $file["error"]
 					];
 				}else{
-					list($basename, $extn, $type) = FileMetaModel::getSplitFileNameArray($file['name'], $file["type"]);
-					if(($type===$meta->FILE_TYPE)&&($ext===$meta->FILE_EXTN)){
-						if($source = FileSourceModel::postIfNotExists( FileSourceModel::completeInput([
+					list($basename, $extn, $type) = static::$metamodel::getSplitFileNameArray($file['name'], $file["type"]);
+					if(($type===$meta->FILE_TYPE)&&($extn===$meta->FILE_EXTN)){
+						if($source = static::$srcmodel::postIfNotExists( static::$srcmodel::completeInput([
 							'MIME'              =>  $file["type"],
 							'DURATION' 	        =>	isset($options["duration"]) ? $options["duration"] : 0,
 							'tmp_name'          =>  $file["tmp_name"],
@@ -388,7 +390,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 	}
 	
 	public function delete($id, array $options = []){
-        if(empty($id)||($item = FileMetaModel::byGUID($id))==NULL){
+        if(empty($id)||($item = static::$metamodel::byGUID($id))==NULL){
             Response::instance(1440, Response::JSON)->send(json_encode([
                 'code'      =>  404,
                 'staus'     =>  'Not Found',

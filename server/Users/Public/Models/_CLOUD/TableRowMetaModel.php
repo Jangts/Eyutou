@@ -25,7 +25,7 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	SEARCH_ALL = 0,
 	SEARCH_TYPE = 1,
 	SEARCH_TABLE = 2,
-	SEARCH_FOLDER = 3,
+	SEARCH_GROUPID = 3,
 
 	ALL = 0,
 	RECYCLED = 1,
@@ -111,7 +111,7 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 		'ID'				=>	NULL,
 		'TYPE'				=>	'default',
 		'TABLENAME'			=>	'',
-		'FOLDER'			=>	0,
+		'GROUPID'			=>	0,
 		'TITLE'				=>	'',
 		'DESCRIPTION'		=>	'',
 		'PUBTIME'			=>	DATETIME,
@@ -125,7 +125,7 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	],
 	$constraints  = [
 		'TABLENAME'			=>	'a',
-		'FOLDER'			=>	1,
+		'GROUPID'			=>	1,
 		'TITLE'				=>	'a'
 	];
 
@@ -191,15 +191,15 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	/**
 	 * 获取预处理后的DBQ实例
 	 */
-	public static function getQuery($tablename = NULL, $folder = NULL, $state = self::UNRECYCLED, array $orderby = self::ID_DESC, $start = 0, $num = 18){
+	public static function getQuery($tablename = NULL, $group_id = NULL, $state = self::UNRECYCLED, array $orderby = self::ID_DESC, $start = 0, $num = 18){
 		self::init();
 		$querier = self::$staticQuerier->requires();
-		if(is_string($tablename)||(is_numeric($folder)&&$folder!=0)){
+		if(is_string($tablename)||(is_numeric($group_id)&&$group_id!=0)){
 			if(is_string($tablename)){
 				$querier->where('TABLENAME', $tablename);
 			}
-			if(is_numeric($folder)){
-				$querier->where('FOLDER', $folder);
+			if(is_numeric($group_id)){
+				$querier->where('GROUPID', $group_id);
 			}
 			switch($state){
 				case self::RECYCLED:
@@ -234,8 +234,8 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	/**
 	 * 统计数量
 	 */
-	public static function getCOUNT($tablename = NULL, $folder = NULL, $state = self::UNRECYCLED) {
-		if($querier = self::getQuery($tablename, $folder, $state, self::ID_DESC, 0, 0)){
+	public static function getCOUNT($tablename = NULL, $group_id = NULL, $state = self::UNRECYCLED) {
+		if($querier = self::getQuery($tablename, $group_id, $state, self::ID_DESC, 0, 0)){
 			return $querier->count();
 		}else{
 			return 0;
@@ -248,8 +248,8 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	public static function getCountOfTag($tag, $class = NULL){
 		if(is_string($tag)){
 			if(is_numeric($class)&&$class!='0'){
-				$folder = TRGroupModel::byGUID($class);
-				$tablename = $folder->tablename;
+				$group = TRGroupModel::byGUID($class);
+				$tablename = $group->tablename;
 			}elseif(is_string($class)){
 				$tablename = $class;
 			}
@@ -286,12 +286,12 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	/**
 	 * 移动到指定文件夹
 	 */
-	public static function moveto($require, $folder = 0){
+	public static function moveto($require, $group_id = 0){
 		self::init();
 		$__key = self::$staticQuerier->beginAndLock();
         $objs = self::query($require);
 		foreach($objs as $obj){
-			$obj->FOLDER = $folder;
+			$obj->GROUPID = $group_id;
 			if(!$obj->save()){
 				self::$staticQuerier->unlock($__key)->rollBack();
                 return false;
@@ -346,27 +346,20 @@ final class TableRowMetaModel extends BaseCloudItemModel {
         return $this;
 	}
 	
-	public function correctFolder(){
-		if($this->modelProperties['FOLDER']<6){
-			if($this->savedProperties['FOLDER']>5){
-				$this->modelProperties['FOLDER'] = $this->savedProperties['FOLDER'];
-			}else{
-				$this->modelProperties['FOLDER'] = 0;
-			}
-		}
-		if($folder = TRGroupModel::byGUID($this->modelProperties['FOLDER'])){
-			if($folder->type===$this->TYPE){
-				if($folder->SK_IS_RECYCLED){
+	public function correctGROUP(){
+		if($group = TRGroupModel::byGUID($this->modelProperties['GROUPID'])){
+			if($group->type===$this->TYPE){
+				if($group->SK_IS_RECYCLED){
 					// 检查是否应该隐藏
 					$this->modelProperties['SK_IS_RECYCLED'] = self::HIDE;
 				}
 			}else{
-				$this->modelProperties['FOLDER'] = 0;
+				$this->modelProperties['GROUPID'] = 0;
 			}
 		}else{
-			$this->modelProperties['FOLDER'] = 0;
+			$this->modelProperties['GROUPID'] = 0;
 		}
-		return $this->modelProperties['FOLDER'];
+		return $this->modelProperties['GROUPID'];
 	}
 
 	/**
@@ -376,7 +369,7 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 		// 此类只管理已存在的行，新建行请使用完整版
         if($this->savedProperties){
 			// 校正文件夹
-			$this->correctFolder();
+			$this->correctGROUP();
 
 			if(empty($this->modelProperties['ID'])){
                 return false;
@@ -422,9 +415,9 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	/**
 	 * 获取分类信息
 	 */
-	public function getFolderInfo(){
-		if($this->FOLDER){
-			return TRGroupModel::byGUID($this->FOLDER);
+	public function getGROUPInfo(){
+		if($this->GROUPID){
+			return TRGroupModel::byGUID($this->GROUPID);
 		}
 		return NULL;
 	}
@@ -495,9 +488,9 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 		(new Storage(self::$fullStoragePath, Storage::JSN, true))->store($this->__guid);
 		foreach(self::SORTKEYS as $sort){
 			self::$listFileStorage->setNameSpace($this->modelProperties['TABLENAME'].'/')->store($sort);
-			if($this->modelProperties['FOLDER']){
+			if($this->modelProperties['GROUPID']){
 				// 判断是否为0
-				self::$listFileStorage->setNameSpace($this->modelProperties['FOLDER'].'/')->store($sort);
+				self::$listFileStorage->setNameSpace($this->modelProperties['GROUPID'].'/')->store($sort);
 			}
 		}
         return $this;

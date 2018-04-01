@@ -3,7 +3,7 @@ return [
     'ID'				=>	NULL,
     'TYPE'				=>	'article',
     'TABLENAME'			=>	'articles',
-    'FOLDER'			=>	0,
+    'GROUPID'			=>	0,
     'TITLE'				=>	'新文章',
     'DESCRIPTION'		=>	'',
     'PUBTIME'			=>	DATETIME,

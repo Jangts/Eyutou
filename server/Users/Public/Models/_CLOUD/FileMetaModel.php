@@ -6,7 +6,7 @@ namespace PM\_CLOUD;
  * 系统文件资源轻数据
  * 是一个忽略五类文件资源数据差异的精简的单一标准模型
 **/
-final class FileMetaModel extends BaseCloudItemModel {
+class FileMetaModel extends BaseCloudItemModel {
 	const
 	CTIME_DESC = [['SRC_ID', true, self::SORT_REGULAR]],
 	CTIME_ASC = [['SRC_ID', false, self::SORT_REGULAR]],
@@ -26,7 +26,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 	$staticQuerier,
     $staticMemorizeStorage = [],
 	$staticFileStorage,
-	$tablenameAlias = 'filemeta',
+	$tablenameAlias = 'filemeta_public',
 	$defaultPorpertyValues = [
 		'ID'         		=>  '',
 		'SRC_ID'        	=>  0,
@@ -59,9 +59,10 @@ final class FileMetaModel extends BaseCloudItemModel {
 				$type = 'audio';
 				break;
 			}
-			self::initQuerier()->requires()->where('FILE_TYPE', $type);
+			static::initQuerier()->requires()->where('FILE_TYPE', $type);
 		}
 	}
+	
 	/**
 	 * 检查文件名
 	 * 此方法还会自动校正文件名后缀
@@ -71,7 +72,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 	private static function correctFileName($ID, $extn, $folder, $id){
 		// 剥离基础名
 		if($extn){
-			$basename = preg_replace('/\\.'.$ext.'$/', '', $ID);
+			$basename = preg_replace('/\\.'.$extn.'$/', '', $ID);
 			$extn = '.'.$extn;
 		}else{
 			$basename = $ID;
@@ -79,11 +80,11 @@ final class FileMetaModel extends BaseCloudItemModel {
 		}
 
 		$ID = $basename . $extn;
-		$result = self::$staticQuerier->requires()->where('FILE_NAME', $ID)->where('FOLDER', $folder)->where('SK_IS_RECYCLED', 0)->where('ID', $id, '<>')->take(1)->orderby(false)->count('ID');
+		$result = static::$staticQuerier->requires()->where('FILE_NAME', $ID)->where('FOLDER', $folder)->where('SK_IS_RECYCLED', 0)->where('ID', $id, '<>')->take(1)->orderby(false)->count('ID');
 		$num = 1;
 		while($result){
 			$ID = $basename . '(' . $num++ . ')' . $extn;
-			$result = self::$staticQuerier->requires()->where('FILE_NAME', $ID)->where('FOLDER', $folder)->where('SK_IS_RECYCLED', 0)->where('ID', $id, '<>')->take(1)->orderby(false)->count('ID');
+			$result = static::$staticQuerier->requires()->where('FILE_NAME', $ID)->where('FOLDER', $folder)->where('SK_IS_RECYCLED', 0)->where('ID', $id, '<>')->take(1)->orderby(false)->count('ID');
 		}
 		return $ID;
 	}
@@ -133,48 +134,52 @@ final class FileMetaModel extends BaseCloudItemModel {
 	}
 
 	public static function getCOUNT($type = NULL){
-		self::correctFileTypeQuerying($type);
-		return self::$staticQuerier->count('ID');
+		static::correctFileTypeQuerying($type);
+		return static::$staticQuerier->count('ID');
 	}
 
 	public static function getCountOfSrouce($SRC_ID){
-		return self::initQuerier()->requires("`SRC_ID` = $SRC_ID")->count('ID');;
+		return static::initQuerier()->requires("`SRC_ID` = $SRC_ID")->count('ID');;
 	}
 
 	public static function getALL($type = NULL){
-		self::correctFileTypeQuerying($type);
-		return self::$staticQuerier->select();
+		static::correctFileTypeQuerying($type);
+		return static::$staticQuerier->select();
 	}
 
 	public static function getFilesBySrouceID($SRC_ID, $take = 0){
-		self::initQuerier();
+		static::initQuerier();
 		if(is_numeric($take)){
-			return self::query("`SRC_ID` = $SRC_ID", self::CTIME_ASC, [0, $take]);
+			return static::query("`SRC_ID` = $SRC_ID", static::CTIME_ASC, [0, $take]);
 		}
-		return self::query("`SRC_ID` = $SRC_ID", self::CTIME_ASC);
+		return static::query("`SRC_ID` = $SRC_ID", static::CTIME_ASC);
 	}
 
 	/**
 	 * 获取文件夹中的文件
 	 * 只会返回正常的文件，已移除的和被隐藏的不会返回
 	 */
-	public static function getFilesByFolderID($FOLDER, $orderby = self::CTIME_ASC){
-		self::initQuerier();
-		return self::query("`FOLDER` = $FOLDER AND `SK_IS_RECYCLED` = 0", $orderby);
+	public static function getFilesByFolderID($folder_id, $orderby = self::CTIME_ASC){
+		static::initQuerier();
+		return static::query("`FOLDER` = $folder_id AND `SK_IS_RECYCLED` = 0", $orderby);
 	}
 
 	public static function byGUID($ID){
 		if($ID){
-			self::init();
+			static::init();
 			$obj = new static;
-			if(isset(self::$staticMemorizeStorage[$ID])){
-				$obj->modelProperties = $obj->savedProperties = self::$staticMemorizeStorage[$ID];
-			}elseif($cache = self::$staticFileStorage->take($ID)){
-				$obj->modelProperties = $obj->savedProperties = self::$staticMemorizeStorage[$ID] = $cache;
+			if(isset(static::$staticMemorizeStorage[$ID])){
+				$obj->modelProperties = $obj->savedProperties = static::$staticMemorizeStorage[$ID];
+			}elseif(static::$staticFileStorage&&($cache = static::$staticFileStorage->take($ID))){
+				$obj->modelProperties = $obj->savedProperties = static::$staticMemorizeStorage[$ID] = $cache;
 			}else{
-				$result = self::$staticQuerier->requires()->where('ID', $ID)->take(1)->select();
+				$result = static::$staticQuerier->requires()->where('ID', $ID)->take(1)->select();
 				if($result&&$row = $result->item()){
-					self::$staticFileStorage->store($ID, $obj->modelProperties = $obj->savedProperties = self::$staticMemorizeStorage[$ID] = $row);
+					if(static::$staticFileStorage){
+						static::$staticFileStorage->store($ID, $obj->modelProperties = $obj->savedProperties = static::$staticMemorizeStorage[$ID] = $row);
+					}else{
+						$obj->modelProperties = $obj->savedProperties = static::$staticMemorizeStorage[$ID] = $row;
+					}
 				}else{
 					return NULL;
 				}
@@ -188,7 +193,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 	 * 创建新文件
 	 */
 	public static function create(array $input){
-		$obj = new self;
+		$obj = new static;
 		return $obj->__put($input);
 	}
 
@@ -196,8 +201,8 @@ final class FileMetaModel extends BaseCloudItemModel {
 	 * 更新文件信息
 	 */
 	public static function updateBySource($SRC_ID, array $input){
-		self::initQuerier();
-		$objs = self::query(['SRC_ID' => $SRC_ID]);
+		static::initQuerier();
+		$objs = static::query(['SRC_ID' => $SRC_ID]);
 		foreach($objs as $obj){
 			$obj->put($input);
 		}
@@ -208,16 +213,16 @@ final class FileMetaModel extends BaseCloudItemModel {
 	 * 按条件批量移除或隐藏文件
 	 */
 	public static function remove($require, $recycleType = self::RECYCLE){
-		self::initQuerier();
-		$__key = self::$staticQuerier->beginAndLock();
-		$objs = self::query($require);
+		static::initQuerier();
+		$__key = static::$staticQuerier->beginAndLock();
+		$objs = static::query($require);
 		foreach($objs as $obj){
 			if($obj->recycle($recycleType)==false){
-				self::$staticQuerier->unlock($__key)->rollBack();
+				static::$staticQuerier->unlock($__key)->rollBack();
                 return false;
 			}
 		}
-		self::$staticQuerier->unlock($__key)->commit();
+		static::$staticQuerier->unlock($__key)->commit();
 		return $objs;
 	}
 
@@ -229,7 +234,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 	}
 
 	public function __construct(){
-		self::init();
+		static::init();
 		$this->modelProperties = static::$defaultPorpertyValues;
 	}
 
@@ -264,7 +269,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 	 * 秒传拷贝
 	 */
 	public function getCopy(){
-		$obj = new self;
+		$obj = new static;
 		$source = byGUID($modelProperties['SRC_ID']);
 		$modelProperties = $this->modelProperties;
 		$modelProperties['ID'] = substr(substr($source->HASH, 8, 16).intval(BOOTTIME).uniqid(), 0, 44);
@@ -275,7 +280,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 	 * 移动文件夹
 	 */
 	public static function moveto($require, $folder){
-        $objs = self::query($require);
+        $objs = static::query($require);
 		foreach($objs as $obj){
 			$obj->FOLDER = $folder;
 			$obj->save();
@@ -292,10 +297,10 @@ final class FileMetaModel extends BaseCloudItemModel {
 			}
 		}
 		if($folder = FolderModel::byGUID($this->modelProperties['FOLDER'])){
-			if($folder->type==='file'){
+			if($folder->type==='F'){
 				if($folder->SK_IS_RECYCLED){
 					// 检查是否应该隐藏
-					$this->modelProperties['SK_IS_RECYCLED'] = self::HIDE;
+					$this->modelProperties['SK_IS_RECYCLED'] = static::HIDE;
 				}
 			}else{
 				$this->modelProperties['FOLDER'] = 5;
@@ -307,12 +312,12 @@ final class FileMetaModel extends BaseCloudItemModel {
 	}
 
 	public function __update(){
-		$querier = self::$staticQuerier;
+		$querier = static::$staticQuerier;
 
 		// 校正文件夹
 		$this->correctFolder();
 		// 矫正文件名
-		$this->modelProperties['FILE_NAME'] = self::correctFileName($this->modelProperties['FILE_NAME'], $this->modelProperties['FILE_EXTN'], $this->modelProperties['FOLDER'], $this->modelProperties['ID']);
+		$this->modelProperties['FILE_NAME'] = static::correctFileName($this->modelProperties['FILE_NAME'], $this->modelProperties['FILE_EXTN'], $this->modelProperties['FOLDER'], $this->modelProperties['ID']);
 		// 更新修改时间
 		$this->modelProperties['SK_MTIME']   =	DATETIME;
 
@@ -323,7 +328,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 		unset($this->modelProperties['ID']);
 		unset($this->modelProperties['FILE_TYPE']);
 		unset($this->modelProperties['FILE_EXTN']);
-		$diff = self::array_diff($this->savedProperties, $this->modelProperties, self::DIFF_SIMPLE);
+		$diff = static::array_diff($this->savedProperties, $this->modelProperties, static::DIFF_SIMPLE);
 		// 不支持同时更改源和名称与文件夹等信息
 		if(isset($diff['FILE_NAME'])||isset($diff['FOLDER'])){
 			$this->modelProperties['SRC_ID'] = $this->savedProperties['SRC_ID'];
@@ -347,17 +352,19 @@ final class FileMetaModel extends BaseCloudItemModel {
 		}else{
 			return false;
 		}
-        self::$staticFileStorage->store($this->__guid);
+        if(static::$staticFileStorage){
+			static::$staticFileStorage->store($this->__guid);
+		}
         return $this;
 	}
 
 	public function __insert(){
-		$querier = self::$staticQuerier;
+		$querier = static::$staticQuerier;
 
 		// 校正文件夹
 		$this->correctFolder();
 		// 矫正文件名
-		$this->modelProperties['FILE_NAME'] = self::correctFileName($this->modelProperties['FILE_NAME'], $this->modelProperties['FILE_EXTN'], $this->modelProperties['FOLDER'], $this->modelProperties['ID']);
+		$this->modelProperties['FILE_NAME'] = static::correctFileName($this->modelProperties['FILE_NAME'], $this->modelProperties['FILE_EXTN'], $this->modelProperties['FOLDER'], $this->modelProperties['ID']);
 		// 更新修改时间
 		$this->modelProperties['SK_MTIME']   =	DATETIME;
         if(!$querier->insert($this->modelProperties)){

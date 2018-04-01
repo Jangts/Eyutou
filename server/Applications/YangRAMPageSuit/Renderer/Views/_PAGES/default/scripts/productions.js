@@ -22,7 +22,7 @@ block([
                 html = '';
             _.each(data, function(i, item) {
                 posi = i % 3;
-                html += '<li data-item-id="' + item.id + '" data-posi="' + posi + '" class="product-item"><img src="' + item.image + '"></li>';
+                html += '<li data-item-id="' + item.id + '" data-posi="' + posi + '" class="product-item"><figure><img src="' + item.image + '"></figure><p>' + item.name + '</p></li>';
             });
             location.hash = hash;
             $list.html(html);

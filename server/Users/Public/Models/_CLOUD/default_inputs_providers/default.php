@@ -3,7 +3,7 @@ return [
     'ID'				=>	NULL,
     'TYPE'				=>	'default',
     'TABLENAME'			=>	'',
-    'FOLDER'			=>	0,
+    'GROUPID'			=>	0,
     'TITLE'				=>	'',
     'DESCRIPTION'		=>	'',
     'PUBTIME'			=>	DATETIME,

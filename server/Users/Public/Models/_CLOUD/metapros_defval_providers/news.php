@@ -3,7 +3,7 @@ return [
     'ID'				=>	NULL,
     'TYPE'				=>	'news',
     'TABLENAME'			=>	'news',
-    'FOLDER'			=>	0,
+    'GROUPID'			=>	0,
     'TITLE'				=>	'未命名资讯',
     'DESCRIPTION'		=>	'',
     'PUBTIME'			=>	DATETIME,

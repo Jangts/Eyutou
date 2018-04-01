@@ -5,6 +5,7 @@ use Status;
 use Lib\data\Transfer as Downloader;
 use Lib\graphics\ImagePrinter;
 use PM\_CLOUD\FileMetaModel;
+use PM\_CLOUD\AttachmentMetaModel;
 
 trait transfer {
 	private function transferImage($props){

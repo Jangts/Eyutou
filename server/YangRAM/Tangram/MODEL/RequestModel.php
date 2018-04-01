@@ -245,8 +245,8 @@ final class RequestModel implements interfaces\model {
             $this->modelProperties['ARI']->patharr = array_slice($this->modelProperties['TRI']->patharr, 1 + $depth);
             $this->modelProperties['ARI']->dirname = $dirname;
         }else{
-            $this->modelProperties['ARI']->patharr = $arr = array_slice($this->modelProperties['TRI']->patharr, 1 + $depth);
-            $this->modelProperties['ARI']->dirname = '/'.implode('/', $arr);  
+            $this->modelProperties['ARI']->patharr = array_slice($this->modelProperties['TRI']->patharr, 1 + $depth);
+            $this->modelProperties['ARI']->dirname = '/'.implode('/', array_slice($this->modelProperties['TRI']->patharr, 1, $depth));  
         }
         $this->modelProperties['ARI']->depth = $depth;
         $inputs = $this->modelProperties['INPUTS'] = (new InputsModel($defaults))->stopAttack();

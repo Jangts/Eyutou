@@ -108,11 +108,11 @@ final class TableMetaModel extends \AF\Models\BaseR3Model {
         return $objs;
     }
 
-    public function addFolder($name, $parent_id = 0){
+    public function addGroup($name, $parent_id = 0){
         return TRGroupModel::create($parent_id, $name, $this->name);
     }
 
-    public function delFolder($id){
+    public function delGroup($id){
         if(is_numeric($id)){
             $cat = TRGroupModel::byGUID($id);
             if($cat->tablename == $this->savedProperties['name']){

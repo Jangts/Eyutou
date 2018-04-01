@@ -348,22 +348,16 @@ final class ResourceIndexer {
                 'app'       =>  $item['HANDLER']
             ];
         }else{
-            if($pathname === ''){
-                if(empty($_GET["error"])){
-                    $app    =   self::defai();
-                    $map    =   self::APP_DEFAULT;
-                    $route  =   0;
-                }else{
-                    $app    =   'tangram';
-                    $map    =   self::SYS_ERROR;
-                    $route  =   $_GET["error"];
-                }
+            if(($pathname === '')&&isset($_GET["error"])){
+                $app    =   'tangram';
+                $map    =   self::SYS_ERROR;
+                $route  =   $_GET["error"];
             }else{
                 $app    =   self::defai();
                 $map    =   self::APP_DEFAULT;
-                $route  =   404;
+                $route  =   0;
             }
-            $request->update($app, $route, 0);
+            $request->update($app, $route, 0, '/');
             return [
                 'map'       =>  $map,
                 'app'       =>  $app

@@ -14,7 +14,7 @@ class FileSourceModel extends BaseCloudItemModel {
     $staticQuerier,
     $staticMemorizeStorage = [],
     $staticFileStorage,
-    $tablenameAlias = 'sources',
+    $tablenameAlias = 'sources_public',
 	$defaultPorpertyValues = [
         'SID'               =>  0,
         'HASH'              =>  '',
@@ -27,7 +27,7 @@ class FileSourceModel extends BaseCloudItemModel {
         'SK_CTIME'       =>  DATETIME
     ];
 
-    private static function moveUploadedFile($type, $input, $extn){
+    protected static function moveUploadedFile($type, $input, $extn){
         switch($type){
 			case 'image':
 			case 'audio':
@@ -56,7 +56,7 @@ class FileSourceModel extends BaseCloudItemModel {
     }
     
     public static function completeInput($input, $extn, $type){
-        list($path, $hash) = self::moveUploadedFile($type, $input, $extn);
+        list($path, $hash) = static::moveUploadedFile($type, $input, $extn);
         switch($type){
             case 'image':
             $size = getimagesize(PUBL_PATH.$path);
@@ -82,7 +82,7 @@ class FileSourceModel extends BaseCloudItemModel {
      * 如果没有，则删除源文件
      */
     public static function checkSourceExisted($SID){
-        $querier = self::initQuerier();
+        $querier = static::initQuerier();
         $result = $querier->where('SID', $SID)->take(1)->select('SID, LOCATION');
         if($result&&$row = $result->item()){
             if($count = FileMetaModel::getCountOfSrouce($SID)){
@@ -104,7 +104,7 @@ class FileSourceModel extends BaseCloudItemModel {
      * 主要用于秒传时检查文件源是否已存在
      */
     public static function checkHashExisted($hash){
-        $querier = self::initQuerier();
+        $querier = static::initQuerier();
         $result = $querier->where('HASH', $hash)->take(1)->select('SID, LOCATION');
         if($result&&$row = $result->item()){
             if($count = FileMetaModel::getCountOfSrouce($row['SID'])){
@@ -120,14 +120,16 @@ class FileSourceModel extends BaseCloudItemModel {
     }
 
     public static function byGUID($SID){
-        self::init();
+        static::init();
         $obj = new static;
-        if($cache = self::$staticFileStorage->take($SID)){
+        if(static::$staticFileStorage&&($cache = static::$staticFileStorage->take($SID))){
             return $obj->__put($cache, true);
         }else{
-            $result = self::$staticQuerier->requires()->where('SID', $SID)->take(1)->select();
+            $result = static::$staticQuerier->requires()->where('SID', $SID)->take(1)->select();
             if($result&&$row = $result->item()){
-                self::$staticFileStorage->store($row['SID'], $row);
+                if(static::$staticFileStorage){
+                    static::$staticFileStorage->store($row['SID'], $row);
+                }
                 return $obj->__put($row, true);
     		}
         }
@@ -135,11 +137,13 @@ class FileSourceModel extends BaseCloudItemModel {
     }
 
     public static function byHASH($HASH){
-        self::init();
+        static::init();
         $obj = new static;
-		$result = self::$staticQuerier->requires()->where('HASH', $HASH)->take(1)->select();
+		$result = static::$staticQuerier->requires()->where('HASH', $HASH)->take(1)->select();
 		if($result&&$row = $result->item()){
-			self::$staticFileStorage->store($row['SID'], $row);
+            if(static::$staticFileStorage){
+                static::$staticFileStorage->store($row['SID'], $row);
+            }
             return $obj->__put($row, true);
         }
         return false;
@@ -162,10 +166,10 @@ class FileSourceModel extends BaseCloudItemModel {
             if(empty($input['HASH'])){
                 return false;
             }else{
-                if($obj = self::byHASH($input['HASH'])){
+                if($obj = static::byHASH($input['HASH'])){
                     return $obj;
                 }
-                return self::post($input);
+                return static::post($input);
             }
         }
         return false;
@@ -177,7 +181,7 @@ class FileSourceModel extends BaseCloudItemModel {
      * 只接受传入数组
      */
     protected function __construct(){
-		self::init();
+		static::init();
         $this->modelProperties = [];
     }
     
@@ -199,7 +203,7 @@ class FileSourceModel extends BaseCloudItemModel {
     }
 
     protected function __insert(){
-        $querier = self::$staticQuerier;
+        $querier = static::$staticQuerier;
         unset($this->modelProperties['SID']);
         $this->modelProperties['SK_CTIME']   =	DATETIME;
         if(!$querier->insert($this->modelProperties)){
@@ -211,12 +215,12 @@ class FileSourceModel extends BaseCloudItemModel {
     }
     
     protected function __update(){
-        $querier = self::$staticQuerier;
+        $querier = static::$staticQuerier;
         if(empty($this->modelProperties['SID'])){
             return false;
         }
         unset($this->modelProperties['SID']);
-        $diff = self::array_diff($this->savedProperties, $this->modelProperties, self::DIFF_SIMPLE);
+        $diff = static::array_diff($this->savedProperties, $this->modelProperties, static::DIFF_SIMPLE);
         $update = $diff['__M__'];
 
         $this->modelProperties['SID'] = $this->savedProperties['SID'];
@@ -228,7 +232,9 @@ class FileSourceModel extends BaseCloudItemModel {
         }else{
             return false;
         }
-        self::$staticFileStorage->store($this->modelProperties['SID']);
+        if(static::$staticFileStorage){
+            static::$staticFileStorage->store($this->modelProperties['SID']);
+        }
         return $this;
     }
     
@@ -239,7 +245,7 @@ class FileSourceModel extends BaseCloudItemModel {
             $this->error_msg = 'STILL_IN_USE';
             return false;
         }
-        if(self::$staticQuerier->requires()->where('SID', $SID)->delete()!==false){
+        if(static::$staticQuerier->requires()->where('SID', $SID)->delete()!==false){
             \unlink(PUBL_PATH.$this->modelProperties['LOCATION']);
             $this->__afterDelete();
             return true;
@@ -249,7 +255,9 @@ class FileSourceModel extends BaseCloudItemModel {
     }
     
     public function clearRelativeCache(){
-        self::$staticFileStorage->store($this->__guid);
+        if(static::$staticFileStorage){
+            static::$staticFileStorage->store($this->__guid);
+        }
         return true;
     }
 }

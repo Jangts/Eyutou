@@ -59,17 +59,17 @@ trait trmm_collecting {
 	/**
 	 * 按条件获取列表
 	 */
-	public static function getRows($tablename = NULL, $folder = NULL, $state = self::UNRECYCLED, array $orderby = self::ID_DESC, $start = 0, $num = 18, $returnFormat = Model::LIST_AS_OBJS){
+	public static function getRows($tablename = NULL, $group_id = NULL, $state = self::UNRECYCLED, array $orderby = self::ID_DESC, $start = 0, $num = 18, $returnFormat = Model::LIST_AS_OBJS){
 		if($state === self::PUBLISHED&&count($orderby)===1&&(empty($orderby[0][2])||$orderby[0][2]===self::SORT_REGULAR)){
 			// 已发布行可以读取缓存
-			if($folder&&is_numeric($folder)){
+			if($group_id&&is_numeric($group_id)){
 				if(is_string($tablename)){
-					$folderInfo = Folder::byGUID($folder);
-					if($folderInfo->tablename===$tablename){
-						return self::getPublishedRows($folder, $start, $num, $orderby[0], $returnFormat);
+					$group_idInfo = GROUP::byGUID($group_id);
+					if($group_idInfo->tablename===$tablename){
+						return self::getPublishedRows($group_id, $start, $num, $orderby[0], $returnFormat);
 					}
 				}else{
-					return self::getPublishedRows($folder, $start, $num, $orderby[0], $returnFormat);
+					return self::getPublishedRows($group_id, $start, $num, $orderby[0], $returnFormat);
 				}
 			}else{
 				if(is_string($tablename)){
@@ -77,7 +77,7 @@ trait trmm_collecting {
 				}
 			}
 		}
-		$result = self::getQuery($tablename, $folder, $state, $orderby, $start, $num)->select();
+		$result = self::getQuery($tablename, $group_id, $state, $orderby, $start, $num)->select();
     	if($result){
 			return self::decodeReturnRows($result, $returnFormat);
 		}
@@ -99,7 +99,7 @@ trait trmm_collecting {
 		}
 		if(!$array){
 			if(is_numeric($class)&&$class!='0'){
-				$array = self::query("`FOLDER` = $class AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0", [[$orderby[0], true]], 0, Model::LIST_AS_ARRS);
+				$array = self::query("`GROUPID` = $class AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0", [[$orderby[0], true]], 0, Model::LIST_AS_ARRS);
 				self::$listFileStorage->store($orderby[0], $array);
 			}elseif(is_string($class)){
 				$array = self::query("`TABLENAME` = '$class' AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0", [[$orderby[0], true]], 0, Model::LIST_AS_ARRS);
@@ -163,7 +163,7 @@ trait trmm_collecting {
 				default:
 				$str = '';
 			}
-			$result = self::query("`TABLENAME` = '$tablename' AND `FOLDER` = 0".$str, $orderby, [$start, $num], $returnFormat);
+			$result = self::query("`TABLENAME` = '$tablename' AND `GROUPID` = 0".$str, $orderby, [$start, $num], $returnFormat);
 		}
 		return [];
 	}
@@ -174,7 +174,7 @@ trait trmm_collecting {
 	public static function getRowsOf($class, array $orderby = self::ID_ASC, $range = 0, $returnFormat = Model::LIST_AS_OBJS){
 		if($class){
 			if(is_numeric($class)&&$class!='0'){
-				return self::query("`FOLDER` = $class", $orderby, $range, $returnFormat);
+				return self::query("`GROUPID` = $class", $orderby, $range, $returnFormat);
 			}elseif(is_string($class)&&preg_match('/^\w+$/', $$class)){
 				return self::query("`TABLENAME` = '$class'", $orderby, $range, $returnFormat);
 			}
@@ -205,9 +205,9 @@ trait trmm_collecting {
 	/**
 	 * 获取指定文件夹的所有行
 	 */
-	public static function getRowsByFolderID($folder, array $orderby = self::ID_ASC, $range = 0, $returnFormat = Model::LIST_AS_OBJS){
-		if($folder&&is_numeric($folder)){
-			return self::query("`FOLDER` = $folder", $orderby, $range, $returnFormat);
+	public static function getRowsByGROUPID($group_id, array $orderby = self::ID_ASC, $range = 0, $returnFormat = Model::LIST_AS_OBJS){
+		if($group_id&&is_numeric($group_id)){
+			return self::query("`GROUPID` = $group_id", $orderby, $range, $returnFormat);
 		}
 		return [];
 	}
@@ -218,8 +218,8 @@ trait trmm_collecting {
 	public static function getRowsByTagName($tag, $class = NULL, array $orderby = self::ID_ASC, $range = 0, $returnFormat = Model::LIST_AS_OBJS){
 		if(is_string($tag)){
 			if(is_numeric($class)&&$class!='0'){
-				$folder = TRGroupModel::byGUID($class);
-				$tablename = $folder->tablename;
+				$group_id = TRGroupModel::byGUID($class);
+				$tablename = $group_id->tablename;
 			}elseif(is_string($class)){
 				$tablename = $class;
 			}
@@ -248,8 +248,8 @@ trait trmm_collecting {
 			case self::SEARCH_TABLE:
 			return self::query("`PUBTIME` <= '$this->PUBTIME' AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `TABLENAME` = '$class'", self::PUBTIME_DESC);
 
-			case self::SEARCH_FOLDER:
-			return self::query("`PUBTIME` <= '$this->PUBTIME' AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `FOLDER` = $class", self::PUBTIME_DESC);
+			case self::SEARCH_GROUPID:
+			return self::query("`PUBTIME` <= '$this->PUBTIME' AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `GROUPID` = $class", self::PUBTIME_DESC);
 
 			defailt:
 			return self::query("`PUBTIME` <= '$this->PUBTIME' AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0", self::PUBTIME_DESC);
@@ -269,8 +269,8 @@ trait trmm_collecting {
 			case self::SEARCH_TABLE:
 			return self::query("`PUBTIME` >= '$this->PUBTIME' AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `TABLENAME` = '$class'", self::PUBTIME_ASC);
 
-			case self::SEARCH_FOLDER:
-			return self::query("`PUBTIME` >= '$this->PUBTIME' AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `FOLDER` = $class", self::PUBTIME_ASC);
+			case self::SEARCH_GROUPID:
+			return self::query("`PUBTIME` >= '$this->PUBTIME' AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0 AND `GROUPID` = $class", self::PUBTIME_ASC);
 
 			default:
 			return self::query("`PUBTIME` >= '$this->PUBTIME' AND `SK_STATE` = 1 AND `SK_IS_RECYCLED` = 0", self::PUBTIME_ASC);
@@ -299,10 +299,10 @@ trait trm_collecting {
     /**
      * 按条件和附加条件获取列表
      */
-    public static function selectRows($tablename, $folder = NULL, array $notnulls = [], $select = '*', array $orderby = TableRowMetaModel::ID_DESC, $start = 0, $num = 18, $format = Model::LIST_AS_OBJS){
+    public static function selectRows($tablename, $group_id = NULL, array $notnulls = [], $select = '*', array $orderby = TableRowMetaModel::ID_DESC, $start = 0, $num = 18, $format = Model::LIST_AS_OBJS){
         if(count($notnulls)&&is_string($tablename)){
             $objs = [];
-            $querier = TableRowMetaModel::getQuery($tablename, $folder, TableRowMetaModel::PUBLISHED, $orderby, $start, $num)->switchTable(RDO::multtable([
+            $querier = TableRowMetaModel::getQuery($tablename, $group_id, TableRowMetaModel::PUBLISHED, $orderby, $start, $num)->switchTable(RDO::multtable([
                 'table' =>  DB_YUN.'schema_'.$tablename,
                 'field' =>  'ID',
                 'as'    =>  'A'
@@ -338,11 +338,11 @@ trait trm_collecting {
     /**
 	 * 按条件获取列表
 	 */
-    public static function getRows($tablename = NULL, $folder = NULL, $state = TableRowMetaModel::UNRECYCLED, array $orderby = TableRowMetaModel::ID_DESC, $start = 0, $num = 18, $format = Model::LIST_AS_OBJS, array $notnulls = []){
+    public static function getRows($tablename = NULL, $group_id = NULL, $state = TableRowMetaModel::UNRECYCLED, array $orderby = TableRowMetaModel::ID_DESC, $start = 0, $num = 18, $format = Model::LIST_AS_OBJS, array $notnulls = []){
         if(count($notnulls)&&is_string($tablename)){
-            return self::selectRows($tablename, $folder, $notnulls, '*', $orderby, $start, $num, $format);
+            return self::selectRows($tablename, $group_id, $notnulls, '*', $orderby, $start, $num, $format);
         }
-        $metainfos = TableRowMetaModel::getRows($tablename, $folder, $state, $orderby, $start, $num, $format);
+        $metainfos = TableRowMetaModel::getRows($tablename, $group_id, $state, $orderby, $start, $num, $format);
         return self::buildRowsByMetaInfos($metainfos, $format);
     }
 

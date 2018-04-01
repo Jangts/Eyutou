@@ -58,7 +58,7 @@ class Admin_NewsViewModel extends \PM\_STUDIO\BaseFormViewModel {
 			'input_type'	=>	'hide'
 		],
 		[
-			'field_name'	=>	'FOLDER',
+			'field_name'	=>	'GROUPID',
 			'display_name'	=>	'新闻分类',
 			'input_type'	=>	'select'
 		],
@@ -171,12 +171,12 @@ class Admin_NewsViewModel extends \PM\_STUDIO\BaseFormViewModel {
 			$button2 = NULL;
 		}
 
-		$categories = TRGroupModel::getFoldersByTableName('news');
-		$categoryOptions = [];
-		foreach($categories as $category){
-			$categoryOptions[] = [$category['id'], $category['name']];
+		$groups = TRGroupModel::getGroupsByTableName('news');
+		$groupOptions = [];
+		foreach($groups as $group){
+			$groupOptions[] = [$group['id'], $group['name']];
 		}
-		static::$selectOptions['FOLDER'] = $categoryOptions;
+		static::$selectOptions['GROUPID'] = $groupOptions;
 
 		$this->assign('formname', '编辑新闻信息');
 		$this->assign('form', self::buildForm($news->getArrayCopy(), $method));

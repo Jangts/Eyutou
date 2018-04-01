@@ -136,6 +136,7 @@ block([
 
     var imageUploaders = _.form.careatPicturesUploaders('.figure-items .pic-uploader', {
             url: '/applications/uploads/files/?returndetails=json',
+            // url: '/applications/uploads/attachments/?returndetails=json'
         }),
         videoUploaders = _.form.careatPicturesUploaders('.video-item .pic-uploader', {
             url: '/applications/uploads/files/?returndetails=json',

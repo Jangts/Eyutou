@@ -8,6 +8,8 @@ use Status;
  *归档文件夹模型
 **/
 final class FolderModel extends \AF\Models\BaseDeepModel {
+	use traits\grouping;
+	
 	const
 	ID_DESC = [['id', true, self::SORT_REGULAR]],
 	ID_ASC = [['id', false, self::SORT_REGULAR]],
@@ -20,17 +22,19 @@ final class FolderModel extends \AF\Models\BaseDeepModel {
 
 	UNRECYCLE = 0,
 	RECYCLE = 1,
-	HIDE = 2;
+	HIDE = 2,
+	
+	NEW_ITEM_NAME = 'New Folder';
 
 	protected static
 	$fileStoragePath = DPATH.'CLOUDS/'.'folders/',
 	$fileStoreLifetime = 0,
 	$tablenameAlias = 'folders',
-	$typePrefix = DB_YUN,
+	$tablenamePrefix = DB_YUN,
 	$defaultPorpertyValues  = [
 		'id'				=>	0,
 		'type'				=>	'F',
-		'name'				=>	'New Folder',
+		'name'				=>	self::NEW_ITEM_NAME,
         'parent'		    =>	6,
 		'SK_IS_RECYCLED'	=>	0,
 		'SK_MTIME'			=>	DATETIME
@@ -60,103 +64,44 @@ final class FolderModel extends \AF\Models\BaseDeepModel {
             return false;
 		}
 		if($parent_id==0){
-			if($folder->type){
-				return true;
+			if($folder->type==='F'){
+				return false;
 			}
-			return false;
+			return true;
 		}
 		if($parent = self::byGUID($parent_id)){
-			// var_dump('4', $parent->type, $folder->type);
 			// 存在父级目录
-			if($parent->type===$folder->type){
-				// var_dump('5');
-				// 且两个目录同类型
-				if($parent->type==$folder->type){
-					// var_dump('6');
-					// 且两个目录同表(文件类型没有表，但都为NULL)
-
-					// 检查指定目录的祖先目录中是否存在此目录
-					$ancestors = $parent->getAncestors();
-					foreach($ancestors as $ancestor){
-						if($ancestor->id===$folder->id){
-							return false;
-						}
+			// 且两个目录同类型
+			if($parent->type==$folder->type){
+				// 检查指定目录的祖先目录中是否存在此目录
+				$ancestors = $parent->getAncestors();
+				foreach($ancestors as $ancestor){
+					if($ancestor->id===$folder->id){
+						return false;
 					}
-					return true;
 				}
+				return true;
 			}
 		}
 		return false;
 	}
 
 	/**
-	 * 检查并校正文件夹名称
-	 */
-	private static function correctSourcesFolderName($parent_id, $folder_id, $name = NULL){
-		if(empty($name)){
-			// 如果未指定文件夹名，则命名为New Folder
-			$name = 'New Folder';
-		}
-
-		// 获取默认数据行查询器
-		$querier = static::initQuerier();
-
-		$result = $querier->requires()
-		->where('parent', $parent_id)
-		->where('id', $folder_id, '<>')
-		->where('name', $name)
-		->where('SK_IS_RECYCLED', 0)
-		->select('name');
-
-		if($row = $result->item()){
-			// 查询所有同级文件夹名称
-			$names = [];
-			$result = $querier->requires()
-			->where('parent', $parent_id)
-			->where('id', $folder_id, '<>')
-			->where('SK_IS_RECYCLED', 0)
-			->select('name');
-
-			foreach($result as $row){
-				$names[] = $row['name'];
-			}
-			
-			$newname = $name.'(2)';
-			$i = 2;
-			while(in_array($newname, $names, true)){
-				$newname = $name.'('.++$i.')';
-			}
-			return $newname;
-		}
-		return $name;
-	}
-
-	/**
 	 * 获取表格根目录
 	 */
 	public static function getRoots(array $options = [], array $orderby = self::ID_ASC){
-		if(isset($options['type'])&&is_string($options['type'])){
-			$tablenameAlias = $options['type'];
-			if($type&&($tablemeta = TableMetaModel::byGUID($type))){
-				return self::query("`type` = '$type' AND `parent` = 0 AND `SK_IS_RECYCLED` = 0" , $orderby);
-			}
+		if(isset($options['type'])&&in_array($options['type'], ['A', 'F'])){
+			$type = $options['type'];
+			return self::query("`type` = '$type' AND `parent` = 0 AND `SK_IS_RECYCLED` = 0" , $orderby);
 		}
-		// 文件的根目录其实固定的几个，实际上不用判断移除和隐藏
-		return self::query("`type` = 'F' AND `parent` = 0 AND `SK_IS_RECYCLED` = 0" , $orderby);
-	}
-
-	/**
-	 * 获取子目录
-	 */
-	public static function getChildren($id, array $options = [], array $orderby = self::ID_ASC){
-		return self::query(['parent' => $id, 'SK_IS_RECYCLED' => 0], $orderby);
+		return [];
 	}
 
 	/**
 	 * 获取文件根目录
 	 */
 	public static function getFilsRootFolders(array $orderby = self::ID_ASC){
-		return self::getRoots(NULL, $orderby);
+		return self::getRoots(['type'=>'F'], $orderby);
 	}
 	
 	/**
@@ -218,36 +163,25 @@ final class FolderModel extends \AF\Models\BaseDeepModel {
 	/**
 	 * 创建新的归档文件夹
 	 */
-	public static function createAndSave($type, $parent_id, $name = 'New Folder'){
-		if($obj = self::postIfNotExists($name, $type, [
-			'parent' => $parent_id
-		], false)){
-			return $obj;
-		}
-		return false;
-	}
-
-	/**
-	 * 创建新的归档文件夹
-	 */
 	public static function post(array $input){
 		if(isset($input['name'])){
 			$name = $input['name'];
 			unset($input['name']);
 		}else{
-			$name = 'New Folder';
+			$name = self::NEW_ITEM_NAME;
 		}
-		if(isset($input['type'])){
+		if(isset($input['type'])&&in_array($input['type'], ['A', 'F'])){
 			$type = $input['type'];
 			unset($input['type']);
-		}else{
-			$type = 'F';
-		}
-		if($obj = self::postIfNotExists($name, $type, $input, false)){
-			return $obj;
+			if($obj = self::postIfNotExists($name, $type, $input, false)){
+				return $obj;
+			}
 		}
 		return false;
 	}
+
+	// 设置模型为只读模型,从而关闭对象的set等可写方法
+	protected $readonly = true;
 
 	protected function __update(){
 		// 检查可写性
@@ -284,7 +218,7 @@ final class FolderModel extends \AF\Models\BaseDeepModel {
 	 */
 	public function getUsableParents(array $options = []){
 		$folders = [];
-		$roots = self::getRoots(array_merge($options, ['SK_IS_RECYCLED' => 0]));
+		$roots = self::getRoots(array_merge($options, ['type'=> $this->type, 'SK_IS_RECYCLED' => 0]));
 		foreach($roots as $root){
 			if($root->id!==$this->modelProperties['id']){
 				$root->__level = 0;

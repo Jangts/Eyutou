@@ -11,14 +11,14 @@ class Admin_newsListViewModel extends \PM\_STUDIO\BaseTableViewModel {
 			'name'	=>	'集团新闻',
 			'title'	=>	'集团新闻',
 			'where'	=>	[
-				'FOLDER'	=>	17
+				'GROUPID'	=>	1
 			]
 		],
 		'hydt'	=>	[
 			'name'	=>	'行业动态',
 			'title'	=>	'行业动态',
 			'where'	=>	[
-				'FOLDER'	=>	16
+				'GROUPID'	=>	2
 			]
 		]
 	],
@@ -104,12 +104,12 @@ class Admin_newsListViewModel extends \PM\_STUDIO\BaseTableViewModel {
 		$range = self::__viewLimit();
 		$orderby = self::__viewOrderBy();
 		if(empty($_GET['tabalias'])||empty(static::$classtabs[$_GET['tabalias']])){
-            $folder = NULL;
+            $group = NULL;
         }else{
-			$folder = static::$classtabs[$_GET['tabalias']]['where']['FOLDER'];
+			$group = static::$classtabs[$_GET['tabalias']]['where']['GROUPID'];
         }
-		$count = TableRowMetaModel::getCOUNT('news', $folder, TableRowMetaModel::UNRECYCLED);
-		$list  = TableRowMetaModel::getRows('news', $folder, TableRowMetaModel::UNRECYCLED, $orderby, $range[0], $range[1]);
+		$count = TableRowMetaModel::getCOUNT('news', $group, TableRowMetaModel::UNRECYCLED);
+		$list  = TableRowMetaModel::getRows('news', $group, TableRowMetaModel::UNRECYCLED, $orderby, $range[0], $range[1]);
 
 		$rows = [];
 		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
