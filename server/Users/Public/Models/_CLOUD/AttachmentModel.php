@@ -5,7 +5,7 @@ namespace PM\_CLOUD;
  * Model Of Attached Resource Infomation
  * 资源资源信息模型
 **/
-final class FileModel extends BaseCloudItemModel {
+final class AttachmentModel extends BaseCloudItemModel {
 	use traits\transfer;
 
 	protected static
@@ -63,7 +63,7 @@ final class FileModel extends BaseCloudItemModel {
 			'FILE_SIZE'     	=>  $input['FILE_SIZE'],
 			'FILE_EXTN'        	=>  $ext
 		];
-		if($obj = FileModel::postByMateinfoAndSource($metaInput, $srcInput)){
+		if($obj = AttachmentModel::postByMateinfoAndSource($metaInput, $srcInput)){
 			return $obj;
 		}
 		return false;

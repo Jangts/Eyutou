@@ -3,6 +3,7 @@
 namespace Tangram\MODEL;
 
 // 引入相关命名空间，以简化书写
+use Tangram\IDEA;
 use Status;
 use Storage;
 use Tangram\ClassLoader;
@@ -82,7 +83,8 @@ final class Application {
 				'Author'	=>	$app['app_authorname'],
 				'DIR'		=>	preg_replace('/\/+/', '/', X_RPN.$app['app_authorname'].'/'.$app['app_installpath'].'/'),
 				'DBTPrefix'	=>	_DBPRE_.$code.'_',
-				'CONN'		=>	$app['app_usedb']
+				'CONN'		=>	$app['app_usedb'],
+				'TIME'		=>	$app['app_build_time']
 			];
 		}else{
 			new Status(1441.2, 'Application Not Found', 'No Suck Application.[APPID #'.$code.']', true);
@@ -112,7 +114,8 @@ final class Application {
 					'Author'	=>	'YangRAM',
 					'DIR' 		=>	preg_replace('/\/+/', '/', A_RPN.$app['installpath'].'/'),
 					'DBTPrefix'	=>	_DBPRE_.strtolower($app['id']).'_',
-					'CONN'		=>	$app['usedb']
+					'CONN'		=>	$app['usedb'],
+					'TIME'		=>	IDEA::RELEASE_TIME
 				];
 			}else{
 				new Status(1441.1, 'Application Not Found', 'No Suck Application.[APPID #'.$code.']', true);

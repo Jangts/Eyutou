@@ -14,7 +14,7 @@ class FileSourceModel extends BaseCloudItemModel {
     $staticQuerier,
     $staticMemorizeStorage = [],
     $staticFileStorage,
-    $tablenameAlias = 'filesrc',
+    $tablenameAlias = 'sources',
 	$defaultPorpertyValues = [
         'SID'               =>  0,
         'HASH'              =>  '',

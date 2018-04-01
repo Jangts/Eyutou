@@ -109,17 +109,17 @@ final class TableMetaModel extends \AF\Models\BaseR3Model {
     }
 
     public function addFolder($name, $parent_id = 0){
-        return FolderModel::create($parent_id, $name, $this->name);
+        return TRGroupModel::create($parent_id, $name, $this->name);
     }
 
     public function delFolder($id){
         if(is_numeric($id)){
-            $cat = FolderModel::byGUID($id);
+            $cat = TRGroupModel::byGUID($id);
             if($cat->tablename == $this->savedProperties['name']){
                return $cat->destroy();
             }
         }elseif(is_string($id)){
-            return FolderModel::delete(['tablename'=>$this->savedProperties['name'], 'name' => $id]);
+            return TRGroupModel::delete(['tablename'=>$this->savedProperties['name'], 'name' => $id]);
         }
         return false;
     }
@@ -352,7 +352,7 @@ final class TableMetaModel extends \AF\Models\BaseR3Model {
 		$__key = $querier->beginAndLock();
         if($this->savedProperties&&($querier->requires()->where('name', $this->__guid)->delete()!==false)){
             $this->cache();
-            if(FolderModel::delete("`tablename` = '$this->__guid'")){
+            if(TRGroupModel::delete("`tablename` = '$this->__guid'")){
                 if(TableRowModel::delete("`TABLENAME` = '$this->__guid'")){
                     if(TagModel::delete("`tablename` = '$this->__guid'")){
                         if(TableAuthorityModel::delete("`tablename` = '$this->__guid'")){

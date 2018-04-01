@@ -3,7 +3,7 @@ namespace Cloud\Tables\Controllers\traits;
 
 use Passport;
 use PM\_CLOUD\TableMetaModel;
-use PM\_CLOUD\FolderModel;
+use PM\_CLOUD\TRGroupModel;
 use PM\_CLOUD\TableRowMetaModel;
 use PM\_CLOUD\TableAuthorityModel;
 
@@ -21,10 +21,10 @@ trait authorities {
         if(isset($options['rows'])&&$row = TableRowMetaModel::byGUID($options['rows'])){
             return $row->TABLENAME;
         }
-        if(isset($options['folder'])&&$folder = FolderModel::byGUID($options['folder'])&&$folder->tablename){
+        if(isset($options['folder'])&&$folder = TRGroupModel::byGUID($options['folder'])&&$folder->tablename){
             return $folder->tablename;
         }
-        if(isset($options['folders'])&&$folder = FolderModel::byGUID($options['folders'])&&$folder->tablename){
+        if(isset($options['folders'])&&$folder = TRGroupModel::byGUID($options['folders'])&&$folder->tablename){
             return $folder->tablename;
         }
         return 'articles';

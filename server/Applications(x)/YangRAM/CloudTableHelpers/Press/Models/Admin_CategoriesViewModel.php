@@ -2,11 +2,11 @@
 namespace CTH\Press\Models;
 
 use Request;
-use PM\_CLOUD\FolderModel;
+use PM\_CLOUD\TRGroupModel;
 
 class Admin_CategoriesViewModel extends \PM\_STUDIO\BaseCRUDViewModel {
 	public static
-	$model = 'PM\_CLOUD\FolderModel',
+	$model = 'PM\_CLOUD\TRGroupModel',
 	$columns = [
 		[
 			'field_name'	=>	'__index',
@@ -79,7 +79,7 @@ class Admin_CategoriesViewModel extends \PM\_STUDIO\BaseCRUDViewModel {
 	}
 	
 	protected static function __createTemplate($modelname){
-        return FolderModel::create([0, '', 'news']);
+        return TRGroupModel::create([0, '', 'news']);
     }
 
 	public function initialize(){

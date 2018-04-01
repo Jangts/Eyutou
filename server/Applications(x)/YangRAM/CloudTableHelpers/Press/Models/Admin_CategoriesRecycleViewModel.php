@@ -1,11 +1,11 @@
 <?php
 namespace CTH\Press\Models;
 
-use PM\_CLOUD\FolderModel;
+use PM\_CLOUD\TRGroupModel;
 
 class Admin_CategoriesRecycleViewModel extends \PM\_STUDIO\BaseTrashCanViewModel {
 	public static
-	$model = 'PM\_CLOUD\FolderModel',
+	$model = 'PM\_CLOUD\TRGroupModel',
 	$columns = [
 		[
 			'field_name'	=>	'__index',
@@ -32,7 +32,7 @@ class Admin_CategoriesRecycleViewModel extends \PM\_STUDIO\BaseTrashCanViewModel
 			'classname'		=>	''	
 		]
 	],
-	$__sortby = FolderModel::MTIME_DESC;
+	$__sortby = TRGroupModel::MTIME_DESC;
 
 	protected static function __viewWhere(){
 		return [

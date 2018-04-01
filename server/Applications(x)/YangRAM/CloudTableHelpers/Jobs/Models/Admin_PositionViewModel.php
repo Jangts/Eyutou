@@ -1,7 +1,7 @@
 <?php
 namespace CTH\Jobs\Models;
 
-use PM\_CLOUD\FolderModel;
+use PM\_CLOUD\TRGroupModel;
 use PM\_CLOUD\TableRowModel;
 use PM\_CLOUD\TableRowMetaModel;
 
@@ -182,7 +182,7 @@ class Admin_PositionViewModel extends \PM\_STUDIO\BaseFormViewModel {
 			$button2 = NULL;
 		}
 
-		$categories = FolderModel::getFoldersByTableName('positions');
+		$categories = TRGroupModel::getFoldersByTableName('positions');
 		$categoryOptions = [];
 		foreach($categories as $category){
 			$categoryOptions[] = [$category['id'], $category['name']];

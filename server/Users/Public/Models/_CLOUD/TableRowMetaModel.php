@@ -248,7 +248,7 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	public static function getCountOfTag($tag, $class = NULL){
 		if(is_string($tag)){
 			if(is_numeric($class)&&$class!='0'){
-				$folder = FolderModel::byGUID($class);
+				$folder = TRGroupModel::byGUID($class);
 				$tablename = $folder->tablename;
 			}elseif(is_string($class)){
 				$tablename = $class;
@@ -354,7 +354,7 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 				$this->modelProperties['FOLDER'] = 0;
 			}
 		}
-		if($folder = FolderModel::byGUID($this->modelProperties['FOLDER'])){
+		if($folder = TRGroupModel::byGUID($this->modelProperties['FOLDER'])){
 			if($folder->type===$this->TYPE){
 				if($folder->SK_IS_RECYCLED){
 					// 检查是否应该隐藏
@@ -424,7 +424,7 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	 */
 	public function getFolderInfo(){
 		if($this->FOLDER){
-			return FolderModel::byGUID($this->FOLDER);
+			return TRGroupModel::byGUID($this->FOLDER);
 		}
 		return NULL;
 	}

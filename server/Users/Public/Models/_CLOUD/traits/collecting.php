@@ -218,7 +218,7 @@ trait trmm_collecting {
 	public static function getRowsByTagName($tag, $class = NULL, array $orderby = self::ID_ASC, $range = 0, $returnFormat = Model::LIST_AS_OBJS){
 		if(is_string($tag)){
 			if(is_numeric($class)&&$class!='0'){
-				$folder = FolderModel::byGUID($class);
+				$folder = TRGroupModel::byGUID($class);
 				$tablename = $folder->tablename;
 			}elseif(is_string($class)){
 				$tablename = $class;

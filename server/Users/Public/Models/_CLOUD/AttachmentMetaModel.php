@@ -224,7 +224,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 	 * 按条件批量删除文件
 	 */
 	public static function delete($require){
-		return FileModel::delete($require);
+		return AttachmentModel::delete($require);
 	}
 
 	public function __construct(){
@@ -370,7 +370,7 @@ final class FileMetaModel extends BaseCloudItemModel {
 	 * 拓展为完整的文件模型
 	 */
 	public function getExtendedModel(){
-		return FileModel::byGUID($this->modelProperties['ID']);
+		return AttachmentModel::byGUID($this->modelProperties['ID']);
 	}
 	
 	/**
@@ -388,6 +388,6 @@ final class FileMetaModel extends BaseCloudItemModel {
 	 * 删除文件资源
 	 */
 	public function destroy(){
-		return FileModel::byGUID($this->modelProperties['ID'])->destroy();
+		return AttachmentModel::byGUID($this->modelProperties['ID'])->destroy();
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 namespace CTH\Press\Models;
 
-use PM\_CLOUD\FolderModel;
+use PM\_CLOUD\TRGroupModel;
 use PM\_CLOUD\TableRowModel;
 use PM\_CLOUD\TableRowMetaModel;
 
@@ -171,7 +171,7 @@ class Admin_NewsViewModel extends \PM\_STUDIO\BaseFormViewModel {
 			$button2 = NULL;
 		}
 
-		$categories = FolderModel::getFoldersByTableName('news');
+		$categories = TRGroupModel::getFoldersByTableName('news');
 		$categoryOptions = [];
 		foreach($categories as $category){
 			$categoryOptions[] = [$category['id'], $category['name']];

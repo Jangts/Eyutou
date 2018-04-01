@@ -10,7 +10,7 @@ use App;
 use PM\_PAGES\ColumnModel;
 
 use PM\_CLOUD\TableMetaModel;
-use PM\_CLOUD\FolderModel;
+use PM\_CLOUD\TRGroupModel;
 use PM\_CLOUD\TableRowMetaModel;
 use PM\_CLOUD\TableRowModel;
 use Lib\models\PageListModel;
@@ -33,7 +33,7 @@ class NewsPageController extends \Controller {
             }
         }else{
             $methodname = 'getCategory';
-            $folder = FolderModel::getDefaultFolder('news');
+            $folder = TRGroupModel::getDefaultFolder('news');
             $this->$methodname($folder);
         }
         return false;
@@ -41,9 +41,9 @@ class NewsPageController extends \Controller {
 
     private function getCategory($folder){
         if(is_numeric($folder)){
-            $folder = FolderModel::byGUID($folder);
+            $folder = TRGroupModel::byGUID($folder);
         }
-        if(is_a($folder, 'PM\_CLOUD\FolderModel')){
+        if(is_a($folder, 'PM\_CLOUD\TRGroupModel')){
             $options = OptionsModel::autoloadItems();
             $column = new ColumnModel('link_news/category/'.$folder->id);
             $column->push('link_news/');
@@ -99,7 +99,7 @@ class NewsPageController extends \Controller {
                 $renderer->assign($news->getArrayCopy(), "");
                 $renderer->assign("column", $column);
                 $renderer->assign("tablemeta", TableMetaModel::byGUID($news->TABLENAME));
-                $renderer->assign("category", FolderModel::byGUID($news->FOLDER));
+                $renderer->assign("category", TRGroupModel::byGUID($news->FOLDER));
 		
                 $renderer->using($options['use_theme']);
 

@@ -1,7 +1,7 @@
 <?php
 namespace CTH\Press\Models;
 
-use PM\_CLOUD\FolderModel;
+use PM\_CLOUD\TRGroupModel;
 use PM\_CLOUD\TableRowModel;
 use PM\_CLOUD\TableRowMetaModel;
 
