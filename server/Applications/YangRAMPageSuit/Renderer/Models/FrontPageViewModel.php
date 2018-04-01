@@ -1,5 +1,5 @@
 <?php
-namespace Pages\Main\Views;
+namespace Pages\Main\Models;
 
 // 引入相关命名空间，以简化书写
 use Tangram\ClassLoader;
@@ -17,7 +17,7 @@ use Pages\Main\Models\PageModel;
 use Pages\Main\Models\MenuModel;
 use Pages\Main\Models\PluginModel;
 
-class DefaultPageRenderer extends \AF\Models\BaseViewModel {
+class FrontPageViewModel extends \AF\Models\BaseViewModel {
     protected
     $theme = 'default',
     $_pages = [];

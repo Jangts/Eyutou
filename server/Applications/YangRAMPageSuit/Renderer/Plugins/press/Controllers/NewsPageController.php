@@ -15,7 +15,7 @@ use PM\_CLOUD\TableRowMetaModel;
 use PM\_CLOUD\TableRowModel;
 use Lib\models\PageListModel;
 
-use Pages\Main\Views\DefaultPageRenderer;
+use Pages\Main\Models\FrontPageViewModel;
 use Pages\Main\Models\OptionsModel;
 
 class NewsPageController extends \Controller {
@@ -50,7 +50,7 @@ class NewsPageController extends \Controller {
             $count = TableRowMetaModel::getCOUNT(NULL, $archive->id, TableRowMetaModel::PUBLISHED);
             $list = TableRowModel::getRows(NULL, $archive->id, TableRowMetaModel::PUBLISHED, TableRowMetaModel::RLDPD, $start = 0, $num = static::$prepage);
 
-            $renderer = new DefaultPageRenderer();
+            $renderer = new FrontPageViewModel();
 
 		    $renderer->assign("title", $archive->name);
 		    $renderer->assign($options, "option_");
@@ -92,7 +92,7 @@ class NewsPageController extends \Controller {
                 $column->push('link_news/archive/'.$news->archiveID);
                 $column->push('link_news/');
 
-                $renderer = new DefaultPageRenderer();
+                $renderer = new FrontPageViewModel();
 
 		        $renderer->assign("title", $news->TITLE);
                 $renderer->assign($options, "option_");

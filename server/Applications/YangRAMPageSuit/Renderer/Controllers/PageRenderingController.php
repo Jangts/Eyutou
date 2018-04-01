@@ -9,7 +9,7 @@ use App;
 
 use PM\_PAGES\ColumnModel;
 
-use Pages\Main\Views\DefaultPageRenderer;
+use Pages\Main\Models\FrontPageViewModel;
 use Pages\Main\Models\OptionsModel;
 use Pages\Main\Models\PageModel;
 use Pages\Main\Models\MenuModel;
@@ -19,7 +19,7 @@ class PageRenderingController extends \Controller {
         $options = OptionsModel::autoloadItems();
         $column = new ColumnModel('page_default');
 
-        $renderer = new DefaultPageRenderer();
+        $renderer = new FrontPageViewModel();
 
 		$renderer->assign("title", $options['default_page_title']);
 		$renderer->assign($options, "option_");
@@ -35,7 +35,7 @@ class PageRenderingController extends \Controller {
             return $this->renderDefaultPage();
         }
         $options = OptionsModel::autoloadItems();
-        $renderer = new DefaultPageRenderer();
+        $renderer = new FrontPageViewModel();
         $renderer->using($options['use_theme']);
 
         $patharr = array_reverse($patharr);

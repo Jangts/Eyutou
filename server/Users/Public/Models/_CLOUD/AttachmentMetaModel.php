@@ -21,6 +21,7 @@ final class AttachmentMetaModel extends FileMetaModel {
 		'FILE_TYPE'     	=>  'archive',
 		'FILE_SIZE'     	=>  0,
 		'FILE_EXTN'        	=>  '',
+		'SK_CTIME'   		=>  DATETIME,
 		'SK_MTIME'   		=>  DATETIME,
         'SK_IS_RECYCLED' 	=>  0
 	];

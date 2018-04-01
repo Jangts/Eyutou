@@ -14,7 +14,7 @@ use PM\_1008\CategoryModel;
 use PM\_1008\BrandModel;
 use PM\_1008\TypeModel;
 
-use Pages\Main\Views\DefaultPageRenderer;
+use Pages\Main\Models\FrontPageViewModel;
 use Pages\Main\Models\OptionsModel;
 
 class ProductionsPageController extends \Controller {
@@ -25,7 +25,7 @@ class ProductionsPageController extends \Controller {
         
         // $productions = ProductionModel::getRows(1, 1, ProductionModel::ONSALE, ProductionModel::ID_DESC);
         
-        $renderer = new DefaultPageRenderer();
+        $renderer = new FrontPageViewModel();
 
         // if(count($productions)){
         //     $renderer->assign("title", $productions[0]->type['typename'] . ' | ' . $productions[0]->category['category_name'] . ' | ' . $productions[0]->brand['brand_name']);
