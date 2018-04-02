@@ -58,6 +58,11 @@ class CategoriesAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 			'field_name'	=>	'category_desc',
 			'display_name'	=>	'产品类目描述',
 			'input_type'	=>	'textarea'
+		],
+		[
+			'field_name'	=>	'SK_SORT_NUM',
+			'display_name'	=>	'排序序数',
+			'input_type'	=>	'counter'
 		]
 	],
 	$creater = [

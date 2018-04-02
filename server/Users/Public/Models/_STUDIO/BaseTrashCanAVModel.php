@@ -67,7 +67,8 @@ abstract class BaseTrashCanAVModel extends BaseTableAVModel {
         $items = $modelname::query($require, static::$__sortby, $range);
         $rows = $this->buildTableRows($stagedir, $items, $range);
 
-        $this->assign('classtabs', '');
+        $this->assign('__avmtabs', '');
+        $this->assign('__avmtags', '');
         $this->assign('itemlist', static::buildTable($rows));
         $this->assign('pagelist', self::buildPageList($count));
         $this->template = 'table.html';

@@ -53,7 +53,8 @@ class LinkGroupsAVModel extends \PM\_STUDIO\BaseListAVModel {
 			];
 		}
 
-		$this->assign('classtabs', 	self::buildTabs($basedir));
+		$this->assign('__avmtabs', 	self::buildTabs($basedir));
+		$this->assign('__avmtags', '');
 		$this->assign('itemlist', 	self::buildList($rows));
         
 		

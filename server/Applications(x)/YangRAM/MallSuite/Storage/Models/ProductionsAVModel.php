@@ -7,56 +7,6 @@ use PM\_1008\ProductionTypeModel;
 
 class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 	public static
-	$columns = [
-		[
-			'field_name'	=>	'__index',
-			'display_name'	=>	'序号',
-			'column_type'	=>	'',
-			'classname'		=>	''	
-		],
-		[
-			'field_name'	=>	'name',
-			'sorting_name'	=>	'name_gb',
-			'display_name'	=>	'产品标题',
-			'column_type'	=>	'',
-			'classname'		=>	''	
-		],
-		[
-			'field_name'	=>	'brand',
-			'display_name'	=>	'所属品牌',
-			'column_type'	=>	'',
-			'classname'		=>	''	
-		],
-		[
-			'field_name'	=>	'type',
-			'display_name'	=>	'产品分类',
-			'column_type'	=>	'',
-			'classname'		=>	''	
-		],
-		[
-			'field_name'	=>	'time',
-			'sorting_name'	=>	'ptime',
-			'display_name'	=>	'上架时间',
-			'column_type'	=>	'',
-			'classname'		=>	'',
-			'default'		=>	'未上架'	
-		],
-		[
-			'field_name'	=>	'__count',
-			'display_name'	=>	'点击量',
-			'column_type'	=>	'',
-			'classname'		=>	''	
-		],
-		[
-			'field_name'	=>	'__ops',
-			'display_name'	=>	'操作',
-			'column_type'	=>	'',
-			'classname'		=>	''	
-		]
-	],
-	$creater = [
-		'name'	=>	'发布新品'
-	],
 	$__sorts = [
 		'id'				=>	ProductionModel::ID_ASC,
 		'id_reverse'		=>	ProductionModel::ID_DESC,
@@ -80,11 +30,64 @@ class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
         'pickall'  =>  ProductionModel::ALL,
 	    'onsale'  =>  ProductionModel::ONSALE,
 	    'instorage'  =>  ProductionModel::INSTORAGE,
-    ];
+	];
+
+	public static function loadBrandTabs(){
+		$brands = BrandModel::getALL();
+		$tabs = [];
+		foreach ($brands as $brand) {
+			$tabs['brand'.$brand->id] = [
+				'name'	=>	$brand->brand_name,
+				'title'	=>	empty($brand->brand_desc) ? $brand->brand_name : $brand->brand_desc,
+				'where'	=>	['brand_id'=>$brand->id]
+			];
+		}
+		static::$__avmtabs = $tabs;
+	}
+
+	public static function loadAllTypeTags(){
+		$types = ProductionTypeModel::getALL();
+		$tags = [];
+		foreach ($types as $type) {
+			$brand = $type->getBrand();
+			$tags['type'.$type->id] = [
+				'name'	=>	$brand->brand_name.' / '.$type->typename,
+				'title'	=>	$brand->brand_name.', '.$type->typename,
+				'where'	=>	['type_id'=>$type->id]
+			];
+		}
+		static::$__avmtags = $tags;
+	}
+
+	public static function loadTypeTags($brand_id){
+		$types = ProductionTypeModel::getTypesByBrand($brand_id);
+		if($types = ProductionTypeModel::getTypesByBrand($brand_id)){
+			$tags = [];
+			foreach ($types as $type) {
+				$tags['type'.$type->id] = [
+					'name'	=>	$type->typename,
+					'title'	=>	empty($type->description) ? $type->typename : $type->description,
+					'where'	=>	['type_id'=>$type->id]
+				];
+			}
+			static::$__avmtags = $tags;
+		}
+	}
+
+	public static function loadStaticProperties(){
+		if(
+			is_file($filename = __DIR__.'/avmvar_providers/productions_list.json')
+			&&($vars = json_decode(file_get_contents($filename), true))
+		){
+			self::setStaticProterties($vars);
+		}
+	}
 
 	public function initialize(){
+		static::loadBrandTabs();
+		static::loadStaticProperties();
 		return [
-			'listname'	=>	'产品列表',
+			'listname'	=>	static::$listname,
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',
 			'pagelist'	=>	'<ul><li>1</li></ul>'
 		];
@@ -93,8 +96,21 @@ class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 	public function analysis($admininfo){
 		$range = self::__viewLimit();
 		$orderby = self::__viewOrderBy();
+		if(empty($_GET['tabid'])||empty(static::$__avmtabs[$_GET['tabid']])){
+			$brand_id = NULL;
+			self::loadAllTypeTags();
+        }else{
+			$brand_id = static::$__avmtabs[$_GET['tabid']]['where']['brand_id'];
+			self::loadTypeTags($brand_id);
+		}
+		if(empty($_GET['tagid'])||empty(static::$__avmtags[$_GET['tagid']])){
+            $type_id = NULL;
+        }else{
+			$type_id = static::$__avmtags[$_GET['tagid']]['where']['type_id'];
+		}
+		
 		$count = ProductionModel::getCOUNT(ProductionModel::ONSALE);
-		$productions  = ProductionModel::getRows(NULL, NULL, ProductionModel::ALL, $orderby, $range);
+		$productions  = ProductionModel::getRows($type_id, $brand_id, ProductionModel::ALL, $orderby, $range);
 
 		$rows = [];
 		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
@@ -104,19 +120,20 @@ class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
             $sort = $_GET['sort'];
         }else{
             $sort = '';
-        }
+		}
+
 		foreach($productions as $index=>$production){
 			if($production->category_id&&$production->brand&&$production->type){
 				$itemurl = $basedir.$production->id;
-			$rows[] = [
-				'__index'	=>	[$index + 1],
-				'name'		=>	[$production->name, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
-				'brand'		=>	[$production->brand['brand_name']],
-				'type'		=>	[$production->type['typename']],
-				'time'		=>	[$production->time_onsale],
-				'__count'	=>	[0],
-				'__ops'		=>	['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="/applications/1008/productions/'.$production->id.'" href="javascript:;">移除</a>']
-			];
+				$rows[] = [
+					'__index'	=>	[$index + 1],
+					'name'		=>	[$production->name, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
+					'brand'		=>	[$production->brand['brand_name']],
+					'type'		=>	[$production->type['typename']],
+					'time'		=>	[$production->time_onsale],
+					'__count'	=>	[0],
+					'__ops'		=>	['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="/applications/1008/productions/'.$production->id.'" href="javascript:;">移除</a>']
+				];
 			}else{
 				$production->destroy();
 			}
@@ -124,7 +141,9 @@ class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 		
 		self::$creater['url'] = $basedir;
 
-		$this->assign('classtabs', 	self::buildTabs($stagedir.'/p/productions/'));
+		$this->assign('__avmtabs', 	self::buildTabs($stagedir.'/p/productions/'));
+		$this->assign('__avmtags', 	self::buildTags($stagedir.'/p/productions/'));
+
 		$this->assign('itemlist', 	self::buildTable($rows, $range[2]));
 		$this->assign('pagelist', 	self::buildPageList($count));
 		

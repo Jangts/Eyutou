@@ -38,7 +38,7 @@ abstract class AbstractTableRowsLISTAVModel extends \PM\_STUDIO\BaseTableAVModel
 					'where'	=>	['GROUPID'=>$group->id]
 				];
 			}
-			static::$classtabs = $tabs;
+			static::$__avmtabs = $tabs;
 		}
 	}
 
@@ -72,10 +72,10 @@ abstract class AbstractTableRowsLISTAVModel extends \PM\_STUDIO\BaseTableAVModel
 	public function analysis($admininfo){
 		$range = self::__viewLimit();
 		$orderby = self::__viewOrderBy();
-		if(empty($_GET['tabalias'])||empty(static::$classtabs[$_GET['tabalias']])){
+		if(empty($_GET['tabid'])||empty(static::$__avmtabs[$_GET['tabid']])){
             $group = NULL;
         }else{
-			$group = static::$classtabs[$_GET['tabalias']]['where']['GROUPID'];
+			$group = static::$__avmtabs[$_GET['tabid']]['where']['GROUPID'];
         }
 		$count = TableRowMetaModel::getCOUNT(static::$tablename, $group, TableRowMetaModel::UNRECYCLED);
 		$list  = TableRowModel::getRows(static::$tablename, $group, TableRowMetaModel::UNRECYCLED, $orderby, $range[0], $range[1]);
@@ -91,13 +91,14 @@ abstract class AbstractTableRowsLISTAVModel extends \PM\_STUDIO\BaseTableAVModel
 
 		$rows = $this->buildTableRows($basedir, $list, $range, $sort);
 
-		if(empty($_GET['tabalias'])){
+		if(empty($_GET['tabid'])){
             self::$creater['url'] = $basedir;
         }else{
-            self::$creater['url'] = $basedir.'?tabalias='.$_GET['tabalias'];
+            self::$creater['url'] = $basedir.'?tabid='.$_GET['tabid'];
         }
 
-		$this->assign('classtabs', 	self::buildTabs($stagedir.static::$listurl));
+		$this->assign('__avmtabs', 	self::buildTabs($stagedir.static::$listurl));
+		$this->assign('__avmtags', '');
 		$this->assign('itemlist', 	self::buildTable($rows, $range[2]));
 		$this->assign('pagelist', 	self::buildPageList($count));
 		

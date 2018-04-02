@@ -25,17 +25,9 @@ class BrandsController extends \AF\Controllers\BaseResourcesController {
             $range = self::__standardRangeByOptions($options);
             
             if(isset($options['categories'])){
-                $category_id = $options['categories'];
-                if($category = CategoryModel::byGUID($category_id)){
-                    // 查询类目的所有子类目
-                    // 需要包含自己，所传进去的容器中，包含自己
-                    $categories_ids = $category->getOffspringIds(true);
-                    $types = BrandModel::query("`category_id` IN ('".implode("','", $categories_ids)."')", $order, $range, \Model::LIST_AS_ARRS);
-                }else{
-                    $types = [];
-                }
+                $types = BrandModel::getBrandsByCategory($options['categories'], $order, $range, BrandModel::LIST_AS_ARRS, true);
             }else{
-                $types = BrandModel::query("1 = 1", $order, $range, \Model::LIST_AS_ARRS);
+                $types = BrandModel::query("1 = 1", $order, $range, BrandModel::LIST_AS_ARRS);
             }
             return self::doneResponese($types);
         }

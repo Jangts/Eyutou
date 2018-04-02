@@ -48,6 +48,11 @@ class TypesAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 			'field_name'	=>	'typename',
 			'display_name'	=>	'类型名称',
 			'input_type'	=>	'text'
+		],
+		[
+			'field_name'	=>	'SK_SORT_NUM',
+			'display_name'	=>	'排序序数',
+			'input_type'	=>	'counter'
 		]
 	],
 	$creater = [

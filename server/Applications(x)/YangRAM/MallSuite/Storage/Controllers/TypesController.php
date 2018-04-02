@@ -25,14 +25,9 @@ class TypesController extends \AF\Controllers\BaseResourcesController {
             $range = self::__standardRangeByOptions($options);
             
             if(isset($options['brands'])){
-                $brand_id = $options['brands'];
-                if($brand = BrandModel::byGUID($brand_id)){
-                    $types = ProductionTypeModel::query("`brand_id` = '$brand_id'", $order, $range, \Model::LIST_AS_ARRS);
-                }else{
-                    $types = [];
-                }
+                $types = ProductionTypeModel::getTypesByBrand($options['brands'], $order, $range, ProductionTypeModel::LIST_AS_ARRS);
             }else{
-                $types = ProductionTypeModel::query("1 = 1", $order, $range, \Model::LIST_AS_ARRS);
+                $types = ProductionTypeModel::query("1 = 1", $order, $range, ProductionTypeModel::LIST_AS_ARRS);
             }
             return self::doneResponese($types);
         }

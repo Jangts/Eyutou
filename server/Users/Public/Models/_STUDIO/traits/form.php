@@ -4,7 +4,7 @@ namespace PM\_STUDIO\traits;
 use Lib\models\DocumentElementModel;
 
 trait form {
-	public static $inputs = [],$selectOptions =[];
+	public static $formname, $inputs = [], $selectOptions =[];
 
 	public static function __loadFormInputs(){
         return static::$inputs;

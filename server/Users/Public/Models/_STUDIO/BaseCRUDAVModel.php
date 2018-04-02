@@ -11,10 +11,10 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
     use traits\form;
 
     protected static function __viewWhere(){
-        if(empty($_GET['tabalias'])){
+        if(empty($_GET['tabid'])){
             return [];
         }else{
-            return static::$classtabs[$_GET['tabalias']]['where'];
+            return static::$__avmtabs[$_GET['tabid']]['where'];
         }
         
     }
@@ -87,7 +87,8 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
             $sort = '';
         }
         $rows = $this->buildTableRows($basedir, $items, $range, $sort);
-        $this->assign('classtabs', 	self::buildTabs($basedir));
+        $this->assign('__avmtabs', 	self::buildTabs($basedir));
+        $this->assign('__avmtags', '');
         $this->assign('itemlist', static::buildTable($rows));
         $this->assign('pagelist', self::buildPageList($count));
         $this->template = 'table.html';

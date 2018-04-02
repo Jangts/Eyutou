@@ -90,10 +90,10 @@ class ProjectsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 	public function analysis($admininfo){
 		$range = self::__viewLimit();
 		$orderby = self::__viewOrderBy();
-		if(empty($_GET['tabalias'])||empty(static::$classtabs[$_GET['tabalias']])){
+		if(empty($_GET['tabid'])||empty(static::$__avmtabs[$_GET['tabid']])){
             $folder = NULL;
         }else{
-			$folder = static::$classtabs[$_GET['tabalias']]['where']['FOLDER'];
+			$folder = static::$__avmtabs[$_GET['tabid']]['where']['FOLDER'];
         }
 		$count = TableRowMetaModel::getCOUNT('news', $folder, TableRowMetaModel::UNRECYCLED);
 		$list  = TableRowMetaModel::getRows('news', $folder, TableRowMetaModel::UNRECYCLED, $orderby, $range[0], $range[1]);
@@ -119,14 +119,15 @@ class ProjectsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 			];
 		}
 
-		if(empty($_GET['tabalias'])){
+		if(empty($_GET['tabid'])){
             self::$creater['url'] = $basedir;
         }else{
-            self::$creater['url'] = $basedir.'?tabalias='.$_GET['tabalias'];
+            self::$creater['url'] = $basedir.'?tabid='.$_GET['tabid'];
         }
 		
 
-		$this->assign('classtabs', 	self::buildTabs($stagedir.'/news-list/'));
+		$this->assign('__avmtabs', 	self::buildTabs($stagedir.'/news-list/'));
+		$this->assign('__avmtags', '');
 		$this->assign('itemlist', 	self::buildTable($rows, $range[2]));
 		$this->assign('pagelist', 	self::buildPageList($count));
 		

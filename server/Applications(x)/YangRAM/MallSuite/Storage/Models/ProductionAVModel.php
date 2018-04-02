@@ -7,91 +7,35 @@ use PM\_1008\BrandModel;
 use PM\_1008\ProductionTypeModel;
 
 class ProductionAVModel extends \PM\_STUDIO\BaseFormAVModel {
-	public static $inputs = [
-		[
-			'field_name'	=>	'id',
-			'display_name'	=>	'',
-			'input_type'	=>	'hide'
-		],
-		[
-			'field_name'	=>	'state',
-			'display_name'	=>	'',
-			'input_type'	=>	'hide'
-		],
-		[
-			'field_name'	=>	'time_onsale',
-			'display_name'	=>	'',
-			'input_type'	=>	'hide'
-		],
-		[
-			'field_name'	=>	'name',
-			'display_name'	=>	'产品标题',
-			'input_type'	=>	'text'
-		],
-		[
-			'field_name'	=>	'code',
-			'display_name'	=>	'产品编号',
-			'input_type'	=>	'text'
-		],
-		[
-			'field_name'	=>	'category_id',
-			'display_name'	=>	'产品类目',
-			'input_type'	=>	'select'
-		],
-		[
-			'field_name'	=>	'brand_id',
-			'display_name'	=>	'所属品牌',
-			'input_type'	=>	'select'
-		],
-		[
-			'field_name'	=>	'type_id',
-			'display_name'	=>	'产品类型',
-			'input_type'	=>	'select'
-		],
-		[
-			'field_name'	=>	'image',
-			'display_name'	=>	'产品图片',
-			'input_type'	=>	'avatar'
-		],
-		[
-			'field_name'	=>	'standard',
-			'display_name'	=>	'产品规格',
-			'input_type'	=>	'text'
-		],
-		[
-			'field_name'	=>	'description',
-			'display_name'	=>	'产品SEO描述',
-			'input_type'	=>	'textarea'
-		],
-		[
-			'field_name'	=>	'link',
-			'display_name'	=>	'产品链接',
-			'input_type'	=>	'text'
-		],
-		[
-			'field_name'	=>	'detail',
-			'display_name'	=>	'产品详情描述',
-			'input_type'	=>	'editor'
-		],
-		[
-			'field_name'	=>	'rank',
-			'display_name'	=>	'评星（等数）',
-			'input_type'	=>	'select'
-		]
-	],
-	$selectOptions = [
-		'rank'		=>	[
-			['1', '★（低级）'],
-			['2', '★★（次低级）'],
-			['4', '★★★（中低级）'],
-			['3', '★★★★（中级）'],
-			['5', '★★★★★（中高级，默认）'],
-			['6', '★★★★★★（高级）'],
-			['7', '★★★★★★★（顶级，非置顶勿选）']
-		]
-	];
+	public static function loadBrandTabs(){
+		$brands = BrandModel::getALL();
+		$tabs = [];
+		foreach ($brands as $brand) {
+			$tabs['brand'.$brand->id] = [
+				'name'	=>	$brand->brand_name,
+				'title'	=>	empty($brand->brand_desc) ? $brand->brand_name : $brand->brand_desc,
+				'where'	=>	['brand_id'=>$brand->id]
+			];
+		}
+		static::$__avmtabs = $tabs;
+	}
 
-	
+	public static function loadStaticProperties(){
+		if(
+			is_file($filename = __DIR__.'/avmvar_providers/productions_form.json')
+			&&($vars = json_decode(file_get_contents($filename), true))
+		){
+			self::setStaticProterties($vars);
+		}
+	}
+
+	public function initialize(){
+		static::loadBrandTabs();
+		static::loadStaticProperties();
+		return [
+			'formname'	=>	static::$formname
+		];
+    }
 
 	public function analysis($admininfo){
 		$basedir = $this->request->ARI->dirname.'/'.$this->app->id.'/p/productions/';
@@ -157,7 +101,6 @@ class ProductionAVModel extends \PM\_STUDIO\BaseFormAVModel {
 				
 		static::$selectOptions['type_id'] = $typeOptions;
 
-		$this->assign('formname', '编辑产品信息');
 		$this->assign('form', self::buildForm($production->getArrayCopy(), $method));
 		if(isset($_GET['sort'])){
             $selects = '?sort='. $_GET['sort'];

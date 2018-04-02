@@ -61,7 +61,8 @@ class PluginsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 			];
 		}
 
-		$this->assign('classtabs', 	self::buildTabs($basedir));
+		$this->assign('__avmtabs', 	self::buildTabs($basedir));
+		$this->assign('__avmtags', '');
 		$this->assign('itemlist', self::buildTable($rows));
 		
 		$this->template = 'table.html';

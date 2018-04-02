@@ -48,7 +48,8 @@ class AbstractTableTrashCanAVModel extends \PM\_STUDIO\BaseTrashCanAVModel {
 		$items = TableRowMetaModel::getRows(static::$tablename, NULL, TableRowMetaModel::RECYCLED, static::$__sortby, $range[0], $range[1]);
 		$rows = $this->buildTableRows($stagedir, $items, $range);
 
-		$this->assign('classtabs','');
+		$this->assign('__avmtabs','');
+		$this->assign('__avmtags', '');
         $this->assign('itemlist', static::buildTable($rows));
         $this->assign('pagelist', self::buildPageList($count));
         $this->template = 'table.html';

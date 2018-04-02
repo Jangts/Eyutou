@@ -64,6 +64,11 @@ class BrandsAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 			'field_name'	=>	'brand_desc',
 			'display_name'	=>	'品牌描述',
 			'input_type'	=>	'textarea'
+		],
+		[
+			'field_name'	=>	'SK_SORT_NUM',
+			'display_name'	=>	'排序序数',
+			'input_type'	=>	'counter'
 		]
 	],
 	$creater = [

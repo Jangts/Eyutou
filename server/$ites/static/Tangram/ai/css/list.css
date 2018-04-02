@@ -16,7 +16,7 @@ ul.class-tabs {
 
 ul.class-tabs li.tab-item {
     display: inline-block;
-    width: 96px;
+    min-width: 96px;
     height: 24px;
     line-height: 24px;
     border: solid 1px #999;
@@ -44,6 +44,49 @@ ul.class-tabs li.tab-item i {
 }
 
 ul.class-tabs li.tab-item a {
+    display: block;
+}
+
+ul.class-tags {
+    display: block;
+    margin: 15px 0;
+    padding: 10px;
+    background-color: #eee;
+    border-radius: 5px;
+    text-align: left;
+    font-size: 0;
+    line-height: 0;
+}
+
+ul.class-tags li.tag-item {
+    display: inline-block;
+    height: 18px;
+    margin-right: 10px;
+    padding: 0 7px;
+    line-height: 18px;
+    border: solid 1px #ccc;
+    background-color: #fff;
+    border-radius: 2px;
+    font-size: 12px;
+    color: #888;
+    overflow: hidden;
+    text-align: center;
+}
+
+ul.class-tags li.tag-item:hover {
+    border: solid 1px #9cf;
+    box-shadow: 1px 1px 2px #ccc;
+}
+
+ul.class-tags li.tag-item i {
+    display: block;
+    border: solid 1px #999;
+    background-color: #999;
+    color: #fff;
+    cursor: default;
+}
+
+ul.class-tags li.tag-item a {
     display: block;
 }
 

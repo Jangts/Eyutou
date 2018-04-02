@@ -9,8 +9,10 @@ use Lib\models\PageListModel;
 
 abstract class BaseListAVModel extends BaseAdminViewModel {
     protected static
+    $listname = NULL,
     // 分类标签
-    $classtabs = [],
+    $__avmtabs = [],
+    $__avmtags = [],
     // 单页数量
     $prepage = 20,
     // 排序方式别名映射表
@@ -52,27 +54,45 @@ abstract class BaseListAVModel extends BaseAdminViewModel {
     }
 
     public static function buildTabs($basedir){
-        if(empty(static::$classtabs)){
+        if(empty(static::$__avmtabs)){
             return '';
         }
         $tabs = new DocumentElementModel('ul');
         $tabs->addClass('class-tabs');
-        if(empty($_GET['tabalias'])){
+        if(empty($_GET['tabid'])){
             $li = new DocumentElementModel('li.tab-item', '<i>全部</i>');
         }else{
             $li = new DocumentElementModel('li.tab-item', '<a href="'.$basedir.'" title="全部">全部</a>');
         }
         $tabs->appendElement($li);
-        foreach(static::$classtabs as $alias=>$tab){
-            if(isset($_GET['tabalias'])&&$_GET['tabalias']===$alias){
+        foreach(static::$__avmtabs as $alias=>$tab){
+            if(isset($_GET['tabid'])&&$_GET['tabid']===$alias){
                 $li = new DocumentElementModel('li.tab-item', '<i>'.$tab['name'].'</i>');
             }else{
                 $title = empty($tab['title']) ? $tab['name'] : $tab['title'];
-                $li = new DocumentElementModel('li.tab-item', '<a href="'.$basedir.'?tabalias='.$alias.'" title="'.$title.'">'.$tab['name'].'</a>');
+                $li = new DocumentElementModel('li.tab-item', '<a href="'.$basedir.'?tabid='.$alias.'" title="'.$title.'">'.$tab['name'].'</a>');
             }
             $tabs->appendElement($li);
         }
         return $tabs->str();
+    }
+
+    public static function buildTags($basedir){
+        if(empty(static::$__avmtags)){
+            return '';
+        }
+        $tags = new DocumentElementModel('ul');
+        $tags->addClass('class-tags');
+        foreach(static::$__avmtags as $alias=>$tag){
+            if(isset($_GET['tagid'])&&$_GET['tagid']===$alias){
+                $li = new DocumentElementModel('li.tag-item', '<i>'.$tag['name'].'</i>');
+            }else{
+                $title = empty($tag['title']) ? $tag['name'] : $tag['title'];
+                $li = new DocumentElementModel('li.tag-item', '<a href="'.$basedir.'?tagid='.$alias.'" title="'.$title.'">'.$tag['name'].'</a>');
+            }
+            $tags->appendElement($li);
+        }
+        return $tags->str();
     }
 
     public static function buildList($inputs){

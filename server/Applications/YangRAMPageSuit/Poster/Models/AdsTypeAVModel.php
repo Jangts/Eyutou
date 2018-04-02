@@ -49,8 +49,8 @@ abstract class AdsTypeAVModel extends \PM\_STUDIO\BaseFormAVModel {
         }else{
             $selects .= '&page=';
 		}
-		if(isset($_GET['tabalias'])){
-            $selects .= '&tabalias='. $_GET['tabalias'];
+		if(isset($_GET['tabid'])){
+            $selects .= '&tabid='. $_GET['tabid'];
         }
 		$this->assign('buttons', [
 			[

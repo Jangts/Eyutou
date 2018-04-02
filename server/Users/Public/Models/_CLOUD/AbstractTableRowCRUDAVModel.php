@@ -11,6 +11,20 @@ abstract class AbstractTableRowCRUDAVModel extends \PM\_STUDIO\BaseFormAVModel {
 	$itemname = '',
 	$listurl = '';
 
+	public static function loadGroupTabs(){
+		if($groups = TRGroupModel::getGroupsByTableName(static::$tablename)){
+			$tabs = [];
+			foreach ($groups as $group) {
+				$tabs['group'.$group->id] = [
+					'name'	=>	$group->name,
+					'title'	=>	empty($group->description) ? $group->name : $group->description,
+					'where'	=>	['GROUPID'=>$group->id]
+				];
+			}
+			static::$__avmtabs = $tabs;
+		}
+	}
+
 	public static function loadStaticProperties(){
 		if(
 			($table = TableMetaModel::byGUID(static::$tablename))
@@ -26,6 +40,7 @@ abstract class AbstractTableRowCRUDAVModel extends \PM\_STUDIO\BaseFormAVModel {
 			// new Status(1414, '', 'must have static property "tablename".');
 			static::$tablename = $this->request->ARI->patharr[1];
 		}
+		static::loadGroupTabs();
 		static::loadStaticProperties();
 		if(empty(static::$itemname)){
 			$table = TableMetaModel::byGUID(static::$tablename);
@@ -35,9 +50,7 @@ abstract class AbstractTableRowCRUDAVModel extends \PM\_STUDIO\BaseFormAVModel {
 			static::$listurl = '/'.$this->request->ARI->patharr[1].'/'.static::$tablename.'/';
 		}
 		return [
-			'formname'	=>	static::$formname,
-			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',
-			'pagelist'	=>	'<ul><li>1</li></ul>'
+			'formname'	=>	static::$formname
 		];
     }
 
@@ -64,8 +77,8 @@ abstract class AbstractTableRowCRUDAVModel extends \PM\_STUDIO\BaseFormAVModel {
 		}else{
 			$guid = 0;
 			$news = TableRowModel::create(['tablename' => static::$tablename]);
-			if(isset($_GET['tabalias'])&&is_array(newsListAVModel::$classtabs[$_GET['tabalias']])){
-				foreach(newsListAVModel::$classtabs[$_GET['tabalias']]['where'] as $prop=>$value){
+			if(isset($_GET['tabid'])&&is_array(self::$__avmtabs[$_GET['tabid']])){
+				foreach(self::$__avmtabs[$_GET['tabid']]['where'] as $prop=>$value){
 					$news->__set($prop, $value);
 				}
 			}
@@ -91,8 +104,8 @@ abstract class AbstractTableRowCRUDAVModel extends \PM\_STUDIO\BaseFormAVModel {
         }else{
             $selects .= '&page=';
 		}
-		if(isset($_GET['tabalias'])){
-            $selects .= '&tabalias='. $_GET['tabalias'];
+		if(isset($_GET['tabid'])){
+            $selects .= '&tabid='. $_GET['tabid'];
         }
 		$this->assign('buttons', [
 			[

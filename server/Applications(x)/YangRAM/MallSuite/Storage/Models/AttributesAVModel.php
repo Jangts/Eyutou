@@ -3,7 +3,7 @@ namespace Goods\Models;
 
 use PM\_1008\CategoryModel;
 
-class  extends \PM\_STUDIO\BaseCRUDAVModel {
+class AttributesAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 	public static
 	$model = 'PM\_1008\CategoryAttrModel',
 	$columns = [

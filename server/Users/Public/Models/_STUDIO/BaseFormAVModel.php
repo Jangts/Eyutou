@@ -11,4 +11,5 @@ use Lib\models\DocumentElementModel;
 
 abstract class BaseFormAVModel extends BaseAdminViewModel {
 	use traits\form;
+	public static $__avmtabs = [];
 }

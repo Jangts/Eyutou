@@ -13,8 +13,8 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 	const
 	ID_DESC = [['id', true, self::SORT_REGULAR]],
 	ID_ASC = [['id', false, self::SORT_REGULAR]],
-	SORT_DESC = [['sortno', true, self::SORT_REGULAR]],
-	SORT_ASC = [['sortno', false, self::SORT_REGULAR]],
+	SORT_DESC = [['SK_SORT_NUM', true, self::SORT_REGULAR]],
+	SORT_ASC = [['SK_SORT_NUM', false, self::SORT_REGULAR]],
 	MTIME_DESC = [['SK_MTIME', true, self::SORT_REGULAR]],
 	MTIME_ASC = [['SK_MTIME', false, self::SORT_REGULAR]],
 	NAME_DESC = [['name', true, self::SORT_REGULAR]],
@@ -39,7 +39,7 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 		'name'				=>	self::NEW_ITEM_NAME,
 		'description'		=>	'',
 		'parent'		    =>	6,
-		'sortno'			=>	0,
+		'SK_SORT_NUM'			=>	0,
 		'SK_IS_RECYCLED'	=>	0,
 		'SK_MTIME'			=>	DATETIME
 	];
@@ -116,7 +116,7 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 	 */
     public static function getDefaultGroup($tablename){
 		if(is_string($tablename)&&$tablename&&($tablemeta = TableMetaModel::byGUID($tablename))){
-			$array = self::query("`tablename` = '$tablename' AND `parent` = 0 AND `SK_IS_RECYCLED` = 0" , [['sortno', false, self::SORT_REGULAR], ['id', false, self::SORT_REGULAR]], 1);
+			$array = self::query("`tablename` = '$tablename' AND `parent` = 0 AND `SK_IS_RECYCLED` = 0" , [['SK_SORT_NUM', false, self::SORT_REGULAR], ['id', false, self::SORT_REGULAR]], 1);
 			if($array&&isset($array[0])){
 				return $array[0];
 			}

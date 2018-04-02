@@ -22,7 +22,8 @@ class PositionsRecycleAVModel extends \PM\_STUDIO\BaseTrashCanAVModel {
 		$items = TableRowModel::getRows('positions', NULL, TableRowMetaModel::RECYCLED, static::$__sortby, $range[0], $range[1]);
 		$rows = $this->buildTableRows($stagedir, $items);
 
-		$this->assign('classtabs','');
+		$this->assign('__avmtabs','');
+		$this->assign('__avmtags', '');
         $this->assign('itemlist', static::buildTable($rows, $range));
         $this->assign('pagelist', self::buildPageList($count));
         $this->template = 'table.html';
