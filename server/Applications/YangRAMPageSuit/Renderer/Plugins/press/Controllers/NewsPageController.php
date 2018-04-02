@@ -89,7 +89,7 @@ class NewsPageController extends \Controller {
             if($news = TableRowModel::byGUID($id)){
                 $options = OptionsModel::autoloadItems();
                 $column = new ColumnModel('link_news/detail/'.$id);
-                $column->push('link_news/archive/'.$news->archiveID);
+                $column->push('link_news/archive/'.$news->GROUPID);
                 $column->push('link_news/');
 
                 $renderer = new FrontPageViewModel();
@@ -99,7 +99,9 @@ class NewsPageController extends \Controller {
                 $renderer->assign($news->getArrayCopy(), "");
                 $renderer->assign("column", $column);
                 $renderer->assign("tablemeta", TableMetaModel::byGUID($news->TABLENAME));
-                $renderer->assign("archive", TRGroupModel::byGUID($news->archiveID));
+                $renderer->assign("archive", TRGroupModel::byGUID($news->GROUPID));
+                // var_dump(\DBQ::$qs, $news, $renderer->archive);
+                // exit;
 		
                 $renderer->using($options['use_theme']);
 

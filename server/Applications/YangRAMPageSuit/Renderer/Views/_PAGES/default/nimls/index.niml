@@ -30,7 +30,7 @@
             </article>
         </div>
         <div class="index-news">
-            <header><a href=""><span>NEWS</span>新闻中心</a></header>
+            <header><a href="/news/"><span>NEWS</span>新闻中心</a></header>
             <article class="index-news-arti">
                 <aside>
                     <p class="index-news-year">{@year}</p>

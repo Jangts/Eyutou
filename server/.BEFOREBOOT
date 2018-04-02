@@ -60,7 +60,7 @@ define('S_RPN',   	    '/YangRAM/');                           // Writeable
 // 1. 系统前端文件包存放目录
 // 2. 应用生成静态文件存放目录，便于静态文件快速访问
 // 3. 安装其他独立应用，这些应用不依赖TNI框架，可直接通过URL访问
-define('SIS_RPN',   	'/$ites/');                             // Writeable
+define('SIS_RPN',   	'/$/');                                // Writeable
 
 /** Defined relative pathname for app framework and locale language files. */
 // 应用框架目录

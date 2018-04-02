@@ -41,6 +41,8 @@ class RDBQuerier {
         'IS NOT'    =>  'IS NOT'
     ];
 
+    public static $qs = [];
+
     protected
     $pdox = NULL,
 	$tables = [],
@@ -366,7 +368,7 @@ class RDBQuerier {
             }
         }
         $sql = $this->getQuerySelectString();
-        $this->lastQueryString = $sql;
+        self::$qs[] = $this->lastQueryString = $sql;
         return self::query($sql, $this->pdox);
     }
     
@@ -411,7 +413,7 @@ class RDBQuerier {
         $this->start = 0;
         $this->length = 0;
         $sql = $this->getQuerySelectString();
-        $this->lastQueryString = $sql;
+        self::$qs[] = $this->lastQueryString = $sql;
         if($result = $this->pdox->query($sql)){
             return intval($result->fetchColumn());
         }
@@ -442,7 +444,7 @@ class RDBQuerier {
             $sql .= " INTO `".self::escape($this->tables[0])."` $keys VALUES $vals;";
             if($this->insertPrepare['queryString']!=$sql){
                 $this->insertPrepare['queryString'] = $sql;
-                $this->lastQueryString = $sql;
+                self::$qs[] = $this->lastQueryString = $sql;
                 $this->insertPrepare['PDOStatement'] = $this->pdox->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
             }
             if($this->insertPrepare['PDOStatement']){
@@ -484,7 +486,7 @@ class RDBQuerier {
             $sql .= " INTO `".self::escape($this->tables[0])."` $keys VALUES $vals;";
             if($this->insertPrepare['queryString']!=$sql){
                 $this->insertPrepare['queryString'] = $sql;
-                $this->lastQueryString = $sql;
+                self::$qs[] = $this->lastQueryString = $sql;
                 $this->insertPrepare['PDOStatement'] = $this->pdox->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
             }
             if($this->insertPrepare['PDOStatement']){
@@ -538,7 +540,7 @@ class RDBQuerier {
                 $sql = "UPDATE `%s` SET %s WHERE %s";
                 $data = $this->updateString($data);
                 $sql = sprintf($sql, self::escape($this->tables[0]), $data, self::escape($this->condition()));
-               $this->lastQueryString = $sql;
+               self::$qs[] = $this->lastQueryString = $sql;
                 $num = $this->pdox->exec($sql);
                 if(is_numeric($num)){
                     return $num;
@@ -566,7 +568,7 @@ class RDBQuerier {
         $this->tables==NULL && die("No Database Table");
         if(self::writeable($this->tables[0])){
             $sql = sprintf(self::SQL_DELETE, $this->tables[0], $this->condition());
-            $this->lastQueryString = $sql;
+            self::$qs[] = $this->lastQueryString = $sql;
             $num = $this->pdox->exec($sql);
             if(is_numeric($num)){
                 return $num;

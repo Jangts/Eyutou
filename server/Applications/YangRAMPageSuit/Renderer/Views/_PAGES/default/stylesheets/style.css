@@ -14,6 +14,10 @@ body {
     width: 100%;
     height: auto;
     background-color: #f7f7f7;
+}
+
+body {
+    font-family: "Segoe UI", "Microsoft Yahei UI", "Microsoft Yahei", "Microsoft Sans Serif", "HanHei SC", PingHei, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
 }
 
@@ -24,6 +28,7 @@ body {
     width: 1236px;
     height: auto;
     margin: auto;
+    font-size: 0.875rem;
 }
 
 .header {
@@ -199,7 +204,7 @@ body {
     font-size: 12px;
     color: #7f7f7f;
     text-align: justify;
-    text-indent: 24px;
+    /* text-indent: 24px; */
     letter-spacing: 1px;
 }
 
@@ -216,6 +221,7 @@ body {
     line-height: 26px;
     color: #888888;
     font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 
@@ -379,7 +385,7 @@ p.index-news-date {
     position: relative;
     width: 196px;
     height: 220px;
-    margin: 12px 0;
+    margin: 0 0 30px;
     cursor: pointer;
     text-align: center;
 }
@@ -476,6 +482,10 @@ p.index-news-date {
     color: #6e6e6e;
 }
 
+.product-info div {
+    /* text-indent: 24px; */
+}
+
 .product-info h1 {
     margin-bottom: 18px;
     line-height: 40px;
@@ -545,7 +555,7 @@ a.go2buy {
     line-height: 27px;
     font-size: 12px;
     color: #3e3a39;
-    text-indent: 24px;
+    /* text-indent: 24px; */
     margin-bottom: 10px;
 }
 

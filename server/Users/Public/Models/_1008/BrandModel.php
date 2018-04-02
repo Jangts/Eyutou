@@ -42,7 +42,7 @@ class BrandModel extends BaseR3Model {
         return self::$staticQuerier->using(self::$staticTablrnamePrefix.self::$tablenameAlias);
     }
 
-    public static function getBrandsByCategory($category_id, array $orderby = [['1', false, self::SORT_REGULAR]], $range = 0, $returnFormat = self::LIST_AS_OBJS, $containChildCategories = false){
+    public static function getBrandsByCategory($category_id, array $orderby = [['SK_SORT_NUM', false, self::SORT_REGULAR]], $range = 0, $returnFormat = self::LIST_AS_OBJS, $containChildCategories = false){
         if($category = CategoryModel::byGUID($category_id)){
             // 查询类目的所有子类目
             // 需要包含自己，所传进去的容器中，包含自己

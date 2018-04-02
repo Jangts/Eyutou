@@ -40,7 +40,7 @@ class ProductionTypeModel extends BaseR3Model {
         return self::$staticQuerier->using(self::$staticTablrnamePrefix.self::$tablenameAlias);
     }
 
-    public static function getTypesByBrand($brand_id, array $orderby = [['1', false, self::SORT_REGULAR]], $range = 0, $returnFormat = self::LIST_AS_OBJS){
+    public static function getTypesByBrand($brand_id, array $orderby = [['SK_SORT_NUM', false, self::SORT_REGULAR]], $range = 0, $returnFormat = self::LIST_AS_OBJS){
         if($brand = BrandModel::byGUID($brand_id)){
             return ProductionTypeModel::query("`brand_id` = '$brand_id'", $orderby, $range, $returnFormat);
         }
