@@ -74,7 +74,7 @@ class ProductionsController extends \AF\Controllers\BaseResourcesController {
             if(isset($options['pick'])&&isset(self::$__picks[$options['pick']])){
                 $state = self::$__picks[$options['pick']];
             }else{
-                $state = ProductionModel::ALL;
+                $state = ProductionModel::ONSALE;
             }
             if(isset($options['categories'])){
                 $category = $options['categories'];

@@ -28,7 +28,14 @@
         "name": "插件管理",
         "group": "pages/plugins",
         "link": "pages/plugins/plugins/"
-    }, {
+    },
+    {
+        "icon": "pencil",
+        "name": "模板管理",
+        "group": "pagedesigner/tpl",
+        "link": "pagedesigner/tpl/templates/"
+    },
+    {
         "icon": "pencil",
         "name": "管理页面广告",
         "group": "pageads/ads",
@@ -73,11 +80,18 @@
         "name": "类型管理",
         "group": "1008/t",
         "link": "1008/t/types/"
-    }, {
+    },
+    {
         "icon": "pencil",
         "name": "产品管理",
         "group": "1008/p",
         "link": "1008/p/productions/"
+    },
+    {
+        "icon": "pencil",
+        "name": "产品仓库",
+        "group": "1008/s",
+        "link": "1008/s/productions-storage/"
     }]
 }, {
     "groupname": "招聘",

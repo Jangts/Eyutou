@@ -94,7 +94,7 @@ abstract class NIML_SyntacticAnalyzer {
 		foreach ($segments as $segment) {
 			$segment = preg_replace('/>[\r\n\s]+/', '>', $segment);
 			$segment = preg_replace('/\s*\/\s*>\s*/', '>', $segment);
-			$segment = preg_replace('/<!--.*?-->/', '', $segment);
+			$segment = preg_replace('/<!--[\s\S]*?-->/', '', $segment);
 			$segment = preg_replace('/\/\s*>/', '\>', $segment);
 			if(substr($segment, 0, 1 )===':'){
 				//$segment = $this->escape($segment);

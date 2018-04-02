@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>{{$page.title}} - 代加工服务</title>
+    <meta name="viewport" content="width=1236, minimum-scale=0.1, maximum-scale=1,user-scalable=no" />
     <link rel="stylesheet" type="text/css" href="{{$__theme}}stylesheets/style.css" />
     <script src="{{$__static}}Tangram/tangram.js/src/tangram.js" use-debug-mode></script>
     <script src="{{$__theme}}scripts/common.js"></script>

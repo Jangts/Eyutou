@@ -1,5 +1,5 @@
 {
-    "listname": "产品列表",
+    "listname": "在售产品列表",
     "columns": [{
             "field_name": "__index",
             "display_name": "序号",

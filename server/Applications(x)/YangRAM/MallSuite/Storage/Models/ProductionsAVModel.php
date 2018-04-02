@@ -25,12 +25,7 @@ class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 		'name_gb'			=>	ProductionModel::NAME_ASC_GBK,
 		'name_gb_reverse'	=>	ProductionModel::NAME_DESC_GBK
 	],
-	$__sortby = ProductionModel::ID_DESC,
-	$__picks = [
-        'pickall'  =>  ProductionModel::ALL,
-	    'onsale'  =>  ProductionModel::ONSALE,
-	    'instorage'  =>  ProductionModel::INSTORAGE,
-	];
+	$__sortby = ProductionModel::ID_DESC;
 
 	public static function loadBrandTabs(){
 		$brands = BrandModel::getALL();
@@ -91,28 +86,18 @@ class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',
 			'pagelist'	=>	'<ul><li>1</li></ul>'
 		];
-    }
+	}
 
 	public function analysis($admininfo){
 		$range = self::__viewLimit();
 		$orderby = self::__viewOrderBy();
-		if(empty($_GET['tabid'])||empty(static::$__avmtabs[$_GET['tabid']])){
-			$brand_id = NULL;
-			self::loadAllTypeTags();
-        }else{
-			$brand_id = static::$__avmtabs[$_GET['tabid']]['where']['brand_id'];
-			self::loadTypeTags($brand_id);
-		}
-		if(empty($_GET['tagid'])||empty(static::$__avmtags[$_GET['tagid']])){
-            $type_id = NULL;
-        }else{
-			$type_id = static::$__avmtags[$_GET['tagid']]['where']['type_id'];
-		}
 		
-		$count = ProductionModel::getCOUNT(ProductionModel::ONSALE);
-		$productions  = ProductionModel::getRows($type_id, $brand_id, ProductionModel::ALL, $orderby, $range);
+		self::loadAllTypeTags();
+		list($require, $type_id, $brand_id) = $this->conditions(ProductionModel::ONSALE);
+		
+		$count = ProductionModel::getCOUNT($require);
+		$productions  = ProductionModel::getRows($type_id, $brand_id, ProductionModel::ONSALE, $orderby, $range);
 
-		$rows = [];
 		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
 		$basedir = $stagedir.'/p/production/';
 
@@ -121,7 +106,50 @@ class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
         }else{
             $sort = '';
 		}
+		$rows = $this->buildTableRows($basedir, $productions, $range, $sort);
+		
+		self::$creater['url'] = $basedir;
 
+		$this->assign('__avmtabs', 	self::buildTabs($stagedir.'/p/productions/'));
+		$this->assign('__avmtags', 	self::buildTags($stagedir.'/p/productions/'));
+
+		$this->assign('itemlist', 	self::buildTable($rows, $range[2]));
+		$this->assign('pagelist', 	self::buildPageList($count));
+		
+		$this->template = 'table.html';
+		return $this;
+	}
+
+	protected function conditions($require){
+		if(empty($_GET['tagid'])||empty(static::$__avmtags[$_GET['tagid']])){
+			$type_id = NULL;
+			if(empty($_GET['tabid'])||empty(static::$__avmtabs[$_GET['tabid']])){
+				$brand_id = NULL;
+			}else{
+				$brand_id = static::$__avmtabs[$_GET['tabid']]['where']['brand_id'];
+				self::loadTypeTags($brand_id);
+				$require = array_merge(static::$__avmtabs[$_GET['tabid']]['where'], ProductionModel::ONSALE);
+			}
+        }else{
+			$type_id = static::$__avmtags[$_GET['tagid']]['where']['type_id'];
+			if($type = ProductionTypeModel::byGUID($type_id)){
+				$_GET['tabid'] = 'brand'.$type->brand_id;
+				self::loadTypeTags($brand_id = $type->brand_id);
+				$require = array_merge([
+					'type_id'	=>	$type_id,
+					'brand_id'	=>	$brand_id
+				], ProductionModel::ONSALE);
+			}else{
+				$type_id = NULL;
+				$brand_id = NULL;
+				unset($_GET['tagid']);
+			}
+		}
+		return [$require, $type_id, $brand_id];
+	}
+
+	protected function buildTableRows($basedir, $productions, array $range = [0, 0, 1], $sort = ''){
+        $rows = [];
 		foreach($productions as $index=>$production){
 			if($production->category_id&&$production->brand&&$production->type){
 				$itemurl = $basedir.$production->id;
@@ -138,16 +166,6 @@ class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 				$production->destroy();
 			}
 		}
-		
-		self::$creater['url'] = $basedir;
-
-		$this->assign('__avmtabs', 	self::buildTabs($stagedir.'/p/productions/'));
-		$this->assign('__avmtags', 	self::buildTags($stagedir.'/p/productions/'));
-
-		$this->assign('itemlist', 	self::buildTable($rows, $range[2]));
-		$this->assign('pagelist', 	self::buildPageList($count));
-		
-		$this->template = 'table.html';
-		return $this;
-	}
+		return $rows;
+    }
 }

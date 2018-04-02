@@ -365,7 +365,8 @@ class FileMetaModel extends BaseCloudItemModel {
 		$this->correctFolder();
 		// 矫正文件名
 		$this->modelProperties['FILE_NAME'] = static::correctFileName($this->modelProperties['FILE_NAME'], $this->modelProperties['FILE_EXTN'], $this->modelProperties['FOLDER'], $this->modelProperties['ID']);
-		// 更新修改时间
+		// 创建与修改时间
+		$this->modelProperties['SK_CTIME']   =	DATETIME;
 		$this->modelProperties['SK_MTIME']   =	DATETIME;
         if(!$querier->insert($this->modelProperties)){
             return false;

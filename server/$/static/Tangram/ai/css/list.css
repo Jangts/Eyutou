@@ -61,7 +61,7 @@ ul.class-tags {
 ul.class-tags li.tag-item {
     display: inline-block;
     height: 18px;
-    margin-right: 10px;
+    margin: 4px 5px;
     padding: 0 7px;
     line-height: 18px;
     border: solid 1px #ccc;
@@ -79,15 +79,8 @@ ul.class-tags li.tag-item:hover {
 }
 
 ul.class-tags li.tag-item i {
-    display: block;
-    border: solid 1px #999;
-    background-color: #999;
-    color: #fff;
+    color: #69f;
     cursor: default;
-}
-
-ul.class-tags li.tag-item a {
-    display: block;
 }
 
 .action-container header.listname {

@@ -23,8 +23,7 @@ class FileSourceModel extends BaseCloudItemModel {
         'IMAGE_SIZE'        =>  '',
         'WIDTH'             =>  0,
         'HEIGHT'            =>  0,
-        'DURATION'          =>  0,
-        'SK_CTIME'       =>  DATETIME
+        'DURATION'          =>  0
     ];
 
     protected static function moveUploadedFile($type, $input, $extn){
@@ -205,7 +204,6 @@ class FileSourceModel extends BaseCloudItemModel {
     protected function __insert(){
         $querier = static::$staticQuerier;
         unset($this->modelProperties['SID']);
-        $this->modelProperties['SK_CTIME']   =	DATETIME;
         if(!$querier->insert($this->modelProperties)){
             return false;
         }

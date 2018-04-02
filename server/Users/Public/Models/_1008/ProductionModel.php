@@ -10,9 +10,9 @@ class ProductionModel extends Model {
     use \AF\Models\traits\querying;
 
     const
-	ALL = '1 = 1',
-	ONSALE = 'state = 1',
-	INSTORAGE = 'state = 0',
+	ALL =       0,
+	ONSALE =    ['state'       =>  1],
+	INSTORAGE = ['state'    =>  0],
 
 	ID_DESC = [['id', true, self::SORT_REGULAR]],
 	ID_ASC = [['id', false, self::SORT_REGULAR]],
