@@ -1,4 +1,3 @@
-
 <?php
 namespace CTH\Jobs\Models;
 
@@ -6,7 +5,7 @@ use PM\_CLOUD\TRGroupModel;
 use PM\_CLOUD\TableRowModel;
 use PM\_CLOUD\TableRowMetaModel;
 
-class  extends \PM\_STUDIO\BaseTrashCanAVModel {
+class PositionsRecycleAVModel extends \PM\_STUDIO\BaseTrashCanAVModel {
 	public static
 	$__sortby = TableRowMetaModel::MTIME_DESC;
 

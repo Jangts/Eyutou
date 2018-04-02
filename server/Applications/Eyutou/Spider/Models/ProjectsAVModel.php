@@ -80,24 +80,6 @@ class ProjectsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 	$__sortby = TableRowMetaModel::PUBTIME_DESC;
 
     public function initialize(){
-        if(!static::$staticVasInited){
-            // static::$classtabs = [
-            //     'jtxw'	=>	[
-            //         'name'	=>	'集团新闻',
-            //         'title'	=>	'集团新闻',
-            //         'where'	=>	[
-            //             'FOLDER'	=>	7
-            //         ]
-            //     ],
-            //     'hydt'	=>	[
-            //         'name'	=>	'行业动态',
-            //         'title'	=>	'行业动态',
-            //         'where'	=>	[
-            //             'FOLDER'	=>	8
-            //         ]
-            //     ]
-            // ];
-        }
 		return [
 			'listname'	=>	'新闻列表',
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',

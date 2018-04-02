@@ -78,7 +78,7 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
         $modelname::__correctTablePrefix($this->app);
         $items = $modelname::query($require, $orderby, $range);
         $count = $modelname::getCOUNT($require);
-        if(isset(static::$creater)){
+        if(static::$creater){
             static::$creater['url'] =  static::__createURL($basedir);
         }
         if(isset($_GET['sort'])){

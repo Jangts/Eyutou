@@ -2,7 +2,10 @@
 namespace PM\_CLOUD\traits;
 
 use PDO;
+use DBQ;
 use Model;
+use PM\_CLOUD\TableMetaModel;
+use PM\_CLOUD\TRGroupModel;
 use PM\_CLOUD\TableRowMetaModel;
 
 trait trmm_collecting {
@@ -77,8 +80,7 @@ trait trmm_collecting {
 				}
 			}
 		}
-		$result = self::getQuery($tablename, $group_id, $state, $orderby, $start, $num)->select();
-    	if($result){
+    	if($result=self::getQuery($tablename, $group_id, $state, $orderby, $start, $num)->select()){
 			return self::decodeReturnRows($result, $returnFormat);
 		}
         return [];
@@ -218,8 +220,8 @@ trait trmm_collecting {
 	public static function getRowsByTagName($tag, $class = NULL, array $orderby = self::ID_ASC, $range = 0, $returnFormat = Model::LIST_AS_OBJS){
 		if(is_string($tag)){
 			if(is_numeric($class)&&$class!='0'){
-				$group_id = TRGroupModel::byGUID($class);
-				$tablename = $group_id->tablename;
+				$group = TRGroupModel::byGUID($class);
+				$tablename = $group->tablename;
 			}elseif(is_string($class)){
 				$tablename = $class;
 			}
@@ -300,57 +302,73 @@ trait trm_collecting {
      * 按条件和附加条件获取列表
      */
     public static function selectRows($tablename, $group_id = NULL, array $notnulls = [], $select = '*', array $orderby = TableRowMetaModel::ID_DESC, $start = 0, $num = 18, $format = Model::LIST_AS_OBJS){
-        if(count($notnulls)&&is_string($tablename)){
-            $objs = [];
-            $querier = TableRowMetaModel::getQuery($tablename, $group_id, TableRowMetaModel::PUBLISHED, $orderby, $start, $num)->switchTable(RDO::multtable([
-                'table' =>  DB_YUN.'schema_'.$tablename,
-                'field' =>  'ID',
-                'as'    =>  'A'
-            ], [
-                'table' =>  DB_YUN.'tablerowmeta',
-                'field' =>  'ID',
-                'as'    =>  'B'
-            ]));
-            foreach ($notnulls as $field) {
-                $querier->where($field, '', '<>');
-            }
-            $result = $querier->select($select);
-            if($result){
-			    if($format===Model::LIST_AS_ARRS){
-                    return array_map(function($modelProperties){
-						return array_map('htmlspecialchars_decode', $modelProperties);
-					}, $result->getArrayCopy());
-                }
-                $pdos = $result->getIterator();
-                while($pdos&&$rows = $pdos->fetch(PDO::FETCH_ASSOC)){
-                    $modelProperties = self::getExtendedAttributes(array_map('htmlspecialchars_decode', $rows ));
-                    $obj = new static;
-                    $obj->meta = TableRowMetaModel::byGUID($modelProperties['ID']);
-                    $objs[] = $obj->__put($modelProperties, true);
-                }
-            }
-            $querier->switchTable(DB_YUN.'tablerowmeta');
-            return $objs;
+		if(!is_string($tablename)){
+			if($group_id&&($group = TRGroupModel::byGUID($group_id))){
+				$tablename = $group->tablename;
+			}else{
+				return [];
+			}
+		}
+		if($table = TableMetaModel::byGUID($tablename)){
+			$type = $table->type;
+		}else{
+			return [];
+		}
+		
+		$objs = [];
+        $querier = TableRowMetaModel::getQuery($tablename, $group_id, TableRowMetaModel::PUBLISHED, $orderby, $start, $num)->switchTable(DBQ::multtable([
+            'table' =>  DB_YUN.'schema_'.$type,
+            'field' =>  'ID',
+            'as'    =>  'A'
+        ], [
+            'table' =>  DB_YUN.'tablerowmeta',
+            'field' =>  'ID',
+            'as'    =>  'B'
+        ]));
+        foreach ($notnulls as $field) {
+            $querier->where($field, '', '<>');
         }
-        return [];
+        $result = $querier->select($select);
+        if($result){
+			if($format===Model::LIST_AS_ARRS){
+                return array_map(function($modelProperties){
+					return array_map('htmlspecialchars_decode', $modelProperties);
+				}, $result->getArrayCopy());
+			}
+			$props = self::getFullDefaultPropertyValues($tablename);
+            $attrRestraint = $props[2];
+            
+			$pdos = $result->getIterator();
+            while($pdos&&$rows = $pdos->fetch(PDO::FETCH_ASSOC)){
+                $modelProperties = self::getExtendedAttributes(array_map('htmlspecialchars_decode', $rows), $attrRestraint);
+                $obj = new static;
+                $obj->meta = TableRowMetaModel::byGUID($modelProperties['ID']);
+                $objs[] = $obj->__put($modelProperties, true);
+            }
+        }
+        $querier->switchTable(DB_YUN.'tablerowmeta');
+        return $objs;
     }
 
     /**
 	 * 按条件获取列表
 	 */
     public static function getRows($tablename = NULL, $group_id = NULL, $state = TableRowMetaModel::UNRECYCLED, array $orderby = TableRowMetaModel::ID_DESC, $start = 0, $num = 18, $format = Model::LIST_AS_OBJS, array $notnulls = []){
-        if(count($notnulls)&&is_string($tablename)){
-            return self::selectRows($tablename, $group_id, $notnulls, '*', $orderby, $start, $num, $format);
-        }
-        $metainfos = TableRowMetaModel::getRows($tablename, $group_id, $state, $orderby, $start, $num, $format);
-        return self::buildRowsByMetaInfos($metainfos, $format);
+		if(empty($notnulls)&&TableRowMetaModel::__checkOrderFields($orderby)){
+			$metainfos = TableRowMetaModel::getRows($tablename, $group_id, $state, $orderby, $start, $num, $format);
+        	return self::buildRowsByMetaInfos($metainfos, $format);
+		}
+        return self::selectRows($tablename, $group_id, $notnulls, '*', $orderby, $start, $num, $format);
     }
 
     /**
 	 * 获取某标签下的行
 	 */
     public static function getRowsByTagName($tag, $class = NULL, array $orderby = TableRowMetaModel::ID_ASC, $start = 0, $num = 18, $format = Model::LIST_AS_OBJS){
-		$metainfos = TableRowMetaModel::getRowsByTagName($tag, $class, $orderby, $start = 0, $num = 18, $format);
-        return self::buildRowsByMetaInfos($metainfos, $format);
+		if(TableRowMetaModel::__checkOrderFields($orderby)){
+			$metainfos = TableRowMetaModel::getRowsByTagName($tag, $class, $orderby, $start = 0, $num = 18, $format);
+        	return self::buildRowsByMetaInfos($metainfos, $format);
+		}
+        return [];
 	}
 }

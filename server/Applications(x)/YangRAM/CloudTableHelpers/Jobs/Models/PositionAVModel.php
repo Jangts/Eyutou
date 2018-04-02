@@ -1,4 +1,3 @@
-
 <?php
 namespace CTH\Jobs\Models;
 
@@ -6,7 +5,7 @@ use PM\_CLOUD\TRGroupModel;
 use PM\_CLOUD\TableRowModel;
 use PM\_CLOUD\TableRowMetaModel;
 
-class  extends \PM\_STUDIO\BaseFormAVModel {
+class PositionAVModel extends \PM\_STUDIO\BaseFormAVModel {
 	public static $inputs = [
 		[
 			'field_name'	=>	'ID',

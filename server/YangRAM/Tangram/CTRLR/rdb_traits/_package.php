@@ -33,7 +33,8 @@ trait common {
 
     protected static
     $configured = false,
-    $conns = NULL,
+    $options = NULL,
+    $mainconn = NULL,
     $lastPDOXConn = NULL,
     $permissions = NULL;
 
@@ -90,13 +91,13 @@ trait common {
 	 * @access public
      * @static
      * @param object(Tangram\MODEL\ApplicationPermissions) $permissions    拷贝一份权限表
-     * @param array $conns                                      拷贝一份PDOX链接配置表
+     * @param array $options                                      拷贝一份PDOX链接配置表
      * @return bool
     **/
-    public static function config(ApplicationPermissions $permissions, array $conns){
+    public static function config(ApplicationPermissions $permissions, array $options){
 		if(self::$configured==false){
             self::$permissions = $permissions;
-            self::$conns = $conns;
+            self::$options = $options;
 			self::$configured = true;
             return true;
 		}
@@ -108,24 +109,31 @@ trait common {
      * 
 	 * @access public
      * @static
-     * @param int|array     $options    预设链接代号或自定义配置表
+     * @param int|array     $option    预设链接代号或自定义配置表
      * @return bool
     **/
-    private static function conn($options){
-        if(is_numeric($options)&&isset(self::$conns[$options])){
-            if(self::$conns[$options]['instance']){
-                return self::$conns[$options]['instance'];
+    private static function conn($option = 0){
+        if(is_numeric($option)&&isset(self::$options[$option])){
+            if(self::$options[$option]['instance']){
+                return self::$options[$option]['instance'];
             }else{
-                include_once(CPATH.'CTRLR/rdb_drivers/'.self::$conns[$options]['driver'].'.php');
-			    $class = 'Tangram\CTRLR\rdb_drivers\\'.self::$conns[$options]['driver'];
-                return self::$conns[$options]['instance'] = $class::instance(self::$conns[$options]['options']);
+                include_once(CPATH.'CTRLR/rdb_drivers/'.self::$options[$option]['driver'].'.php');
+			    $class = 'Tangram\CTRLR\rdb_drivers\\'.self::$options[$option]['driver'];
+                return self::$options[$option]['instance'] = $class::instance(self::$options[$option]['options']);
             }
-        }elseif(is_array($options)&&$options['driver']&&is_file(CPATH.'CTRLR/rdb_drivers/'.$options['driver'].'.php')){
-            include_once(CPATH.'CTRLR/rdb_drivers/'.$options['driver'].'.php');
-			$class = 'Tangram\CTRLR\rdb_drivers\\'.$options['driver'];
-            return $class::instance($options);
+        }elseif(is_array($option)&&$option['driver']&&is_file(CPATH.'CTRLR/rdb_drivers/'.$option['driver'].'.php')){
+            include_once(CPATH.'CTRLR/rdb_drivers/'.$option['driver'].'.php');
+			$class = 'Tangram\CTRLR\rdb_drivers\\'.$option['driver'];
+            return $class::instance($option);
         }
         return NULL;
+    }
+
+    private static function mainconn(){
+        if(!self::$mainconn){
+            self::$mainconn = self::conn();
+        }
+        return self::$mainconn;
     }
 
     /**
@@ -283,7 +291,20 @@ trait common {
         }
 
         // 如果数据表为注册表
+        elseif(strpos($table, DB_REG.'user') === 0){
+            // 用户注册表
+
+            // 用户应用始终可读写用户注册表
+            if(strpos(CACAI, 'USERS') === 0){
+                // 返回2
+                return 2;
+            }
+            // 注册表始终可读，返回3
+            return 3;
+        }
         elseif(strpos($table, DB_REG) === 0){
+            // 常规注册表
+
             // 如果应用有权写入注册表
             if($permissions->REG_RDBTABLE_WRITEABLE){
                 // 返回2
@@ -328,7 +349,7 @@ trait common {
             return true;
         }
         if(_USE_DEBUG_MODE_){
-            return new Status(1411.5, '', 'Application ['.CACAI.'] has no access to read data from the table ['.$table.']', true);
+            return new Status(1411.5, '', 'Application ['.CACAI.'] has no access to read data from the table ['.$table.'], authcode ['.$code.']', true);
         }
         self::$unreadableTable = $table;
         return false;
@@ -350,7 +371,7 @@ trait common {
             return true;
         }
         if(_USE_DEBUG_MODE_){
-            return new Status(1411.6, '', 'Application ['.CACAI.'] has no access to write data to the table ['.$table.']', true);
+            return new Status(1411.6, '', 'Application ['.CACAI.'] has no access to write data to the table ['.$table.'], authcode ['.$code.']', true);
         }
         self::$unwritableTable = $table;
         return false;
@@ -447,7 +468,7 @@ trait staticmethods {
      * @return object(Tangram\MODEL\RDBRowsCollection)
     **/
     public static function get($table, $require = "1", $order = "1 ASC", $select = "*"){
-		return self::query(self::staticGetQuerySelectString($table, $require, $order, 0, 0, $select), self::$conn);
+		return self::query(self::staticGetQuerySelectString($table, $require, $order, 0, 0, $select), self::mainconn());
     }
     
     /**
@@ -517,7 +538,7 @@ trait staticmethods {
      * @return object(Tangram\MODEL\RDBRowsCollection)
     **/
     public static function tops($table, $require = "1", $num = "10", $order = "1 ASC", $select = "*"){
-		return self::query(self::staticGetQuerySelectString($table, $require, $order, 0, $num, $select), self::$conn);
+		return self::query(self::staticGetQuerySelectString($table, $require, $order, 0, $num, $select), self::mainconn());
     }
     
     /**
@@ -533,7 +554,7 @@ trait staticmethods {
      * @return array
     **/
     public static function one($table, $require = "1", $order = "1 ASC", $select = "*"){
-		$rows = self::query(self::staticGetQuerySelectString($table, $require, $order, 0, "1", $select), self::$conn);
+		$rows = self::query(self::staticGetQuerySelectString($table, $require, $order, 0, "1", $select), self::mainconn());
         if($rows&&$row = $rows->item()){
             return $row;
         }
@@ -596,7 +617,7 @@ trait staticmethods {
     **/
     public static function join(array $left, array $right, $require = "1", $order = "1 ASC", $select = "*", $num = 0){
 		$table = self::multtable($left, $right);
-		return self::query(self::staticGetQuerySelectString("`$table`", $require, $order, 0, $num, $select), self::$conn);
+		return self::query(self::staticGetQuerySelectString("`$table`", $require, $order, 0, $num, $select), self::mainconn());
     }
     
     /**
@@ -609,7 +630,7 @@ trait staticmethods {
      * @return int
     **/
     public static function num($table, $require = "1"){
-        if($result = self::$conn(self::staticGetQuerySelectString($table, $require, "1 ASC", NULL, 'count(*) as sum'))){
+        if($result = self::query(self::staticGetQuerySelectString($table, $require, "1 ASC", NULL, 'count(*) as sum'))){
             return intval($result->fetchColumn());
         }
         return 0;

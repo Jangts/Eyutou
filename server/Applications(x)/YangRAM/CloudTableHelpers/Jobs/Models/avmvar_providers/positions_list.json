@@ -1,20 +1,5 @@
 {
-    "classtabs": {
-        "jtxw": {
-            "name": "集团新闻",
-            "title": "集团新闻",
-            "where": {
-                "GROUPID": 1
-            }
-        },
-        "hydt": {
-            "name": "行业动态",
-            "title": "行业动态",
-            "where": {
-                "GROUPID": 2
-            }
-        }
-    },
+    "listname" : "职位列表",
     "columns": [{
             "field_name": "__index",
             "display_name": "序号",
@@ -23,8 +8,8 @@
         },
         {
             "field_name": "title",
-            "sorting_name": "title_gb",
-            "display_name": "新闻标题",
+            "sorting_name": "posiname",
+            "display_name": "职位名称",
             "length": 30,
             "column_type": "",
             "classname": ""
@@ -64,6 +49,6 @@
         }
     ],
     "creater": {
-        "name": "创建新资讯"
+        "name": "创建新的职位招聘"
     }
 }

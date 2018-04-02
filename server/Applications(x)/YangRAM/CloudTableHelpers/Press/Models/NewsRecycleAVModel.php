@@ -75,10 +75,8 @@ class NewsRecycleAVModel extends \PM\_STUDIO\BaseTrashCanAVModel {
 			if($news = TableRowModel::byGUID($this->request->ARI->patharr[3])){
 				if(isset($this->request->ARI->patharr[4])&&$this->request->ARI->patharr[4]==='delete'){
 					$news->destroy();
-					// $this->assign('msg', self::buildTable($rows));
 				}else{
 					$news->recycle(0);
-					// $this->assign('msg', self::buildTable($rows));
 				}
 			}
 		}

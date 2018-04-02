@@ -13,6 +13,8 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 	const
 	ID_DESC = [['id', true, self::SORT_REGULAR]],
 	ID_ASC = [['id', false, self::SORT_REGULAR]],
+	SORT_DESC = [['sortno', true, self::SORT_REGULAR]],
+	SORT_ASC = [['sortno', false, self::SORT_REGULAR]],
 	MTIME_DESC = [['SK_MTIME', true, self::SORT_REGULAR]],
 	MTIME_ASC = [['SK_MTIME', false, self::SORT_REGULAR]],
 	NAME_DESC = [['name', true, self::SORT_REGULAR]],
@@ -36,7 +38,8 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 		'tablename'			=>	NULL,
 		'name'				=>	self::NEW_ITEM_NAME,
 		'description'		=>	'',
-        'parent'		    =>	6,
+		'parent'		    =>	6,
+		'sortno'			=>	0,
 		'SK_IS_RECYCLED'	=>	0,
 		'SK_MTIME'			=>	DATETIME
 	];
@@ -86,7 +89,7 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 	/**
 	 * 获取表格根目录
 	 */
-	public static function getRoots(array $options = [], array $orderby = self::ID_ASC){
+	public static function getRoots(array $options = [], array $orderby = self::SORT_ASC){
 		if(isset($options['tablename'])&&is_string($options['tablename'])){
 			$tablenameAlias = $options['tablename'];
 			if($tablename&&($tablemeta = TableMetaModel::byGUID($tablename))){
@@ -99,13 +102,11 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 	/**
 	 * 获取表格目录
 	 */
-	public static function getGroupsByTableName($tablename, array $orderby = self::ID_ASC){
+	public static function getGroupsByTableName($tablename, array $orderby = self::SORT_ASC){
 		if(is_string($tablename)){
 			if($tablename&&($tablemeta = TableMetaModel::byGUID($tablename))){
 				return self::query("`tablename` = '$tablename' AND `SK_IS_RECYCLED` = 0" , $orderby);
 			}
-		}else{
-			return self::query("`type` = 'file' AND `SK_IS_RECYCLED` = 0" , $orderby);
 		}
 		return [];
 	}

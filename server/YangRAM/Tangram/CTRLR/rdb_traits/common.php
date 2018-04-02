@@ -17,7 +17,8 @@ trait common {
 
     protected static
     $configured = false,
-    $conns = NULL,
+    $options = NULL,
+    $mainconn = NULL,
     $lastPDOXConn = NULL,
     $permissions = NULL;
 
@@ -74,13 +75,13 @@ trait common {
 	 * @access public
      * @static
      * @param object(Tangram\MODEL\ApplicationPermissions) $permissions    拷贝一份权限表
-     * @param array $conns                                      拷贝一份PDOX链接配置表
+     * @param array $options                                      拷贝一份PDOX链接配置表
      * @return bool
     **/
-    public static function config(ApplicationPermissions $permissions, array $conns){
+    public static function config(ApplicationPermissions $permissions, array $options){
 		if(self::$configured==false){
             self::$permissions = $permissions;
-            self::$conns = $conns;
+            self::$options = $options;
 			self::$configured = true;
             return true;
 		}
@@ -92,29 +93,32 @@ trait common {
      * 
 	 * @access public
      * @static
-     * @param int|array     $options    预设链接代号或自定义配置表
+     * @param int|array     $option    预设链接代号或自定义配置表
      * @return bool
     **/
-    private static function conn($options){
-        new Status(400, true);
-        if(is_numeric($options)&&isset(self::$conns[$options])){
-            // var_dump($options, self::$conns[$options]['instance']);
-            if(self::$conns[$options]['instance']!=NULL){
-                return self::$conns[$options]['instance'];
+    private static function conn($option = 0){
+        if(is_numeric($option)&&isset(self::$options[$option])){
+            if(self::$options[$option]['instance']){
+                return self::$options[$option]['instance'];
             }else{
-                // var_dump(CPATH.'CTRLR/rdb_drivers/'.self::$conns[$options]['driver'].'.php');
-                include_once(CPATH.'CTRLR/rdb_drivers/'.self::$conns[$options]['driver'].'.php');
-			    $class = 'Tangram\CTRLR\rdb_drivers\\'.self::$conns[$options]['driver'];
-                return self::$conns[$options]['instance'] = $class::instance(self::$conns[$options]['options']);
+                include_once(CPATH.'CTRLR/rdb_drivers/'.self::$options[$option]['driver'].'.php');
+			    $class = 'Tangram\CTRLR\rdb_drivers\\'.self::$options[$option]['driver'];
+                return self::$options[$option]['instance'] = $class::instance(self::$options[$option]['options']);
             }
-        }elseif(is_array($options)&&$options['driver']&&is_file(CPATH.'CTRLR/rdb_drivers/'.$options['driver'].'.php')){
-            include_once(CPATH.'CTRLR/rdb_drivers/'.$options['driver'].'.php');
-			$class = 'Tangram\CTRLR\rdb_drivers\\'.$options['driver'];
-            return $class::instance($options);
+        }elseif(is_array($option)&&$option['driver']&&is_file(CPATH.'CTRLR/rdb_drivers/'.$option['driver'].'.php')){
+            include_once(CPATH.'CTRLR/rdb_drivers/'.$option['driver'].'.php');
+			$class = 'Tangram\CTRLR\rdb_drivers\\'.$option['driver'];
+            return $class::instance($option);
         }
         return NULL;
     }
 
+    private static function mainconn(){
+        if(!self::$mainconn){
+            self::$mainconn = self::conn();
+        }
+        return self::$mainconn;
+    }
     /**
      * 对SQL语句或片段进行检查与转码
      * 此方法本来是用来进行引号处理的，但现在已经删除了相关代码，目前只能做是否文本的判断
@@ -327,7 +331,7 @@ trait common {
             return true;
         }
         if(_USE_DEBUG_MODE_){
-            return new Status(1411.5, '', 'Application ['.CACAI.'] has no access to read data from the table ['.$table.']', true);
+            return new Status(1411.5, '', 'Application ['.CACAI.'] has no access to read data from the table ['.$table.'], authcode ['.$code.']', true);
         }
         self::$unreadableTable = $table;
         return false;
@@ -349,7 +353,7 @@ trait common {
             return true;
         }
         if(_USE_DEBUG_MODE_){
-            return new Status(1411.6, '', 'Application ['.CACAI.'] has no access to write data to the table ['.$table.']', true);
+            return new Status(1411.6, '', 'Application ['.CACAI.'] has no access to write data to the table ['.$table.'], authcode ['.$code.']', true);
         }
         self::$unwritableTable = $table;
         return false;

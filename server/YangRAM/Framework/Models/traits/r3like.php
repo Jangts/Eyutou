@@ -5,7 +5,7 @@ use PDO;
 use DBQ;
 use Tangram\CTRLR\RDBQuerierPlus;
 
-trait r3like {
+trait r3like {    
     /**
 	 * 查询全部记录并返回模型实例
 	 * 

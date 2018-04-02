@@ -1,83 +1,132 @@
 <?php
-namespace PM\_STUDIO;
+namespace PM\_CLOUD;
 
 use Status;
 use Request;
 
-abstract class BaseCRUDAVModel extends \PM\_STUDIO\BaseTableAVModel {
-    public static
-    $listname = 'My List',
-    $__sorts = [
-		'id'				=>	TableRowMetaModel::ID_ASC,
-		'id_reverse'		=>	TableRowMetaModel::ID_DESC,
-		'ctime'				=>	TableRowMetaModel::CTIME_ASC,
-		'ctime_reverse'		=>	TableRowMetaModel::CTIME_DESC,
-		'mtime'				=>	TableRowMetaModel::MTIME_ASC,
-		'mtime_reverse'		=>	TableRowMetaModel::MTIME_DESC,
-		'ptime'				=>	TableRowMetaModel::PUBTIME_ASC,
-		'ptime_reverse'		=>	TableRowMetaModel::PUBTIME_DESC,
-		'level'				=>	TableRowMetaModel::LEVEL_ASC,
-		'level_reverse'		=>	TableRowMetaModel::LEVEL_DESC,
-		'title'				=>	TableRowMetaModel::TITLE_ASC,
-		'title_reverse'		=>	TableRowMetaModel::TITLE_DESC,
-		'title_gb'			=>	TableRowMetaModel::TITLE_ASC_GBK,
-		'title_gb_reverse'	=>	TableRowMetaModel::TITLE_DESC_GBK
-	],
-    $__sortby = TableRowMetaModel::PUBTIME_DESC;
+abstract class AbstractTableRowCRUDAVModel extends \PM\_STUDIO\BaseFormAVModel {
+	public static
+	$tablename = NULL,
+	$formname = 'Edit Row Info',
+	$itemname = '',
+	$listurl = '';
+
+	public static function loadStaticProperties(){
+		if(
+			($table = TableMetaModel::byGUID(static::$tablename))
+			&&is_file($filename = __DIR__.'/default_avmvar_providers/'.$table->type.'_form.json')
+			&&($vars = json_decode(file_get_contents($filename), true))
+		){
+			self::setStaticProterties($vars);
+		}
+	}
 
 	public function initialize(){
-        static::loadStaticProperties();
+		if(empty(static::$tablename)){
+			// new Status(1414, '', 'must have static property "tablename".');
+			static::$tablename = $this->request->ARI->patharr[1];
+		}
+		static::loadStaticProperties();
+		if(empty(static::$itemname)){
+			$table = TableMetaModel::byGUID(static::$tablename);
+			static::$itemname = $table->item;
+		}
+		if(empty(static::$listurl)){
+			static::$listurl = '/'.$this->request->ARI->patharr[1].'/'.static::$tablename.'/';
+		}
 		return [
-			'listname'	=>	static::$listname,
+			'formname'	=>	static::$formname,
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',
 			'pagelist'	=>	'<ul><li>1</li></ul>'
 		];
     }
 
 	public function analysis($admininfo){
-		$range = self::__viewLimit();
-		$orderby = self::__viewOrderBy();
-		if(empty($_GET['tabalias'])||empty(static::$classtabs[$_GET['tabalias']])){
-            $group = NULL;
-        }else{
-			$group = static::$classtabs[$_GET['tabalias']]['where']['GROUPID'];
-        }
-		$count = TableRowMetaModel::getCOUNT('news', $group, TableRowMetaModel::UNRECYCLED);
-		$list  = TableRowMetaModel::getRows('news', $group, TableRowMetaModel::UNRECYCLED, $orderby, $range[0], $range[1]);
-
-		$rows = [];
-		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
-		$basedir = $stagedir.'/news/news/';
-		if(isset($_GET['sort'])){
-            $sort = $_GET['sort'];
-        }else{
-            $sort = '';
-        }
-		foreach($list as $index=>$news){
-			$itemurl = $basedir.$news->ID;
-			$rows[] = [
-				'__index'	=>	[$index + 1],
-				'title'		=>	[$news->TITLE, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
-				'crttime'	=>	[$news->SK_CTIME],
-				'modtime'	=>	[$news->SK_MTIME],
-				'pubtime'	=>	[$news->PUBTIME],
-				'__count'	=>	[0],
-				'__ops'		=>	['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="/applications/cloudtables/rows/'.$news->ID.'" href="javascript:;">移除</a>']
+		$basedir = $this->request->ARI->dirname.'/'.$this->app->id.static::$listurl;
+		if(isset($this->request->ARI->patharr[3])&&is_numeric($this->request->ARI->patharr[3])&&$this->request->ARI->patharr[3]>0){
+			$guid = $this->request->ARI->patharr[3];
+			$news = TableRowModel::byGUID($guid);
+			
+			if(!$news){
+				$this->assign('href', $basedir);
+				
+				$this->template = '404.html';
+				return $this;
+			}
+			$method = 'PUT';
+			$button2 = [
+				'name' 	=>	'移除'.static::$itemname,
+				'order'	=>	'delete',
+				'form'	=>	'myform',
+				'action'=>	__aurl__.'cloudtables/rows/'.$guid,
+				'href'	=>	$basedir
 			];
+		}else{
+			$guid = 0;
+			$news = TableRowModel::create(['tablename' => static::$tablename]);
+			if(isset($_GET['tabalias'])&&is_array(newsListAVModel::$classtabs[$_GET['tabalias']])){
+				foreach(newsListAVModel::$classtabs[$_GET['tabalias']]['where'] as $prop=>$value){
+					$news->__set($prop, $value);
+				}
+			}
+			$method = 'POST';
+			$button2 = NULL;
 		}
 
-		if(empty($_GET['tabalias'])){
-            self::$creater['url'] = $basedir;
-        }else{
-            self::$creater['url'] = $basedir.'?tabalias='.$_GET['tabalias'];
-        }
-		
+		$groups = TRGroupModel::getGroupsByTableName(static::$tablename);
+		$groupOptions = [];
+		foreach($groups as $group){
+			$groupOptions[] = [$group['id'], $group['name']];
+		}
+		static::$selectOptions['GROUPID'] = $groupOptions;
 
-		$this->assign('classtabs', 	self::buildTabs($stagedir.'/news/news-list/'));
-		$this->assign('itemlist', 	self::buildTable($rows, $range[2]));
-		$this->assign('pagelist', 	self::buildPageList($count));
+		$this->assign('form', self::buildForm($news->getArrayCopy(), $method));
+		if(isset($_GET['sort'])){
+            $selects = '?sort='. $_GET['sort'];
+        }else{
+            $selects = '?sort=';
+        }
+        if(isset($_GET['page'])){
+            $selects .= '&page='. $_GET['page'];
+        }else{
+            $selects .= '&page=';
+		}
+		if(isset($_GET['tabalias'])){
+            $selects .= '&tabalias='. $_GET['tabalias'];
+        }
+		$this->assign('buttons', [
+			[
+				'name' 	=>	'重置表单',
+				'order'	=>	'reset',
+				'form'	=>	'myform',
+				'action'=>	'',
+				'href'	=>	''
+			],
+			[
+				'name' 	=>	'返回列表',
+				'order'	=>	'anchor',
+				'form'	=>	'myform',
+				'action'=>	'',
+				'href'	=>	$basedir.$selects
+			],
+			$button2,
+			[
+				'name' 	=>	'保存到待审',
+				'order'	=>	'submit',
+				'form'	=>	'myform',
+				'action'=>	__aurl__.'cloudtables/rows/'.$guid.'?state=0',
+				'href'	=>	$basedir.$selects
+			],
+			[
+				'name' 	=>	'发布'.static::$itemname,
+				'order'	=>	'submit',
+				'form'	=>	'myform',
+				'action'=>	__aurl__.'cloudtables/rows/'.$guid.'?state=1',
+				'href'	=>	$basedir.$selects
+			]
+		]);
 		
-		$this->template = 'table.html';
+		$this->template = 'form.html';
 		return $this;
 	}
 }

@@ -5,7 +5,7 @@ use Request;
 use Lib\models\DocumentElementModel;
 
 trait table {
-    public static $columns = [];
+    public static $columns = [], $creater = [];
     
     public static function __loadTableColumns(){
         return static::$columns;

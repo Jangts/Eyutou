@@ -9,9 +9,18 @@ use Tangram\MODEL\ObjectModel;
 use App;
 
 abstract class BaseAdminViewModel extends \AF\Models\BaseViewModel {
-	public static $staticVasInited = false;
 	public static function updateTemplateCache($templates=NULL){
 		return \Storage::clearPath(DPATH.CACAI.'/templates/');
+	}
+
+	final protected static function setStaticProterties(array $vars){
+		foreach ($vars as $key => $value) {
+			static::$$key = $value;
+		}
+	}
+
+	public static function loadStaticProperties(){
+		// new Status(1414, '', 'method "loadStaticProperties()" must be rewrite.', true);
 	}
 
 	protected  $app, $request;
@@ -40,9 +49,7 @@ abstract class BaseAdminViewModel extends \AF\Models\BaseViewModel {
 	}
 
     public function initialize(){
-		if(!static::$staticVasInited){
-			static::$staticVasInited = true;
-        }
+		static::loadStaticProperties();
 		return [];
     }	
 

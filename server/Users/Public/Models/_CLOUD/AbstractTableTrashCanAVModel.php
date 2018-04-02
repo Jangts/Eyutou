@@ -1,83 +1,86 @@
 <?php
-namespace PM\_STUDIO;
+namespace CTH\Press\Models;
 
-use Status;
-use Request;
+use PM\_CLOUD\TRGroupModel;
+use PM\_CLOUD\TableRowModel;
+use PM\_CLOUD\TableRowMetaModel;
 
-abstract class BaseCRUDAVModel extends \PM\_STUDIO\BaseTableAVModel {
-    public static
-    $listname = 'My List',
-    $__sorts = [
-		'id'				=>	TableRowMetaModel::ID_ASC,
-		'id_reverse'		=>	TableRowMetaModel::ID_DESC,
-		'ctime'				=>	TableRowMetaModel::CTIME_ASC,
-		'ctime_reverse'		=>	TableRowMetaModel::CTIME_DESC,
-		'mtime'				=>	TableRowMetaModel::MTIME_ASC,
-		'mtime_reverse'		=>	TableRowMetaModel::MTIME_DESC,
-		'ptime'				=>	TableRowMetaModel::PUBTIME_ASC,
-		'ptime_reverse'		=>	TableRowMetaModel::PUBTIME_DESC,
-		'level'				=>	TableRowMetaModel::LEVEL_ASC,
-		'level_reverse'		=>	TableRowMetaModel::LEVEL_DESC,
-		'title'				=>	TableRowMetaModel::TITLE_ASC,
-		'title_reverse'		=>	TableRowMetaModel::TITLE_DESC,
-		'title_gb'			=>	TableRowMetaModel::TITLE_ASC_GBK,
-		'title_gb_reverse'	=>	TableRowMetaModel::TITLE_DESC_GBK
+class AbstractTableTrashCanAVModel extends \PM\_STUDIO\BaseTrashCanAVModel {
+	public static
+	$columns = [
+		[
+			'field_name'	=>	'__index',
+			'display_name'	=>	'序号',
+			'column_type'	=>	'',
+			'classname'		=>	''	
+		],
+		[
+			'field_name'	=>	'title',
+			'display_name'	=>	'标题或名称',
+			'column_type'	=>	'',
+			'classname'		=>	''	
+		],
+		[
+			'field_name'	=>	'mtime',
+			'display_name'	=>	'回收时间',
+			'column_type'	=>	'',
+			'classname'		=>	''	
+		],
+		[
+			'field_name'	=>	'__ops',
+			'display_name'	=>	'操作',
+			'column_type'	=>	'',
+			'classname'		=>	''	
+		]
 	],
-    $__sortby = TableRowMetaModel::PUBTIME_DESC;
+	$__sortby = TableRowMetaModel::MTIME_DESC;
 
 	public function initialize(){
-        static::loadStaticProperties();
 		return [
-			'listname'	=>	static::$listname,
+			'listname'	=>	'已删除内容列表',
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',
 			'pagelist'	=>	'<ul><li>1</li></ul>'
 		];
     }
 
-	public function analysis($admininfo){
-		$range = self::__viewLimit();
-		$orderby = self::__viewOrderBy();
-		if(empty($_GET['tabalias'])||empty(static::$classtabs[$_GET['tabalias']])){
-            $group = NULL;
-        }else{
-			$group = static::$classtabs[$_GET['tabalias']]['where']['GROUPID'];
-        }
-		$count = TableRowMetaModel::getCOUNT('news', $group, TableRowMetaModel::UNRECYCLED);
-		$list  = TableRowMetaModel::getRows('news', $group, TableRowMetaModel::UNRECYCLED, $orderby, $range[0], $range[1]);
+	protected function readList($stagedir, $range){
+		$count = TableRowMetaModel::getCOUNT(static::$tablename, NULL, TableRowMetaModel::RECYCLED);
+		$items = TableRowMetaModel::getRows(static::$tablename, NULL, TableRowMetaModel::RECYCLED, static::$__sortby, $range[0], $range[1]);
+		$rows = $this->buildTableRows($stagedir, $items, $range);
 
+		$this->assign('classtabs','');
+        $this->assign('itemlist', static::buildTable($rows));
+        $this->assign('pagelist', self::buildPageList($count));
+        $this->template = 'table.html';
+        return $this;
+	}
+
+    protected function buildTableRows($stagedir, $items = [], array $range = [0, 0, 1], $sort = ''){
 		$rows = [];
-		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
-		$basedir = $stagedir.'/news/news/';
-		if(isset($_GET['sort'])){
-            $sort = $_GET['sort'];
-        }else{
-            $sort = '';
-        }
-		foreach($list as $index=>$news){
-			$itemurl = $basedir.$news->ID;
+		foreach($items as $index=>$news){
+			$itemurl = $stagedir.$news->ID;
 			$rows[] = [
-				'__index'	=>	[$index + 1],
-				'title'		=>	[$news->TITLE, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
-				'crttime'	=>	[$news->SK_CTIME],
-				'modtime'	=>	[$news->SK_MTIME],
-				'pubtime'	=>	[$news->PUBTIME],
-				'__count'	=>	[0],
-				'__ops'		=>	['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="/applications/cloudtables/rows/'.$news->ID.'" href="javascript:;">移除</a>']
+				'__index'		=>	[$index + 1],
+				'title'		=>	[$news->TITLE],
+				'mtime'	=>	[$news->SK_MTIME],
+				'__ops'		=>	['<a href="'.$itemurl.'/delete/?page='. $range[2] .'">彻底删除</a> | <a href="'.$itemurl.'/recover/?page='. $range[2] .'">恢复</a>']
 			];
 		}
+		return $rows;
+	}
 
-		if(empty($_GET['tabalias'])){
-            self::$creater['url'] = $basedir;
-        }else{
-            self::$creater['url'] = $basedir.'?tabalias='.$_GET['tabalias'];
-        }
-		
-
-		$this->assign('classtabs', 	self::buildTabs($stagedir.'/news/news-list/'));
-		$this->assign('itemlist', 	self::buildTable($rows, $range[2]));
-		$this->assign('pagelist', 	self::buildPageList($count));
-		
-		$this->template = 'table.html';
+	protected function execDeletion($listurl){
+		if(is_numeric($this->request->ARI->patharr[3])&&$this->request->ARI->patharr[3]>0){
+			if($news = TableRowModel::byGUID($this->request->ARI->patharr[3])){
+				if(isset($this->request->ARI->patharr[4])&&$this->request->ARI->patharr[4]==='delete'){
+					$news->destroy();
+				}else{
+					$news->recycle(0);
+				}
+			}
+		}
+		$this->assign('href', $listurl);
+		$this->template = 'recycle.html';
 		return $this;
 	}
 }

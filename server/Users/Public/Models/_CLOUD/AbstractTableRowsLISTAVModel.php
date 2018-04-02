@@ -1,12 +1,15 @@
 <?php
-namespace PM\_STUDIO;
+namespace PM\_CLOUD;
 
 use Status;
 use Request;
 
-abstract class BaseCRUDAVModel extends \PM\_STUDIO\BaseTableAVModel {
-    public static
-    $listname = 'My List',
+abstract class AbstractTableRowsLISTAVModel extends \PM\_STUDIO\BaseTableAVModel {
+	public static
+	$tablename = NULL,
+	$listname = 'My List',
+	$listurl = '',
+	$itemurl = '',
     $__sorts = [
 		'id'				=>	TableRowMetaModel::ID_ASC,
 		'id_reverse'		=>	TableRowMetaModel::ID_DESC,
@@ -23,10 +26,42 @@ abstract class BaseCRUDAVModel extends \PM\_STUDIO\BaseTableAVModel {
 		'title_gb'			=>	TableRowMetaModel::TITLE_ASC_GBK,
 		'title_gb_reverse'	=>	TableRowMetaModel::TITLE_DESC_GBK
 	],
-    $__sortby = TableRowMetaModel::PUBTIME_DESC;
+	$__sortby = TableRowMetaModel::PUBTIME_DESC;
+
+	public static function loadGroupTabs(){
+		if($groups = TRGroupModel::getGroupsByTableName(static::$tablename)){
+			$tabs = [];
+			foreach ($groups as $group) {
+				$tabs['group'.$group->id] = [
+					'name'	=>	$group->name,
+					'title'	=>	empty($group->description) ? $group->name : $group->description,
+					'where'	=>	['GROUPID'=>$group->id]
+				];
+			}
+			static::$classtabs = $tabs;
+		}
+	}
+
+	public static function loadStaticProperties(){
+		if(
+			($table = TableMetaModel::byGUID(static::$tablename))
+			&&is_file($filename = __DIR__.'/default_avmvar_providers/'.$table->type.'_list.json')
+			&&($vars = json_decode(file_get_contents($filename), true))
+		){
+			self::setStaticProterties($vars);
+		}
+	}
 
 	public function initialize(){
-        static::loadStaticProperties();
+		if(empty(static::$tablename)){
+			// new Status(1414, '', 'must have static property "tablename".');
+			static::$tablename = $this->request->ARI->patharr[1];
+		}
+		static::loadGroupTabs();
+		static::loadStaticProperties();
+		if(empty(static::$listurl)){
+			static::$listurl = '/'.$this->request->ARI->patharr[1].'/'.$this->request->ARI->patharr[2].'/';
+		}
 		return [
 			'listname'	=>	static::$listname,
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',
@@ -42,42 +77,48 @@ abstract class BaseCRUDAVModel extends \PM\_STUDIO\BaseTableAVModel {
         }else{
 			$group = static::$classtabs[$_GET['tabalias']]['where']['GROUPID'];
         }
-		$count = TableRowMetaModel::getCOUNT('news', $group, TableRowMetaModel::UNRECYCLED);
-		$list  = TableRowMetaModel::getRows('news', $group, TableRowMetaModel::UNRECYCLED, $orderby, $range[0], $range[1]);
+		$count = TableRowMetaModel::getCOUNT(static::$tablename, $group, TableRowMetaModel::UNRECYCLED);
+		$list  = TableRowModel::getRows(static::$tablename, $group, TableRowMetaModel::UNRECYCLED, $orderby, $range[0], $range[1]);
 
-		$rows = [];
+		
 		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
-		$basedir = $stagedir.'/news/news/';
+		$basedir = $stagedir.static::$itemurl;
 		if(isset($_GET['sort'])){
             $sort = $_GET['sort'];
         }else{
             $sort = '';
-        }
-		foreach($list as $index=>$news){
-			$itemurl = $basedir.$news->ID;
-			$rows[] = [
-				'__index'	=>	[$index + 1],
-				'title'		=>	[$news->TITLE, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
-				'crttime'	=>	[$news->SK_CTIME],
-				'modtime'	=>	[$news->SK_MTIME],
-				'pubtime'	=>	[$news->PUBTIME],
-				'__count'	=>	[0],
-				'__ops'		=>	['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="/applications/cloudtables/rows/'.$news->ID.'" href="javascript:;">移除</a>']
-			];
 		}
+
+		$rows = $this->buildTableRows($basedir, $list, $range, $sort);
 
 		if(empty($_GET['tabalias'])){
             self::$creater['url'] = $basedir;
         }else{
             self::$creater['url'] = $basedir.'?tabalias='.$_GET['tabalias'];
         }
-		
 
-		$this->assign('classtabs', 	self::buildTabs($stagedir.'/news/news-list/'));
+		$this->assign('classtabs', 	self::buildTabs($stagedir.static::$listurl));
 		$this->assign('itemlist', 	self::buildTable($rows, $range[2]));
 		$this->assign('pagelist', 	self::buildPageList($count));
 		
 		$this->template = 'table.html';
 		return $this;
 	}
+
+	protected function buildTableRows($basedir, $list = [], array $range = [0, 0, 1], $sort = ''){
+        $rows = [];
+        foreach($list as $index=>$row){
+			$itemurl = $basedir.$row->ID;
+			$rows[] = [
+				'__index'	=>	[$index + 1],
+				'title'		=>	[$row->TITLE, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
+				'crttime'	=>	[$row->SK_CTIME],
+				'modtime'	=>	[$row->SK_MTIME],
+				'pubtime'	=>	[$row->PUBTIME],
+				'__count'	=>	[0],
+				'__ops'		=>	['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="/applications/cloudtables/rows/'.$row->ID.'" href="javascript:;">移除</a>']
+			];
+		}
+        return $rows;
+    }
 }

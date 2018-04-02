@@ -27,15 +27,15 @@ class LocationModel extends ObjectModel {
 	];
 
 	public function __construct(){
-		$la_info = RDO::one(DB_REG.'languages', "LANG = '".$GLOBALS['NEWIDEA']->LANGUAGE."'");
+		$la_info = DBQ::one(DB_REG.'languages', "LANG = '".$GLOBALS['NEWIDEA']->LANGUAGE."'");
 		if(empty($la_info)){
-			$la_info = RDO::one(DB_REG.'languages', "lang = '"._LANG_."'");
+			$la_info = DBQ::one(DB_REG.'languages', "lang = '"._LANG_."'");
 		}
 		if(empty($la_info)){
-			$la_info = RDO::one(DB_REG.'languages');
+			$la_info = DBQ::one(DB_REG.'languages');
 		}
 		if(!empty($la_info)){
-			$lo_info = RDO::id(DB_REG.'locations', $la_info["LOC_ID"]);
+			$lo_info = DBQ::id(DB_REG.'locations', $la_info["LOC_ID"]);
 			if(!empty($lo_info)){
 				$info = array_merge($la_info, $lo_info);
 				foreach($info as $key	=>$val){

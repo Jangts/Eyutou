@@ -94,7 +94,7 @@ trait staticmethods {
      * @return object(Tangram\MODEL\RDBRowsCollection)
     **/
     public static function get($table, $require = "1", $order = "1 ASC", $select = "*"){
-		return self::query(self::staticGetQuerySelectString($table, $require, $order, 0, 0, $select), self::conn(0));
+		return self::query(self::staticGetQuerySelectString($table, $require, $order, 0, 0, $select), self::mainconn());
     }
     
     /**
@@ -164,7 +164,7 @@ trait staticmethods {
      * @return object(Tangram\MODEL\RDBRowsCollection)
     **/
     public static function tops($table, $require = "1", $num = "10", $order = "1 ASC", $select = "*"){
-		return self::query(self::staticGetQuerySelectString($table, $require, $order, 0, $num, $select), self::conn(0));
+		return self::query(self::staticGetQuerySelectString($table, $require, $order, 0, $num, $select), self::mainconn());
     }
     
     /**
@@ -180,7 +180,7 @@ trait staticmethods {
      * @return array
     **/
     public static function one($table, $require = "1", $order = "1 ASC", $select = "*"){
-		$rows = self::query(self::staticGetQuerySelectString($table, $require, $order, 0, "1", $select), self::conn(0));
+		$rows = self::query(self::staticGetQuerySelectString($table, $require, $order, 0, "1", $select), self::mainconn());
         if($rows&&$row = $rows->item()){
             return $row;
         }
@@ -243,7 +243,7 @@ trait staticmethods {
     **/
     public static function join(array $left, array $right, $require = "1", $order = "1 ASC", $select = "*", $num = 0){
 		$table = self::multtable($left, $right);
-		return self::query(self::staticGetQuerySelectString("`$table`", $require, $order, 0, $num, $select), self::conn(0));
+		return self::query(self::staticGetQuerySelectString("`$table`", $require, $order, 0, $num, $select), self::mainconn());
     }
     
     /**
@@ -256,7 +256,7 @@ trait staticmethods {
      * @return int
     **/
     public static function num($table, $require = "1"){
-        if($result = self::query(self::staticGetQuerySelectString($table, $require, "1 ASC", NULL, 'count(*) as sum'), self::conn(0))){
+        if($result = self::query(self::staticGetQuerySelectString($table, $require, "1 ASC", NULL, 'count(*) as sum'))){
             return intval($result->fetchColumn());
         }
         return 0;

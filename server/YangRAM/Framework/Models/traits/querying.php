@@ -110,6 +110,15 @@ trait querying {
         return $values;
     }
 
+    public static function __checkOrderFields(array $orderby){
+		foreach ($orderby as $fieldExpression) {
+			if(!array_key_exists($fieldExpression[0], static::$defaultPorpertyValues)){
+				return false;
+			}
+		}
+		return true;
+    }
+
     /**
 	 * 获取默认PDOX数据连接
      * 不调用则不会生成
