@@ -30,12 +30,18 @@ trait table {
                 if(empty($options)){
                     $options = Request::instance()->INPUTS->__get;
                 }
+                if(empty($options['tabid'])){
+                    $options['tabid'] = '';
+                }
+                if(empty($options['tagid'])){
+                    $options['tagid'] = '';
+                }
                 if(isset($options['sort'])&&($options['sort']===$column['sorting_name'].'_reverse')){
-                    $th = '<a href="?page='.$page.'&sort='.$column['sorting_name'].'">'.$column['display_name'].'↓</a>';
+                    $th = '<a href="?page='.$page.'&sort='.$column['sorting_name'].'&tabid='.$options['tabid'].'&tagid='.$options['tagid'].'">'.$column['display_name'].'↓</a>';
                 }elseif(isset($options['sort'])&&($options['sort']===$column['sorting_name'])){
-                    $th = '<a href="?page='.$page.'&sort='.$column['sorting_name'].'_reverse">'.$column['display_name'].'↑</a>';
+                    $th = '<a href="?page='.$page.'&sort='.$column['sorting_name'].'_reverse&tabid='.$options['tabid'].'&tagid='.$options['tagid'].'">'.$column['display_name'].'↑</a>';
                 }else{
-                    $th = '<a href="?page='.$page.'&sort='.$column['sorting_name'].'">'.$column['display_name'].'</a>';
+                    $th = '<a href="?page='.$page.'&sort='.$column['sorting_name'].'&tabid='.$options['tabid'].'&tagid='.$options['tagid'].'">'.$column['display_name'].'</a>';
                 }
             }
             $cell = new DocumentElementModel('th', $th);
