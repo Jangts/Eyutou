@@ -91,16 +91,11 @@ class ProductionAVModel extends \PM\_STUDIO\BaseFormAVModel {
 		static::$selectOptions['type_id'] = $typeOptions;
 
 		$this->assign('form', self::buildForm($production->getArrayCopy(), $method));
-		if(isset($_GET['sort'])){
-            $selects = '?sort='. $_GET['sort'];
+		if(isset($_GET['page'])){
+            $qs = static::buildQueryString($_GET['page']);
         }else{
-            $selects = '?sort=';
-        }
-        if(isset($_GET['page'])){
-            $selects .= '&page='. $_GET['page'];
-        }else{
-            $selects .= '&page=';
-        }
+            $qs = static::buildQueryString();
+		}
 		$this->assign('buttons', [
 			[
 				'name' 	=>	'重置表单',
@@ -114,7 +109,7 @@ class ProductionAVModel extends \PM\_STUDIO\BaseFormAVModel {
 				'order'	=>	'anchor',
 				'form'	=>	'myform',
 				'action'=>	'',
-				'href'	=>	$basedir.$selects
+				'href'	=>	$basedir.$qs
 			],
 			$button2,
 			[
@@ -122,14 +117,14 @@ class ProductionAVModel extends \PM\_STUDIO\BaseFormAVModel {
 				'order'	=>	'submit',
 				'form'	=>	'myform',
 				'action'=>	__aurl__.'1008/productions/'.$guid.'?state=0',
-				'href'	=>	$basedir.$selects
+				'href'	=>	$basedir.$qs
 			],
 			[
 				'name' 	=>	'发布上架',
 				'order'	=>	'submit',
 				'form'	=>	'myform',
 				'action'=>	__aurl__.'1008/productions/'.$guid.'?state=1',
-				'href'	=>	$basedir.$selects
+				'href'	=>	$basedir.$qs
 			]
 		]);
 		

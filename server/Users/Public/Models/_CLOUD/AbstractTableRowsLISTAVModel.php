@@ -67,7 +67,7 @@ abstract class AbstractTableRowsLISTAVModel extends \PM\_STUDIO\BaseTableAVModel
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',
 			'pagelist'	=>	'<ul><li>1</li></ul>'
 		];
-    }
+	}
 
 	public function analysis($admininfo){
 		$range = self::__viewLimit();
@@ -83,19 +83,10 @@ abstract class AbstractTableRowsLISTAVModel extends \PM\_STUDIO\BaseTableAVModel
 		
 		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
 		$basedir = $stagedir.static::$itemurl;
-		if(isset($_GET['sort'])){
-            $sort = $_GET['sort'];
-        }else{
-            $sort = '';
-		}
-
-		$rows = $this->buildTableRows($basedir, $list, $range, $sort);
-
-		if(empty($_GET['tabid'])){
-            self::$creater['url'] = $basedir;
-        }else{
-            self::$creater['url'] = $basedir.'?tabid='.$_GET['tabid'];
-        }
+		
+		$qs = static::buildQueryString($range[2]);
+		$rows = $this->buildTableRows($basedir, $list, $qs);
+		self::$creater['url'] = $basedir.$qs;
 
 		$this->assign('__avmtabs', 	self::buildTabs($stagedir.static::$listurl));
 		$this->assign('__avmtags', '');
@@ -106,18 +97,18 @@ abstract class AbstractTableRowsLISTAVModel extends \PM\_STUDIO\BaseTableAVModel
 		return $this;
 	}
 
-	protected function buildTableRows($basedir, $list = [], array $range = [0, 0, 1], $sort = ''){
+	protected function buildTableRows($basedir, $list = [], $qs = ''){
         $rows = [];
         foreach($list as $index=>$row){
 			$itemurl = $basedir.$row->ID;
 			$rows[] = [
 				'__index'	=>	[$index + 1],
-				'title'		=>	[$row->TITLE, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
+				'title'		=>	[$row->TITLE, $itemurl.$qs, false],
 				'crttime'	=>	[$row->SK_CTIME],
 				'modtime'	=>	[$row->SK_MTIME],
 				'pubtime'	=>	[$row->PUBTIME],
 				'__count'	=>	[0],
-				'__ops'		=>	['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="/applications/cloudtables/rows/'.$row->ID.'" href="javascript:;">移除</a>']
+				'__ops'		=>	['<a href="'.$itemurl.$qs .'">编辑</a> | <a data-onclick="delete" data-submit-href="/applications/cloudtables/rows/'.$row->ID.'" href="javascript:;">移除</a>']
 			];
 		}
         return $rows;

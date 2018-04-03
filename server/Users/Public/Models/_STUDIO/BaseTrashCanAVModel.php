@@ -65,7 +65,8 @@ abstract class BaseTrashCanAVModel extends BaseTableAVModel {
         $count = $modelname::getCOUNT($require);
         //选取指定行，并转换格式
         $items = $modelname::query($require, static::$__sortby, $range);
-        $rows = $this->buildTableRows($stagedir, $items, $range);
+        // $qs = static::buildQueryString($range[2]);
+        $rows = $this->buildTableRows($stagedir, $items);
 
         $this->assign('__avmtabs', '');
         $this->assign('__avmtags', '');
@@ -75,7 +76,7 @@ abstract class BaseTrashCanAVModel extends BaseTableAVModel {
         return $this;
     }
 
-    abstract protected function buildTableRows($stagedir, $items = [], array $range = [0, 0, 1], $sort = '');
+    abstract protected function buildTableRows($stagedir, $items = [], $qs = '');
 
     protected function execDeletion($listurl){
         $modelname = static::$model or Status::cast('must specify a resource model.', 1422 );

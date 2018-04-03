@@ -18,12 +18,8 @@ class ProductionsStorageAVModel extends ProductionsAVModel {
 		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
 		$basedir = $stagedir.'/p/production/';
 
-		if(isset($_GET['sort'])){
-            $sort = $_GET['sort'];
-        }else{
-            $sort = '';
-		}
-		$rows = $this->buildTableRows($basedir, $productions, $range, $sort);
+		$qs = static::buildQueryString($range[2]);
+		$rows = $this->buildTableRows($basedir, $productions, $qs);
 		
 		self::$creater = NULL;
 

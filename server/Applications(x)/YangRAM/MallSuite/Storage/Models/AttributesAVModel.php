@@ -121,17 +121,17 @@ class AttributesAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 		];
 	}
 
-	protected function buildTableRows($basedir, $items = [], array $range = [0, 0, 1], $sort = ''){
+	protected function buildTableRows($basedir, $items = [], $qs = ''){
         $rows = [];
         foreach($items as $index=>$item){
 			if($category = $item->getCategory()){
 				$itemurl = $basedir.'/'.$item->id;
 				$rows[] = [
 					'__index'		=>	[$index + 1],
-					'name'			=>	[$item->attribute_alias, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
+					'name'			=>	[$item->attribute_alias, $itemurl.$qs, false],
 					'category'		=>	[$category->category_name],
 					'desc'			=>	[$item->brand_desc],
-					'__ops'			=>	['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="'.$itemurl.'" href="javascript:;">删除</a>']
+					'__ops'			=>	['<a href="'.$itemurl.$qs .'">编辑</a> | <a data-onclick="delete" data-submit-href="'.$itemurl.'" href="javascript:;">删除</a>']
 				];
             }else{
 				$item->destroy();

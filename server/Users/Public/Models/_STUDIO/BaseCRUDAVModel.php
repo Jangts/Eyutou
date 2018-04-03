@@ -19,8 +19,8 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
         
     }
 
-    protected static function __createURL($basedir){
-        return $basedir.'/0/';
+    protected static function __createURL($basedir, $qs = ''){
+        return $basedir.'/0/'.$qs;
     }
 
     protected static function __createTemplate($modelname){
@@ -78,15 +78,12 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
         $modelname::__correctTablePrefix($this->app);
         $items = $modelname::query($require, $orderby, $range);
         $count = $modelname::getCOUNT($require);
+        $qs = static::buildQueryString($range[2]);
+
         if(static::$creater){
-            static::$creater['url'] =  static::__createURL($basedir);
+            static::$creater['url'] =  static::__createURL($basedir, $qs);
         }
-        if(isset($_GET['sort'])){
-            $sort = $_GET['sort'];
-        }else{
-            $sort = '';
-        }
-        $rows = $this->buildTableRows($basedir, $items, $range, $sort);
+        $rows = $this->buildTableRows($basedir, $items, $qs);
         $this->assign('__avmtabs', 	self::buildTabs($basedir));
         $this->assign('__avmtags', '');
         $this->assign('itemlist', static::buildTable($rows));
@@ -95,7 +92,7 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
         return $this;
     }
 
-    protected function buildTableRows($basedir, $items = [], array $range = [0, 0, 1], $sort = ''){
+    protected function buildTableRows($basedir, $items = [], $qs = ''){
         $rows = [];
         foreach($items as $index=>$item){
             $itemurl = $basedir.'/'.$item[static::$pk];
@@ -111,7 +108,7 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
                     }
                 }
             }
-            $row['__ops']   = ['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="'.$itemurl.'" href="javascript:;">移除</a>'];
+            $row['__ops']   = ['<a href="'.$itemurl.$qs .'">编辑</a> | <a data-onclick="delete" data-submit-href="'.$itemurl.'" href="javascript:;">移除</a>'];
             
             $rows[] = $row;
         }
@@ -134,17 +131,12 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
         }
         $this->setSelections($item);
         $this->assign('form', self::buildForm($item->getArrayCopy()));
-        if(isset($_GET['sort'])){
-            $selects = '?sort='. $_GET['sort'];
-        }else{
-            $selects = '?sort=';
-        }
         if(isset($_GET['page'])){
-            $selects .= '&page='. $_GET['page'];
+            $qs = static::buildQueryString($_GET['page']);
         }else{
-            $selects .= '&page=';
-        }
-        $this->assignButtons($basedir, $item, $selects);
+            $qs = static::buildQueryString();
+		}
+        $this->assignButtons($basedir, $item, $qs);
 
 		$this->template = 'form.html';
 		return $this;
@@ -152,7 +144,7 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
 
     abstract protected function setSelections($item);
 
-    protected function assignButtons($basedir, $item, $selects){
+    protected function assignButtons($basedir, $item, $qs){
         if($item[static::$pk]){
             if(method_exists(static::$model, 'recycle')||method_exists(static::$model, 'remove')){
                 $name = '移除项目';
@@ -164,7 +156,7 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
 				'order'	=>	'delete',
 				'form'	=>	'myform',
 				'action'=>	$basedir.'/'.$item[static::$pk],
-				'href'	=>	$basedir.$selects
+				'href'	=>	$basedir.$qs
 			];
 		}else{
 			$button2 = NULL;
@@ -182,7 +174,7 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
 				'order'	=>	'anchor',
 				'form'	=>	'myform',
 				'action'=>	'',
-				'href'	=>	$basedir.$selects
+				'href'	=>	$basedir.$qs
 			],
 			$button2
         ];
@@ -192,14 +184,14 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
 				'order'	=>	'submit',
 				'form'	=>	'myform',
 				'action'=>	$basedir.'/'.$item[static::$pk].'?state=0',
-				'href'	=>	$basedir.$selects
+				'href'	=>	$basedir.$qs
 			];
             $buttons[] = [
                 'name' 	=>	'保存并生效',
                 'order'	=>	'submit',
                 'form'	=>	'myform',
                 'action'=>	$basedir.'/'.$item[static::$pk].'?state=1',
-                'href'	=>	$basedir.$selects
+                'href'	=>	$basedir.$qs
             ];
         }else{
             $buttons[] = [
@@ -207,7 +199,7 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
                 'order'	=>	'submit',
                 'form'	=>	'myform',
                 'action'=>	$basedir.'/'.$item[static::$pk],
-                'href'	=>	$basedir.$selects
+                'href'	=>	$basedir.$qs
             ];
         }
         $this->assign('buttons', $buttons);

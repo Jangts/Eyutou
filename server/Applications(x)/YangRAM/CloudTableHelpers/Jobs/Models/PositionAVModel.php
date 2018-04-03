@@ -191,16 +191,11 @@ class PositionAVModel extends \PM\_STUDIO\BaseFormAVModel {
 
 		$this->assign('formname', '编辑招聘信息');
 		$this->assign('form', self::buildForm($news->getArrayCopy(), $method));
-		if(isset($_GET['sort'])){
-            $selects = '?sort='. $_GET['sort'];
+		if(isset($_GET['page'])){
+            $qs = static::buildQueryString($_GET['page']);
         }else{
-            $selects = '?sort=';
-        }
-        if(isset($_GET['page'])){
-            $selects .= '&page='. $_GET['page'];
-        }else{
-            $selects .= '&page=';
-        }
+            $qs = static::buildQueryString();
+		}
 		$this->assign('buttons', [
 			[
 				'name' 	=>	'重置',
@@ -214,7 +209,7 @@ class PositionAVModel extends \PM\_STUDIO\BaseFormAVModel {
 				'order'	=>	'anchor',
 				'form'	=>	'myform',
 				'action'=>	'',
-				'href'	=>	$basedir.$selects
+				'href'	=>	$basedir.$qs
 			],
 			$button2,
 			[
@@ -222,14 +217,14 @@ class PositionAVModel extends \PM\_STUDIO\BaseFormAVModel {
 				'order'	=>	'submit',
 				'form'	=>	'myform',
 				'action'=>	__aurl__.'cloudtables/rows/'.$guid.'?state=0',
-				'href'	=>	$basedir.$selects
+				'href'	=>	$basedir.$qs
 			],
 			[
 				'name' 	=>	'发布',
 				'order'	=>	'submit',
 				'form'	=>	'myform',
 				'action'=>	__aurl__.'cloudtables/rows/'.$guid.'?state=1',
-				'href'	=>	$basedir.$selects
+				'href'	=>	$basedir.$qs
 			]
 		]);
 		

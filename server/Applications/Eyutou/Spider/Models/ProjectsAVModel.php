@@ -101,30 +101,22 @@ class ProjectsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 		$rows = [];
 		$stagedir = $this->request->ARI->dirname.'/'.$this->app->ID;
 		$basedir = $stagedir.'/news/';
-		if(isset($_GET['sort'])){
-            $sort = $_GET['sort'];
-        }else{
-            $sort = '';
-        }
+		$qs = static::buildQueryString($range[2]);
+		
 		foreach($list as $index=>$news){
 			$itemurl = $basedir.$news->ID;
 			$rows[] = [
 				'__index'	=>	[$index + 1],
-				'title'		=>	[$news->TITLE, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
+				'title'		=>	[$news->TITLE, $itemurl.$qs, false],
 				'crttime'	=>	[$news->SK_CTIME],
 				'modtime'	=>	[$news->SK_MTIME],
 				'pubtime'	=>	[$news->PUBTIME],
 				'__count'	=>	[0],
-				'__ops'		=>	['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="/applications/cloudtables/rows/'.$news->ID.'" href="javascript:;">移除</a>']
+				'__ops'		=>	['<a href="'.$itemurl.$qs .'">编辑</a> | <a data-onclick="delete" data-submit-href="/applications/cloudtables/rows/'.$news->ID.'" href="javascript:;">移除</a>']
 			];
 		}
 
-		if(empty($_GET['tabid'])){
-            self::$creater['url'] = $basedir;
-        }else{
-            self::$creater['url'] = $basedir.'?tabid='.$_GET['tabid'];
-        }
-		
+		self::$creater['url'] = $basedir.$qs;		
 
 		$this->assign('__avmtabs', 	self::buildTabs($stagedir.'/news-list/'));
 		$this->assign('__avmtags', '');

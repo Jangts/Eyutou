@@ -147,7 +147,7 @@ class LinksAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 	}
 	
 
-	protected function buildTableRows($basedir, $items = [], array $range = [0, 0, 1], $sort = ''){
+	protected function buildTableRows($basedir, $items = [], $qs = ''){
 		$range = self::__viewLimit();
         $orderby = self::__viewOrderBy();
 
@@ -159,7 +159,7 @@ class LinksAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 			$itemurl = $basedir.'/'.$link->id;
 			$rows[] = [
 				'__index'	=>	[$index],
-				'name'		=>	[$link->name, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
+				'name'		=>	[$link->name, $itemurl.$qs, false],
 				'type'		=>	[self::$types[$link->type]],
 				'sort'		=>	[$link->sort],
 				'alt'		=>	[$link->alt],

@@ -29,20 +29,6 @@ class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 	],
 	$__sortby = ProductionModel::ID_DESC;
 
-	public static function loadAllTypeTags(){
-		$types = ProductionTypeModel::getALL();
-		$tags = [];
-		foreach ($types as $type) {
-			$brand = $type->getBrand();
-			$tags['type'.$type->id] = [
-				'name'	=>	$brand->brand_name.' / '.$type->typename,
-				'title'	=>	$brand->brand_name.', '.$type->typename,
-				'where'	=>	['type_id'=>$type->id]
-			];
-		}
-		static::$__avmtags = $tags;
-	}
-
 	public static function loadTypeTags($brand_id){
 		$types = ProductionTypeModel::getTypesByBrand($brand_id);
 		if($types = ProductionTypeModel::getTypesByBrand($brand_id)){
@@ -69,6 +55,7 @@ class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 
 	public function initialize(){
 		static::loadBrandTabs();
+		static::loadAllTypeTags();
 		static::loadStaticProperties();
 		return [
 			'listname'	=>	static::$listname,
@@ -90,14 +77,9 @@ class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
 		$basedir = $stagedir.'/p/production/';
 
-		if(isset($_GET['sort'])){
-            $sort = $_GET['sort'];
-        }else{
-            $sort = '';
-		}
-		$rows = $this->buildTableRows($basedir, $productions, $range, $sort);
-		
-		self::$creater['url'] = $basedir;
+		$qs = static::buildQueryString($range[2]);
+		$rows = $this->buildTableRows($basedir, $productions, $qs);
+		self::$creater['url'] = $basedir.$qs;
 
 		$this->assign('__avmtabs', 	self::buildTabs($stagedir.'/p/productions/'));
 		$this->assign('__avmtags', 	self::buildTags($stagedir.'/p/productions/'));
@@ -137,19 +119,19 @@ class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 		return [$require, $type_id, $brand_id];
 	}
 
-	protected function buildTableRows($basedir, $productions, array $range = [0, 0, 1], $sort = ''){
+	protected function buildTableRows($basedir, $productions, $qs = ''){
         $rows = [];
 		foreach($productions as $index=>$production){
 			if($production->category_id&&$production->brand&&$production->type){
 				$itemurl = $basedir.$production->id;
 				$rows[] = [
 					'__index'	=>	[$index + 1],
-					'name'		=>	[$production->name, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
+					'name'		=>	[$production->name, $itemurl.$qs, false],
 					'brand'		=>	[$production->brand['brand_name']],
 					'type'		=>	[$production->type['typename']],
 					'time'		=>	[$production->time_onsale],
 					'__count'	=>	[0],
-					'__ops'		=>	['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="/applications/1008/productions/'.$production->id.'" href="javascript:;">移除</a>']
+					'__ops'		=>	['<a href="'.$itemurl.$qs .'">编辑</a> | <a data-onclick="delete" data-submit-href="/applications/1008/productions/'.$production->id.'" href="javascript:;">移除</a>']
 				];
 			}else{
 				$production->destroy();

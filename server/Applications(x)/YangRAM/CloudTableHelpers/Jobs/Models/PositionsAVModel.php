@@ -22,18 +22,18 @@ class PositionsAVModel extends AbstractTableRowsLISTAVModel {
 		static::$__sorts['posiname_reverse'] = [['POSINAME', true, TableRowModel::SORT_CONVERT_GBK]];
 	}
 
-	protected function buildTableRows($basedir, $list = [], array $range = [0, 0, 1], $sort = ''){
+	protected function buildTableRows($basedir, $list = [], $qs = ''){
         $rows = [];
         foreach($list as $index=>$row){
 			$itemurl = $basedir.$row->ID;
 			$rows[] = [
 				'__index'	=>	[$index + 1],
-				'title'		=>	[$row->POSINAME, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
+				'title'		=>	[$row->POSINAME, $itemurl.$qs, false],
 				'crttime'	=>	[$row->SK_CTIME],
 				'modtime'	=>	[$row->SK_MTIME],
 				'pubtime'	=>	[$row->PUBTIME],
 				'__count'	=>	[0],
-				'__ops'		=>	['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="/applications/cloudtables/rows/'.$row->ID.'" href="javascript:;">移除</a>']
+				'__ops'		=>	['<a href="'.$itemurl.$qs .'">编辑</a> | <a data-onclick="delete" data-submit-href="/applications/cloudtables/rows/'.$row->ID.'" href="javascript:;">移除</a>']
 			];
 		}
         return $rows;

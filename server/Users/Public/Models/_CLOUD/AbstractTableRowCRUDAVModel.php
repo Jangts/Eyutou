@@ -94,19 +94,13 @@ abstract class AbstractTableRowCRUDAVModel extends \PM\_STUDIO\BaseFormAVModel {
 		static::$selectOptions['GROUPID'] = $groupOptions;
 
 		$this->assign('form', self::buildForm($news->getArrayCopy(), $method));
-		if(isset($_GET['sort'])){
-            $selects = '?sort='. $_GET['sort'];
-        }else{
-            $selects = '?sort=';
-        }
+
         if(isset($_GET['page'])){
-            $selects .= '&page='. $_GET['page'];
+            $qs = static::buildQueryString($_GET['page']);
         }else{
-            $selects .= '&page=';
+            $qs = static::buildQueryString();
 		}
-		if(isset($_GET['tabid'])){
-            $selects .= '&tabid='. $_GET['tabid'];
-        }
+		
 		$this->assign('buttons', [
 			[
 				'name' 	=>	'重置表单',
@@ -120,7 +114,7 @@ abstract class AbstractTableRowCRUDAVModel extends \PM\_STUDIO\BaseFormAVModel {
 				'order'	=>	'anchor',
 				'form'	=>	'myform',
 				'action'=>	'',
-				'href'	=>	$basedir.$selects
+				'href'	=>	$basedir.$qs
 			],
 			$button2,
 			[
@@ -128,14 +122,14 @@ abstract class AbstractTableRowCRUDAVModel extends \PM\_STUDIO\BaseFormAVModel {
 				'order'	=>	'submit',
 				'form'	=>	'myform',
 				'action'=>	__aurl__.'cloudtables/rows/'.$guid.'?state=0',
-				'href'	=>	$basedir.$selects
+				'href'	=>	$basedir.$qs
 			],
 			[
 				'name' 	=>	'发布'.static::$itemname,
 				'order'	=>	'submit',
 				'form'	=>	'myform',
 				'action'=>	__aurl__.'cloudtables/rows/'.$guid.'?state=1',
-				'href'	=>	$basedir.$selects
+				'href'	=>	$basedir.$qs
 			]
 		]);
 		

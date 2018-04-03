@@ -10,7 +10,7 @@ trait table {
     public static function __loadTableColumns(){
         return static::$columns;
     }
-
+    
 	public static function buildTable($list, $page = 1, $options = NULL){
         $columns = self::__loadTableColumns();
         $table = new DocumentElementModel('table.tangram-table');

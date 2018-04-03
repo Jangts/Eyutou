@@ -47,7 +47,8 @@ class NewsRecycleAVModel extends \PM\_STUDIO\BaseTrashCanAVModel {
 	protected function readList($stagedir, $range){
 		$count = TableRowMetaModel::getCOUNT('news', NULL, TableRowMetaModel::RECYCLED);
 		$items = TableRowMetaModel::getRows('news', NULL, TableRowMetaModel::RECYCLED, static::$__sortby, $range[0], $range[1]);
-		$rows = $this->buildTableRows($stagedir, $items, $range);
+		$qs = static::buildQueryString($range[2]);
+		$rows = $this->buildTableRows($stagedir, $items, $qs);
 
 		$this->assign('__avmtabs','');
 		$this->assign('__avmtags', '');
@@ -57,7 +58,7 @@ class NewsRecycleAVModel extends \PM\_STUDIO\BaseTrashCanAVModel {
         return $this;
 	}
 
-    protected function buildTableRows($stagedir, $items = [], array $range = [0, 0, 1], $sort = ''){
+    protected function buildTableRows($stagedir, $items = [], $qs = ''){
 		$rows = [];
 		foreach($items as $index=>$news){
 			$itemurl = $stagedir.$news->ID;
@@ -65,7 +66,7 @@ class NewsRecycleAVModel extends \PM\_STUDIO\BaseTrashCanAVModel {
 				'__index'		=>	[$index + 1],
 				'title'		=>	[$news->TITLE],
 				'mtime'	=>	[$news->SK_MTIME],
-				'__ops'		=>	['<a href="'.$itemurl.'/delete/?page='. $range[2] .'">彻底删除</a> | <a href="'.$itemurl.'/recover/?page='. $range[2] .'">恢复</a>']
+				'__ops'		=>	['<a href="'.$itemurl.'/delete/' . $qs .'">彻底删除</a> | <a href="'.$itemurl.'/recover/' . $qs .'">恢复</a>']
 			];
 		}
 		return $rows;

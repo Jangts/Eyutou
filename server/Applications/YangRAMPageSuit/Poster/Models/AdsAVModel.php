@@ -85,7 +85,7 @@ class AdsAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 		];
 	}
 
-	protected function buildTableRows($basedir, $items = [], array $range = [0, 0, 1], $sort = ''){
+	protected function buildTableRows($basedir, $items = [], $qs = ''){
         $rows = [];
         foreach($items as $index=>$item){
             if(isset(self::$types[$item->type])){
@@ -96,10 +96,10 @@ class AdsAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
             $itemurl = $basedir.'-'.$item->type.'/'.$item->id;
             $rows[] = [
                 '__index'	=>	[$index + 1],
-                'title'		=>	[$item->title, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
+                'title'		=>	[$item->title, $itemurl.$qs, false],
                 'type'		=>	$type,
                 '__count'	=>	[0],
-                '__ops'		=>	['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="'.$itemurl.'" href="javascript:;">移除</a>']
+                '__ops'		=>	['<a href="'.$itemurl.$qs .'">编辑</a> | <a data-onclick="delete" data-submit-href="'.$itemurl.'" href="javascript:;">移除</a>']
             ];
         }
         return $rows;

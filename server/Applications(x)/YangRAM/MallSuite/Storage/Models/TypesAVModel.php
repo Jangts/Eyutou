@@ -30,16 +30,16 @@ class TypesAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 		];
 	}
 
-	protected function buildTableRows($basedir, $items = [], array $range = [0, 0, 1], $sort = ''){
+	protected function buildTableRows($basedir, $items = [], $qs = ''){
         $rows = [];
         foreach($items as $index=>$item){
             if($brand = $item->getBrand()){
 				$itemurl = $basedir.'/'.$item->id;
 				$rows[] = [
 					'__index'		=>	[$index + 1],
-					'name'			=>	[$item->typename, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
+					'name'			=>	[$item->typename, $itemurl.$qs, false],
 					'brand'			=>	[$brand->brand_name],
-					'__ops'			=>	['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="'.$itemurl.'" href="javascript:;">删除</a>']
+					'__ops'			=>	['<a href="'.$itemurl.$qs .'">编辑</a> | <a data-onclick="delete" data-submit-href="'.$itemurl.'" href="javascript:;">删除</a>']
 				];
             }else{
 				$item->destroy();

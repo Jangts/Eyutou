@@ -23,6 +23,26 @@ abstract class BaseAdminViewModel extends \AF\Models\BaseViewModel {
 		// new Status(1414, '', 'method "loadStaticProperties()" must be rewrite.', true);
 	}
 
+	public static function buildQueryString($page = 1){
+		if(is_numeric($page)){
+			$qs = '?page='.intval($page);
+		}else{
+			$qs = '?page=1';
+		}
+       
+        if(isset($_GET['sort'])){
+			$qs .= '&sort='.$_GET['sort'];
+        }
+		if(isset($_GET['tabid'])){
+            $qs .= '&tabid='.$_GET['tabid'];
+        }
+		if(isset($_GET['tagid'])){
+			$qs .= '&tagid='.$_GET['tagid'];
+        }
+		return $qs;
+	}
+
+
 	protected  $app, $request;
 
 	public function getFilenames($template, $is_include = false){

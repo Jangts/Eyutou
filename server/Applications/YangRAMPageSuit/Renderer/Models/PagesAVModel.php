@@ -148,7 +148,7 @@ class PagesAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 		];
 	}
 
-	protected function buildTableRows($basedir, $items = [], array $range = [0, 0, 1], $sort = ''){
+	protected function buildTableRows($basedir, $items = [], $qs = ''){
 		OptionsModel::__correctTablePrefix($this->app);
 		$options = OptionsModel::autoloadItems();
 
@@ -160,16 +160,16 @@ class PagesAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 			$itemurl = $basedir.'/'.$item->id;
 			$rows[] = [
 				'__index'	=>	[$index + 1],
-				'title'		=>	[$item->title, $itemurl.'?page='. $range[2] .'&sort'. $sort, false],
+				'title'		=>	[$item->title, $itemurl.$qs, false],
 				'url'		=>	[$itemurl_front, $itemurl_front, true],
 				'crttime'	=>	[$item->crttime],
 				'modtime'	=>	[$item->modtime],
 				'pubtime'	=>	[$item->pubtime],
 				'__count'	=>	[$item->__count],
-				'__ops'		=>	['<a href="'.$itemurl.'?page='. $range[2] .'&sort'. $sort .'">编辑</a> | <a data-onclick="delete" data-submit-href="'.$itemurl.'" href="javascript:;">移除</a>']
+				'__ops'		=>	['<a href="'.$itemurl.$qs .'">编辑</a> | <a data-onclick="delete" data-submit-href="'.$itemurl.'" href="javascript:;">移除</a>']
 			];
 		}
-		self::$creater['url'] = $basedir.'/0/';
+		self::$creater['url'] = $basedir.'/0/'.$qs;
 		return $rows;
 
 		$this->assign('itemlist', self::buildTable($rows));
