@@ -11,6 +11,15 @@ abstract class AbstractTableRowCRUDAVModel extends \PM\_STUDIO\BaseFormAVModel {
 	$itemname = '',
 	$listurl = '';
 
+	public static function __putDataToNewModel($item){
+		if(isset($_GET['tabid'])&&is_array(self::$__avmtabs[$_GET['tabid']])){
+			foreach(self::$__avmtabs[$_GET['tabid']]['where'] as $prop=>$value){
+				$item->__set($prop, $value);
+			}
+		}
+		return $item;
+	}
+
 	public static function loadGroupTabs(){
 		if($groups = TRGroupModel::getGroupsByTableName(static::$tablename)){
 			$tabs = [];
@@ -52,7 +61,7 @@ abstract class AbstractTableRowCRUDAVModel extends \PM\_STUDIO\BaseFormAVModel {
 		return [
 			'formname'	=>	static::$formname
 		];
-    }
+	}
 
 	public function analysis($admininfo){
 		$basedir = $this->request->ARI->dirname.'/'.$this->app->id.static::$listurl;
@@ -77,11 +86,7 @@ abstract class AbstractTableRowCRUDAVModel extends \PM\_STUDIO\BaseFormAVModel {
 		}else{
 			$guid = 0;
 			$news = TableRowModel::create(['tablename' => static::$tablename]);
-			if(isset($_GET['tabid'])&&is_array(self::$__avmtabs[$_GET['tabid']])){
-				foreach(self::$__avmtabs[$_GET['tabid']]['where'] as $prop=>$value){
-					$news->__set($prop, $value);
-				}
-			}
+			$news = static::__putDataToNewModel($news);
 			$method = 'POST';
 			$button2 = NULL;
 		}

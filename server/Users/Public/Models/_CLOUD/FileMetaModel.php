@@ -347,7 +347,7 @@ class FileMetaModel extends BaseCloudItemModel {
 		if(count($update)==0){
 			return true;
 		}
-		if($querier->requires()->where('ID', $this->savedProperties['ID'])->update($update)){
+		if($querier->requires()->where('ID', $this->savedProperties['ID'])->update($update)!==false){
 			$this->savedProperties = $this->modelProperties;
 		}else{
 			return false;

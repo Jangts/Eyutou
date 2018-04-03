@@ -55,7 +55,7 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
      *
      * @var string
      */
-    private $_charset = 'utf-8';
+    private $_charset = 'UTF-8';
 
     /**
      * The value of this Header, cached.

@@ -8,7 +8,11 @@ trait form {
 
 	public static function __loadFormInputs(){
         return static::$inputs;
-    }
+	}
+	
+	public static function __putDataToNewModel($item){
+		return $item;
+	}
 
     public static function buildForm($data, $method = 'POST', $action = ''){
 		$inputs = self::__loadFormInputs();
@@ -54,20 +58,28 @@ trait form {
 				$input = new DocumentElementModel('select', $content);
 				$input->addClass('sel-items');
 				$input->setAttr('name', $meta['field_name']);
+				if(!empty($meta['readonly'])){
+					$input->setAttr('disabled', 'disabled');
+				}
 				break;
 
 				case 'radio':
+				if(empty($meta['readonly'])){
+					$disabled = '';
+				}else{
+					$disabled = ' disabled="disabled"';
+				}
 				if(isset(static::$selectOptions[$meta['field_name']])){
 					$content = '';
 					foreach(static::$selectOptions[$meta['field_name']] as $option){
 						if(($option[0] === $value)||($option[0] == $value)){
-							$content .= '<label class="radio-label"><input name="'.$meta['field_name'].'" type="radio" value ="'.$option[0].'" checked="checked">'.$option[1].'</label>';
+							$content .= '<label class="radio-label"><input name="'.$meta['field_name'].'" type="radio" value ="'.$option[0].'" checked="checked"'.$disabled.'>'.$option[1].'</label>';
 						}else{
-							$content .= '<label class="radio-label"><input name="'.$meta['field_name'].'" type="radio" value ="'.$option[0].'">'.$option[1].'</label>';
+							$content .= '<label class="radio-label"><input name="'.$meta['field_name'].'" type="radio" value ="'.$option[0].'"'.$disabled.'>'.$option[1].'</label>';
 						}
 					}
 				}else{
-					$content = '<input name="'.$meta['field_name'].'" type="radio" value ="'.$value.'" checked="checked"><label>'.$value.'</label>';
+					$content = '<input name="'.$meta['field_name'].'" type="radio" value ="'.$value.'" checked="checked"'.$disabled.'><label>'.$value.'</label>';
 				}
 				$input = new DocumentElementModel('div', $content);
 				$input->addClass('radios');
@@ -77,18 +89,27 @@ trait form {
 				$input = new DocumentElementModel('textarea', $value);
 				$input->addClass('text-area');
 				$input->setAttr('name', $meta['field_name']);
+				if(!empty($meta['readonly'])){
+					$input->setAttr('readonly', 'readonly');
+				}
 				break;
 
 				case 'longtext':
 				$input = new DocumentElementModel('textarea', $value);
 				$input->addClass('long-item');
 				$input->setAttr('name', $meta['field_name']);
+				if(!empty($meta['readonly'])){
+					$input->setAttr('readonly', 'readonly');
+				}
 				break;
 
 				case 'hightext':
 				$input = new DocumentElementModel('textarea', $value);
 				$input->addClass('high-item');
 				$input->setAttr('name', $meta['field_name']);
+				if(!empty($meta['readonly'])){
+					$input->setAttr('readonly', 'readonly');
+				}
 				break;
 
 				case 'editor':
@@ -133,6 +154,9 @@ trait form {
 				$input->setAttr('name', $meta['field_name']);
 				$input->setAttr('type', 'number');
 				$input->setAttr('value', $value);
+				if(!empty($meta['readonly'])){
+					$input->setAttr('readonly', 'readonly');
+				}
 				break;
 
 				case 'image':
@@ -189,6 +213,9 @@ trait form {
 				// input可以自动补全type
 				$input->setAttr('name', $meta['field_name']);
 				$input->setAttr('value', $value);
+				if(!empty($meta['readonly'])){
+					$input->setAttr('readonly', 'readonly');
+				}
 			}
 			$inputs->appendContent($input);
 			$inputs->addClass('input-section');

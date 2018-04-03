@@ -75,7 +75,7 @@ abstract class _abstract extends PDO {
             $this->dbname = $dbname;
 			parent::__construct ($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
             // try {
-            //     parent::exec('SET NAMES UTF8');
+            //     parent::exec('SET NAMES UTF-8');
             // } catch (PDOException $e) {
             //     # 
             // }

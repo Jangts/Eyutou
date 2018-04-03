@@ -28,7 +28,8 @@
         {
             "field_name": "category_id",
             "display_name": "产品类目",
-            "input_type": "select"
+            "input_type": "select",
+            "readonly": true
         },
         {
             "field_name": "brand_id",

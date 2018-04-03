@@ -504,7 +504,7 @@ trait staticmethods {
 		if($result = self::get($table, $require, $order, $select)){
 			return $return->xml_encode();
 		}
-		return '<?xml version="1.0" encoding="utf-8"?><result></result>';
+		return '<?xml version="1.0" encoding="UTF-8"?><result></result>';
     }
     
     /**

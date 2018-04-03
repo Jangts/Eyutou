@@ -71,6 +71,7 @@ class ProductionAVModel extends \PM\_STUDIO\BaseFormAVModel {
 			}else{
 				$production = ProductionModel::create();
 			}
+			$production = static::__putDataToNewModel($production);
 			$method = 'POST';
 			$button2 = NULL;
 			$categories_ids = ['2'];

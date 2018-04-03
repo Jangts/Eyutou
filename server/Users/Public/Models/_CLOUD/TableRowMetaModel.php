@@ -392,7 +392,7 @@ final class TableRowMetaModel extends BaseCloudItemModel {
                 return true;
 			}
 			
-            if($querier->requires()->where('ID', $this->savedProperties['ID'])->update($update)){
+            if($querier->requires()->where('ID', $this->savedProperties['ID'])->update($update)!==false){
 				foreach ($update as $key => $val) {
 					$this->savedProperties[$key] = $val;
 				}

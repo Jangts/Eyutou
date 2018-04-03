@@ -364,7 +364,7 @@ trait querying {
         }
         // 将更新数据提交到数据库
         $update = $this->__checkUpdateData($update, $this->savedProperties);
-        if($update&&$querier->requires()->where($this->pk, $this->__guid)->update($update)){
+        if($update&&$querier->requires()->where($this->pk, $this->__guid)->update($update)!==false){
             foreach ($update as $key => $val) {
                 $this->savedProperties[$key] = $val;
             }

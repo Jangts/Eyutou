@@ -4,7 +4,7 @@ require __DIR__.'/../mime_types.php';
 
 Swift_DependencyContainer::getInstance()
     ->register('properties.charset')
-    ->asValue('utf-8')
+    ->asValue('UTF-8')
 
     ->register('mime.grammar')
     ->asSharedInstanceOf('Swift_Mime_Grammar')

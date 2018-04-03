@@ -81,7 +81,7 @@ trait crud {
     public static function update($require, array $input){
         // 获取默认数据行查询器
         $querier = static::initQuerier();
-        if(is_array($input)&&$querier->requires($require)->update($input)){
+        if(is_array($input)&&$querier->requires($require)->update($input)!==false){
             // 因为有未知行数的数据修改了，所以清空模型的全部缓存
             self::cleanFileStorage();
             return true;

@@ -130,7 +130,7 @@ final class IDEA {
 		ob_start();
 
 		// 通过标头设置默认的输出格式
-        header('Content-Type: text/plain;charset=utf-8');
+        header('Content-Type: text/plain;charset=UTF-8');
 	}
 
 	/**

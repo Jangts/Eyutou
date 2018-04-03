@@ -128,7 +128,7 @@ class Markdown {
 
                 foreach ($parts as $part)
                 {
-                    $shortage = 4 - mb_strlen($line, 'utf-8') % 4;
+                    $shortage = 4 - mb_strlen($line, 'UTF-8') % 4;
 
                     $line .= str_repeat(' ', $shortage);
                     $line .= $part;

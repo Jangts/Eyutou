@@ -3,7 +3,7 @@ namespace Lib\models;
 
 /*
 error_reporting(0); //抑制所有错误信息
-@header("content-Type: text/html; charset=utf-8"); //语言强制
+@header("content-Type: text/html; charset=UTF-8"); //语言强制
 ob_start();
 date_default_timezone_set('Asia/Shanghai');//此句用于消除时间差
 $time_start = microtime_float();

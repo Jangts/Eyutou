@@ -213,7 +213,7 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 		$update = $diff['__M__'];
             
         if(count($update)){
-			if($this->querier->requires()->where('id', $this->__guid)->update($update)){
+			if($this->querier->requires()->where('id', $this->__guid)->update($update)!==false){
 				$this->modelProperties['id'] = $this->__guid;
                 $this->savedProperties = $this->modelProperties;
 				$this->files->store($this->__guid);

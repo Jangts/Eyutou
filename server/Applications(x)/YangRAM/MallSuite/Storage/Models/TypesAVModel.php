@@ -19,6 +19,13 @@ class TypesAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 		}
 	}
 
+	public static function __putDataToNewModel($item){
+		if(isset($_GET['tabid'])&&isset(static::$__avmtabs[$_GET['tabid']])){
+			$item->put(static::$__avmtabs[$_GET['tabid']]['where']);
+		}
+		return $item;
+	}
+
 	public function initialize(){
 		static::loadBrandTabs();
 		static::loadStaticProperties();

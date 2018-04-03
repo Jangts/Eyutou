@@ -141,7 +141,7 @@ trait trm_checking {
         }
         $desc = trim(preg_replace('/\s+/', ' ', preg_replace('/[\n\r\t]+/', '', strip_tags(htmlspecialchars_decode($meta["DESCRIPTION"])))));
         $meta["DESCRIPTION"] = $desc!='' ? $desc : trim(preg_replace('/\s+/', ' ', preg_replace('/[\n\r\t]+/', '', strip_tags(htmlspecialchars_decode($preparation)))));
-        $meta["DESCRIPTION"] = mb_substr($meta["DESCRIPTION"], 0, 128, "utf-8");  
+        $meta["DESCRIPTION"] = mb_substr($meta["DESCRIPTION"], 0, 128, "UTF-8");  
 
         return [$meta, $xtnd];
     }

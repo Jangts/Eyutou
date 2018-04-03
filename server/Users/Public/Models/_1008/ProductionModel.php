@@ -327,28 +327,28 @@ class ProductionModel extends Model {
 
     protected function __update(){
         $querier = self::initQuerier();
-            // 比对更改
-            $diff = self::array_diff($this->savedProperties, $this->modelProperties, self::DIFF_SIMPLE);
-            $update = $diff['__M__'];
-            
-            if(isset($update['id'])){
-                $this->modelProperties['id'] = $this->savedProperties['id'];
-                unset($update['id']);
+        // 比对更改
+        $diff = self::array_diff($this->savedProperties, $this->modelProperties, self::DIFF_SIMPLE);
+        $update = $diff['__M__'];
+        
+        if(isset($update['id'])){
+            $this->modelProperties['id'] = $this->savedProperties['id'];
+            unset($update['id']);
+        }
+        if(count($update)===0){
+            // 如果并无更新，则返回实例，意即成功
+            return $this;
+        }
+        if($querier->where('id', $this->__guid)->update($update)!==false){
+            foreach ($update as $key => $val) {
+                $this->savedProperties[$key] = $val;
             }
-            if(count($update)==0){
-                // 如果并无更新，则返回实例，意即成功
-                return $this;
-            }
-            if($querier->where('id', $this->__guid)->update($update)){
-                foreach ($update as $key => $val) {
-                    $this->savedProperties[$key] = $val;
-                }
-                self::getFileStorage()->store($this->__guid);
-                return true;
-            }else{
-                // 如果失败，返回false
-                return false;
-            }
+            self::getFileStorage()->store($this->__guid);
+            return true;
+        }else{
+            // 如果失败，返回false
+            return false;
+        }
         return false;
     }
 

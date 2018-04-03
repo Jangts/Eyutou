@@ -120,6 +120,7 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
         $modelname::__correctTablePrefix($this->app);
 		if($guid==='0'){
             $item = static::__createTemplate($modelname);
+            $item = static::__putDataToNewModel($item);
 		}else{
             $item = $modelname::byGUID($guid);
 

@@ -7,8 +7,8 @@ use DBQ;
 class SearchEngine {
 	public static function subString($str, $len = NULL, $start = 0) {
 		$len = $len or mb_strlen($str) - $start;
-		$result = mb_substr($str, $start, $len, 'utf-8');
-		if ($len < mb_strlen($str, 'utf-8')) {
+		$result = mb_substr($str, $start, $len, 'UTF-8');
+		if ($len < mb_strlen($str, 'UTF-8')) {
 			$result .= '...';
 		}
 		return $result;

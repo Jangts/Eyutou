@@ -225,7 +225,7 @@ class FileSourceModel extends BaseCloudItemModel {
         if(count($update)==0){
             return $this;
         }
-        if($querier->requires()->where('SID', $this->savedProperties['SID'])->update($update)){
+        if($querier->requires()->where('SID', $this->savedProperties['SID'])->update($update)!==false){
             $this->savedProperties = $this->modelProperties;
         }else{
             return false;

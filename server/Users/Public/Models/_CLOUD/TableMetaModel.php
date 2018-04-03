@@ -152,7 +152,7 @@ final class TableMetaModel extends \AF\Models\BaseR3Model {
         $querier = static::initQuerier();
         $this->cache();
         if($this->savedProperties['SK_STATE']!=1){
-            if($querier->requires()->where('name', $this->__guid)->update(['SK_STATE' => 1])){
+            if($querier->requires()->where('name', $this->__guid)->update(['SK_STATE' => 1])!==false){
                 $this->modelProperties['SK_STATE'] = 1;
                 $this->savedProperties['SK_STATE'] = 1;
 				# 清空预设列表的缓存，及其所辖内容的缓存
@@ -171,7 +171,7 @@ final class TableMetaModel extends \AF\Models\BaseR3Model {
         $querier = static::initQuerier();
         $this->cache();
         if($this->savedProperties['SK_STATE']!=0){
-            if($querier->requires()->where('name', $this->__guid)->update(['SK_STATE' => 0])){
+            if($querier->requires()->where('name', $this->__guid)->update(['SK_STATE' => 0])!==false){
                 $this->modelProperties['SK_STATE'] = 0;
                 $this->savedProperties['SK_STATE'] = 0;
                 $this->files->store($this->__guid, $this->modelProperties);
@@ -196,7 +196,7 @@ final class TableMetaModel extends \AF\Models\BaseR3Model {
             $this->modelProperties['fields'] = $update;
             return true;
         }
-        if($this->querier->requires()->where('name', $this->__guid)->update(['fields' => $json])){
+        if($this->querier->requires()->where('name', $this->__guid)->update(['fields' => $json])!==false){
             $this->savedProperties['fields'] = $json;
             $this->modelProperties['fields'] = $update;
             $this->files->store($this->__guid);
@@ -331,7 +331,7 @@ final class TableMetaModel extends \AF\Models\BaseR3Model {
             }
     
             // 将更新数据提交到数据库
-            if($querier->requires()->where('name', $this->__guid)->update($update)){
+            if($querier->requires()->where('name', $this->__guid)->update($update)!==false){
                 $update['fields'] = $fields;
                 foreach ($update as $key => $val) {
                     $this->modelProperties[$key] = $val;

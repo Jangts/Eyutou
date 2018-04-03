@@ -71,7 +71,7 @@ if(preg_match("/cli/i", _CLI_MODE_)){
     }
 }else{
     // 设置输出格式
-    header('Content-Type: text/plain;charset=utf-8');
+    header('Content-Type: text/plain;charset=UTF-8');
     echo "This file can only be open in cli mode.";
     exit;
 }

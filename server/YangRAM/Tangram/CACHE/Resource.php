@@ -47,7 +47,7 @@ final class Resource extends ObjectModel {
     $data = [
         'hash'          =>  '',
         'mime'          =>  'text/html',
-        'charset'       =>  'utf-8',
+        'charset'       =>  'UTF-8',
         'content'       =>  '',
         'assign'        =>  [],
         'defind'        =>  [],
