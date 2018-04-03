@@ -43,6 +43,19 @@ abstract class AbstractTableRowsLISTAVModel extends \PM\_STUDIO\BaseTableAVModel
 	}
 
 	public static function loadStaticProperties(){
+		// $dirnameOfCalledClass = dirname(self::getFilenameOfCalledClass());
+		// if(
+		// 	is_file($filename = $dirnameOfCalledClass.'/avmvar_providers/'.static::$tablename.'_list.json')
+		// 	&&($vars = json_decode(file_get_contents($filename), true))
+		// ){
+		// 	self::setStaticProterties($vars);
+		// }elseif(
+		// 	($table = TableMetaModel::byGUID(static::$tablename))
+		// 	&&is_file($filename = __DIR__.'/default_avmvar_providers/'.$table->type.'_list.json')
+		// 	&&($vars = json_decode(file_get_contents($filename), true))
+		// ){
+		// 	self::setStaticProterties($vars);
+		// }
 		if(
 			($table = TableMetaModel::byGUID(static::$tablename))
 			&&is_file($filename = __DIR__.'/default_avmvar_providers/'.$table->type.'_list.json')

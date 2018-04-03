@@ -40,6 +40,11 @@ class ObjectModel implements \Serializable, interfaces\model {
     DIFF_STRICT         =   1,              // 严谨比较，
     DIFF_DEEP           =   2;              // 深度比较
 
+    final public static function getFilenameOfCalledClass(){
+        $classloader = \Tangram\ClassLoader::instance();
+        $calssname = get_called_class();
+        return $classloader->getilenameOfClass($classname);
+    }
 
     /**
 	 * 打包任意数据为Tangram\MODEL\ObjectModel

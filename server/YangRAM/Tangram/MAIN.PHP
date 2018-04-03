@@ -615,36 +615,39 @@ final class ClassLoader {
 		closedir($dh);
 	}
 
-	public function includeClassOfNSMap($classname){
+	public function getFilenameOfClass($classname){
 		$_classname = str_replace('\\', '/', $classname);
 		foreach ($this->map as $set) {
 			$ns = $set[0];
 			$path = $set[1];
 			if(@preg_match('/^'.$ns.'\//', $_classname)){
 				if($ns==='Packages'){
-					$filename = preg_replace('/^'.$ns.'\//', $path, $_classname).'/package.nip';
-				}else{
-					$filename = preg_replace('/^'.$ns.'\//', $path, $_classname).'.php';
+					return preg_replace('/^'.$ns.'\//', $path, $_classname).'/package.nip';
 				}
-				if(is_file($filename)){
-					$this->includeOne($filename);
-					if((class_exists($classname)||trait_exists($classname)||interface_exists($classname)||function_exists($classname))==false){
-						$sp = new StatusProcessor(1422, '', 'Class '.$classname.' not found in file '.$filename.', this file must be tampered.');
-						$tracedata = $sp->getTrace();
-						$sp->write(isset($tracedata[1]['file']) ? $tracedata[1]['file'] : $tracedata[1]['function']);
-						return $sp->respond(StatusProcessor::LOG);
-					}
-				}else{
-					// var_dump($this->map);
-					// exit;
-					$sp = new StatusProcessor(1444.1, 'File Not Found', 'File of class '.$classname.' ( ' .$filename. ' ) not found, files on your yangram may be tampered, or just a spelling mistake.');
+				return preg_replace('/^'.$ns.'\//', $path, $_classname).'.php';
+			}
+		}
+		return '';
+	}
+
+	public function includeClassOfNSMap($classname){
+		if($filename = $this->getFilenameOfClass($classname)){
+			if(is_file($filename)){
+				$this->includeOne($filename);
+				if((class_exists($classname)||trait_exists($classname)||interface_exists($classname)||function_exists($classname))===false){
+					$sp = new StatusProcessor(1422, '', 'Class '.$classname.' not found in file '.$filename.', this file must be tampered.');
 					$tracedata = $sp->getTrace();
 					$sp->write(isset($tracedata[1]['file']) ? $tracedata[1]['file'] : $tracedata[1]['function']);
 					return $sp->respond(StatusProcessor::LOG);
 				}
-				return;
+			}else{
+				$sp = new StatusProcessor(1444.1, 'File Not Found', 'File of class '.$classname.' ( ' .$filename. ' ) not found, files on your yangram may be tampered, or just a spelling mistake.');
+				$tracedata = $sp->getTrace();
+				$sp->write(isset($tracedata[1]['file']) ? $tracedata[1]['file'] : $tracedata[1]['function']);
+				return $sp->respond(StatusProcessor::LOG);
 			}
 		}
+		return;
 	}
 
 	public static function execute($names, $mainPath = '', $extensions = '.php'){
