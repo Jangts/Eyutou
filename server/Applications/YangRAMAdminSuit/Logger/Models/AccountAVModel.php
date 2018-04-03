@@ -30,10 +30,10 @@ class AccountAVModel extends \PM\_STUDIO\BaseFormAVModel {
 	],
 	$selectOptions = [
 		'LANGUAGE'	=>	[
-			['zh-cn', '中文简体'],
-			['zh-tw', '中文繁體'],
-			['en-uk', 'British English'],
-			['en-us', 'American English']
+			['zh-CN', '中文简体'],
+			['zh-TW', '中文繁體'],
+			['en-UK', 'British English'],
+			['en-US', 'American English']
 		]
 	];
 

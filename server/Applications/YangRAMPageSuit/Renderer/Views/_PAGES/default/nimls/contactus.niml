@@ -1,14 +1,15 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 
 <head>
-    <meta charset="utf-8">
-    <title>{{$page.title}} - 来利洪集团官网</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=1236, minimum-scale=0.1, maximum-scale=1,user-scalable=no" />
+    <title>{{$page.title}} - 来利洪集团官网</title>
     <link rel="stylesheet" type="text/css" href="{{$__theme}}stylesheets/style.css" />
-    <script src="{{$__static}}Tangram/tangram.js/src/tangram.js" use-debug-mode></script>
-    <script src="{{$__theme}}scripts/common.js"></script>
-    <script src="{{$__theme}}scripts/contactus.js"></script>
+    <script charset="UTF-8" src="{{$__static}}Tangram/tangram.js/src/tangram.js" data-tangram-debug></script>
+    <script charset="UTF-8" src="{{$__theme}}scripts/common.js"></script>
+    <script charset="UTF-8" src="{{$__theme}}scripts/contactus.js"></script>
 </head>
 
 <body>

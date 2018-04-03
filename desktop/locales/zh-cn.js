@@ -1,5 +1,5 @@
 System.Runtime.locales = {
-    CODE: 'zh-cn',
+    CODE: 'zh-CN',
 
     COMMON: {
         EMPTY_FN_TRIGGERED: '你触发了一个空的函数!',

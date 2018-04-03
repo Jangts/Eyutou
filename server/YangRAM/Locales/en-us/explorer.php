@@ -1,6 +1,6 @@
 <?php
 return [
-	'code'		=>	'en-us',
+	'code'		=>	'en-US',
 	'default'	=>	'My YangRAM',
 	// +--------------------------+
 	'folders'	=>	[

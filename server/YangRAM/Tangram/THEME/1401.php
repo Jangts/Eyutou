@@ -1,17 +1,18 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="<?=$lang?>">
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title><?=$title?></title>
-<link href="<?=CORE_URL?>THEME/static/status.css" type="text/css" rel="stylesheet" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?=$title?></title>
+    <link rel="stylesheet" type="text/css" href="<?=CORE_URL?>THEME/static/status.css" />
 </head>
 
 <body class="red like1401">
-<div class="main">
-    <header class="text-icon">:&nbsp;(</header>
-    <article><header><strong><?=$code?></strong><span><?=$title?></span></header><?=$message?></article>
-    <footer><span class="place"><?=$place?></span><span class="alias"><?=$alias?></span></footer>
-</div>
+    <div class="main">
+        <header class="text-icon">:&nbsp;(</header>
+        <article><header><strong><?=$code?></strong><span><?=$title?></span></header><?=$message?></article>
+        <footer><span class="place"><?=$place?></span><span class="alias"><?=$alias?></span></footer>
+    </div>
 </body>
 </html>

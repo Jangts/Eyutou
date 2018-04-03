@@ -518,7 +518,7 @@ final class StatusProcessor extends Exception {
 		if(is_file($template)){
 			include $template;
 		}else{
-			Response::renderStatus($title, $alias, $code, $pre, $message, $place);
+			Response::renderStatus($title, $alias, $code, $pre, $message, $place, $lang);
 		}
 		exit;
 	}

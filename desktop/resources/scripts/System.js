@@ -19,7 +19,7 @@ var System = {
 
     },
     Runtime: {
-        locales: { CODE: 'en-us' },
+        locales: { CODE: 'en-US' },
         operationscripts: {},
         currentRunningAppID: ''
     }

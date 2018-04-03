@@ -33,7 +33,7 @@ if (!require('../core/env').canvasSupported) {
             doc.createStyleSheet().addRule('.zrvml', 'behavior:url(#default#VML)');
         }
         else {
-            // http://msdn.microsoft.com/en-us/library/ms531194%28VS.85%29.aspx
+            // http://msdn.microsoft.com/en-US/library/ms531194%28VS.85%29.aspx
             styleSheets[0].addRule('.zrvml', 'behavior:url(#default#VML)');
         }
     };

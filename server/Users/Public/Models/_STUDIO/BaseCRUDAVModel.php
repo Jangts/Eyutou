@@ -127,6 +127,7 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
         }
         if(empty($item)){
             $this->assign('href', $basedir);
+            $this->assign('msg', '资源不存在，将返回列表页');
             $this->template = '404.html';
 		    return $this;
         }

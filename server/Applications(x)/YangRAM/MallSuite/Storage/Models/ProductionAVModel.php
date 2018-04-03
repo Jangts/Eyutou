@@ -42,8 +42,8 @@ class ProductionAVModel extends \PM\_STUDIO\BaseFormAVModel {
 			$production = ProductionModel::byGUID($guid);
 			if(!$production){
 				$this->assign('href', $basedir);
-				
-				$this->template = 'production404.html';
+				$this->assign('msg', '产品不存在，将返回列表页');
+				$this->template = '404.html';
 				return $this;
 			}
 			$method = 'PUT';

@@ -62,6 +62,7 @@ abstract class BaseAdminViewModel extends \AF\Models\BaseViewModel {
 		$this->request = $request;
 		$this->theme = $theme;
 		$this->vars =  $this->initialize();
+		$this->vars['lang']	= $GLOBALS['NEWIDEA']->LANGUAGE;
 		define('COMMON_ADMIN_VIEW_URL', __BURL__.$app->DIR.'Views/_'.CACAI.'/');
 		define('COMMON_ADMIN_VIEW_PATH', $app->Path.'Views/_'.CACAI.'/');
 		define('COMMON_ADMIN_VIEW_PATH_TPL', DPATH.CACAI.'/templates/'.$app->ID.'/');

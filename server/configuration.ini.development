@@ -40,7 +40,7 @@
         "_TIME_CORRECTION_VALUE_": 0,
 
         系统默认语言
-        "_LANG_": "zh-cn",
+        "_LANG_": "zh-CN",
 
         开启多语言频道
         "_LOCALE_CHANNELS_": 0,
@@ -155,8 +155,8 @@
     ***********
     
     "i18n": [
-        "en-gb",
-        "zh-cn"
+        "en-GB",
+        "zh-CN"
     ],
 
     ***********

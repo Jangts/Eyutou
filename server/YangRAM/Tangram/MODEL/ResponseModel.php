@@ -162,45 +162,46 @@ final class ResponseModel implements interfaces\model {
         exit;
     }
 
-    public static function renderStatus($title, $alias, $code, $pre, $message, $place){
+    public static function renderStatus($title, $alias, $code, $pre, $message, $place, $lang){
         $icon = __BURL__.'/icon.php?o';
         echo <<<HTML
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="<?=$lang?>">
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>$title</title>
-<style>
-* { position: relative; margin: 0; padding: 0; border: none; }
-body { color: #FFF; font-family: 'Microsoft Yahei', 'Microsoft Sans Serif', 'Hiragino Sans GB', 'sans-serif'; font-weight: lighter; }
-.main { width: 80%; max-width: 800px; height: 80%; padding: 10%; cursor: default; }
-.main > header.text-icon { width: 180px; height: 180px; letter-spacing: .2em; text-align: center; color: #FFF; line-height: 162px; font-size: 144px; }
-.main > header.text-icon { background: url($icon) center no-repeat; }
-.main > header.text-icon { width: 150px; height: 150px; padding: 15px; letter-spacing: 0; line-height: 132px; font-size: 114px; }
-.main > article { margin-top: 20px; font-size: 14px; }
-.main > article > header { border-bottom: #FFF 1px solid; margin-bottom: 10px; padding: 5px 0; color: #FFF;}
-.main > article > header > strong { font-family: Impact; letter-spacing: .1em; font-size: 36px; line-height: 30px; font-weight: lighter; }
-.main > article > header > span { font-weight: lighter; font-size: 21px; }
-.main > article > header > span:before { content: "/"; margin: 0 3px 0 2px;}
-.main > article > p { line-height: 24px; text-align: justify; margin-top: 10px; }
-.main > article > ol { list-style-position: inside; }
-.main > article > ol > li { line-height: 18px; text-align: justify; margin-top: 5px; }
-.main > footer { min-height: 30px; max-height: 60px; overflow: hidden; margin-top: 10px; }
-.main > footer { text-align: left; font-size: 12px; line-height: 30px; border-bottom: #FFF 1px solid; }
-.main > footer > .alias { float: right; font-size: 16px; text-align: right; }
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?=$title?></title>
+    <style>
+        * { position: relative; margin: 0; padding: 0; border: none; }
+        body { color: #FFF; font-family: 'Microsoft Yahei', 'Microsoft Sans Serif', 'Hiragino Sans GB', 'sans-serif'; font-weight: lighter; }
+        .main { width: 80%; max-width: 800px; height: 80%; padding: 10%; cursor: default; }
+        .main > header.text-icon { width: 180px; height: 180px; letter-spacing: .2em; text-align: center; color: #FFF; line-height: 162px; font-size: 144px; }
+        .main > header.text-icon { background: url($icon) center no-repeat; }
+        .main > header.text-icon { width: 150px; height: 150px; padding: 15px; letter-spacing: 0; line-height: 132px; font-size: 114px; }
+        .main > article { margin-top: 20px; font-size: 14px; }
+        .main > article > header { border-bottom: #FFF 1px solid; margin-bottom: 10px; padding: 5px 0; color: #FFF;}
+        .main > article > header > strong { font-family: Impact; letter-spacing: .1em; font-size: 36px; line-height: 30px; font-weight: lighter; }
+        .main > article > header > span { font-weight: lighter; font-size: 21px; }
+        .main > article > header > span:before { content: "/"; margin: 0 3px 0 2px;}
+        .main > article > p { line-height: 24px; text-align: justify; margin-top: 10px; }
+        .main > article > ol { list-style-position: inside; }
+        .main > article > ol > li { line-height: 18px; text-align: justify; margin-top: 5px; }
+        .main > footer { min-height: 30px; max-height: 60px; overflow: hidden; margin-top: 10px; }
+        .main > footer { text-align: left; font-size: 12px; line-height: 30px; border-bottom: #FFF 1px solid; }
+        .main > footer > .alias { float: right; font-size: 16px; text-align: right; }
 
-body { background: #33A5DD;	background: rgba(51,165,221,1); }
-body > div > article { ccolor: #CEF; }
-body > div > footer { border-top: #3DF 1px dashed; color: #3DF; }
-</style>
+        body { background: #33A5DD;	background: rgba(51,165,221,1); }
+        body > div > article { ccolor: #CEF; }
+        body > div > footer { border-top: #3DF 1px dashed; color: #3DF; }
+    </style>
 </head>
 <body>
-<div class="main">
-    <header class="text-icon">:&nbsp;(</header>
-    <article><header><strong>$code</strong><span>$title</span></header>$message</article>
-    <footer><span class="place">$place</span><span class="alias">$alias</span></footer>
-</div>
+    <div class="main">
+        <header class="text-icon">:&nbsp;(</header>
+        <article><header><strong>$code</strong><span>$title</span></header>$message</article>
+        <footer><span class="place">$place</span><span class="alias">$alias</span></footer>
+    </div>
 </body>
 </html>
 HTML;

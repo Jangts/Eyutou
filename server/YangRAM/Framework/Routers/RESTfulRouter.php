@@ -62,7 +62,7 @@ class RESTfulRouter extends BaseRouter {
 	 * PUT /zoos/ID：更新某个指定动物园的信息（提供该动物园的全部信息）
 	 * PATCH /zoos/ID：更新某个指定动物园的信息（提供该动物园的部分信息）
 	 * DELETE /zoos/ID：删除某个动物园
-	 * GET /zh-cn/zoos/ID/animals：列出某个指定动物园的所有动物
+	 * GET /zh-CN/zoos/ID/animals：列出某个指定动物园的所有动物
 	 * DELETE /zoos/ID/animals/ID：删除某个指定动物园的指定动物
 	 * 将分别导出以下结果：
 	 * zoos, ZoosController			[]						// 结果为设置$ignoreAppDir为true的结果
@@ -71,7 +71,7 @@ class RESTfulRouter extends BaseRouter {
 	 * zoos, ZoosController			[zoos=>ID]
 	 * zoos, ZoosController			[zoos=>ID]
 	 * zoos, ZoosController			[zoos=>ID]
-	 * animals, AnimalsController	[zoos=>ID]				// 如果系统支持zh-cn语言频道，则zh-cn段会被自动忽略掉
+	 * animals, AnimalsController	[zoos=>ID]				// 如果系统支持zh-CN语言频道，则zh-CN段会被自动忽略掉
 	 * animals, AnimalsController	[zoos=>ID, animals=>ID]
 	 * 
 	 * @access protected

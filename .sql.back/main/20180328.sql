@@ -914,7 +914,7 @@ CREATE TABLE `ni_reg_languages` (
 --
 
 INSERT INTO `ni_reg_languages` (`LOC_ID`, `LANG`, `NAME`, `OWNER`, `ADDR`, `BRIEF`, `REMARK`) VALUES
-(1, 'en-us', 'Your Tangram', 'your name', 'no content', 'no content', 'no content');
+(1, 'en-US', 'Your Tangram', 'your name', 'no content', 'no content', 'no content');
 
 -- --------------------------------------------------------
 
@@ -1268,7 +1268,7 @@ CREATE TABLE `ni__administrators` (
 --
 
 INSERT INTO `ni__administrators` (`UID`, `OPERATORNAME`, `PIN`, `OGROUP`, `AVATAR`, `LANGUAGE`) VALUES
-(1, 'Admin', 'c9b522cffa52175b82f89431ec68d5a7', 1, '/applications/uploads/files/cc26775220c32188228.jpg', 'zh-cn');
+(1, 'Admin', 'c9b522cffa52175b82f89431ec68d5a7', 1, '/applications/uploads/files/cc26775220c32188228.jpg', 'zh-CN');
 
 -- --------------------------------------------------------
 

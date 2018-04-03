@@ -8,7 +8,7 @@ const remote = electron.remote;
 if (localStorage.NTVOI_CONF_LANG) {
     var lang = localStorage.NTVOI_CONF_LANG;
 } else {
-    var lang = 'zh-cn';
+    var lang = 'zh-CN';
 }
 
 tangram.config({

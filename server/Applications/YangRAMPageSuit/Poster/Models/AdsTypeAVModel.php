@@ -20,7 +20,7 @@ abstract class AdsTypeAVModel extends \PM\_STUDIO\BaseFormAVModel {
 			
 			if(!$ad){
 				$this->assign('href', $basedir);
-				
+				$this->assign('msg', '广告不存在，将返回列表页');
 				$this->template = '404.html';
 				return $this;
 			}

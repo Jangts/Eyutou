@@ -1,6 +1,6 @@
 <?php
 return [
-	'code'		=>	'zh-cn',
+	'code'		=>	'zh-CN',
 	'default'	=>	'我的YangRAM',
 	// +--------------------------+
 	'folders'	=>	[
