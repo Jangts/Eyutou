@@ -2,8 +2,11 @@
 namespace Lib\data;
 
 Class Transfer {
-    public static function execute($filePath, $mimeType = null, $filename = null){
-        $transfer = new self($filePath, $mimeType, $filename);
+    public static function execute($filePath, $mimeType = null, $filename = null, $speed = 0){
+		$transfer = new self($filePath, $mimeType, $filename);
+		if($speed){
+			$transfer->setSpeed($speed)
+		}
 		$transfer->send();
     }
 

@@ -9,8 +9,8 @@ class ProductionTypeModel extends BaseR3Model {
     const
 	ID_DESC = [['id', true, self::SORT_REGULAR]],
     ID_ASC = [['id', false, self::SORT_REGULAR]],
-    SORT_DESC = [['SK_SORT_NUM', true, self::SORT_REGULAR]],
-	SORT_ASC = [['SK_SORT_NUM', false, self::SORT_REGULAR]],
+    RANK_DESC = [['SK_RANK', true, self::SORT_REGULAR]],
+	RANK_ASC = [['SK_RANK', false, self::SORT_REGULAR]],
 	BRAND_ID_DESC = [['brand_id', true, self::SORT_REGULAR]],
 	BRAND_ID_ASC = [['brand_id', false, self::SORT_REGULAR]],
 	NAME_DESC = [['typename', true, self::SORT_REGULAR]],
@@ -28,7 +28,7 @@ class ProductionTypeModel extends BaseR3Model {
         'id'  =>  0,
         'brand_id'  =>  0,
         'typename'  =>  '',
-        'SK_SORT_NUM'    =>  0
+        'SK_RANK'    =>  0
     ];
 
     protected static function initQuerier(){
@@ -40,7 +40,7 @@ class ProductionTypeModel extends BaseR3Model {
         return self::$staticQuerier->using(self::$staticTablrnamePrefix.self::$tablenameAlias);
     }
 
-    public static function getTypesByBrand($brand_id, array $orderby = [['SK_SORT_NUM', false, self::SORT_REGULAR]], $range = 0, $returnFormat = self::LIST_AS_OBJS){
+    public static function getTypesByBrand($brand_id, array $orderby = [['SK_RANK', false, self::SORT_REGULAR]], $range = 0, $returnFormat = self::LIST_AS_OBJS){
         if($brand = BrandModel::byGUID($brand_id)){
             return ProductionTypeModel::query("`brand_id` = '$brand_id'", $orderby, $range, $returnFormat);
         }

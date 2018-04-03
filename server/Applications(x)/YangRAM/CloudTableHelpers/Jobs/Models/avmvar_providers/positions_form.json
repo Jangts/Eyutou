@@ -1,7 +1,6 @@
 {
     "formname": "'编辑招聘信息",
-    "inputs": [
-        {
+    "inputs": [{
             "field_name": "ID",
             "display_name": "",
             "input_type": "hide"
@@ -117,7 +116,7 @@
             "input_type": "textarea"
         },
         {
-            "field_name": "RANK",
+            "field_name": "SK_GRADE",
             "display_name": "评星（等数）",
             "input_type": "select"
         },
@@ -152,7 +151,7 @@
                 "仅女性"
             ]
         ],
-        "RANK": [
+        "SK_GRADE": [
             [
                 "1",
                 "★（低级）"

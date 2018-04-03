@@ -9,8 +9,8 @@ class BrandModel extends BaseR3Model {
     const
 	ID_DESC = [['id', true, self::SORT_REGULAR]],
     ID_ASC = [['id', false, self::SORT_REGULAR]],
-    SORT_DESC = [['SK_SORT_NUM', true, self::SORT_REGULAR]],
-	SORT_ASC = [['SK_SORT_NUM', false, self::SORT_REGULAR]],
+    RANK_DESC = [['SK_RANK', true, self::SORT_REGULAR]],
+	RANK_ASC = [['SK_RANK', false, self::SORT_REGULAR]],
 	CATEGORY_ID_DESC = [['category_id', true, self::SORT_REGULAR]],
 	CATEGORY_ID_ASC = [['category_id', false, self::SORT_REGULAR]],
 	NAME_DESC = [['brand_name', true, self::SORT_REGULAR]],
@@ -30,7 +30,7 @@ class BrandModel extends BaseR3Model {
         'brand_name'  =>  '',
         'brand_logo'  =>  '',
         'brand_desc'  =>  '',
-        'SK_SORT_NUM'    =>  0
+        'SK_RANK'    =>  0
     ];
 
     protected static function initQuerier(){
@@ -42,7 +42,7 @@ class BrandModel extends BaseR3Model {
         return self::$staticQuerier->using(self::$staticTablrnamePrefix.self::$tablenameAlias);
     }
 
-    public static function getBrandsByCategory($category_id, array $orderby = [['SK_SORT_NUM', false, self::SORT_REGULAR]], $range = 0, $returnFormat = self::LIST_AS_OBJS, $containChildCategories = false){
+    public static function getBrandsByCategory($category_id, array $orderby = [['SK_RANK', false, self::SORT_REGULAR]], $range = 0, $returnFormat = self::LIST_AS_OBJS, $containChildCategories = false){
         if($category = CategoryModel::byGUID($category_id)){
             // 查询类目的所有子类目
             // 需要包含自己，所传进去的容器中，包含自己

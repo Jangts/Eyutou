@@ -19,7 +19,7 @@ class CategoryModel extends BaseDeepModel {
         'parent_id'  =>  0,
         'category_name'  =>  '',
         'category_desc'  =>  '',
-        'SK_SORT_NUM'    =>  0
+        'SK_RANK'    =>  0
     ];
 
     protected static function initQuerier(){

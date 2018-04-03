@@ -3,7 +3,7 @@ block([
     '$_/dom/Elements/',
     '$_/dom/Template.cls'
 ], function(_, global, undefined) {
-    var url = '/api/cloudtables/?c=MVCRows&m=getrows&args=news/null/rldpd/1/0';
+    var url = '/api/cloudtables/?c=MVCRows&m=getrows&args=news/null/gldpd/1/0';
     _.data.json(url, function(res) {
             var
                 $ = _.dom.select,

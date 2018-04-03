@@ -44,6 +44,7 @@
     },
     "config": {
         "openUploads": false,
+        "downloadSpeedLimit": 0,
 
         "imageSecurityChain": false,
         "imageWhiteList": [],

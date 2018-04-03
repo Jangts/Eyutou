@@ -55,7 +55,7 @@ block([
             });
         },
         typeClick = function(id, $this) {
-            var url = '/applications/1008/brands/' + brand_id + '/types/' + id + '/productions/?sortby=rank_reverse';
+            var url = '/applications/1008/brands/' + brand_id + '/types/' + id + '/productions/?sortby=grade_reverse';
             _.data.json(url, function(res) {
                 render(res.data, 'brand=' + brand_id + '&type=' + id);
                 type_id = id;

@@ -56,7 +56,7 @@ class NewsPageController extends \Controller {
             $column = new ColumnModel('link_news/archive/'.$archive->id);
             $column->push('link_news/');
             $count = TableRowMetaModel::getCOUNT(NULL, $archive->id, TableRowMetaModel::PUBLISHED);
-            $list = TableRowModel::getRows(NULL, $archive->id, TableRowMetaModel::PUBLISHED, TableRowMetaModel::RLDPD, $start, $num = static::$prepage);
+            $list = TableRowModel::getRows(NULL, $archive->id, TableRowMetaModel::PUBLISHED, TableRowMetaModel::GLDPD, $start, $num = static::$prepage);
 
             $renderer = new FrontPageViewModel();
 

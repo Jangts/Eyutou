@@ -67,18 +67,18 @@
             "input_type": "editor"
         },
         {
-            "field_name": "rank",
+            "field_name": "SK_GRADE",
             "display_name": "评星（等数）",
             "input_type": "select"
         },
         {
-            "field_name": "sort_lv",
+            "field_name": "SK_LEVEL",
             "display_name": "排序（级数）",
             "input_type": "counter"
         }
     ],
     "selectOptions": {
-        "rank": [
+        "SK_GRADE": [
             [
                 "1",
                 "★（低级）"

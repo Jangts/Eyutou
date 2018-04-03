@@ -203,12 +203,12 @@ body {
 }
 
 .main-content {
-    width: 696px;
+    width: 700px;
     margin: 0 auto 50px;
 }
 
 .main-content .right-article img {
-    max-width: 696px;
+    max-width: 700px;
     margin: 30px auto;
 }
 
@@ -371,6 +371,10 @@ p.index-news-date {
 
 .brand-banner {
     margin: 50px auto 30px;
+}
+
+.brand-banner img {
+    max-width: 100%;
 }
 
 .products-categories {
@@ -586,7 +590,7 @@ a.go2buy {
 
 .news-list .news-list-item {
     display: block;
-    width: 696px;
+    width: 700px;
     height: 107px;
     padding: 23px 0 30px;
     border-bottom: dashed 1px #e4e4e4;
@@ -697,7 +701,7 @@ h2.news-title {
 }
 
 .hr-banner {
-    width: 696px;
+    width: 700px;
     height: 175px;
     margin: 38px auto;
 }
@@ -708,7 +712,7 @@ h2.news-title {
 
 .job-list li {
     display: block;
-    width: 696px;
+    width: 700px;
     padding: 40px 0;
     border-bottom: dashed 1px #e4e4e4;
 }
@@ -731,7 +735,7 @@ h2.news-title {
 /** CONTACT **/
 
 #map {
-    width: 696px;
+    width: 700px;
     height: 380px;
     margin: 60px auto 30px;
 }

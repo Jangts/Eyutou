@@ -1,5 +1,5 @@
 {
-    "formname" : "编辑新闻信息",
+    "formname": "编辑新闻信息",
     "inputs": [{
             "field_name": "ID",
             "display_name": "",
@@ -106,7 +106,7 @@
             "input_type": "hide"
         },
         {
-            "field_name": "RANK",
+            "field_name": "SK_GRADE",
             "display_name": "评星（等数）",
             "input_type": "select"
         },
@@ -127,7 +127,7 @@
                 "是"
             ]
         ],
-        "RANK": [
+        "SK_GRADE": [
             [
                 "1",
                 "★（低级）"

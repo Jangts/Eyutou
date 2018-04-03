@@ -66,7 +66,7 @@ class BrandsAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 			'input_type'	=>	'textarea'
 		],
 		[
-			'field_name'	=>	'SK_SORT_NUM',
+			'field_name'	=>	'SK_RANK',
 			'display_name'	=>	'排序序数',
 			'input_type'	=>	'counter'
 		]

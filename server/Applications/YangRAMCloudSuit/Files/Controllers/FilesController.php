@@ -74,12 +74,14 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 	}
 
     protected function returnUploadsData($options, $is2ndPass = false){
+		$CONFIG = $this->app->xProps['Config'];
+
 		if(isset($options['returndetails'])){
 			foreach($this->successed as $name=>$successed){
 				foreach($successed as $i=>$file){
 					$data= [
 						'host'		=>	HOST,
-						'src'		=>	PUBL_PATH.$file["LOCATION"],
+						'src'		=>	$CONFIG['downloadSpeedLimit'] ? '': PUBL_PATH.$file["LOCATION"],
 						'url'		=>	__aurl__.'uploads/files/'.$file["ID"].'.'.$file['FILE_EXTN'],
 						'name'		=>	$file['FILE_NAME'],
 						'type'		=>	$file['MIME'],
@@ -155,9 +157,9 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 						return $file->resizeImageAndTransfer($options['sizes']);
 					}
 				}
-				if(0){
+				if($CONFIG['downloadSpeedLimit']){
 					// 如果限速
-					return $file->transfer();
+					return $file->transfer($CONFIG['downloadSpeedLimit']);
 				}
 				header("Location: ".PUBL_URL.$file->LOCATION);
 				exit;
