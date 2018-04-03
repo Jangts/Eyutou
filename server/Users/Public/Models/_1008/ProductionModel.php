@@ -14,22 +14,22 @@ class ProductionModel extends Model {
 	ONSALE =    ['state'       =>  1],
 	INSTORAGE = ['state'    =>  0],
 
-	ID_DESC = [['id', true, self::SORT_REGULAR]],
-	ID_ASC = [['id', false, self::SORT_REGULAR]],
-	CTIME_DESC = [['id', true, self::SORT_REGULAR]],
-    CTIME_ASC = [['id', false, self::SORT_REGULAR]],
-    BRAND_DESC = [['brand_id', true, self::SORT_REGULAR]],
-    BRAND_ASC = [['brand_id', false, self::SORT_REGULAR]],
-    TYPE_DESC = [['type_id', true, self::SORT_REGULAR]],
-	TYPE_ASC = [['type_id', false, self::SORT_REGULAR]],
-	TIME_DESC = [['time_onsale', true, self::SORT_REGULAR]],
-	TIME_ASC = [['time_onsale', false, self::SORT_REGULAR]],
-	RANK_DESC = [['rank', true, self::SORT_REGULAR]],
-	RANK_ASC = [['rank', false, self::SORT_REGULAR]],
-	NAME_DESC = [['name', true, self::SORT_REGULAR]],
-	NAME_ASC = [['name', false, self::SORT_REGULAR]],
-	NAME_DESC_GBK = [['name', true, self::SORT_CONVERT_GBK]],
-	NAME_ASC_GBK = [['name', false, self::SORT_CONVERT_GBK]];
+	ID_DESC = [['id', true, self::SORT_REGULAR], ['sort_lv', true, self::SORT_REGULAR]],
+	ID_ASC = [['id', false, self::SORT_REGULAR], ['sort_lv', true, self::SORT_REGULAR]],
+	CTIME_DESC = [['id', true, self::SORT_REGULAR], ['sort_lv', true, self::SORT_REGULAR]],
+    CTIME_ASC = [['id', false, self::SORT_REGULAR], ['sort_lv', true, self::SORT_REGULAR]],
+    BRAND_DESC = [['brand_id', true, self::SORT_REGULAR], ['sort_lv', true, self::SORT_REGULAR]],
+    BRAND_ASC = [['brand_id', false, self::SORT_REGULAR], ['sort_lv', true, self::SORT_REGULAR]],
+    TYPE_DESC = [['type_id', true, self::SORT_REGULAR], ['sort_lv', true, self::SORT_REGULAR]],
+	TYPE_ASC = [['type_id', false, self::SORT_REGULAR], ['sort_lv', true, self::SORT_REGULAR]],
+	TIME_DESC = [['time_onsale', true, self::SORT_REGULAR], ['sort_lv', true, self::SORT_REGULAR]],
+    TIME_ASC = [['time_onsale', false, self::SORT_REGULAR], ['sort_lv', true, self::SORT_REGULAR]],
+    RANK_DESC = [['rank', true, self::SORT_REGULAR], ['sort_lv', true, self::SORT_REGULAR]],
+	RANK_ASC = [['rank', false, self::SORT_REGULAR], ['sort_lv', false, self::SORT_REGULAR]],
+	NAME_DESC = [['name', true, self::SORT_REGULAR], ['sort_lv', true, self::SORT_REGULAR]],
+	NAME_ASC = [['name', false, self::SORT_REGULAR], ['sort_lv', true, self::SORT_REGULAR]],
+	NAME_DESC_GBK = [['name', true, self::SORT_CONVERT_GBK], ['sort_lv', true, self::SORT_REGULAR]],
+    NAME_ASC_GBK = [['name', false, self::SORT_CONVERT_GBK], ['sort_lv', true, self::SORT_REGULAR]];
 
     protected static
     $querier,
@@ -52,6 +52,7 @@ class ProductionModel extends Model {
         'link'  =>  '',
         'detail'  =>  '',
         'rank'      =>  5,
+        'sort_lv'      =>  0,
         'state'  =>  1
     ];
 

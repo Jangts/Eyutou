@@ -44,11 +44,19 @@ class NewsPageController extends \Controller {
             $archive = TRGroupModel::byGUID($archive);
         }
         if(is_a($archive, 'PM\_CLOUD\TRGroupModel')){
+            $request = Request::instance()->INPUTS->__get;
+            if(isset($request['page'])&&is_numeric($request['page'])){
+                $page = intval($request['page']);
+            }else{
+                $page = 1;
+            }
+            $start = ($page - 1) * static::$prepage;
+
             $options = OptionsModel::autoloadItems();
             $column = new ColumnModel('link_news/archive/'.$archive->id);
             $column->push('link_news/');
             $count = TableRowMetaModel::getCOUNT(NULL, $archive->id, TableRowMetaModel::PUBLISHED);
-            $list = TableRowModel::getRows(NULL, $archive->id, TableRowMetaModel::PUBLISHED, TableRowMetaModel::RLDPD, $start = 0, $num = static::$prepage);
+            $list = TableRowModel::getRows(NULL, $archive->id, TableRowMetaModel::PUBLISHED, TableRowMetaModel::RLDPD, $start, $num = static::$prepage);
 
             $renderer = new FrontPageViewModel();
 
@@ -57,7 +65,7 @@ class NewsPageController extends \Controller {
             $renderer->assign("column", $column);
             $renderer->assign("archive", $archive);
             $renderer->assign("list", $list);
-            $renderer->assign('pagelist', self::buildPageList($count));
+            $renderer->assign('pagelist', self::buildPageList($count, $page, static::$prepage));
 		
             $renderer->using($options['use_theme']);
 
@@ -67,14 +75,6 @@ class NewsPageController extends \Controller {
     }
 
     public static function buildPageList($count, $page = NULL, $prepage = NULL){
-        if($page === NULL){
-            $options = Request::instance()->INPUTS->__get;
-            if(isset($options['page'])){
-                $page = $options['page'];
-            }else{
-                $page = 1;
-            }
-        }
         if($prepage === NULL){
             $prepage = static::$prepage;
         }

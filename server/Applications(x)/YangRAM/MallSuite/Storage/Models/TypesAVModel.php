@@ -5,66 +5,28 @@ use PM\_1008\ProductionTypeModel;
 use PM\_1008\BrandModel;
 
 class TypesAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
+	use traits\amvmethods;
+
 	public static
-	$model = 'PM\_1008\ProductionTypeModel',
-	$columns = [
-		[
-			'field_name'	=>	'__index',
-			'display_name'	=>	'序号',
-			'column_type'	=>	'',
-			'classname'		=>	''	
-		],
-		[
-			'field_name'	=>	'name',
-			'display_name'	=>	'类型名称',
-			'column_type'	=>	'',
-			'classname'		=>	''	
-		],
-		[
-			'field_name'	=>	'brand',
-			'display_name'	=>	'所属品牌',
-			'column_type'	=>	'',
-			'classname'		=>	''	
-		],
-		[
-			'field_name'	=>	'__ops',
-			'display_name'	=>	'操作',
-			'column_type'	=>	'',
-			'classname'		=>	''	
-		]
-	],
-	$inputs = [
-		[
-			'field_name'	=>	'id',
-			'display_name'	=>	'',
-			'input_type'	=>	'hide'
-		],
-		[
-			'field_name'	=>	'brand_id',
-			'display_name'	=>	'所属品牌',
-			'input_type'	=>	'select'
-		],
-		[
-			'field_name'	=>	'typename',
-			'display_name'	=>	'类型名称',
-			'input_type'	=>	'text'
-		],
-		[
-			'field_name'	=>	'SK_SORT_NUM',
-			'display_name'	=>	'排序序数',
-			'input_type'	=>	'counter'
-		]
-	],
-	$creater = [
-		'name'	=>	'创建产品类目'
-	];
+	$model = 'PM\_1008\ProductionTypeModel';
+
+	public static function loadStaticProperties(){
+		if(
+			is_file($filename = __DIR__.'/avmvar_providers/types.json')
+			&&($vars = json_decode(file_get_contents($filename), true))
+		){
+			self::setStaticProterties($vars);
+		}
+	}
 
 	public function initialize(){
+		static::loadBrandTabs();
+		static::loadStaticProperties();
 		return [
-			'listname'	=>	'产品类型列表',
+			'listname'	=>	static::$listname,
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',
-			'pagelist'	=>	'',
-			'formname'	=>	'编辑产品类型信息'
+			'pagelist'	=>	'<ul><li>1</li></ul>',
+			'formname'	=>	static::$formname
 		];
 	}
 

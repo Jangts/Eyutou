@@ -6,6 +6,8 @@ use PM\_1008\BrandModel;
 use PM\_1008\ProductionTypeModel;
 
 class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
+	use traits\amvmethods;
+
 	public static
 	$__sorts = [
 		'id'				=>	ProductionModel::ID_ASC,
@@ -26,19 +28,6 @@ class ProductionsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 		'name_gb_reverse'	=>	ProductionModel::NAME_DESC_GBK
 	],
 	$__sortby = ProductionModel::ID_DESC;
-
-	public static function loadBrandTabs(){
-		$brands = BrandModel::getALL();
-		$tabs = [];
-		foreach ($brands as $brand) {
-			$tabs['brand'.$brand->id] = [
-				'name'	=>	$brand->brand_name,
-				'title'	=>	empty($brand->brand_desc) ? $brand->brand_name : $brand->brand_desc,
-				'where'	=>	['brand_id'=>$brand->id]
-			];
-		}
-		static::$__avmtabs = $tabs;
-	}
 
 	public static function loadAllTypeTags(){
 		$types = ProductionTypeModel::getALL();

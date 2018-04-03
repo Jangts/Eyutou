@@ -7,18 +7,7 @@ use PM\_1008\BrandModel;
 use PM\_1008\ProductionTypeModel;
 
 class ProductionAVModel extends \PM\_STUDIO\BaseFormAVModel {
-	public static function loadBrandTabs(){
-		$brands = BrandModel::getALL();
-		$tabs = [];
-		foreach ($brands as $brand) {
-			$tabs['brand'.$brand->id] = [
-				'name'	=>	$brand->brand_name,
-				'title'	=>	empty($brand->brand_desc) ? $brand->brand_name : $brand->brand_desc,
-				'where'	=>	['brand_id'=>$brand->id]
-			];
-		}
-		static::$__avmtabs = $tabs;
-	}
+	use traits\amvmethods;
 
 	public static function loadStaticProperties(){
 		if(

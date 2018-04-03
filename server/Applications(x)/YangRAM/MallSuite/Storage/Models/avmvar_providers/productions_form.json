@@ -69,6 +69,11 @@
             "field_name": "rank",
             "display_name": "评星（等数）",
             "input_type": "select"
+        },
+        {
+            "field_name": "sort_lv",
+            "display_name": "排序（级数）",
+            "input_type": "counter"
         }
     ],
     "selectOptions": {
