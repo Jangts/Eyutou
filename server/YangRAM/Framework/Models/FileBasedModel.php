@@ -6,57 +6,30 @@ use Storage;
 use Tangram\MODEL\ObjectModel;
 
 /**
- * @class AF\Models\BaseViewModel
- * Data View Model
- * 数据视图模型，带有页面渲染能力的模型
+ * @class AF\Models\FileBasedModel
+ * File Based Model
+ * 基于单一文件的数据模型
  * 
  * @abstract
  * @author     Jangts
  * @version    5.0.0
 **/
-abstract class BaseViewModel extends \Packages\NIML implements \DataModel {
+class FileBasedModel implements \DataModel {
     use \Tangram\MODEL\traits\magic;
     use \Tangram\MODEL\traits\arraylike;
 
-    public static function updateTemplateCache($templates=NULL){
-		return false;
+    protected static function rebuildFileContent($content, $properties){
+        return $content;
     }
 
-    public static function __loadData($name, $dir = __DIR__){
-		return json_decode(file_get_contents($dir.'/providers/'.$name.'.json'), true);
-    }
-    
-    protected 
-    $readonly = false,
-    $template = '',
-    $vars = [],
-    $mime = 'text/html',
-	$theme = 'default';
-
-    public function __construct(array $input = [], $readonly = false){
-        $this->vars = array_merge($this->vars, $input);
-        $this->readonly = $readonly;
+    protected static function rewriteFileContent($filename, $content, $properties){
+        return $content;
     }
 
-    public function count(){
-        return count($this->vars);
-    }
-    
-	public function getFilenames($template, $is_include = false){
-        new Status(1422, '', 'Must redeclare a getFilenames function in your extended viewmodel.');
-    }
-
-    public function getIterator() {
-        return new \ArrayIterator($this->vars);   
-    }
-    
-    /**  
-	 * 渲染属性数组
-	 * 
-	 * @access public
-	 * @return void
-	**/ 
-    abstract public function render();
+    protected
+    $filename = '',
+    $content = '',
+    $modelProperties = [];
 
     /**  
 	 * 取值方法
@@ -67,8 +40,12 @@ abstract class BaseViewModel extends \Packages\NIML implements \DataModel {
 	 * @return mixed
 	**/ 
     final public function get($name){
-        if(is_array($this->vars)&&isset($this->vars[$name])){
-            return $this->vars[$name];
+        if($name==='filename'){
+            return $this->content;
+        }elseif($name==='content'){
+            return $this->str();
+        }elseif(isset($this->modelProperties[$name])){
+            return $this->modelProperties[$name];
         }
         return NULL;
     }
@@ -85,7 +62,12 @@ abstract class BaseViewModel extends \Packages\NIML implements \DataModel {
 	 * @return mixed
 	**/ 
     final public function set($name, $value){
-        return $this->assign($name, $value);
+        if($name==='content'){
+
+        }elseif(isset($this->modelProperties[$name])){
+            $this->modelProperties[$name] = $value;
+        }
+        return false;
     }
 
     /**  
@@ -96,13 +78,7 @@ abstract class BaseViewModel extends \Packages\NIML implements \DataModel {
 	 * @return object
 	**/ 
     public function uns($property){
-        if(is_array($this->vars)){
-            if(array_key_exists($name, $this->vars)){
-                unset($this->vars[$property]);
-            }
-            return $this;
-        }
-        \Status::cast('vars of view model object must be a array.', 1461);
+        return $this;
     }
 
     /**  
@@ -111,8 +87,10 @@ abstract class BaseViewModel extends \Packages\NIML implements \DataModel {
 	 * @access public
 	 * @return string
 	**/
-    public function str(){
-        self::arrayToXml($this->vars, $version, $encoding);
+    final public function str(){
+        # 重新整理$this->content
+        $this->content = static::rebuildFileContent($this->content, $this->modelProperties);
+        return $this->content;
     }
 
     /**  
@@ -124,7 +102,11 @@ abstract class BaseViewModel extends \Packages\NIML implements \DataModel {
 	 * @return bool
 	**/ 
     final public function has($name){
-        if(is_array($this->vars)&&array_key_exists($name, $this->vars)){
+        if($name==='filename'){
+            return true;
+        }elseif($name==='content'){
+            return true;
+        }elseif(array_key_exists($name, $this->modelProperties)){
             return true;
         }
         return false;

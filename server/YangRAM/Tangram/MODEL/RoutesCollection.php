@@ -7,7 +7,7 @@ use Storage;
 use DBQ;
 
 /**
- * @class Tangram\MODEL\RouteCollection
+ * @class Tangram\MODEL\RoutesCollection
  * Custom Routemap Model
  * 自定义路由表模型
  * 根据主机名和路由表ID路由表及其缓存，以供统一资源索引器（$NEWIDEA->RI）进行分析
@@ -24,7 +24,7 @@ use DBQ;
  * @author     Jangts
  * @version    5.0.0
 **/
-final class RouteCollection implements interfaces\collection {
+final class RoutesCollection implements interfaces\collection {
 	protected static
 	$domains = NULL,
     $staticFileStorage = NULL,
@@ -35,7 +35,7 @@ final class RouteCollection implements interfaces\collection {
     $json = false;
 
 	/**
-	 * 初始化Tangram\MODEL\RouteCollection类
+	 * 初始化Tangram\MODEL\RoutesCollection类
 	 * 主要是设置路由表缓存的相关设置
 	 * 
 	 * @access public

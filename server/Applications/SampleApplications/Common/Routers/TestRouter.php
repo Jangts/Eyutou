@@ -4,7 +4,7 @@ namespace App\Routers;
 use Request;
 use App;
 
-class MyRouter extends \AF\Routers\BaseRouter {
+class TestRouter extends \AF\Routers\BaseRouter {
     protected function analysis(App $app, Request $request){
 		$classname = 'MyController';
 		$filename = $app->Path.'Controllers/'.$classname;

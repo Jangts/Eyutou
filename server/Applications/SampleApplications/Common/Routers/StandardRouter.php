@@ -68,6 +68,12 @@ class StandardRouter extends \AF\Routers\StandardRouter {
 				],
 				'tableview'	=>	[
 					'minArgsLength'	=>	0
+				],
+				'filebased'	=>	[
+					'minArgsLength'	=>	0
+				],
+				'filescollection'	=>	[
+					'minArgsLength'	=>	0
 				]
 			]
 		]

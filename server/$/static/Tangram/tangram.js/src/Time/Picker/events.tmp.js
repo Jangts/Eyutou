@@ -12,7 +12,7 @@ tangram.block([
     var
         eventhandlers = {
             '.displayer .display-item .display-char': {
-                'click' (event) {
+                'click': function(event) {
                     var picker = event.data,
                         builder = picker.builder,
                         launcher = picker.launcher,
@@ -85,7 +85,7 @@ tangram.block([
                 }
             },
             '.buttons span': {
-                'click' (event) {
+                'click': function(event) {
                     var picker = event.data,
                         launcher = picker.launcher,
                         type = _.dom.getAttr(this, 'data-type');
@@ -107,7 +107,7 @@ tangram.block([
                 }
             },
             '.pickers ul li[data-value]': {
-                'click' (event) {
+                'click': function(event) {
                     var picker = event.data,
                         builder = picker.builder,
                         launcher = picker.launcher,
@@ -120,7 +120,7 @@ tangram.block([
                 }
             },
             '.pickers ul li.prev': {
-                'click' (event) {
+                'click': function(event) {
                     var picker = event.data,
                         builder = picker.builder,
                         launcher = picker.launcher;
@@ -132,7 +132,7 @@ tangram.block([
                 }
             },
             '.pickers ul li.next': {
-                'click' (event) {
+                'click': function(event) {
                     var picker = event.data,
                         builder = picker.builder,
                         launcher = picker.launcher;

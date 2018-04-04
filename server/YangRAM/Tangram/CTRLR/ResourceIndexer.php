@@ -6,7 +6,7 @@ namespace Tangram\CTRLR;
 use Request;
 use SESSION;
 use App;
-use Tangram\MODEL\RouteCollection;
+use Tangram\MODEL\RoutesCollection;
 use Tangram\MODEL\ApplicationPermissions;
 use Tangram\CACHE\Resource;
 
@@ -136,7 +136,7 @@ final class ResourceIndexer {
                 $temporary = $this->matchDefaultREST($pathname, $patharr, $request, $stdhost);
             }
             
-            RouteCollection::config();
+            RoutesCollection::config();
             while ($temporary['map']>=self::NOT_MATCH){
                 $temporary = $this->matchRouteMap($temporary['map'], $pathname, $patharr, $request, $stdhost);
             }
@@ -334,7 +334,7 @@ final class ResourceIndexer {
 	 * @return array 一个数组格式的路由表
     **/ 
     private function matchRouteMap($map, $pathname, $patharr, $request, $stdhost){
-        $map = new RouteCollection($map, $stdhost, $request->URI->spuerhost);
+        $map = new RoutesCollection($map, $stdhost, $request->URI->spuerhost);
         $item = $map->match($pathname);
         if($item['STATE']===2){
             return [

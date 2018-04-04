@@ -14,6 +14,8 @@ use Lib\models\LocalizedDictModel;
 use Tangram\MODEL\UserModel;
 use Tangram\MODEL\UserGroupReadolyModel;
 use Passport;
+use AF\Models\FileBasedModel;
+use AF\Models\FilesCollection;
 
 class ModelsTestController extends \Controller {
     public function restraint(){
@@ -195,5 +197,14 @@ class ModelsTestController extends \Controller {
         $dict = new LocalizedDictModel('phparr');
 
         var_dump($dict);
+    }
+
+    public function fileBased(){
+        $filedata = new FileBasedModel();
+        var_dump($filedata);
+    }
+
+    public function filesCollection(){
+        
     }
 }

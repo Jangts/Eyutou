@@ -17,7 +17,7 @@
         "DefaultRouter",
         "RESTfulRouter",
         "RegExpRouter",
-        "MyRouter"
+        "TestRouter"
     ],
     "requires": {},
     "permissions": {

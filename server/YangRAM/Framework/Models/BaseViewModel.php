@@ -2,8 +2,6 @@
 namespace AF\Models;
 
 use Status;
-use Storage;
-use Tangram\MODEL\ObjectModel;
 
 /**
  * @class AF\Models\BaseViewModel
