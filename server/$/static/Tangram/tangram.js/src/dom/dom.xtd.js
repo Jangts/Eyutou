@@ -14,7 +14,7 @@ tangram.block([
     var _ = pandora,
         declare = pandora.declareClass,
         cache = pandora.locker,
-        document = global.document;
+        doc = global.document;
 
     // 注册_.dom命名空间到pandora
     _('dom');
@@ -54,8 +54,8 @@ tangram.block([
         },
 
         getStyle = function(elem, property) {
-            if (elem == global || elem == global.document) {
-                elem = global.document.documentElement || global.document.body;
+            if (elem == global || elem == doc) {
+                elem = doc.documentElement || doc.body;
             }
             if (property) {
                 attr = property.replace(/(\-([a-z]){1})/g,
@@ -118,7 +118,7 @@ tangram.block([
             }
             if (elem) {
                 if (elem == global || elem == global.document) {
-                    elem = global.document.documentElement || global.document.body;
+                    elem = doc.documentElement || doc.body;
                 }
                 attr = property.replace(/(\-([a-z]){1})/g,
                     function() {
@@ -156,13 +156,13 @@ tangram.block([
         getSize = function(elem, type) {
             if (elem == window) {
                 return {
-                    width: document.documentElement.clientWidth,
-                    height: document.documentElement.clientHeight
+                    width: doc.documentElement.clientWidth,
+                    height: doc.documentElement.clientHeight
                 }
             } else if (elem == document) {
                 return {
-                    width: Math.max.apply(null, [document.documentElement.scrollWidth + document.documentElement.offsetLeft, document.documentElement.clientWidth]),
-                    height: Math.max.apply(null, [document.documentElement.scrollHeight + document.documentElement.offsetTop, document.documentElement.clientHeight])
+                    width: Math.max.apply(null, [doc.documentElement.scrollWidth + doc.documentElement.offsetLeft, doc.documentElement.clientWidth]),
+                    height: Math.max.apply(null, [doc.documentElement.scrollHeight + doc.documentElement.offsetTop, doc.documentElement.clientHeight])
                 }
             } else {
                 switch (type) {
@@ -404,7 +404,7 @@ tangram.block([
 
     _.extend(_.dom, {
         fragment: function(tagName) {
-            return document.createDocumentFragment(tagName);
+            return doc.createDocumentFragment(tagName);
         },
         create: function(tagName, context, attribute) {
             if (tagName) {
@@ -425,13 +425,13 @@ tangram.block([
                     case 'linearGradient':
                     case 'radialGradient':
                     case 'stop':
-                        var Element = document.createElementNS('http://www.w3.org/2000/svg', tagName);
+                        var Element = doc.createElementNS('http://www.w3.org/2000/svg', tagName);
                         break;
                     case 'img':
                         var Element = new Image();
                         break;
                     default:
-                        var Element = document.createElement(tagName);
+                        var Element = doc.createElement(tagName);
                 }
                 if (attribute) {
                     for (var i in attribute) {
@@ -526,7 +526,7 @@ tangram.block([
                         return _.util.arr.index(_.query(list), elem);
                 }
             }
-            if (list===true){
+            if (list === true) {
                 return _.util.arr.index(_.query(elem.tagName, elem.parentNode), elem);
             }
             return (elem && elem.parentNode && elem.parentNode.childNodes) ? _.util.arr.index(elem.parentNode.childNodes, elem) : -1;
