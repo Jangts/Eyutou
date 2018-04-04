@@ -200,7 +200,7 @@ tangram.block([
                 return (formElement === this.cElement.Element) || _.dom.contain(formElement, this.cElement.Element);
             },
             hideExtTools: function() {
-                _.each(_.query('.tangram.se-tool[data-se-dialog], .tangram.se-tool[data-se-cmds]', this.toolbar), function(i, el) {
+                _.each(_.query('.tangram.se-tool.data-se-dialog, .tangram.se-tool.data-se-cmds', this.toolbar), function(i, el) {
                     _.dom.toggleClass(this, 'active', false);
                 });
                 return this;
@@ -238,8 +238,8 @@ tangram.block([
                         if (_.util.bool.isFn(handler)) {
                             listener.push(eventType, null, editor, handler);
                         } else if (_.util.bool.isObj(handler)) {
-                            _.each(handler, function(selector, fn) {
-                                listener.push(eventType, selector, editor, fn);
+                            _.each(handler, function(selector, cb) {
+                                listener.push(eventType, selector, editor, cb);
                             });
                         }
                     })

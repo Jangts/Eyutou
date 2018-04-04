@@ -19,8 +19,13 @@ tangram.block([
     // 注册_.dom命名空间到pandora
     _('dom');
 
-    var getParentNodes = function(node) {
-            var nodes = [];
+    var getParentNodes = function(node, containSelf) {
+            if (containSelf) {
+                var nodes = [node];
+            } else {
+                var nodes = [];
+            }
+            node = node.parentNode;
             while (node != undefined && node != null) {
                 nodes.push(node);
                 node = node.parentNode;

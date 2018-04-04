@@ -109,13 +109,15 @@ tangram.block([
             event.currentTarget = event.currentTarget || event.target || event.relatedTarget || event.srcElement;
             event.target = event.target || event.currentTarget;
             event.delegateTarget = this.Element;
-            if (event.delegateTarget === event.target) {
-                event.path = event.path || [event.target];
-                event.isCurrent = true;
-            } else {
-                event.path = event.path || [event.target, event.delegateTarget];
-                event.isCurrent = (event.path[0] === event.delegateTarget);
-            }
+            event.path = event.path || _.dom.getParentNodes(event.target);
+            event.isCurrent = (event.delegateTarget === event.target);
+            // if (event.delegateTarget === event.target) {
+            //     // event.path = event.path || [event.target];
+            //     event.isCurrent = true;
+            // } else {
+            //     // event.path = event.path || [event.target, event.delegateTarget];
+            //     event.isCurrent = false;
+            // }
             event.wheelDelta = event.wheelDelta || event.detail * -40;
             event.timeStamp = Date.parse(new Date()) / 1000;
             event.eventType = eventType;
@@ -123,11 +125,11 @@ tangram.block([
                 event.keyName = _.util.str.charCode(event.which);
             }
             if (this.checkEventType(event, eventType)) {
-                event.path = event.path || _.dom.getParentNodes(event.target);
                 var EventType = this.eventTypes[eventType];
                 for (var s in EventType['Selectors']) {
                     var selector = EventType['Selectors'][s];
                     var elements = _.dom.query(s, this.Element);
+                    // console.log(elements, s, event.path);
                     for (var i = 0; i < elements.length; i++) {
                         if (_.util.arr.has(event.path, elements[i]) !== false) {
                             for (var n in selector) {
