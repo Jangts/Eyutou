@@ -31,9 +31,9 @@ body {
 }
 
 body {
-    font-family: "Segoe UI", "Microsoft Yahei UI", "Microsoft Yahei", "Microsoft Sans Serif", "HanHei SC", PingHei, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Microsoft Yahei", Arial, tahoma, arial !important;
+    /* font-family: "Segoe UI", "Microsoft Yahei UI", "Microsoft Yahei", "Microsoft Sans Serif", "HanHei SC", PingHei, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif; */
 }
-
 
 /** COMMON **/
 
@@ -215,7 +215,7 @@ body {
 .main-content .right-article p {
     line-height: 27px;
     font-size: 13px;
-    color: #7f7f7f;
+    color: #58595b;
     text-align: justify;
     /* text-indent: 24px; */
     letter-spacing: 1px;
@@ -232,11 +232,14 @@ body {
     background-color: #f3f2f2;
     text-align: center;
     line-height: 26px;
-    color: #888888;
+    color: #58595b !important;
     font-size: 13px;
     font-size: 0.65rem;
 }
 
+.footer a {
+    color: #8899aa !important;
+}
 
 /** INDEX **/
 
@@ -365,7 +368,6 @@ p.index-news-date {
     width: 304px;
     height: 170px;
 }
-
 
 /** PRODUCTIONS **/
 
@@ -496,7 +498,7 @@ p.index-news-date {
     line-height: 25px;
     font-size: 13px;
     text-align: justify;
-    color: #6e6e6e;
+    color: #58595b;
 }
 
 .product-info div {
@@ -515,7 +517,7 @@ p.index-news-date {
 .product-info p {
     line-height: 25px;
     font-size: 13px;
-    color: #6e6e6e;
+    color: #58595b;
 }
 
 .product-info p.indent {
@@ -535,7 +537,6 @@ a.go2buy {
     border-radius: 5px;
 }
 
-
 /** OEM **/
 
 .main-content h2.title-cn {
@@ -543,7 +544,7 @@ a.go2buy {
     line-height: 40px;
     text-align: center;
     font-size: 30px;
-    color: #595757;
+    color: #58595b;
     font-weight: lighter;
 }
 
@@ -551,7 +552,7 @@ a.go2buy {
     line-height: 27px;
     text-align: center;
     font-size: 13px;
-    color: #595757;
+    color: #58595b;
     font-weight: lighter;
     text-transform: uppercase;
 }
@@ -571,11 +572,10 @@ a.go2buy {
 .main-content p {
     line-height: 27px;
     font-size: 13px;
-    color: #3e3a39;
+    color: #58595b;
     /* text-indent: 24px; */
     margin-bottom: 10px;
 }
-
 
 /** NEWS **/
 
@@ -622,24 +622,23 @@ a.go2buy {
     margin-left: 20px;
     line-height: 20px;
     font-size: 13px;
-    color: #727171;
+    color: #58595b;
 }
 
 .news-list .news-list-item p.news-brief {
-    height: 70px;
-    margin-left: 194px;
-    line-height: 18px;
+    height: 63px;
+    margin: 7px 0 7px 194px;
+    line-height: 21px;
     font-size: 12px;
-    color: #727171;
+    color: #58595b;
     overflow: hidden;
 }
 
 .news-list .news-list-item a.read-news {
     float: right;
-    /* margin-top: 2px; */
-    line-height: 17px;
+    line-height: 18px;
     font-size: 13px;
-    color: #727171;
+    color: #58595b;
 }
 
 .pages-list {
@@ -652,7 +651,7 @@ a.go2buy {
     line-height: 50px;
     font-size: 13px;
     margin: 0 5px;
-    color: #727171;
+    color: #58595b;
 }
 
 h2.news-title {
@@ -677,7 +676,6 @@ h2.news-title {
     overflow: hidden;
 }
 
-
 /** HR **/
 
 .left-banner {
@@ -697,7 +695,7 @@ h2.news-title {
     padding: 5px 10px;
     line-height: 20px;
     font-size: 13px;
-    color: #595757;
+    color: #58595b;
 }
 
 .hr-banner {
@@ -721,16 +719,15 @@ h2.news-title {
     text-indent: 0;
     font-size: 20px;
     line-height: 40px;
-    color: #727171;
+    color: #58595b;
 }
 
 .job-list li .job-desc p {
     text-indent: 0;
     font-size: 13px;
     line-height: 27px;
-    color: #9fa0a0;
+    color: #58595b;
 }
-
 
 /** CONTACT **/
 
@@ -751,5 +748,5 @@ h2.news-title {
     text-indent: 0;
     font-size: 13px;
     line-height: 20px;
-    color: #9fa0a0;
+    color: #58595b;
 }

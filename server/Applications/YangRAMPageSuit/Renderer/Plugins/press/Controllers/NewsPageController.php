@@ -99,9 +99,11 @@ class NewsPageController extends \Controller {
                 $renderer->assign($news->getArrayCopy(), "");
                 $renderer->assign("column", $column);
                 $renderer->assign("tablemeta", TableMetaModel::byGUID($news->TABLENAME));
-                $renderer->assign("archive", TRGroupModel::byGUID($news->GROUPID));
-                // var_dump(\DBQ::$qs, $news, $renderer->archive);
-                // exit;
+                if($news->GROUPID){
+                    $renderer->assign("archive", TRGroupModel::byGUID($news->GROUPID));
+                }else{
+                    $renderer->assign("archive", TRGroupModel::create(['未分类', 'news', 0]));
+                }
 		
                 $renderer->using($options['use_theme']);
 

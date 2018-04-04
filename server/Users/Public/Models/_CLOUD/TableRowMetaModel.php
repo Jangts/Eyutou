@@ -348,13 +348,9 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	
 	public function correctGROUP(){
 		if($group = TRGroupModel::byGUID($this->modelProperties['GROUPID'])){
-			if($group->type===$this->TYPE){
-				if($group->SK_IS_RECYCLED){
-					// 检查是否应该隐藏
-					$this->modelProperties['SK_IS_RECYCLED'] = self::HIDE;
-				}
-			}else{
-				$this->modelProperties['GROUPID'] = 0;
+			if($group->SK_IS_RECYCLED){
+				// 检查是否应该隐藏
+				$this->modelProperties['SK_IS_RECYCLED'] = self::HIDE;
 			}
 		}else{
 			$this->modelProperties['GROUPID'] = 0;

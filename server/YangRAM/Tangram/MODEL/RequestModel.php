@@ -154,20 +154,9 @@ final class RequestModel implements interfaces\model {
             $modelProperties['TRI']->qs = '';
             $modelProperties['TRI']->locale_channel_dir = preg_replace('/\/$/', '', str_replace($modelProperties['TRI']->pathname, '',  ClassLoader::formatPathnameCase(rawurldecode($_SERVER['RELATIVE_URI']))));
         }
-        
+
         // http method and directory array length
         $modelProperties['METHOD'] = strtoupper($_SERVER['REQUEST_METHOD']);
-        // 部分服务器和客户端不支持post和get以外的方法，可以使用传参的形式
-        if(_HTTP_METHOD_PARAM_&&($modelProperties['METHOD']==='POST')){
-            if(isset($_POST[_HTTP_METHOD_PARAM_])){
-                $http_method = strtoupper($_POST[_HTTP_METHOD_PARAM_]);
-                if(in_array($http_method, ['GET','DELETE','HEAD','OPTIONS','PUT','PATCH','UPDATE'])){
-                    $modelProperties['METHOD'] = $http_method;
-                }
-                unset($_POST[_HTTP_METHOD_PARAM_]);
-            }
-		}
-        // $modelProperties['METHOD'] = strtoupper($_SERVER['REQUEST_METHOD']);
         $modelProperties['LENGTH'] = count($DIR_ARRAY);
 
         // 将（可能）调整后的$dir_array、$DIR_ARRAY以及计算出的hash值存入$modelProperties['TRI']
@@ -251,6 +240,16 @@ final class RequestModel implements interfaces\model {
         $this->modelProperties['ARI']->depth = $depth;
         $inputs = $this->modelProperties['INPUTS'] = (new InputsModel($defaults))->stopAttack();
 
+        // 部分服务器和客户端不支持post和get以外的方法，可以使用传参的形式
+        if(_HTTP_METHOD_PARAM_&&($this->modelProperties['METHOD']==='POST')){
+            if(isset($_POST[_HTTP_METHOD_PARAM_])){
+                $http_method = strtoupper($_POST[_HTTP_METHOD_PARAM_]);
+                if(in_array($http_method, ['GET','DELETE','HEAD','OPTIONS','PUT','PATCH','UPDATE'])){
+                    $this->modelProperties['METHOD'] = $http_method;
+                }
+                unset($_POST[_HTTP_METHOD_PARAM_]);
+            }
+		}
         
         if(array_key_exists('LANG', $this->modelProperties)){
             define('REQUEST_LANGUAGE', $this->modelProperties['LANGUAGE'] = $GLOBALS['NEWIDEA']->LANGUAGE = $this->modelProperties['LANG']);

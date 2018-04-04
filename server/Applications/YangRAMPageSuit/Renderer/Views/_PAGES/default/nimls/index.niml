@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1236, minimum-scale=0.1, maximum-scale=1,user-scalable=no" />
+    <meta name="baidu-site-verification" content="0vyMj7H4cI" />
     <title>{{$title}}</title>
     <!-- 优先使用最新的ie版本 -->
     <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->

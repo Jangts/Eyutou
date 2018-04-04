@@ -22,15 +22,17 @@ final class InputsModel extends ObjectModel {
      * @static
      * @return void
     **/
-    private static function parseInputRaw() {
-        // 读取传入数据
-        $input = file_get_contents('php://input');
-
+    private static function parseInputRaw($input) {
         // 获取CONTEN-TYPE中的formdata分隔符
         if(empty($_SERVER['CONTENT_TYPE'])||!preg_match('/boundary=(.*)$/', $_SERVER['CONTENT_TYPE'], $matches)||!count($matches)){           
-            // 如果不存在分隔符，则可认为是QueryString格式的数据
-            // 直接解析并返回
-            parse_str(urldecode($input), $_POST);
+            // 如果不存在分隔符，则检查CONTENT_TYPE，如果为JSON或XML，则解码之；否则默认为是QueryString格式的数据
+            if(stripos($_SERVER['CONTENT_TYPE'], 'application/json')===0){
+                $_POST = json_decode($input, true) or [];
+            }elseif(stripos($_SERVER['CONTENT_TYPE'], 'text/json')===0){
+                $_POST = json_decode($input, true) or [];
+            }else{
+                parse_str(urldecode($input), $_POST);
+            }
             return;
         }
         
@@ -208,10 +210,17 @@ final class InputsModel extends ObjectModel {
 	 * @return 构造函数无返回值
     **/ 
     public function __construct(array $defaults = []){
-        if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), ['GET', 'POST'])){
+        // if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), ['GET', 'POST'])){
+        //     // 重写$_POST和$_FILES
+        //     self::parseInputRaw();
+        // }
+        if(empty($_POST)&&($input = file_get_contents('php://input'))){
+            // 读取传入数据
+            // $input = file_get_contents('php://input');
             // 重写$_POST和$_FILES
-            self::parseInputRaw();
+            self::parseInputRaw($input);
         }
+        
         // 排差外部数据中的威胁
         if(!get_magic_quotes_gpc()){
             $_COOKIE = array_map("addslashes", $_COOKIE);
