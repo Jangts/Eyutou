@@ -103,7 +103,7 @@ tangram.block([
 
                     }
                     _.each(that.loadmasks, function(i, loadmask) {
-                        _.dom.toggleClass(loadmask, 'on', true);
+                        _.dom.toggleClass(loadmask, 'on', false);
                     });
                 });
                 _.each(that.loadmasks, function(i, loadmask) {

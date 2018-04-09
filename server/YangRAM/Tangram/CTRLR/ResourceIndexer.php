@@ -255,7 +255,7 @@ final class ResourceIndexer {
         // 而用来被比较的目录名则前缀主域名（如果有的话）
         $pathname = $pathname . '/';
         
-        if(stripos($pathname, '/:test/')===0){
+        if(stripos($pathname, '/@test/')===0){
             return $this->checkCLITestAPI($patharr, $request);
         }
 
@@ -265,21 +265,26 @@ final class ResourceIndexer {
         // 子域名形式
         if(_STD_API_DOMAIN_){
             define('_STD_API_', _STD_API_DOMAIN_.'.'.$stdhost.'/');
+            // IPC接口
+            if(stripos($pathname, _STD_API_.'@ipc/')===0){
+                return $this->checkIPCRequestAPI($patharr, $request, 1);
+            }
             $index = 1;
         }
         // 虚拟目录形式
         // 使用了子域名形式的标准api之后，目录形式的会失效
         elseif(_STD_API_DIR_){
             define('_STD_API_', $stdhost.'/'._STD_API_DIR_.'/');
+            // IPC接口
+            if(stripos($pathname, $stdhost.'/@ipc/')===0){
+                return $this->checkIPCRequestAPI($patharr, $request, 1);
+            }
             $index = count(explode('/', preg_replace('/(^\/|\/$)/', '', preg_replace('/[\\\\\/]+/', '/', _STD_API_DIR_)))) + 1;
         }else{
             new Status(1402, '', 'Must Have a Standard API Configuration', true);
         }
 
-        // IPC接口
-        if(stripos($pathname, _STD_API_.':ipc/')===0){
-            return $this->checkIPCRequestAPI($patharr, $request, $index);
-        }
+        
 
         // 标准API
         if(stripos($pathname, _STD_API_)===0){

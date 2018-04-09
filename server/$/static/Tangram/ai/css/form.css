@@ -121,3 +121,12 @@ form .custom-items .edui-default .edui-editor {
 .action-timepicker.on #timepicker {
     bottom: 0;
 }
+
+#edui_fixedlayer,
+.edui-default,
+.edui-dialog,
+.edui-for-insertimage,
+.edui-default,
+.edui-state-centered {
+    overflow: visible;
+}

@@ -120,7 +120,7 @@ final class FolderModel extends \AF\Models\BaseDeepModel {
 			}
 			if($parent_id===0||(($parent = self::byGUID($parent_id))&&($parent->type === $type))){
 				$obj->readonly = false;
-				$obj->type = $parent->type;
+				// $obj->type = $parent->type;
 				$obj->type = $type;
 				$obj->name = $name;
 				$obj->parent = $parent_id;

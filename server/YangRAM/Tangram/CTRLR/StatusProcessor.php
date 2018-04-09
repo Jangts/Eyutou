@@ -421,18 +421,18 @@ final class StatusProcessor extends Exception {
 	 * @return string
 	**/
 	public static function langExists($lang, $pattern, $default = _LANG_){
-		$file = str_replace('{{L}}', $lang, $pattern);
-		if(is_file($file)){
-			return $file;
+		$filename = str_replace('{{L}}', $lang, $pattern);
+		if(is_file($filename)){
+			return $filename;
 		}
 		$la = substr($lang, 0, 2);
-		$files = glob(str_replace('{{L}}', $la.'-*', $pattern));
-		if(isset($files[0])){
-			return $files[0];
+		$filenames = glob(str_replace('{{L}}', $la.'-*', $pattern));
+		if(isset($filenames[0])){
+			return $filenames[0];
 		}
-		$file = str_replace('{{L}}', _LANG_, $pattern);
-		if(is_file($file)){
-			return $file;
+		$filename = str_replace('{{L}}', _LANG_, $pattern);
+		if(is_file($filename)){
+			return $filename;
 		}
 		return false;
 	}
@@ -451,17 +451,18 @@ final class StatusProcessor extends Exception {
 		$alias 		= 	$this->alias;
 		$pre		=	$this->pre;
 		$message	=	$this->status;
-		if($file = self::langExists($lang, LPATH.'{{L}}/status/'.$code.'.php')){
-			include $file;
-		}elseif($file = self::langExists($lang, LPATH.'{{L}}/status/'.$intc.'.php')){
-			include $file;
+		
+		
+		if($filename = self::langExists($lang, LPATH.'{{L}}/status/'.$code.'.php')){
+			include $filename;
+		}elseif($filename = self::langExists($lang, LPATH.'{{L}}/status/'.$intc.'.php')){
+			include $filename;
 		}else{
 			if(isset(self::$codes[$intc])){
 				$title = self::$codes[$intc];
 			}else{
-				$file = self::langExists($lang, LPATH.'{{L}}/status/1111.php');
-				if($file){
-					include $file;
+				if($filename = self::langExists($lang, LPATH.'{{L}}/status/1111.php')){
+					include $filename;
 				}else{
 					$title = 'Undefined Status Message';
 				}

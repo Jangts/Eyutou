@@ -171,7 +171,7 @@ final class ResponseModel implements interfaces\model {
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?=$title?></title>
+    <title>$title</title>
     <style>
         * { position: relative; margin: 0; padding: 0; border: none; }
         body { color: #FFF; font-family: 'Microsoft Yahei', 'Microsoft Sans Serif', 'Hiragino Sans GB', 'sans-serif'; font-weight: lighter; }
