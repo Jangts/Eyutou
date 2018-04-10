@@ -35,7 +35,6 @@ body {
     /* font-family: "Segoe UI", "Microsoft Yahei UI", "Microsoft Yahei", "Microsoft Sans Serif", "HanHei SC", PingHei, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif; */
 }
 
-
 /** COMMON **/
 
 .container {
@@ -208,6 +207,9 @@ body {
     margin: 0 auto 50px;
 }
 
+.main-content img {
+    max-width: 100%;
+}
 .main-content .right-article img {
     max-width: 700px;
     margin: 30px auto;
@@ -241,7 +243,6 @@ body {
 .footer a {
     color: #8899aa !important;
 }
-
 
 /** INDEX **/
 
@@ -370,7 +371,6 @@ p.index-news-date {
     width: 304px;
     height: 170px;
 }
-
 
 /** PRODUCTIONS **/
 
@@ -540,7 +540,6 @@ a.go2buy {
     border-radius: 5px;
 }
 
-
 /** OEM **/
 
 .main-content h2.title-cn {
@@ -580,7 +579,6 @@ a.go2buy {
     /* text-indent: 24px; */
     margin-bottom: 20px;
 }
-
 
 /** NEWS **/
 
@@ -681,7 +679,6 @@ h2.news-title {
     overflow: hidden;
 }
 
-
 /** HR **/
 
 .left-banner {
@@ -734,7 +731,6 @@ h2.news-title {
     line-height: 24px;
     color: #58595b;
 }
-
 
 /** CONTACT **/
 

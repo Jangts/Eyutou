@@ -1,8 +1,25 @@
 * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     position: relative;
     margin: 0;
     padding: 0;
     border: none;
+}
+
+html {
+    font-size: 125%; // 现代浏览器（pc端默认为16px，125%即20pc）
+}
+
+body {
+    font-size: 14px; // 传统浏览器（pc端14px，其他端不考虑）
+    font-size: 0.7rem; // 现代浏览器（pc端根字号为20px，70%仍旧是14px）
+}
+
+html,
+body {
+    width: 100%;
 }
 
 div,
@@ -50,20 +67,6 @@ menu,
 nav,
 section {
     display: block;
-}
-
-html {
-    font-size: 125%; // 现代浏览器（pc端默认为16px，125%即20pc）
-}
-
-body {
-    font-size: 14px; // 传统浏览器（pc端14px，其他端不考虑）
-    font-size: 0.7rem; // 现代浏览器（pc端根字号为20px，70%仍旧是14px）
-}
-
-html,
-body {
-    width: 100%;
 }
 
 div,
@@ -149,10 +152,7 @@ video {
     vertical-align: baseline;
 }
 
-body {
-    font-family: "Segoe UI", "Microsoft Yahei UI", "Microsoft Yahei", "Microsoft Sans Serif", "HanHei SC", PingHei, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
+body,
 button {
     font-family: "Segoe UI", "Microsoft Yahei UI", "Microsoft Yahei", "Microsoft Sans Serif", "HanHei SC", PingHei, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -161,9 +161,12 @@ button,
 input,
 select,
 textarea {
-    box-sizing: border-box;
     font-size: 100%;
     outline: none;
+}
+
+textarea {
+    overflow: auto;
 }
 
 h1,
@@ -239,11 +242,26 @@ th {
 
 p {
     margin: 0px;
+    // margin-bottom: 10px;
     padding: 0px;
+    line-height: 1.75;
+    // text-indent: 24px;
+    // text-indent: 1.2rem;
 }
 
 i {
     font-style: normal;
+}
+
+del,
+strike,
+s {
+    text-decoration: line-through;
+}
+
+mark {
+    background-color: yellow;
+    color: black;
 }
 
 a {
