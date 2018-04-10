@@ -13,7 +13,7 @@ trait table {
     
 	public static function buildTable($list, $page = 1, $options = NULL){
         $columns = self::__loadTableColumns();
-        $table = new DocumentElementModel('table.tangram-table');
+        $table = new DocumentElementModel('table.table');
         $tr = new DocumentElementModel('tr');
         foreach($columns as $index=>$column){
             if(empty($column['sorting_name'])){

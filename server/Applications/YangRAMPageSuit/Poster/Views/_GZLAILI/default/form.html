@@ -8,7 +8,7 @@
     <title>YangRAM Administration Backstage</title>
     <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/see/fa.css" />
     <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/see/see.css" />
-    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/Time/Picker/style.css" />
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/Time/widgets.css" />
     <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/ai/css/action.css" />
     <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/ai/css/form.css" />
     <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/form/style.css" />
@@ -38,8 +38,7 @@
         <for $button of $buttons>
             <if $button>
                 <if $button>
-                    <button data-order="{{$button[`order`]}}" data-order-form="{{$button[`form`]}}" data-submit-href="{{$button[`action`]}}"
-                        data-success-href="{{$button[`href`]}}">{{$button[`name`]}}</button>
+                    <button data-order="{{$button[`order`]}}" data-order-form="{{$button[`form`]}}" data-submit-href="{{$button[`action`]}}" data-success-href="{{$button[`href`]}}">{{$button[`name`]}}</button>
                 </if>
             </if>
         </for>
