@@ -3,7 +3,7 @@
 namespace AF\Routers;
 
 // 引入相关命名空间，以简化书写
-use Tangram\ClassLoader;
+
 use Status;
 use Request;
 use App;
@@ -32,6 +32,7 @@ class RESTfulRouter extends BaseRouter {
 	 * @return array
     **/
     final protected function analysis(App $app, Request $request){
+        global $NEWIDEA;
 		if($this->ignoreAppDir){
 			$patharr = $request->ARI->patharr;
 		}else{
@@ -40,7 +41,7 @@ class RESTfulRouter extends BaseRouter {
 		}
 		$classname = self::correctClassName($this->getClassName($request, $patharr));
 		$filename = $app->Path.'Controllers/'.str_replace('\\', '/', $classname);
-		ClassLoader::execute($filename);
+		$NEWIDEA->load($filename);
 		$fullclassname = $app->xProps['Namespace'].'\\Controllers\\'.$classname;
 
 		//检查控制器类型的基类，确保控制器是AF\Controllers\BaseResourcesController的子类

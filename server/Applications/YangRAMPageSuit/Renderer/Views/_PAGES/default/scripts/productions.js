@@ -1,4 +1,4 @@
-block([
+tangram.block([
     '$_/data/',
     '$_/dom/Elements/',
     '$_/dom/Template.cls'

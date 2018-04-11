@@ -180,13 +180,10 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
 			}
 		}else{
 			foreach($_FILES as $name=>$file){
+				$this->successed[$name] = $this->failed[$name] = [];
 				if(is_array($file['name'])){
-					$this->successed[$name] = [];
-					$this->failed[$name] = [];
 					$this->postFiles($name, $file, $options);
 				}else{
-					$this->successed[$name] = [];
-					$this->failed[$name] = [];
 					$this->postFile($name, $file, $options);
 				}
 			}

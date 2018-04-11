@@ -168,13 +168,13 @@ form div.edit-item>textarea.edit-text-area {
     font-family: inherit;
 }
 
-form div.edit-item>div.tangram.editor-toolarea {
+form div.edit-item>div.editor-toolarea {
     width: 820px;
     border: solid 1px #ddd;
     border-radius: 3px 3px 0 0;
 }
 
-form div.edit-item>div.tangram.editor {
+form div.edit-item>div.editor {
     width: 820px;
     border: solid 1px #ddd;
     border-radius: 0 0 3px 3px;

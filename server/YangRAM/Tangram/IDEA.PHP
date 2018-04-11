@@ -93,6 +93,39 @@ final class IDEA {
 	$instance,						// 总控单元实例，唯一实例
 	$isBoot = false;				// 系统启动标识符
 
+	/**
+     * 服务器文件系统是否忽略大小写
+     * 由静态方法IDEA::formatPathnameCase()初始化
+     * 
+     * @access public
+     * @var null|bool $is_ignore_case
+     */
+	public static $is_ignore_case = null;
+
+    /**  
+	 * 路径格式化函数
+     * 之所有存在这个函数，是因为linux系统默认区分大小写，如果强制小写化路径，可能导致有些本地文件无法读取到
+     * 所以我们进行一次了检查，如果系统不区分大小写，就转小写，否则不操纵
+	 * 
+	 * @access public
+     * @static
+     * @param string $string
+	 * @return bool
+	**/ 
+    public static function formatPathnameCase($string){
+        if(self::$is_ignore_case===null){
+            if(is_file(__DIR__.'/main.php')){
+                self::$is_ignore_case = true;
+            }else{
+                self::$is_ignore_case = false;
+            }
+		}
+        if(self::$is_ignore_case===true){
+            return strtolower($string);
+        }
+        return $string;
+	}
+
 	public
 	/**
 	 * @var object $RI				资源索引器，resource indexer
@@ -105,7 +138,11 @@ final class IDEA {
 	$AI = 'TANGRAM',
 	$RI, $RQ, $LANGS, $Permissions, $AW, $AA;
 	
-	private $LANGUAGE;				// 核心模块的运行语言语言
+	private
+	// 核心模块的运行语言
+	$LANGUAGE,
+	// 自动加载路径映射表
+	$map = [];
 
 	/**
 	 * 总控单元构造函数，仅一次有效
@@ -145,7 +182,7 @@ final class IDEA {
 		define('NIKTIME', microtime(TRUE));
 
 		// 初始化文件加载器
-		ClassLoader::instance();
+		$this->init_class_loader();
 
 		// 为常用的类创建别名
 		class_alias('Tangram\CACHE\DataStorage', 'Storage');
@@ -369,157 +406,25 @@ final class IDEA {
 	}
 
 	/**
-	 * 记录运行日志
-	 */
-	public function log($type, $text){
-		if(is_string($type)&&preg_match('/^\w+$/',$type)){
-			$path = RUNPATH_LOG.'notes/'.$type.'/'.date('Ym').'/';
-			$filename = $path.date('Ymd');
-			//$text = # 需要对text进行检查;
-			if (!file_exists($path)){
-				mkdir($path, 0777, true);
-			}
-			$file = @fopen($filename, 'a') or new CTRLR\StatusProcessor(1406.3, 'Permission Denied', 'Unable to write run log! The current log file may be read-only.', true);
-			fwrite($file, $text);
-			fclose($file);
-		}
-		return false;
-	}
-
-	/**
-	 * 获取当前语言等属性的魔术方法
-	 */
-	final public function __get($name){
-		if($name==='LANGUAGE'){
-			if(empty($this->LANGUAGE)||!is_string($this->LANGUAGE)){
-				return $this->LANGUAGE = _LANG_;
-			}
-			return $this->LANGUAGE;
-		}
-		return null;
-	}
-	
-	/**
-	 * 设置当前语言等属性的魔术方法
-	 */
-    final public function __set($name, $value){
-        if($name==='LANGUAGE'){
-			if(!empty($value)&&is_string($value)){
-				$this->LANGUAGE = $value;
-			}
-		}
-		return $value;
-    }
-}
-
-
-
-
-/**
- * @class Tangram\ClassLoader
- * Scripts ClassLoader Module
- * 脚本加载器模块
- * 仿单例类，由总控单元（全局引用名为$NEWIDEA）抢先实例化
- * 提供安全的批量加载（主动）方法和懒加载（被动）的配置接口
- * 
- * @final
- * @author      Jangts
- * @version     5.0.0
-**/
-final class ClassLoader {
-	private static $instance = NULL;
-
-	/**
-     * 服务器文件系统是否忽略大小写
-     * 由静态方法ClassLoader::formatPathnameCase()初始化
-     * 
-     * @access public
-     * @var null|bool $is_ignore_case
-     */
-    public static $is_ignore_case = null;
-
-    /**  
-	 * 路径格式化函数
-     * 之所有存在这个函数，是因为linux系统默认区分大小写，如果强制小写化路径，可能导致有些本地文件无法读取到
-     * 所以我们进行一次了检查，如果系统不区分大小写，就转小写，否则不操纵
-	 * 
-	 * @access public
-     * @static
-     * @param string $string
-	 * @return bool
-	**/ 
-    public static function formatPathnameCase($string){
-        if(self::$is_ignore_case===null){
-            if(is_file(__DIR__.'/main.php')){
-                self::$is_ignore_case = true;
-            }else{
-                self::$is_ignore_case = false;
-            }
-		}
-        if(self::$is_ignore_case===true){
-            return strtolower($string);
-        }
-        return $string;
-    }
-
-	private
-	// 自动加载路径翻译表
-	$map = [];
-
-	/**
 	 * 加载器实例获取方法
 	 * 第一次调用时创建加载器实例并进行初始配置
 	 * 
 	 * @access public
 	 * @static
-	 * @return object(Tangram\ClassLoader) 脚本加载器
+	 * @return object(Tangram\IDEA) 脚本加载器
 	**/ 
-	public static function instance(){
-		if(self::$instance === NULL){
-			// 创建加载器实例，并将该实例的includeClassOfNSMap()方法注册到PHP的自动加载方位法库中
-			// 改实例将被保存在此类的$instance属性中，以便以后调用
-			spl_autoload_register([new self, 'includeClassOfNSMap']);
-			self::setNSMap([
-				'Tangram'	=>	CPATH,
-				'Lib'	=>	LIB_PATH,
-				'Packages'	=>	LIBX_PATH,
-				'AF'		=>	FPATH,
-				'PM'		=>	PMPATH
-			]);
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * 路径与命名空间映射关系注册方法
-	 * 
-	 * @access public
-	 * @static
-	 * @param array $map	需要注册的路径与命名空间映射表
-	 * @return 				构造函数无返回值
-	**/
-	public static function setNSMap(array $map){
-		foreach ($map as  $ns => $path) {
-			self::$instance->map[] = [str_replace('\\', '\/', $ns), $path];
-		}
-		return true;
-	}
-
-	/**
-	 * 脚本加载器构造函数
-	 * 将构造函数私有化以保证其实例的单一性
-	 * 调用时还将加载主要核心模块所在的文件
-	 * 
-	 * @access private
-	 * @return 构造函数无返回值
-	**/
-	private function __construct(){
-		// 将此实例赋值给类的$instance属性，以便静态方法instance()传递给外部
-		self::$instance = $this->load_modules();
-	}
-
-
-	private function load_modules(){
+	private function init_class_loader(){
+		// 将该实例的includeClassOfNSMap()方法注册到PHP的自动加载方位法库中
+		// 改实例将被保存在此类的$instance属性中，以便以后调用
+		spl_autoload_register([$this, 'includeClassOfNSMap']);
+		$this->regnsp([
+			'Tangram'	=>	CPATH,
+			'Lib'	=>	LIB_PATH,
+			'Packages'	=>	LIBX_PATH,
+			'AF'		=>	FPATH,
+			'PM'		=>	PMPATH
+		]);
+		
 		// 加载数据模型所需的文件
 		include(CPATH.'MODEL/interfaces/model.php');
 		include(CPATH.'MODEL/interfaces/collection.php');
@@ -572,6 +477,31 @@ final class ClassLoader {
 
 		// 传回实例本身
 		return $this;
+	}
+
+	/**
+	 * 路径与命名空间映射关系注册方法
+	 * 
+	 * @access public
+	 * @static
+	 * @param array $map	需要注册的路径与命名空间映射表
+	 * @return 				构造函数无返回值
+	**/
+	public function regnsp(array $map){
+		// namespace path
+		foreach ($map as  $ns => $path) {
+			$this->map[] = [str_replace('\\', '\/', $ns), $path];
+		}
+		return true;
+	}
+	
+	public function load($names, $mainPath = '', $extensions = '.php'){
+		if(is_string($names)&&($names!=='*')){
+			$this->includeOne($mainPath.$names.$extensions);
+		}else{
+			$this->includeMultiple($names, $mainPath, $extensions);
+		}
+		return true;
 	}
 
 	private function includeOne($filename){
@@ -650,14 +580,48 @@ final class ClassLoader {
 		return;
 	}
 
-	public static function execute($names, $mainPath = '', $extensions = '.php'){
-		if(is_string($names)&&($names!=='*')){
-			self::$instance->includeOne($mainPath.$names.$extensions);
-		}else{
-			self::$instance->includeMultiple($names, $mainPath, $extensions);
+	/**
+	 * 记录运行日志
+	 */
+	public function log($type, $text){
+		if(is_string($type)&&preg_match('/^\w+$/',$type)){
+			$path = RUNPATH_LOG.'notes/'.$type.'/'.date('Ym').'/';
+			$filename = $path.date('Ymd');
+			//$text = # 需要对text进行检查;
+			if (!file_exists($path)){
+				mkdir($path, 0777, true);
+			}
+			$file = @fopen($filename, 'a') or new CTRLR\StatusProcessor(1406.3, 'Permission Denied', 'Unable to write run log! The current log file may be read-only.', true);
+			fwrite($file, $text);
+			fclose($file);
 		}
-		return true;
+		return false;
 	}
+
+	/**
+	 * 获取当前语言等属性的魔术方法
+	 */
+	final public function __get($name){
+		if($name==='LANGUAGE'){
+			if(empty($this->LANGUAGE)||!is_string($this->LANGUAGE)){
+				return $this->LANGUAGE = _LANG_;
+			}
+			return $this->LANGUAGE;
+		}
+		return null;
+	}
+	
+	/**
+	 * 设置当前语言等属性的魔术方法
+	 */
+    final public function __set($name, $value){
+        if($name==='LANGUAGE'){
+			if(!empty($value)&&is_string($value)){
+				$this->LANGUAGE = $value;
+			}
+		}
+		return $value;
+    }
 }
 
 // 载入必要文件

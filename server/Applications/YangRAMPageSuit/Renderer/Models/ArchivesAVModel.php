@@ -61,7 +61,12 @@ class ArchivesAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 			'field_name'	=>	'archive_hp',
 			'display_name'	=>	'归档主页',
 			'input_type'	=>	'text'
-		]
+		],
+		[
+			'field_name'	=>	'archive_remark',
+			'display_name'	=>	'备注',
+			'input_type'	=>	'editor'
+		],
 	],
 	$__sorts = [
 		'name'			=>	[['archive_name', false, ArchiveModel::SORT_CONVERT_GBK]],

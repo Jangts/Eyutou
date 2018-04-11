@@ -2,7 +2,7 @@
 namespace Pages\Main\Models;
 
 // 引入相关命名空间，以简化书写
-use Tangram\ClassLoader;
+
 use Status;
 use Tangram\MODEL\ObjectModel;
 use Request;
@@ -73,11 +73,12 @@ class FrontPageViewModel extends \AF\Models\BaseViewModel {
     }
 
     public function readPluginResource($pluginalias, $guid, $restype = '', $options = ''){
+        global $NEWIDEA;
         if($puglin = PluginModel::byGUID($pluginalias)){
             if($restype){
                 $classname = \AF\Routers\BaseRouter::correctClassName($restype).'Controller';
                 $filename = dirname(dirname(__FILE__)).'/Plugins/'.$pluginalias.'/Controllers/'.$classname;
-    		    ClassLoader::execute($filename);
+    		    $NEWIDEA->load($filename);
                 $controller = '\Pages\Main\Plugins\\'.$pluginalias.'\Controllers\\'. $classname;
                 if(method_exists($controller, 'read')){
                     parse_str($options, $options);

@@ -1,6 +1,6 @@
 <?php
-/** Pointing to the startup file "boot.php",
- * only if the default document is not "boot.php".
+/** Pointing to the startup file "main.php",
+ * only if the default document is not "main.php".
  */
-$_SERVER['SCRIPT_FILENAME'] = __DIR__.'/boot.php';
+$_SERVER['SCRIPT_FILENAME'] = __DIR__.'/main.php';
 include $_SERVER['SCRIPT_FILENAME'];

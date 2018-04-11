@@ -61,7 +61,7 @@
         "_PRIMARY_DOMAIN_": "",
 
         默认首页文件名，多个值请用“/”隔开，当请求为如下所列文件名时，页面会指向首页。
-        "_HOMEPAGE_": "index.htm\/index.html\/index.php\/index.asp\/index.jsp\/boot.php",
+        "_HOMEPAGE_": "index.htm\/index.html\/index.php\/index.asp\/index.jsp\/main.php",
 
         默认应用，用来处理首页的应用，此处填写应用ID即可，默认为“PAGES”。
         "_DEFAULT_APP_": "PAGES",

@@ -3,7 +3,7 @@ namespace AF\Controllers;
 
 // 引入相关命名空间，以简化书写
 use Status;
-use Tangram\ClassLoader;
+
 use Request;
 use App;
 

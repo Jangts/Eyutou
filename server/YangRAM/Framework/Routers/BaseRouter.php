@@ -3,7 +3,7 @@
 namespace AF\Routers;
 
 // 引入相关命名空间，以简化书写
-use Tangram\ClassLoader;
+
 use Status;
 use Request;
 use App;
@@ -35,8 +35,9 @@ class BaseRouter {
      * @param object(Tangram\MODEL\Request)     $request
     **/
     final public function __construct(App $app, Request $request){
+        global $NEWIDEA;
         list($filename, $fullclassname, $methodname, $arguments) = $this->analysis($app, $request);
-		ClassLoader::execute($filename);
+		$NEWIDEA->load($filename);
         if(class_exists($fullclassname)){
 			$class = new $fullclassname($app, $request);
             if(method_exists($class, $methodname)){

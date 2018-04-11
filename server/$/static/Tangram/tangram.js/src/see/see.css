@@ -708,11 +708,11 @@ img {
     font-weight: bold;
 }
 
-.tangram-see .tangram.container {
+.tangram-see .container {
     width: 100%;
 }
 
-.tangram-see .tangram.wfull {
+.tangram-see .wfull {
     width: 100%;
     max-width: 100%;
 }

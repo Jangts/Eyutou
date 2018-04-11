@@ -1,16 +1,13 @@
-[
-    {
+[{
         "groupname": "页面",
         "link": "pages/default/default-page/",
-        "menu": [
-            {
+        "menu": [{
                 "icon": "pencil",
                 "name": "首页设置",
                 "group": "pages/default",
                 "link": "pages/default/default-page/"
             },
             {
-                "type": "hidden",
                 "icon": "pencil",
                 "name": "页面归档管理",
                 "group": "pages/archives",
@@ -52,8 +49,7 @@
     {
         "groupname": "新闻",
         "link": "1006/news/news-list/",
-        "menu": [
-            {
+        "menu": [{
                 "icon": "pencil",
                 "name": "新闻管理",
                 "group": "1006/news",
@@ -70,8 +66,7 @@
     {
         "groupname": "产品",
         "link": "1008/cats/categories/",
-        "menu": [
-            {
+        "menu": [{
                 "type": "hidden",
                 "icon": "pencil",
                 "name": "类目管理",
@@ -114,8 +109,7 @@
     {
         "groupname": "招聘",
         "link": "1004/positions/positions/",
-        "menu": [
-            {
+        "menu": [{
                 "icon": "pencil",
                 "name": "职位管理",
                 "group": "1004/positions",

@@ -99,13 +99,13 @@ section::-webkit-scrollbar-corner {
 }
 
 .main-container .side-section .side-menu {
-    width: 190x;
+    width: 190px;
     margin: 10px 0;
     line-height: 30px;
 }
 
 .main-container .side-section .side-menu .side-menu-head {
-    width: 170x;
+    width: 170px;
     margin: 0 10px;
     color: #999;
     font-size: 14px;
@@ -117,13 +117,14 @@ section::-webkit-scrollbar-corner {
 }
 
 .main-container .side-section .side-menu .side-menu-list {
-    width: 190x;
+    width: 190px;
     margin: 0 0 10px;
     color: #666;
     font-size: 12px;
 }
 
 .main-container .side-section .side-menu .side-menu-item {
+    box-sizing: content-box;
     width: 160px;
     height: 30px;
     padding: 0 15px;

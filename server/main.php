@@ -35,7 +35,7 @@
 //  |-<<+>>-|-<<<+>>>-|-<<<<+>>>>-|-<<<<<>>>>>-|-<<<<+>>>>-|-<<<+>>>-|-<<+>>-|
 //  +----------------------------------------------------------------------+++
 /**/ REQUIRE                              '.BEFOREBOOT';                  /**/
-/**/ REQUIRE                              CPATH . 'MAIN.PHP';            /**/
+/**/ REQUIRE                              CPATH . 'IDEA.PHP';            /**/
 /**/$NEWIDEA               =              NEW IDEA;                     /**/
 /**/$NEWIDEA              ->              RUN_KERNEL_MODULES();        /**/
 /**/$NEWIDEA              ->              RUN_ASYNC_TASKWORKERS();    /**/

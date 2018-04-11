@@ -4,7 +4,6 @@ namespace Tangram\MODEL;
 
 // 引入相关命名空间，以简化书写
 use stdClass;
-use Tangram\ClassLoader;
 use Tangram\MODEL\ObjectModel;
 use Tangram\MODEL\InputsModel;
 
@@ -115,12 +114,12 @@ final class RequestModel implements interfaces\model {
 
         $URI = preg_replace('/(^\/|\/$)/', '', preg_replace('/[\\\\\/]+/', '/', $_SERVER['PHP_SELF']));
         $URI = self::filterTags($URI);
-        $uri = ClassLoader::formatPathnameCase($URI);
+        $uri = \IDEA::formatPathnameCase($URI);
         $DIR_ARRAY = explode('/', $URI);
         $dir_array = explode('/', $uri);
 
         // 获取配置项中的主页文件名列表和语言列表
-        $homepages = explode('/', ClassLoader::formatPathnameCase(_HOMEPAGE_));
+        $homepages = explode('/', \IDEA::formatPathnameCase(_HOMEPAGE_));
         $i18n = $GLOBALS['NEWIDEA']->LANGS;
 
         // 在开启多语言频道的情况下，如果字符串$dir_array[1]存在于语言列表$i18n中，则把该匹配的语言项插入到$modelProperties中，并移除$DIR_ARRAY和$dir_array的第一元素
@@ -148,11 +147,11 @@ final class RequestModel implements interfaces\model {
         // 提取query string，并整理应用资源标识和语言频道
         if($_SERVER['QUERY_STRING']){
             $modelProperties['TRI']->qs = $_SERVER['QUERY_STRING'];
-            $array = explode('?', ClassLoader::formatPathnameCase($_SERVER['RELATIVE_URI']));
+            $array = explode('?', \IDEA::formatPathnameCase($_SERVER['RELATIVE_URI']));
             $modelProperties['TRI']->locale_channel_dir = preg_replace('/\/$/', '',str_replace($modelProperties['TRI']->pathname, '', $array[0]));
         }else{
             $modelProperties['TRI']->qs = '';
-            $modelProperties['TRI']->locale_channel_dir = preg_replace('/\/$/', '', str_replace($modelProperties['TRI']->pathname, '',  ClassLoader::formatPathnameCase(rawurldecode($_SERVER['RELATIVE_URI']))));
+            $modelProperties['TRI']->locale_channel_dir = preg_replace('/\/$/', '', str_replace($modelProperties['TRI']->pathname, '',  \IDEA::formatPathnameCase(rawurldecode($_SERVER['RELATIVE_URI']))));
         }
 
         // http method and directory array length

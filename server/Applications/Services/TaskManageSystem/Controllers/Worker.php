@@ -75,7 +75,7 @@ class WorkerController extends Process {
             // 如果可读的是服务器socket,则处理连接逻辑
             if ($socket == $this->master) {
                 $client = socket_accept($this->master);
-                // 创建,绑定,监听后accept函数将会接受socket要来的连接,一旦有一个连接成功,将会返回一个新的socket资源用以交互,如果是一个多个连接的队列,只会处理第一个,如果没有连接的话,进程将会被阻塞,直到连接上.如果用set_socket_blocking或socket_set_noblock()设置了阻塞,会返回false;返回资源后,将会持续等待连接。
+                // 创建,绑定,监听后accept函数将会接受socket要来的连接,一旦有一个连接成功,将会返回一个新的socket资源用以交互,如果是一个多个连接的队列,只会处理第一个,如果没有连接的话,进程将会被阻塞,直到连接上.如果用set_socket_blocking或socket_set_notangram.block()设置了阻塞,会返回false;返回资源后,将会持续等待连接。
                 if (false === $client) {
                     $this->error([
                         'err_accept',

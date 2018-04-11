@@ -6,7 +6,7 @@ namespace Tangram\MODEL;
 use Tangram\IDEA;
 use Status;
 use Storage;
-use Tangram\ClassLoader;
+
 use Tangram\CTRLR\RDBQuerier;
 use Tangram\CTRLR\ResourceIndexer;
 
@@ -191,6 +191,7 @@ final class Application {
 	 * @return array
 	**/ 
     private function extendsProperties(){
+        global $NEWIDEA;
 		if(empty($this->properties['ExtendedProperties'])){
 			if(_USE_DEBUG_MODE_){
 				// 调试模式下，不使用缓存
@@ -209,14 +210,14 @@ final class Application {
 					$files->store('appprops', $props);
 				}
 			}
-			ClassLoader::setNSMap([$props['ExtendedProperties']['Namespace'] =>	$props['Path']]);
+			$NEWIDEA->regnsp([$props['ExtendedProperties']['Namespace'] =>	$props['Path']]);
 			// if($props['ExtendedProperties']['Suitspace']){
 			// 	if(is_numeric($this->appid)){
 			// 		$props['SuitPath'] = APATH.$props['Author'].'/'.$props['ExtendedProperties']['Suitspace'].'/';
 			// 	}else{
 			// 		$props['SuitPath'] = dirname($props['Path']);
 			// 	}
-			// 	ClassLoader::setNSMap([$props['ExtendedProperties']['Suitspace'] =>	$props['SuitPath']]);
+			// 	$NEWIDEA->regnsp([$props['ExtendedProperties']['Suitspace'] =>	$props['SuitPath']]);
 			// }
 			$this->properties = $props;
 		}

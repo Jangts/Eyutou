@@ -1,4 +1,4 @@
-block([
+tangram.block([
     '$_/dom/Elements/form.clsx',
     '$_/form/Data.cls'
 ], function(_) {

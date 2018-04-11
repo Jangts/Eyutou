@@ -2,13 +2,13 @@
   Options -Indexes +FollowSymlinks
   RewriteEngine On
   RewriteCond %{REQUEST_FILENAME} \/\.(DataFiles|Runtime|BEFOREBOOT).*$
-  RewriteRule .* boot.php?error=404 [NC,L]
+  RewriteRule .* main.php?error=404 [NC,L]
   RewriteCond %{REQUEST_FILENAME} \/.+\.(ini|tmp|dat)$
-  RewriteRule .* boot.php?error=404 [NC,L]
+  RewriteRule .* main.php?error=404 [NC,L]
   RewriteCond %{REQUEST_FILENAME} \/Users\/Public\/\..*$
-  RewriteRule .* boot.php?error=403 [NC,L]
-  RewriteRule ^.*?users\/@(.*)$ boot.php/applications/users/users/$1 [NC,QSA,PT,L]
+  RewriteRule .* main.php?error=403 [NC,L]
+  RewriteRule ^.*?users\/@(.*)$ main.php/applications/users/users/$1 [NC,QSA,PT,L]
   # RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteRule ^(.*)$ boot.php/$1 [QSA,PT,L]
+  RewriteRule ^(.*)$ main.php/$1 [QSA,PT,L]
 </IfModule>

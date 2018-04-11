@@ -1,4 +1,4 @@
-block([
+tangram.block([
     '$_/dom/Elements/',
     '$_/form/Data.cls'
 ], function(_, global) {
@@ -8,8 +8,8 @@ block([
         workspace = document.getElementById('maincontainer'),
         height = _.dom.getHeight(document);
 
-    var onhashchange = function (hash, reload){
-        if (hash&&_.util.bool.isStr(hash)&&hash.length>1){
+    var onhashchange = function(hash, reload) {
+        if (hash && _.util.bool.isStr(hash) && hash.length > 1) {
             var arr = hash.split(/(\#|\?)/g);
 
             arr[0] = arr[1] = '';

@@ -41,9 +41,9 @@ class ObjectModel implements \Serializable, interfaces\model {
     DIFF_DEEP           =   2;              // 深度比较
 
     final public static function getFilenameOfCalledClass(){
-        $classloader = \Tangram\ClassLoader::instance();
+        global $NEWIDEA;
         $calssname = get_called_class();
-        return $classloader->getilenameOfClass($classname);
+        return $NEWIDEA->getilenameOfClass($classname);
     }
 
     /**

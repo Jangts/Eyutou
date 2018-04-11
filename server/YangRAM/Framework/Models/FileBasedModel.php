@@ -23,7 +23,8 @@ class FileBasedModel implements \DataModel {
     }
 
     protected static function rewriteFileContent($filename, $content, $properties){
-        return $content;
+        file_put_contents($filename, self::rebuildFileContent($content, $properties));
+        return true;
     }
 
     protected

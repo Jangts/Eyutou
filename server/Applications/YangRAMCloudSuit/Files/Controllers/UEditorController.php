@@ -66,10 +66,15 @@ class UEditorController extends FilesController {
                 "size"      =>  $file["FILE_SIZE"]                                                      //文件大小
             ];
         }else{
-            $data= [
-                "state"     =>  static::$stateMap[$this->failed[$options['__fieldName']][0]['error']]
-            ];
-            
+            if(count($this->successed[$options['__fieldName']])){
+                $data= [
+                    "state"     =>  static::$stateMap[$this->failed[$options['__fieldName']][0]['error']]
+                ];
+            }else{
+                $data= [
+                    "state"     =>  static::$stateMap['ERROR_FILE_NOT_FOUND']
+                ];
+            }            
         }
 		$result = json_encode($data);
         /* 输出结果 */
@@ -202,13 +207,10 @@ class UEditorController extends FilesController {
                 $fieldName = $CONFIG['fileFieldName'];
                 break;
         }
+        $this->successed[$fieldName] = $this->failed[$fieldName] = [];
         if(isset($_FILES[$fieldName])){
-            $this->successed[$fieldName] = [];
-            $this->failed[$fieldName] = [];
             $this->postFile($fieldName, $_FILES[$fieldName], $options);
         }elseif($base64==='base64'){
-            $this->successed[$fieldName] = [];
-            $this->failed[$fieldName] = [];
             $base64Data = $_POST[$fieldName];
             $img = base64_decode($base64Data);
             $this->postFile($fieldName, [

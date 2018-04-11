@@ -62,9 +62,9 @@ if(preg_match("/cli/i", _CLI_MODE_)){
             $_SERVER['QUERY_STRING'] = '';
             $_SERVER['REQUEST_URI'] = $_SERVER['PHP_SELF'];
         }
-        $_SERVER['PHP_SELF'] = '/boot.php'.$_SERVER['PHP_SELF'];
+        $_SERVER['PHP_SELF'] = '/main.php'.$_SERVER['PHP_SELF'];
 
-        include 'boot.php';
+        include 'main.php';
     }else{
         echo "Welcome to access YangRAM by using CLI mode!\r\nIf you want to visit the homepage, you must type in the filename of the homepage. such as 'php cli.php index.html'.";
         exit;

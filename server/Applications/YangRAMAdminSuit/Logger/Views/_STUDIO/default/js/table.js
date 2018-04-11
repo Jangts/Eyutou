@@ -1,4 +1,4 @@
-block([
+tangram.block([
     '$_/dom/Elements/'
 ], function(_) {
     var

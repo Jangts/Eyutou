@@ -3,7 +3,7 @@ namespace Lailihong\Backstage\Controllers;
 
 // 引入相关命名空间，以简化书写
 use Status;
-use Tangram\ClassLoader;
+
 use Request;
 use App;
 use Passport;
@@ -36,15 +36,17 @@ class AdminBusController extends BasePrivateController {
     }
 
     public function reject($href = NULL){
+        global $NEWIDEA;
         $viewModel = 'LoginAVModel';
         $fullclassname = '\Lailihong\Backstage\Models\\'.$viewModel;
         $filename = CACAP.'Models/'.$viewModel;
-        ClassLoader::execute($filename);
+        $NEWIDEA->load($filename);
         $model = new $fullclassname;
         $model->init($GLOBALS['NEWIDEA']->AA, $this->request, 'default')->analysis($this->request)->render();     
     }
     
     public function render($patharr){
+        global $NEWIDEA;
         $admininfo = $this->checkAuthority();
         $app = $this->app;
         if(isset($patharr[2])){
@@ -55,7 +57,7 @@ class AdminBusController extends BasePrivateController {
         }
         $fullclassname = '\\'.$app->xProps['Namespace'].'\\Models\\'.$viewModel;
         $filename = $app->Path.'Models/'.$viewModel;
-        ClassLoader::execute($filename);
+        $NEWIDEA->load($filename);
         if(class_exists($fullclassname)){
             $model = new $fullclassname;
             $model->init($app, $this->request)->analysis($admininfo)->render();
