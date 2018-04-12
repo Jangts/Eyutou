@@ -1,6 +1,6 @@
 tangram.block([
-    '$_/dom/Elements/form.clsx',
-    '$_/form/Data.cls'
+    '$_/dom/Elements',
+    '$_/form/Data'
 ], function(_) {
     var
         $ = _.dom.select;
@@ -14,7 +14,7 @@ tangram.block([
         switch (order) {
             case 'delete':
                 if (action = $(this).data('submitHref')) {
-                    _.data.AJAX(action, {
+                    _.async.ajax(action, {
                         method: 'POST',
                         data: {
                             http_method: 'DELETE',

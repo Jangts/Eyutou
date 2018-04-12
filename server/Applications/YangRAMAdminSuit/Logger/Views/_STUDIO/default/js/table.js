@@ -1,5 +1,5 @@
 tangram.block([
-    '$_/dom/Elements/'
+    '$_/dom/Elements'
 ], function(_) {
     var
         $ = _.dom.select;

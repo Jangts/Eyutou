@@ -1,10 +1,10 @@
 tangram.block([
-    '$_/data/',
-    '$_/dom/Elements/',
-    '$_/dom/Template.cls'
+    '$_/data/', '$_/async/',
+    '$_/dom/Elements',
+    '$_/dom/Template'
 ], function(_, global, undefined) {
     var url = '/api/cloudtables/?c=MVCRows&m=getrows&args=news/null/gldpd/1/0';
-    _.data.json(url, function(res) {
+    _.async.json(url, function(res) {
             var
                 $ = _.dom.select,
                 view = $('.index-news-arti'),

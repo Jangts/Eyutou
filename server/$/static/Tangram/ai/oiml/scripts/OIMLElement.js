@@ -14,7 +14,7 @@ System.ExtendsMethods((YangRAM, declare, global, undefined) => {
             else if (appid < 1000) return 'APP-0' + appid;
             else return 'APP-' + appid;
         },
-        ScrollBAR = declare(_.see.BasicScrollBAR, {
+        ScrollBAR = declare(_.see.Scrollbar.Abstract, {
             _init(elem) {
                 this.Element = elem;
                 this.build();

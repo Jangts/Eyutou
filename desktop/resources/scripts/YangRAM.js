@@ -50,8 +50,8 @@ System.ModuleSeeds.main = (Application, pandora, declare, global, undefined) => 
             }
         },
         YangRAM = System.YangRAM = global.YangRAM = new Application('yangram'),
-        BGMPlayer = new _.medias.Player(),
-        MusicPlayer = new _.medias.Player();
+        BGMPlayer = new _.media.Player(),
+        MusicPlayer = new _.media.Player();
 
     _.extend(YangRAM, true, {
         document: document.getElementsByTagName('yangram').item(0),
@@ -154,7 +154,7 @@ System.ModuleSeeds.main = (Application, pandora, declare, global, undefined) => 
 
         var AlerterElement = YangRAM.create('alert', System.Notifier.document, { state: 'off' });
         _.extend(System.Notifier, true, {
-            Alerter: new _.widgets.Alerter(AlerterElement)._x({
+            Alerter: new _.popup.Alerter(AlerterElement)._x({
                 vision: YangRAM.create('msgbox', AlerterElement)
             }),
         });

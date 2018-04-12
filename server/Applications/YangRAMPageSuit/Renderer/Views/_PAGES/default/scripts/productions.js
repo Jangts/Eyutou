@@ -1,7 +1,7 @@
 tangram.block([
-    '$_/data/',
-    '$_/dom/Elements/',
-    '$_/dom/Template.cls'
+    '$_/data/', '$_/async/',
+    '$_/dom/Elements',
+    '$_/dom/Template'
 ], function(_, global, undefined) {
     var isnum = _.util.bool.isNumeric,
         $ = _.dom.select,
@@ -31,7 +31,7 @@ tangram.block([
             var
                 url1 = '/applications/1008/brands/' + id;
             url2 = '/applications/1008/brands/' + id + '/types/';
-            _.data.json(url1, function(res) {
+            _.async.json(url1, function(res) {
                 if (res.data && res.data.brand_name) {
                     $brandname.html(res.data.brand_name);
                 };
@@ -41,7 +41,7 @@ tangram.block([
                 $brands.removeClass('on');
                 $this.addClass('on');
             });
-            _.data.json(url2, function(res) {
+            _.async.json(url2, function(res) {
                 var types = [];
                 if (res.data) {
                     _.each(res.data, function(index, type) {
@@ -56,7 +56,7 @@ tangram.block([
         },
         typeClick = function(id, $this) {
             var url = '/applications/1008/brands/' + brand_id + '/types/' + id + '/productions/?sortby=grade_reverse';
-            _.data.json(url, function(res) {
+            _.async.json(url, function(res) {
                 render(res.data, 'brand=' + brand_id + '&type=' + id);
                 type_id = id;
                 $('.products-categories a').removeClass('on');
@@ -84,7 +84,7 @@ tangram.block([
     $list.on('click', ".product-item", null, function() {
         var id = $(this).data('item-id'),
             url = '/applications/1008/productions/' + id;
-        _.data.json(url, function(res) {
+        _.async.json(url, function(res) {
             $img.attr('src', res.data.image);
             $art.html('')
                 .append('<h1>' + res.data.name + '</h1>')

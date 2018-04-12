@@ -19,15 +19,15 @@ tangram.config({
 
 tangram.block([
     '$_/Time/',
-    '$_/data/',
+    '$_/data/', '$_/async/',
     '$_/data/hash.xtd',
-    '$_/data/Clipboard.cls',
-    '$_/data/Component.cls',
-    '$_/dom/Elements/form.clsx',
-    '$_/form/Data.cls',
-    '$_/medias/Player.cls',
-    '$_/see/BasicScrollBAR.cls',
-    '$_/see/widgets/Alerter.cls',
+    '$_/data/Clipboard',
+    '$_/data/Component',
+    '$_/dom/Elements',
+    '$_/form/Data',
+    '$_/media/Player',
+    '$_/see/Scrollbar/Abstract',
+    '$_/see/popup/Alerter',
     /* ************ */
     'resources/scripts/System',
     'resources/scripts/Application',

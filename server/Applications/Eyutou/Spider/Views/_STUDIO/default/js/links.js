@@ -1,5 +1,5 @@
 tangram.auto([
-    '$_/dom/Elements/'
+    '$_/dom/Elements'
 ], function(_, global, undefined) {
     var $ = _.dom.select,
         parent = global.parent,

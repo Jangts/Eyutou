@@ -1,6 +1,6 @@
 tangram.block([
-    '$_/data/',
-    '$_/dom/Elements/form.clsx'
+    '$_/data/', '$_/async/',
+    '$_/dom/Elements'
 ], function(_) {
     var $ = _.dom.select,
         api = $('input[name=__api__]').val();
@@ -12,7 +12,7 @@ tangram.block([
         if (un.length >= 5) {
             if (pw.length >= 4) {
                 if (pc.length === 6) {
-                    _.data.AJAX(api + '?app=logger&c=VISA', {
+                    _.async.ajax(api + '?app=logger&c=VISA', {
                         method: 'POST',
                         data: 'username=' + un + '&password=' + pw + '&pincode=' + pc,
                         success: function(result) {

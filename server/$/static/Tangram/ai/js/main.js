@@ -1,6 +1,6 @@
 tangram.block([
-    '$_/dom/Elements/',
-    '$_/form/Data.cls'
+    '$_/dom/Elements',
+    '$_/form/Data'
 ], function(_, global) {
     var location = global.location,
         $ = _.dom.select,
@@ -49,7 +49,7 @@ tangram.block([
     $('.top-options a').click(function() {
         var href;
         if (href = $(this).data('submitHref')) {
-            _.data.AJAX(href, {
+            _.async.ajax(href, {
                 success: function(responseText) {
                     var response = _.data.decodeJSON(responseText) || {};
                     console.log(response);

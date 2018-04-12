@@ -1,6 +1,6 @@
 tangram.block([
-    '$_/data/',
-    '$_/dom/Elements/'
+    '$_/data/', '$_/async/',
+    '$_/dom/Elements'
 ], function(_) {
     var
         $ = _.dom.select;
@@ -15,7 +15,7 @@ tangram.block([
             appsurl = $('.action-container').data('appsUrl'),
             url = appsurl + '/pages/archives/' + archive + '/pages/' + id + '/parent-page-paths/';
 
-        _.data.json(url, function(response) {
+        _.async.json(url, function(response) {
             if (response.data) {
                 var html = '<option value="0">无父级页面</option>';
                 _.each(response.data, function() {

@@ -1,8 +1,8 @@
 tangram.block([
-    '$_/dom/Elements/form.clsx',
+    '$_/dom/Elements',
     '$_/form/SimpleEditor/',
-    '$_/form/PicturesUploader.cls',
-    '$_/form/Data.cls',
+    '$_/form/PicturesUploader',
+    '$_/form/Data',
     '$_/Time/Picker/'
 ], function(_) {
     var
@@ -246,7 +246,7 @@ tangram.block([
                 var action = $(this).data('submitHref'),
                     href = $(this).data('successHref');
                 if (action) {
-                    _.data.AJAX(action, {
+                    _.async.ajax(action, {
                         method: 'POST',
                         data: {
                             http_method: 'DELETE',

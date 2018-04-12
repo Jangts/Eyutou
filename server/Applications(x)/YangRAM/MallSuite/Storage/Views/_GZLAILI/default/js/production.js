@@ -1,6 +1,6 @@
 tangram.block([
-    '$_/data/',
-    '$_/dom/Elements/'
+    '$_/data/', '$_/async/',
+    '$_/dom/Elements'
 ], function(_) {
     var
         $ = _.dom.select;
@@ -14,7 +14,7 @@ tangram.block([
             url_brand = appsurl + '/1008/categories/' + category_id + '/brands/',
             url_type = appsurl + '/1008/categories/' + category_id + '/types/';
 
-        _.data.json(url_brand, function(response) {
+        _.async.json(url_brand, function(response) {
             if (response.data) {
                 var html = '<option value="0">不设置品牌</option>';
                 _.each(response.data, function() {
@@ -33,7 +33,7 @@ tangram.block([
 
         console.log(url_type);
 
-        _.data.json(url_type, function(response) {
+        _.async.json(url_type, function(response) {
             console.log(22222222);
             var html = '<option value="0">不设置类型</option>';
             _.each(response.data, function() {

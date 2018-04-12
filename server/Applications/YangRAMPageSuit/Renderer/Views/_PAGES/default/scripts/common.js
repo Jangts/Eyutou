@@ -1,7 +1,7 @@
 tangram.block([
-    '$_/data/',
-    '$_/dom/Elements/',
-    '$_/dom/Template.cls'
+    '$_/data/', '$_/async/',
+    '$_/dom/Elements',
+    '$_/dom/Template'
 ], function(_, global, undefined) {
     var $ = _.dom.select,
         $list = $('.mid1920 aside.left nav ul'),

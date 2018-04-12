@@ -83,7 +83,7 @@ System.ExtendsMethods((YangRAM, declare, global, undefined) => {
         Author: Author,
         Version: Version,
         Uploader: Uploader,
-        JSON: _.data.json,
+        JSON: _.async.json,
         GET(options) {
             options = options || {};
             var url = options.url || System.YangRAM.URI;
