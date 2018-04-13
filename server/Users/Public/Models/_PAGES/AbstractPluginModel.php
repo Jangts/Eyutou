@@ -5,7 +5,7 @@ namespace PM\_PAGES;
 use Tangram\MODEL\ObjectModel;
 use App;
 
-class AbstractPluginModel extends ObjectModel{
+class AbstractPluginModel extends ObjectModel {
     protected static $fp;
 
     protected static function dbfilename(){

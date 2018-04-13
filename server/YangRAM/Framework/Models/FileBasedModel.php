@@ -18,19 +18,82 @@ class FileBasedModel implements \DataModel {
     use \Tangram\MODEL\traits\magic;
     use \Tangram\MODEL\traits\arraylike;
 
-    protected static function rebuildFileContent($content, $properties){
+    protected static function getFilename($guid = NULL/*单例数据文件不需要GUID*/){
+
+    }
+
+    protected static function getFilenames($requires = []){
+
+    }
+
+    final protected static function getFileContent($filename){
+        if(is_readable($filename)){
+            return file_get_contents($filename);
+        }
+        return false;
+    }
+
+    final protected static function putFileContent($filename, $content, $properties){
+        $path = dirname($filename);
+        if (!file_exists($path)){
+			mkdir($path, 0777, true);
+		}
+        if(file_put_contents($filename, self::buildFileContent($content, $properties))){
+            return true;
+        }
+        return false;
+    }
+    
+    protected static function buildModelProperties($content){
+        return [];
+    }
+
+    protected static function buildFileContent($content, $properties){
         return $content;
     }
 
-    protected static function rewriteFileContent($filename, $content, $properties){
-        file_put_contents($filename, self::rebuildFileContent($content, $properties));
-        return true;
+    
+
+    final public static function query(){
+        $contents
+    }
+
+    final public static function create($guid = NULL/*单例数据文件不需要GUID*/){
+        $filename = buildFilename($guid);
+    }
+
+    final public static function delete($guid = NULL/*单例数据文件不需要GUID*/){
+        $filename = buildFilename($guid);
+        if(is_writable($filename)){
+            return unlink($filename);
+        }
+        return false;
     }
 
     protected
     $filename = '',
     $content = '',
     $modelProperties = [];
+
+    final protected function __construct($filename, $content, $properties){
+
+    }
+
+    public function put($content){
+        switch (gettype($content)) {
+            case 'array':
+            
+                return static::buildFileContent($content, $this->modelProperties);
+
+            case 'string':
+                return static::buildModelProperties($this->content);
+        }
+        return false;
+    }
+
+    public function save(){
+        
+    }
 
     /**  
 	 * 取值方法
@@ -90,7 +153,7 @@ class FileBasedModel implements \DataModel {
 	**/
     final public function str(){
         # 重新整理$this->content
-        $this->content = static::rebuildFileContent($this->content, $this->modelProperties);
+        $this->content = static::buildFileContent($this->content, $this->modelProperties);
         return $this->content;
     }
 
