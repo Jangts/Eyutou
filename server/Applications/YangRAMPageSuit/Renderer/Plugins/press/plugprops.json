@@ -1,0 +1,12 @@
+{
+    "appalias": "press",
+    "appid": 1006,
+    "desc": "应用YangRAM Press(appid:10)为Pages提供的新闻插件",
+    "plugindirs": {
+        "news\/": {
+            "controller": "NewsPageController",
+            "method": "main"
+        }
+    },
+    "pluginname": "Press For Pages"
+}

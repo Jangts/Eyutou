@@ -31,7 +31,7 @@ trait trmm_collecting {
 	/**
 	 * 查询
 	 */
-	public static function query($require = "1 = 1", array $orderby = self::ID_ASC, $range = 0, $returnFormat = Model::LIST_AS_OBJS, $selecte = '*'){
+	public static function query($require = "1 = 1", array $orderby = self::ID_ASC, $range = 0, $returnFormat = Model::LIST_AS_OBJS, $selecte = '*') : array {
         self::init();
 		$result = self::executeQuerySelect(self::$staticQuerier, $require, $orderby, $range);
         if($result){

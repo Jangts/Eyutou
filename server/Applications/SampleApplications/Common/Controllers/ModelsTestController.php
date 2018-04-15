@@ -15,7 +15,10 @@ use Tangram\MODEL\UserModel;
 use Tangram\MODEL\UserGroupReadolyModel;
 use Passport;
 use AF\Models\FileBasedModel;
-use AF\Models\FilesCollection;
+use AF\Models\FileBasedCollection;
+
+use App\Models\TestFileBasedModel;
+use App\Models\TestFileBasedCollection;
 
 class ModelsTestController extends \Controller {
     public function restraint(){
@@ -200,11 +203,8 @@ class ModelsTestController extends \Controller {
     }
 
     public function fileBased(){
-        $filedata = new FileBasedModel();
-        var_dump($filedata);
-    }
-
-    public function filesCollection(){
-        
+        // $filedata = FileBasedModel::byGUID();
+        $filedata = TestFileBasedModel::byGUID();
+        var_dump($filedata->author, $filedata);
     }
 }

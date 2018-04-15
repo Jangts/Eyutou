@@ -73,7 +73,7 @@ abstract class BaseIPCInterface {
         $this->analysis($app, $request, $ipcOptions);
     }
 
-    final protected function analysis(App $app, Request $request, array $ipcOptions){
+    final protected function analysis(App $app, Request $request, array $ipcOptions) : array {
         if(empty($ipcOptions['preset'])||empty($this->presets[$ipcOptions['preset']])){
             Status::cast('cannot find ipc preset');
         }

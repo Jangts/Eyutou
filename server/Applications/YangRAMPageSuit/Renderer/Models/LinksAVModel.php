@@ -114,7 +114,7 @@ class LinksAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 		];
 	}
 
-	protected static function __createURL($basedir){
+	protected static function __createURL($basedir, $qs = ''){
         return $basedir.'/0/?group='.$_GET['group'];
     }
 	

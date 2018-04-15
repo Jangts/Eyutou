@@ -18,17 +18,17 @@ use Tangram\CTRLR\RDBQuerierPlus;
 abstract class BaseDeepModel extends BaseR3Model {
 	protected static $__parentFieldName = 'parent';
 
-	public static function getRoots(array $options = [], array $orderby = [['1', false, self::SORT_REGULAR]]){
+	public static function getRoots(array $options = [], array $orderby = [['1', false, self::SORT_REGULAR]]) : array {
 		return static::query(array_merge($options, [static::$__parentFieldName => 0]), $orderby);
 	}
     
-	public static function getChildren($guid, array $options = [], array $orderby = [['1', false, self::SORT_REGULAR]]){
+	public static function getChildren($guid, array $options = [], array $orderby = [['1', false, self::SORT_REGULAR]]) : array {
 		return static::query(array_merge($options, [static::$__parentFieldName => $guid]), $orderby);
 	}
 	
 	public $__level = 0;
     
-	public function getAncestors($containSelf = false){
+	public function getAncestors(bool $containSelf = false) : array {
 		if($containSelf){
 			$path = [$this];
 		}else{
@@ -46,7 +46,7 @@ abstract class BaseDeepModel extends BaseR3Model {
 		return array_reverse($path);
 	}
 
-	public function getOffspring($container = [], $level = 0, $ignore = 0, array $options = []){
+	public function getOffspring($container = [], $level = 0, $ignore = 0, array $options = []) : array {
 		$children = static::getChildren($this->__guid, $options);
 		foreach($children as $child){
 			if($child[$this->pk]!==$ignore){
@@ -65,7 +65,7 @@ abstract class BaseDeepModel extends BaseR3Model {
 		return NULL;
 	}
 
-	public function getUsableParents(array $options = []){
+	public function getUsableParents(array $options = []) : array {
 		$folders = [];
 		$roots = static::getRoots($options);
 		foreach($roots as $root){

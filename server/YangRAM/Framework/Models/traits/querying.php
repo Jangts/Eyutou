@@ -19,7 +19,7 @@ trait querying {
      */
     $constraints = [];
 
-    final public static function __checkValue($name, $value){
+    final public static function __checkValue($name, $value) : bool {
         if(isset(static::$constraints[$name])){
             switch(static::$constraints[$name]){
                 case '':
@@ -94,7 +94,7 @@ trait querying {
         new Status(1415, '', 'Property ["'.$name.'"] of calss '.get_called_class().' must be '.$type.', "'.$value.'" given.',true);
     }
 
-    public static function __checkValues($values, $isPost = false){
+    public static function __checkValues(array $values, bool $isPost = false) : array {
         foreach($values as $name=>$value){
             if(!self::__checkValue($name, $value)){
                 if(isset(static::$defaultPorpertyValues[$name])&&self::__checkValue($name, static::$defaultPorpertyValues[$name])){
@@ -110,7 +110,7 @@ trait querying {
         return $values;
     }
 
-    public static function __checkOrderFields(array $orderby){
+    public static function __checkOrderFields(array $orderby) : bool {
 		foreach ($orderby as $fieldExpression) {
 			if(!array_key_exists($fieldExpression[0], static::$defaultPorpertyValues)){
 				return false;
@@ -127,7 +127,7 @@ trait querying {
 	 * @static
 	 * @return object
 	**/
-    protected static function initQuerier(){
+    protected static function initQuerier() : DBQ {
         $class = strtolower(get_called_class());
         if(empty($privateRDBQueries[$class])){
             if(self::$rdbConnectionType){
@@ -155,7 +155,7 @@ trait querying {
      * @param int $returnFormat                         返回列表类型，请使用模型自带的常量来标记
 	 * @return array
 	**/
-    public static function query($require = "1 = 1", array $orderby = [['1', false, self::SORT_REGULAR]], $range = 0, $returnFormat = self::LIST_AS_OBJS, $selecte = '*'){
+    public static function query($require = "1 = 1", array $orderby = [['1', false, self::SORT_REGULAR]], $range = 0, $returnFormat = self::LIST_AS_OBJS, $selecte = '*') : array{
         // 获取默认数据行查询器
         $querier = static::initQuerier();
 
@@ -189,7 +189,7 @@ trait querying {
      * @param string            $ok     排序字段
 	 * @return array
 	**/
-    public static function find ($key, $val, $index = false, $ok = '1'){
+    public static function find ($key, $val, $index = false, $ok = '1') : array {
         // 数或数字字串
         if(is_numeric($index)){
             // 自然数
@@ -219,7 +219,7 @@ trait querying {
      * @param object(Tangram\CTRLR\RDBQuerier) $querier 查询器实例
 	 * @return object
 	**/
-    public static function setQuerySelectRange(\Tangram\CTRLR\RDBQuerier $querier, $range){
+    public static function setQuerySelectRange(DBQ $querier, $range){
         if(is_numeric($range)){
 			$querier->take($range);
 		}elseif(is_array($range)){
@@ -239,7 +239,7 @@ trait querying {
      * @param object(Tangram\CTRLR\RDBQuerier) $querier 查询器实例
 	 * @return object
 	**/
-    public static function setQuerySelectOrder(\Tangram\CTRLR\RDBQuerier $querier, $order){
+    public static function setQuerySelectOrder(DBQ $querier, $order) : DBQ {
         if(isset($order[0])&&isset($order[1])){
             if(isset($order[2])){
                 switch($order[2]){
@@ -270,7 +270,7 @@ trait querying {
      * @param string|array $selecte                     选择字段，可以为整理好的SQL语句片段，也可以是由字段名构成的数组，数组名可以包括名别语法
 	 * @return object(Tangram\MODEL\RDBRowsCollection)|bool
 	**/
-    protected static function executeQuerySelect(\Tangram\CTRLR\RDBQuerier $querier, $require, $orderby, $range, $selecte = '*'){
+    protected static function executeQuerySelect(DBQ $querier, $require, $orderby, $range, $selecte = '*'){
         // 整理查询条件
 		if(is_numeric($require)){
             $range = $require;

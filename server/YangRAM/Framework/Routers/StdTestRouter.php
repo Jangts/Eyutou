@@ -25,7 +25,7 @@ final class StdTestRouter extends BaseRouter {
      * @param object(Tangram\MODEL\Request)     $request
 	 * @return array
     **/
-    final protected function analysis(App $app, Request $request){
+    final protected function analysis(App $app, Request $request) : array {
 		$classname = $this->getClassName($app->Path.'Controllers/', $request);
 		$filename = $app->Path.'Controllers/'.$classname;
 		$fullclassname = '\\'.$app->xProps['Namespace'].'\\Controllers\\'.$classname;
@@ -81,7 +81,7 @@ final class StdTestRouter extends BaseRouter {
 	 * @param object(Tangram\MODEL\Request) $request
 	 * @return string
 	**/
-	final private function getParameters(Request $request){
+	final private function getParameters(Request $request) : array {
 		if(is_string($request->INPUTS->args)){
 			return preg_split('/\s+/', $request->INPUTS->args);
 		}

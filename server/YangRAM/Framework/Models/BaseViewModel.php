@@ -20,7 +20,7 @@ abstract class BaseViewModel extends \Packages\NIML implements \DataModel {
 		return false;
     }
 
-    public static function __loadData($name, $dir = __DIR__){
+    public static function __loadData($name, $dir = __DIR__) : array {
 		return json_decode(file_get_contents($dir.'/providers/'.$name.'.json'), true);
     }
     
@@ -31,16 +31,16 @@ abstract class BaseViewModel extends \Packages\NIML implements \DataModel {
     $mime = 'text/html',
 	$theme = 'default';
 
-    public function __construct(array $input = [], $readonly = false){
+    public function __construct(array $input = [], bool $readonly = false){
         $this->vars = array_merge($this->vars, $input);
         $this->readonly = $readonly;
     }
 
-    public function count(){
+    public function count() : int {
         return count($this->vars);
     }
     
-	public function getFilenames($template, $is_include = false){
+	public function getFilenames($template, bool $isInclude = false){
         new Status(1422, '', 'Must redeclare a getFilenames function in your extended viewmodel.');
     }
 

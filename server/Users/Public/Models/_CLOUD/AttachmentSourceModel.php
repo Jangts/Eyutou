@@ -105,7 +105,7 @@ class AttachmentSourceModel extends FileSourceModel {
         return false;
     }
     
-    public function destroy(){
+    public function destroy() : bool {
         $SID = $this->modelProperties['SID'];
         $resources = FileMetaModel::getFilesBySrouceID($SID);
         if(count($resources)){

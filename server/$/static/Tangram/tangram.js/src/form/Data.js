@@ -9,7 +9,7 @@
 tangram.block([
     '$_/util/bool',
     '$_/dom/',
-    '$_/data/'
+    '$_/data/', '$_/async/'
 ], function(pandora, global, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,

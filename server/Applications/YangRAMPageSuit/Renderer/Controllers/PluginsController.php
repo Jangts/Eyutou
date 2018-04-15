@@ -18,7 +18,7 @@ class PluginsController extends \AF\Controllers\BaseResourcesController {
 
     public function update($id, array $options = []){
         if($puglin = PluginModel::byGUID($id)){
-            if($puglin->put($_POST['options'])->save()){
+            if($puglin->put(stripslashes($_POST['options']))&&$puglin->save()){
                 \Controller::doneResponese([
                     'appalias'	=>	$puglin->appalias,
                     'options'	=>	$puglin->getOptionsText()

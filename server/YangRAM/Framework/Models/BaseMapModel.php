@@ -55,7 +55,7 @@ abstract class BaseMapModel extends BaseModel {
 	 * @static
 	 * @return object
 	**/
-    protected static function initQuerier(){
+    protected static function initQuerier() : DBQ{
         $class = strtolower(get_called_class());
         if(empty($privateRDBQueries[$class])){
             $privateRDBQueries[$class] = new DBQ(static::$rdbConnectionIndex);
@@ -85,7 +85,7 @@ abstract class BaseMapModel extends BaseModel {
         
     }
 
-    public static function joinKeys2guid(array $keys, $pickfirst = false){
+    public static function joinKeys2guid(array $keys, bool $pickfirst = false){
         // 检查是否存在联合索引键组
         if($pickfirst){
             $keys = static::pickKeys($keys);
@@ -106,7 +106,7 @@ abstract class BaseMapModel extends BaseModel {
      * @param int $returnFormat                         返回列表类型，请使用模型自带的常量来标记
 	 * @return array
 	**/
-    public static function query($require = "1 = 1", array $orderby = [['1', false, self::SORT_REGULAR]], $returnFormat = self::LIST_AS_OBJS, $selecte = '*'){
+    public static function query($require = "1 = 1", array $orderby = [['1', false, self::SORT_REGULAR]], $returnFormat = self::LIST_AS_OBJS, $selecte = '*') : array {
         // 获取默认数据行查询器
         $querier = static::initQuerier();
 
@@ -146,7 +146,7 @@ abstract class BaseMapModel extends BaseModel {
      * @param object(Tangram\CTRLR\RDBQuerier) $querier 查询器实例
 	 * @return object
 	**/
-    public static function setQuerySelectOrder(\Tangram\CTRLR\RDBQuerier $querier, $order){
+    public static function setQuerySelectOrder(DBQ $querier, $order) : DBQ{
         if(isset($order[0])&&isset($order[1])){
             if(isset($order[2])){
                 switch($order[2]){
@@ -173,7 +173,7 @@ abstract class BaseMapModel extends BaseModel {
      * @param mixed $indexField 索引字段
 	 * @return array
 	**/
-    public static function readInGroups($groupField){
+    public static function readInGroups($groupField) : array {
         $groups = [];
         if(isset(static::$defaultPorpertyValues[$groupField])){
             $result = static::initQuerier()->requires()->take(0)->orderby(false)->select();
@@ -249,12 +249,12 @@ abstract class BaseMapModel extends BaseModel {
      * @param array|object $modelProperties 源数据
 	 * @return object|bool
 	**/
-    public static function create(array $modelProperties = []){
+    public static function create(array $modelProperties = []) : object {
         $modelProperties = self::correctArrayByTemplate($modelProperties, static::$defaultPorpertyValues);
         return new static($modelProperties);
     }
 
-    protected static function __checkPostData(array $input){
+    protected static function __checkPostData(array $input) : array {
         return self::correctArrayByTemplate($input, static::$defaultPorpertyValues);
     }
 
@@ -306,7 +306,7 @@ abstract class BaseMapModel extends BaseModel {
      * @param string|array $require                     查询条件，可以为整理好的SQL语句片段，也可以是数组形式的条件组
 	 * @return int
 	**/
-    public static function delete($require){
+    public static function delete($require) : bool {
         // 获取默认数据行查询器
         $querier = static::initQuerier();
 
@@ -350,7 +350,7 @@ abstract class BaseMapModel extends BaseModel {
 	 * @access public
 	 * @return bool
 	**/ 
-    public function destroy(){
+    public function destroy() : bool {
         $keys = static::pickKeys($this->savedProperties);
         if($this->savedProperties&&($this->querier->requires($keys)->delete()!==false)){
             if($this->files) $this->files->store($this->__guid);
@@ -365,7 +365,7 @@ abstract class BaseMapModel extends BaseModel {
 	 * @access protected
 	 * @return bool
 	**/ 
-    protected function __afterDelete(){
+    protected function __afterDelete() : bool {
         return true;
     }
 }

@@ -18,12 +18,19 @@ class FileBasedModel implements \DataModel {
     use \Tangram\MODEL\traits\magic;
     use \Tangram\MODEL\traits\arraylike;
 
-    protected static function getFilename($guid = NULL/*单例数据文件不需要GUID*/){
-
+    final public static function getDirnameOfModel() : string {
+        global $NEWIDEA;
+        $classname = get_called_class();
+        $filename = $NEWIDEA->getFilenameOfClass($classname);
+        return dirname($filename);
     }
 
-    protected static function getFilenames($requires = []){
+    protected static function getFilename($guid = NULL/*单例数据文件不需要GUID*/) : string {
+        new Status(1442, '', 'method "getFilename" must be redeclared.', true);
+    }
 
+    protected static function getFilenames(array $requires = []) : array {
+        new Status(1442, '', 'method "getFilenames" must be redeclared.', true);
     }
 
     final protected static function getFileContent($filename){
@@ -33,37 +40,61 @@ class FileBasedModel implements \DataModel {
         return false;
     }
 
-    final protected static function putFileContent($filename, $content, $properties){
+    final protected static function putFileContent($filename, $content, $properties) : bool {
         $path = dirname($filename);
         if (!file_exists($path)){
 			mkdir($path, 0777, true);
 		}
-        if(file_put_contents($filename, self::buildFileContent($content, $properties))){
+        if(file_put_contents($filename, static::buildFileContent($content, $properties))){
             return true;
         }
         return false;
     }
     
-    protected static function buildModelProperties($content){
+    protected static function buildModelProperties($content) : array {
         return [];
     }
 
-    protected static function buildFileContent($content, $properties){
+    protected static function buildFileContent($content, $properties) : string {
         return $content;
     }
 
-    
-
-    final public static function query(){
-        $contents
+    final public static function query(array $requires = []) : array {
+        $objs = [];
+        $filenames = static::getFilenames($requires);
+        foreach($filenames as $filename){
+            if($content = self::getFileContent($filename)){
+                $obj = new static($filename);
+                $obj->put($content);
+                $objs[] = $obj;
+            }else{
+                $objs[] = NULL;
+            }
+        }
+        return $objs;
     }
 
-    final public static function create($guid = NULL/*单例数据文件不需要GUID*/){
-        $filename = buildFilename($guid);
+    final public static function byGUID($guid = NULL/*单例数据文件不需要GUID*/){
+        $filename = static::getFilename($guid);
+        if($content = self::getFileContent($filename)){
+            $obj = new static($filename);
+            $obj->put($content);
+            return $obj;
+        }
+        return NULL;
+    }
+
+    final public static function create($guid = NULL/*单例数据文件不需要GUID*/, $content = NULL){
+        $filename = static::getFilename($guid);
+        $obj = new static($filename);
+        if($content){
+            $obj->put($content);
+        }
+        return $obj;
     }
 
     final public static function delete($guid = NULL/*单例数据文件不需要GUID*/){
-        $filename = buildFilename($guid);
+        $filename = static::getFilename($guid);
         if(is_writable($filename)){
             return unlink($filename);
         }
@@ -75,24 +106,33 @@ class FileBasedModel implements \DataModel {
     $content = '',
     $modelProperties = [];
 
-    final protected function __construct($filename, $content, $properties){
-
+    final protected function __construct($filename){
+        $this->filename = $filename;
+        $this->content = static::buildFileContent($this->content, $this->modelProperties);
     }
 
-    public function put($content){
+    final public function put($content){
         switch (gettype($content)) {
             case 'array':
-            
-                return static::buildFileContent($content, $this->modelProperties);
+            if(count($this->modelProperties)&&count($content)){
+                $modelProperties = array_merge($this->modelProperties, array_intersect_key($content, $this->modelProperties));
+                $this->content = static::buildFileContent($this->content, $modelProperties);
+                return true;
+            }
+            return false;   
 
             case 'string':
-                return static::buildModelProperties($this->content);
+                if($modelProperties = static::buildModelProperties($content)){
+                    $this->content = $content;
+                    $this->modelProperties = $modelProperties;
+                    return true;
+                }
         }
         return false;
     }
 
-    public function save(){
-        
+    final public function save(){
+        return static::putFileContent($this->filename, $this->content, $this->modelProperties);
     }
 
     /**  
@@ -127,9 +167,15 @@ class FileBasedModel implements \DataModel {
 	**/ 
     final public function set($name, $value){
         if($name==='content'){
-
+            if($modelProperties = static::buildModelProperties($content)){
+                $this->content = $content;
+                $this->modelProperties = $modelProperties;
+                return true;
+            }
         }elseif(isset($this->modelProperties[$name])){
             $this->modelProperties[$name] = $value;
+            $this->content = static::buildFileContent($this->content, $this->modelProperties);
+            return true;
         }
         return false;
     }
@@ -141,7 +187,7 @@ class FileBasedModel implements \DataModel {
      * @param string $property 属性名称
 	 * @return object
 	**/ 
-    public function uns($property){
+    final public function uns($property){
         return $this;
     }
 

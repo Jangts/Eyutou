@@ -11,7 +11,7 @@ use Services\Users\Models\MemberModel;
 class MembersController extends \AF\Controllers\BaseResourcesController {
     use \AF\Controllers\traits\administration;
 
-    public function checkReadAuthority(array $options = []){
+    public function checkReadAuthority(array $options = []) : bool {
         return true;
     }
 

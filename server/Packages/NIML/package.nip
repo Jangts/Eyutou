@@ -24,7 +24,7 @@ class NIML extends \NIML {
 	$leftTAG = '{{',
 	$rightTAG = '}}';
 
-	public function getFilenames($template, $is_include = false){
+	public function getFilenames($template, bool $is_include = false){
 		if($is_include==false){
 			$this->assign("__host", '//'.HOST);
 			$this->assign("__layout", __BURL__.CACAR."Views/");

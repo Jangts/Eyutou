@@ -99,7 +99,7 @@ tangram.block([
             try {
                 return JSON.stringify(data);
             } catch (error) {
-                console.log(error);
+                console.log(error, data);
                 return '';
             }
         },
@@ -107,7 +107,7 @@ tangram.block([
             try {
                 return JSON.parse(txt)
             } catch (error) {
-                console.log(error);
+                console.log(error, txt);
                 return false;
             }
         },

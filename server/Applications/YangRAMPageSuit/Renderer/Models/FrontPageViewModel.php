@@ -22,8 +22,8 @@ class FrontPageViewModel extends \AF\Models\BaseViewModel {
     $theme = 'default',
     $_pages = [];
 
-    public function getFilenames($template, $is_include = false){
-		if($is_include==false){
+    public function getFilenames($template, bool $isInclude = false){
+		if($isInclude==false){
 			$this->assign("__host", '//'.HOST);
 			$this->assign("__theme", __BURL__.CACAR."/Views/_".CACAI."/".$this->theme."/");
 			$this->assign("__static", SIS_URL."static/");

@@ -45,7 +45,7 @@ class CategoryModel extends BaseDeepModel {
         return $categories_ids;
     }
 
-    protected function __afterDelete(){
+    protected function __afterDelete() : bool{
         if($this->guid){
             BrandModel::delete("`category_id` = '$this->guid'");
             ProductionModell::delete("`category_id` = '$this->guid'");

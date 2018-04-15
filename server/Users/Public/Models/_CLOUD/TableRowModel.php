@@ -120,7 +120,7 @@ final class TableRowModel extends BaseCloudItemModel {
 		return $objs;
     }
     
-    public static function getDefaultPorpertyValues($table, $fullprops = false){
+    public static function getDefaultPorpertyValues($table, bool $fullprops = false){
 		if(is_string($table)){
 			$table = TableMetaModel::byGUID($table);
 		}
@@ -151,7 +151,7 @@ final class TableRowModel extends BaseCloudItemModel {
     /**
      * 按id获取
      */
-    public static function byGUID($id, $published = false){
+    public static function byGUID($id, bool $published = false){
         if(isset(self::$staticMemorizeStorage[$id])){
             $obj->meta = TableRowMetaModel::byGUID($id);
             return $obj->__put(self::$staticMemorizeStorage[$id], true);
@@ -293,7 +293,7 @@ final class TableRowModel extends BaseCloudItemModel {
     /**
      * 数据生成函数
      */
-    protected function __put(array $input, $isSaved = false){
+    protected function __put(array $input, bool $isSaved = false){
         if($props = self::getFullDefaultPropertyValues($input['TABLENAME'])){
             $defaults = array_merge($props[0], $props[1]);
             if($props[2]){
@@ -378,7 +378,7 @@ final class TableRowModel extends BaseCloudItemModel {
     /**
      * 删除行
      */
-    public function destroy() {
+    public function destroy() : bool {
         if($this->savedProperties){
             #使用事务
             $__key = self::$staticQuerier->beginAndLock();

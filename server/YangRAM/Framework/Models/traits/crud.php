@@ -18,7 +18,7 @@ trait crud {
      * @param mixed $indexField 索引字段
 	 * @return array
 	**/
-    public static function select($selectField, $indexField = NULL, $require = '1 = 1'){
+    public static function select($selectField, $indexField = NULL, $require = '1 = 1') : array {
         if($indexField&&!in_array($indexField, static::$uniqueIndexes, true)){
             $indexField = static::$uniqueIndexes[0];
         }
@@ -76,9 +76,9 @@ trait crud {
 	 * @static
      * @param object(Tangram\CTRLR\RDBQuerier) $querier 查询器实例
      * @param array|object $input 源数据
-	 * @return object|bool
+	 * @return bool
 	**/
-    public static function update($require, array $input){
+    public static function update($require, array $input) : bool {
         // 获取默认数据行查询器
         $querier = static::initQuerier();
         if(is_array($input)&&$querier->requires($require)->update($input)!==false){
@@ -96,9 +96,9 @@ trait crud {
      * @final
 	 * @static
      * @param string|array $require                     查询条件，可以为整理好的SQL语句片段，也可以是数组形式的条件组
-	 * @return int
+	 * @return bool
 	**/
-    public static function delete($require){
+    public static function delete($require) : bool {
         // 获取默认数据行查询器
         $querier = static::initQuerier();
 
@@ -147,7 +147,7 @@ trait crud {
 	 * @access public
 	 * @return bool
 	**/ 
-    public function destroy(){
+    public function destroy() : bool {
         if($this->savedProperties&&($this->querier->requires()->where($this->pk, $this->__guid)->delete())){
             if($this->files) $this->files->store($this->__guid);
             return $this->__afterDelete();

@@ -75,7 +75,7 @@ class RegExpRouter extends BaseRouter {
      * @param object(Tangram\MODEL\Request)     $request
      * @return array
     **/
-    final protected function analysis(App $app, Request $request){
+    final protected function analysis(App $app, Request $request) : array {
         $path = '/' . implode('/', $request->ARI->patharr) . '/';
         list($options, $matches) = self::matchPatterns($path, $this);
 
@@ -86,7 +86,7 @@ class RegExpRouter extends BaseRouter {
         return [$filename, $fullclassname, $methodname, [$matches]];
     }
     
-    final protected function getClassName(array $options, array $matches){
+    final protected function getClassName(array $options, array $matches) : string {
         if(!empty($options['controller'])){
             return $options['controller'];
         }
@@ -96,7 +96,7 @@ class RegExpRouter extends BaseRouter {
         new Status(1415.1, '', 'Classname Unspecified', true);
     }
 
-    final protected function getMethodName(array $options, array $matches){
+    final protected function getMethodName(array $options, array $matches) : string {
         if(!empty($options['method'])){
             return $options['method'];
         }

@@ -73,7 +73,7 @@ class FilesController extends \AF\Controllers\BaseResourcesController {
         return $filename;
 	}
 
-    protected function returnUploadsData($options, $is2ndPass = false){
+    protected function returnUploadsData($options, bool $is2ndPass = false){
 		$CONFIG = $this->app->xProps['Config'];
 
 		if(isset($options['returndetails'])){

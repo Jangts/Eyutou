@@ -12,27 +12,27 @@ use Passport;
 **/
 abstract class BaseAuthorityModel extends BaseMapModel {
 
-    public static function getAdminGroups(array $options = []){
+    public static function getAdminGroups(array $options = []) : array {
         return ['Administrators'];
     }
 
-    public static function getCreatorGroups(array $options = []){
+    public static function getCreatorGroups(array $options = []) : array {
         return static::getMenderGroups($options);
     }
 
-    public static function getReaderGroups(array $options = []){
+    public static function getReaderGroups(array $options = []) : array {
         return ['EveryOne'];
     }
 
-    public static function getMenderGroups(array $options = []){
+    public static function getMenderGroups(array $options = []) : array {
         return ['Users'];
     }
 
-    public static function getKillerGroups(array $options = []){
+    public static function getKillerGroups(array $options = []) : array {
         return static::getAdminGroups($options);
     }
 
-    final public static function can($type, array $options = []){
+    final public static function can($type, array $options = []) : bool {
         switch ($type) {
             case 'C':
             $usergroups = static::getCreatorGroups($options);

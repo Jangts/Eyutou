@@ -52,7 +52,7 @@ trait grouping {
 	/**
 	 * 获取子目录
 	 */
-	public static function getChildren($id, array $options = [], array $orderby = self::ID_ASC){
+	public static function getChildren($id, array $options = [], array $orderby = self::ID_ASC) : array {
 		return self::query(['parent' => $id, 'SK_IS_RECYCLED' => 0], $orderby);
 	}
 
@@ -176,7 +176,7 @@ trait grouping {
 	 * 删除分组或文件夹
 	 * 同时会删除分组或文件夹中的内容、分组或文件夹的子分组或文件夹、子分组或文件夹中的内容
 	 */
-	public function destroy(){
+	public function destroy() : bool {
 		if($this->savedProperties){
 			$querier = $this->querier;
 			#使用事务

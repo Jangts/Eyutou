@@ -17,7 +17,7 @@ use App;
  * @version    5.0.0
 **/
 class BaseRouter {
-    public static function correctClassName($classname){
+    public static function correctClassName($classname) : string {
         return str_replace(' ', '', ucwords(str_replace('-', ' ', $classname)));
     }
 
@@ -58,7 +58,7 @@ class BaseRouter {
      * @param object(Tangram\MODEL\Request)     $request
      * @return array
     **/
-    protected function analysis(App $app, Request $request){
-        new Status(1422, '', "Method AF\Routers\BaseRouter->analysis() must be redeclare.", true);
+    protected function analysis(App $app, Request $request) : array {
+        new Status(1422, '', "Method AF\Routers\BaseRouter->analysis() must be redeclared.", true);
     }
 }

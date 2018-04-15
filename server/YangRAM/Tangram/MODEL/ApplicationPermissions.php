@@ -112,7 +112,7 @@ final class ApplicationPermissions {
 	 * @access public
 	 * @param string $name 属性名称
 	 * @return int 仅当读取$RUN_LEVEL属性时为整型
-	 * @return boolean
+	 * @return bool
 	**/
 	public function __get($name){
 		if(isset($this->$name)){
@@ -127,7 +127,7 @@ final class ApplicationPermissions {
 	 * 
 	 * @access public
 	 * @param string $name 属性名称
-	 * @param boolean $value 属性值，如果给一个非布尔型的值，函数会自动将其转化为布尔型
+	 * @param bool $value 属性值，如果给一个非布尔型的值，函数会自动将其转化为布尔型
 	 * @return mixed
 	**/
 	public function __set($name, $value){

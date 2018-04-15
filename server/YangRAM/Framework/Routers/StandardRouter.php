@@ -37,7 +37,7 @@ class StandardRouter extends BaseRouter {
      * @param object(Tangram\MODEL\Request)     $request
 	 * @return array
     **/
-    final protected function analysis(App $app, Request $request){
+    final protected function analysis(App $app, Request $request) : array {
 		$classalias = $this->getClassAlias($request);
 		$classname = $classalias.'Controller';
 		$filename = $app->Path.'Controllers/'.$classname;
@@ -105,7 +105,7 @@ class StandardRouter extends BaseRouter {
 	 * @param string						$methodname 
 	 * @return string
 	**/
-	final protected function getParameters(Request $request, $classname, $methodname){
+	final protected function getParameters(Request $request, $classname, $methodname) : array {
 		if(is_string($request->INPUTS->args)){
 			$args = explode('/', $request->INPUTS->args);
 		}else{

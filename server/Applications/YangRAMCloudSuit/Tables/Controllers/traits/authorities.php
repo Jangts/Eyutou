@@ -55,7 +55,7 @@ trait authorities {
         return false;
     }
 
-    public function checkAdminAuthority(array $options = []){
+    public function checkAdminAuthority(array $options = []) : bool {
         $tablename = self::getTablenameByOptions($options);
         if(stripos($tablename, '_')===0){
             // 以_开头的应用私有表，通用控制器不作处理
@@ -64,7 +64,7 @@ trait authorities {
         return TableAuthorityModel::can('A', ['tablename'=>$tablename]);
     }
 
-    public function checkReadAuthority(array $options = []){
+    public function checkReadAuthority(array $options = []) : bool {
         $tablename = self::getTablenameByOptions($options);
         if(stripos($tablename, '_')===0){
             // 以_开头的应用私有表，通用控制器不作处理
@@ -73,7 +73,7 @@ trait authorities {
         return TableAuthorityModel::can('R', ['tablename'=>$tablename]);
     }
 
-	public function checkCreateAuthority(array $options = []){
+	public function checkCreateAuthority(array $options = []) : bool {
         $tablename = self::getTablenameByOptions($options);
         if(stripos($tablename, '_')===0){
             // 以_开头的应用私有表，通用控制器不作处理
@@ -82,7 +82,7 @@ trait authorities {
         return TableAuthorityModel::can('C', ['tablename'=>$tablename]);
     }
 
-    public function checkUpdateAuthority(array $options = []){
+    public function checkUpdateAuthority(array $options = []) : bool {
         $tablename = self::getTablenameByOptions($options);
         if(stripos($tablename, '_')===0){
             // 以_开头的应用私有表，通用控制器不作处理
@@ -91,7 +91,7 @@ trait authorities {
         return TableAuthorityModel::can('U', ['tablename'=>$tablename]);
     }
 
-    public function checkDeleteAuthority(array $options = []){
+    public function checkDeleteAuthority(array $options = []) : bool {
         $tablename = self::getTablenameByOptions($options);
         if(stripos($tablename, '_')===0){
             // 以_开头的应用私有表，通用控制器不作处理
@@ -100,7 +100,7 @@ trait authorities {
         return TableAuthorityModel::can('D', ['tablename'=>$tablename]);
     }
 
-    public function checkReviewAuthority(array $options = []){
+    public function checkReviewAuthority(array $options = []) : bool {
         $tablename = self::getTablenameByOptions($options);
         if(stripos($tablename, '_')===0){
             // 以_开头的应用私有表，通用控制器不作处理

@@ -188,7 +188,7 @@ final class MasterController extends Process {
         }
     }
 
-    private function suicide($restart = false, $log = 'Be Killed'){
+    private function suicide(bool $restart = false, $log = 'Be Killed'){
         unlink($this->recordfile);
         if($restart===true){
             $this->log('[Rrestart]');

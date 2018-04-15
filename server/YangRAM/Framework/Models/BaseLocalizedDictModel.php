@@ -11,7 +11,7 @@ final class LocalizedDictModel implements \DataModel {
     use \Tangram\MODEL\traits\magic;
     use \Tangram\MODEL\traits\arraylike;
 
-	private static function pickLang($filename, $pattern){
+	private static function pickLang($filename, $pattern) : array {
 		global $NEWIDEA;
 		$cxt = explode('{{lang}}', $pattern);
 		$len = strlen($filename) - strlen(implode('', $cxt));
@@ -23,7 +23,7 @@ final class LocalizedDictModel implements \DataModel {
 		return [$lan, $filename];
 	}
 
-	public static function checkLang($pattern, $is_dir = false, $lang = false){
+	public static function checkLang($pattern, bool $is_dir = false, $lang = false){
 		global $NEWIDEA;
 		if(empty($lang)||!is_string($lang)) {
 			if(empty($NEWIDEA->LANGUAGE)||!is_string($NEWIDEA->LANGUAGE)){
@@ -133,7 +133,7 @@ final class LocalizedDictModel implements \DataModel {
 		}
 	}
 
-	final public function get($index){
+	final public function get($index) {
         if(isset($this->modelProperties[$index])){
             return $this->modelProperties[$index];
 		}
@@ -180,7 +180,7 @@ final class LocalizedDictModel implements \DataModel {
 		new Status(1444, 'No matching ['.$type.']['.$lang.'] dictionary file of this application ['.CACAI.']', true);
 	}
 
-	final public function has($index){
+	final public function has($index) : bool {
         if(isset($this->modelProperties[$index])){
             return true;
         }
@@ -195,7 +195,7 @@ final class LocalizedDictModel implements \DataModel {
         return false;
 	}
 	
-	final public function str(){
+	final public function str() : string {
         return $this->json_encode();
     }
 }

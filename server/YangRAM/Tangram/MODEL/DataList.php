@@ -30,7 +30,7 @@ class DataList implements \Serializable, interfaces\collection {
      * @param bool $readonly    是否只读
      * @return 构造函数无返回值
     **/ 
-    public function __construct(array $input, $readonly = false){
+    public function __construct(array $input, bool $readonly = false){
         $this->storage = $input;
         $this->readonly = $readonly;
     }

@@ -45,8 +45,8 @@ abstract class BaseAdminViewModel extends \AF\Models\BaseViewModel {
 
 	protected  $app, $request;
 
-	public function getFilenames($template, $is_include = false){
-		if($is_include==false){
+	public function getFilenames($template, bool $isInclude = false){
+		if($isInclude==false){
 			$this->assign("__host__", '//'.HOST.'/');
 			$this->assign("__dir__", COMMON_ADMIN_VIEW_URL.$this->theme.'/');
 			$this->assign("__lib__", SIS_URL."static/");

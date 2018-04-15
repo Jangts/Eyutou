@@ -26,7 +26,6 @@
                 "link": "pages/link/link-groups/"
             },
             {
-                "type": "hidden",
                 "icon": "pencil",
                 "name": "插件管理",
                 "group": "pages/plugins",

@@ -29,7 +29,7 @@ final class TableAuthorityModel extends \AF\Models\BaseAuthorityModel {
         'usergroup'     	=>	'Users'
     ];
 
-    public static function getAdminGroups(array $options = []){
+    public static function getAdminGroups(array $options = []) : array {
         $usergroups = self::getUserGroupsByType('A', $options['tablename']);
         if(!in_array('Administrators', $usergroups)){
             $usergroups[] = 'Administrators';
@@ -37,7 +37,7 @@ final class TableAuthorityModel extends \AF\Models\BaseAuthorityModel {
         return $usergroups;
     }
 
-    public static function getCreatorGroups(array $options = []){
+    public static function getCreatorGroups(array $options = []) : array {
         $usergroups = self::getUserGroupsByType('C', $options['tablename']);
         if(empty($usergroups)){
             return static::getMenderGroups($options);
@@ -46,7 +46,7 @@ final class TableAuthorityModel extends \AF\Models\BaseAuthorityModel {
         return array_unique(array_merge($admingroups, $usergroups));
     }
 
-    public static function getReaderGroups(array $options = []){
+    public static function getReaderGroups(array $options = []) : array {
         $usergroups = self::getUserGroupsByType('R', $options['tablename']);
         if(empty($usergroups)){
             return ['EveryOne'];
@@ -56,7 +56,7 @@ final class TableAuthorityModel extends \AF\Models\BaseAuthorityModel {
         
     }
 
-    public static function getMenderGroups(array $options = []){
+    public static function getMenderGroups(array $options = []) : array {
         $usergroups1 = self::getUserGroupsByType('U', $options['tablename']);
         $usergroups2 = self::getUserGroupsByType('W', $options['tablename']);
         if(empty($usergroups1)&&empty($usergroups2)&&empty($options['__readonly'])){
@@ -66,7 +66,7 @@ final class TableAuthorityModel extends \AF\Models\BaseAuthorityModel {
         return array_unique(array_merge($admingroups, $usergroups1, $usergroups2));
     }
 
-    public static function getKillerGroups(array $options = []){
+    public static function getKillerGroups(array $options = []) : array {
         $usergroups = self::getUserGroupsByType('D', $options['tablename']);
         if(empty($usergroups)){
             $usergroups = self::getUserGroupsByType('W', $options['tablename']);
@@ -92,7 +92,7 @@ final class TableAuthorityModel extends \AF\Models\BaseAuthorityModel {
         return $usergroups;
     }
 
-    protected static function __checkPostData(array $input){
+    protected static function __checkPostData(array $input) : array {
         $input = self::correctArrayByTemplate($input, static::$defaultPorpertyValues);
         if(!in_array($input['auth_type'], ['A', 'C', 'R', 'U', 'D', 'W', 'P'])){
             $input['auth_type'] = 'W';
@@ -102,7 +102,7 @@ final class TableAuthorityModel extends \AF\Models\BaseAuthorityModel {
         }
     }
 
-    public static function joinKeys2guid(array $keys, $pickfirst = false){
+    public static function joinKeys2guid(array $keys, bool $pickfirst = false){
         // 检查是否存在联合索引键组
         if($pickfirst){
             $keys = static::pickKeys($keys);
@@ -151,7 +151,7 @@ final class TableAuthorityModel extends \AF\Models\BaseAuthorityModel {
         return [];
     }
 
-    protected function __afterDelete(){
+    protected function __afterDelete() : bool{
         $index = $this->tablename.'/'.$this->auth_type;
         $this->files->store($index);
         return true;

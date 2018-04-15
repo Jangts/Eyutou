@@ -89,7 +89,7 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 	/**
 	 * 获取表格根目录
 	 */
-	public static function getRoots(array $options = [], array $orderby = self::RANK_ASC){
+	public static function getRoots(array $options = [], array $orderby = self::RANK_ASC) : array {
 		if(isset($options['tablename'])&&is_string($options['tablename'])){
 			$tablenameAlias = $options['tablename'];
 			if($tablename&&($tablemeta = TableMetaModel::byGUID($tablename))){
@@ -227,7 +227,7 @@ final class TRGroupModel extends \AF\Models\BaseDeepModel {
 	/**
 	 * 获取可选父目录
 	 */
-	public function getUsableParents(array $options = []){
+	public function getUsableParents(array $options = []) : array {
 		$groups = [];
 		$roots = self::getRoots(array_merge($options, ['tablename'=> $this->tablename, 'SK_IS_RECYCLED' => 0]));
 		foreach($roots as $root){

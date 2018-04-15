@@ -288,7 +288,7 @@ HTML;
         return $this;
     }
 
-    public function setHeader($name, $value, $replace = false){
+    public function setHeader($name, $value, bool $replace = false){
         if(!!$replace){
             $this->headers[(string)$name] = (string)$value;
         }else{
@@ -333,7 +333,7 @@ HTML;
         return $body;
     }
 
-    public function send($body = NULL, $usePrevious = false){
+    public function send($body = NULL, bool $usePrevious = false){
         $cache = $this->sendHeaders();
         if(is_string($body)===false){
             $body = '';
@@ -346,7 +346,7 @@ HTML;
         die;
     }
 
-    public function render($template, array $modelProperties = [], $usePrevious = false){
+    public function render($template, array $modelProperties = [], bool $usePrevious = false){
         if(is_string($template)&&is_file($template)){
             if(!is_array($modelProperties)){
                 $modelProperties = [];

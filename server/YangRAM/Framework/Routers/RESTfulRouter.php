@@ -31,7 +31,7 @@ class RESTfulRouter extends BaseRouter {
      * @param object(Tangram\MODEL\Request)     $request
 	 * @return array
     **/
-    final protected function analysis(App $app, Request $request){
+    final protected function analysis(App $app, Request $request) : array {
         global $NEWIDEA;
 		if($this->ignoreAppDir){
 			$patharr = $request->ARI->patharr;
@@ -49,6 +49,7 @@ class RESTfulRouter extends BaseRouter {
 			$fullclassname = '\\'.$fullclassname;
 			$arguments = $this->getParameters($request);
 			$methodname = $this->getMethodName($request, $fullclassname, $arguments[1]);
+			
 			return [$filename, $fullclassname, $methodname, $arguments];
 		}
 		new Status(1422, '', 'Controller for RESTful API must be a subclass of AF\Controllers\BaseResourcesController', true);
@@ -81,7 +82,7 @@ class RESTfulRouter extends BaseRouter {
 	 * @param array							$patharr
 	 * @return string
 	**/
-    final protected function getClassName(Request $requestt, array $patharr){
+    final protected function getClassName(Request $requestt, array $patharr) : string {
 		/**
 		 * 路径中除了语言频道外不应该有非REST的信息
 		 * 此函数会把$request->TRI->patharr（亦可指定为$request->ARI->patharr）按奇偶分成键值组
@@ -139,11 +140,10 @@ class RESTfulRouter extends BaseRouter {
 	 * @param string , $fullclassname
 	 * @return string
 	**/
-	final protected function getMethodName(Request $request, $fullclassname, array $options){
+	final protected function getMethodName(Request $request, $fullclassname, array $options) : string {
 		// 为每种请求方法配置了一个标准方法和几个兼容方法，以照顾不同开发者的习惯
 		// 一个控制器里同时存在标准方法和兼容方法的，兼容方法将不生效
 		// 为规范起见，开发者应当尽量使用标注方法，因为兼容方法随时可能再下一次系统更新时被取消
-
 	
 		switch($request->METHOD){
 			case 'POST':
@@ -225,7 +225,7 @@ class RESTfulRouter extends BaseRouter {
 	 * @param object(Tangram\MODEL\Request) $request
 	 * @return string
 	**/
-	final protected function getParameters(Request $request){
+	final protected function getParameters(Request $request) : array {
 		$options = [];
 
 		// 遍历$this->options，生成id参数和原始$options参数

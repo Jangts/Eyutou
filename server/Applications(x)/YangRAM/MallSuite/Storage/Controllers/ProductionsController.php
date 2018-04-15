@@ -34,19 +34,19 @@ class ProductionsController extends \AF\Controllers\BaseResourcesController {
 	    'instorage'  =>  ProductionModel::INSTORAGE,
     ];
 
-    public function checkReadAuthority(array $options = []){
+    public function checkReadAuthority(array $options = []) : bool {
         return true;
     }
 
-    public function checkCreateAuthority(array $options = []){
+    public function checkCreateAuthority(array $options = []) : bool {
         return $this->checkAdminAuthority($options);
     }
 
-    public function checkUpdateAuthority(array $options = []){
+    public function checkUpdateAuthority(array $options = []) : bool {
         return $this->checkAdminAuthority($options);
     }
 
-    public function checkDeleteAuthority(array $options = []){
+    public function checkDeleteAuthority(array $options = []) : bool {
         return $this->checkAdminAuthority($options);
     }
 

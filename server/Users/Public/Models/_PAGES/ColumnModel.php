@@ -23,7 +23,7 @@ final class ColumnModel extends \Model {
         $this->modelProperties['parents'] = array_unique($parents);
     }
 
-    public function match($guid, $true = true, $false = false, $selfonly = false){
+    public function match($guid, bool $true = true, bool $false = false, bool $selfonly = false){
         if($guid === $this->modelProperties['guid']){
             return $true;
         }

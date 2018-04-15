@@ -57,7 +57,7 @@ abstract class NIML {
 		return $this;
 	}
 
-	protected function getFilenames($template, $is_include){
+	protected function getFilenames($template, bool $isInclude){
 		return [$this->sourcedir.$this->theme.'/'.$template, $this->compileddir.hash('md4', $this->theme.'/'.$template).".php"];
 	}
 

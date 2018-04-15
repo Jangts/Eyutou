@@ -144,7 +144,7 @@ class ProductionModel extends Model {
         return self::returnRows($querier->select(), $returnFormat);
     }
 
-    public static function query($require = "1 = 1", array $orderby = [['1', false, self::SORT_REGULAR]], $range = 0, $returnFormat = self::LIST_AS_OBJS, $selecte = '*'){
+    public static function query($require = "1 = 1", array $orderby = [['1', false, self::SORT_REGULAR]], $range = 0, $returnFormat = self::LIST_AS_OBJS, $selecte = '*') : array {
         // 获取默认数据行查询器
         $querier = self::initQuerier();
         
@@ -353,7 +353,7 @@ class ProductionModel extends Model {
     }
 
 
-    public function destroy(){
+    public function destroy() : bool {
         if($this->savedProperties){
             if(self::initQuerier()->where('id', $this->__guid)->delete()!==false){
                 self::getFileStorage()->store($this->__guid);

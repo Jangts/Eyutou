@@ -3,6 +3,7 @@ namespace AF\Models;
 
 use Status;
 use PDO;
+// use DBQ;
 use Tangram\CTRLR\RDBQuerierPlus;
 use UserModel;
 
@@ -49,7 +50,7 @@ abstract class BaseMemberModel extends BaseModel {
 	 * @static
 	 * @return object
 	**/
-    protected static function initQuerier(){
+    protected static function initQuerier() : RDBQuerierPlus {
         $class = strtolower(get_called_class());
         if(empty($privateRDBQueries[$class])){
             $privateRDBQueries[$class] = new RDBQuerierPlus(static::$rdbConnectionIndex);
@@ -76,7 +77,7 @@ abstract class BaseMemberModel extends BaseModel {
         return $obj->__insert();
     }
     
-    public static function __checkValues($values, $isPost = false){
+    public static function __checkValues(array $values, bool $isPost = false) : array {
         return $values;
     }
 
@@ -96,7 +97,7 @@ abstract class BaseMemberModel extends BaseModel {
      * @param bool|object $savedProperties  已存在的记录
 	 * @return object
 	**/ 
-    protected function __put(array $input, $isSaved = false){
+    protected function __put(array $input, bool $isSaved = false){
         $this->xml = NULL;
         // 如果已存在记录，则与存在的记录对比，否则与默认值数组对比
         if($isSaved){
@@ -216,7 +217,7 @@ abstract class BaseMemberModel extends BaseModel {
 	 * @access public
 	 * @return bool
 	**/ 
-    public function destroy(){
+    public function destroy() : bool {
         if($this->savedProperties&&($this->querier->requires()->where($this->pk, $this->__guid)->delete()!==false)){
             if($this->files) $this->files->store($this->__guid);
             return $this->__afterDelete();
@@ -230,7 +231,7 @@ abstract class BaseMemberModel extends BaseModel {
 	 * @access protected
 	 * @return bool
 	**/ 
-    protected function __afterDelete(){
+    protected function __afterDelete() : bool {
         return true;
     }
 }

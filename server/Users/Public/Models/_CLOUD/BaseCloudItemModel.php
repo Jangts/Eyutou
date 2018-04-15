@@ -72,11 +72,11 @@ abstract class BaseCloudItemModel extends ObjectModel {
 		return false;
 	}
 
-	public function destroy(){
+	public function destroy() : bool {
 		return $this->__afterDelete();
 	}
 
-	protected function __afterDelete(){
+	protected function __afterDelete() : bool{
         return $this->clearRelativeCache();
 	}
 	

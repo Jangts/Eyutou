@@ -59,7 +59,7 @@ final class AttachmentMetaModel extends FileMetaModel {
 	/**
 	 * 删除文件资源
 	 */
-	public function destroy(){
+	public function destroy() : bool {
 		return AttachmentModel::byGUID($this->modelProperties['ID'])->destroy();
 	}
 }

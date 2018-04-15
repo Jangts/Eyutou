@@ -54,7 +54,7 @@ class UEditorController extends FilesController {
 
     protected $config;
 
-    protected function returnUploadsData($options, $is2ndPass = false){
+    protected function returnUploadsData($options, bool $is2ndPass = false){
         if(count($this->successed[$options['__fieldName']])){
             $file = $this->successed[$options['__fieldName']][0];
             $data= [

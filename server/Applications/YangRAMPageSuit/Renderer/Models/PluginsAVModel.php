@@ -48,7 +48,7 @@ class PluginsAVModel extends \PM\_STUDIO\BaseTableAVModel {
 		$rows = [];
 		$puglins = PluginModel::getALL();
 		$stagedir = $this->request->ARI->dirname.'/'.$this->app->id;
-		$basedir = $stagedir.'/plugin/';
+		$basedir = $stagedir.'/plugins/plugin/';
 
 		foreach($puglins as $index=>$puglin){
 			$itemurl = $basedir.$puglin->appalias;

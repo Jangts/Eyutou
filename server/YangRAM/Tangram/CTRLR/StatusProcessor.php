@@ -136,7 +136,7 @@ final class StatusProcessor extends Exception {
 	 * @param bool				$log		写入日志指定，默认为记录
 	 * @return 构造函数无返回值
     **/ 
-	public function __construct($code, $msg = '', $message = '', $respond = false, $log = false){
+	public function __construct($code, $msg = '', $message = '', bool $respond = false, bool $log = false){
 		// 初始化默认属性
 		$this->code = '1111';
 		$this->intc = 1111;

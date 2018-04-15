@@ -29,7 +29,7 @@ class SLRouterWithAlias extends BaseRouter {
      * @param object(Tangram\MODEL\Request)     $request
 	 * @return array
     **/
-    final protected function analysis(App $app, Request $request){
+    final protected function analysis(App $app, Request $request) : array {
 		$classname = self::correctClassName($this->getClassName($request));
 		$filename = $app->Path.'Controllers/'.str_replace('\\', '/', $classname);
 		$fullclassname = '\\'.$app->xProps['Namespace'].'\\Controllers\\'.$classname;
@@ -46,7 +46,7 @@ class SLRouterWithAlias extends BaseRouter {
 	 * @param object(Tangram\MODEL\Request) $request
 	 * @return string
 	**/
-    final protected function getClassName(Request $request){
+    final protected function getClassName(Request $request) : string {
 		if($request->INPUTS->c){
 			$classalias = strtolower($request->INPUTS->c);
 		}elseif(isset($request->ARI->patharr[0])){
@@ -73,7 +73,7 @@ class SLRouterWithAlias extends BaseRouter {
 	 * @param object(Tangram\MODEL\Request) $request
 	 * @return string
 	**/
-	final protected function getMethodName(Request $request){
+	final protected function getMethodName(Request $request) : string {
 		if(isset($this->controllers[$this->classalias]['methods'])){
 			$methodalias = strtolower(str_replace('-', '_', $request->INPUTS->m));
 			if(!$methodalias){
@@ -105,7 +105,7 @@ class SLRouterWithAlias extends BaseRouter {
 	 * @param string						$methodname
 	 * @return string
 	**/
-	final protected function getParameters(Request $request, $classname, $methodname){
+	final protected function getParameters(Request $request, $classname, $methodname) : array {
 		if(is_string($request->INPUTS->args)){
 			$args = explode('/', $request->INPUTS->args);
 		}elseif(is_string($request->INPUTS->a)){

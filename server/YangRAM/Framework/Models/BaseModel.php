@@ -64,9 +64,9 @@ abstract class BaseModel extends ObjectModel {
 	 * @access protected
      * @final
 	 * @static
-	 * @return mixed
+	 * @return array
 	**/
-    public static function getALL(){
+    public static function getALL() : array {
         return [];
     }
 
@@ -117,7 +117,7 @@ abstract class BaseModel extends ObjectModel {
      * @param array|object $modelProperties 源数据
 	 * @return object
 	**/ 
-    protected function __put(array $input, $initialize = true){
+    protected function __put(array $input, bool $initialize = true){
         $this->xml = NULL;
         if(is_array($input)||is_object($input)){
             foreach ($input as $key => $value) {

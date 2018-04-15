@@ -15,7 +15,7 @@ use Pages\Main\Models\PageModel;
 class OptionsController extends \AF\Controllers\BaseResourcesController {
     use \AF\Controllers\traits\administration;
 
-    public function checkReadAuthority(array $options = []){
+    public function checkReadAuthority(array $options = []) : bool {
         return true;
     }
 

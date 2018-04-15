@@ -89,7 +89,7 @@ final class FolderModel extends \AF\Models\BaseDeepModel {
 	/**
 	 * 获取表格根目录
 	 */
-	public static function getRoots(array $options = [], array $orderby = self::ID_ASC){
+	public static function getRoots(array $options = [], array $orderby = self::ID_ASC) : array {
 		if(isset($options['type'])&&in_array($options['type'], ['A', 'F'])){
 			$type = $options['type'];
 			return self::query("`type` = '$type' AND `parent` = 0 AND `SK_IS_RECYCLED` = 0" , $orderby);
@@ -216,7 +216,7 @@ final class FolderModel extends \AF\Models\BaseDeepModel {
 	/**
 	 * 获取可选父目录
 	 */
-	public function getUsableParents(array $options = []){
+	public function getUsableParents(array $options = []) : array {
 		$folders = [];
 		$roots = self::getRoots(array_merge($options, ['type'=> $this->type, 'SK_IS_RECYCLED' => 0]));
 		foreach($roots as $root){

@@ -1,0 +1,1 @@
+{"appalias":"goods","appid":1008,"desc":"应用YangRAM Goods(appid:1008)为Pages提供的产品显示插件","plugindirs":{"productions\/":{"controller":"ProductionsPageController","method":"main"}},"pluginname":"Goods For Pages"}

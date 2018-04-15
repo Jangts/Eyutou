@@ -13,14 +13,14 @@ trait crudmethods {
     // state key
     $sk = 'SK_STATE';
 
-    public function checkAdminAuthority(array $options = []){
+    public function checkAdminAuthority(array $options = []) : bool {
         if(Passport::inGroup('Administrators', false)){
             return true;
         }
         return false;
     }
 
-    public function checkReviewAuthority(array $options = []){
+    public function checkReviewAuthority(array $options = []) : bool {
         return $this->checkDeleteAuthority($options);
     }
 

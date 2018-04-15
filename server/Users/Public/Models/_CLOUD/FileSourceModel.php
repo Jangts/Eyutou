@@ -187,7 +187,7 @@ class FileSourceModel extends BaseCloudItemModel {
     /**
      * 初始化实例数据
      */
-    protected function __put(array $input, $isSaved = false){
+    protected function __put(array $input, bool $isSaved = false){
         foreach(static::$defaultPorpertyValues as $key=>$val){
             if(isset($input[$key])){
                 $this->modelProperties[$key] = $input[$key];
@@ -236,7 +236,7 @@ class FileSourceModel extends BaseCloudItemModel {
         return $this;
     }
     
-    public function destroy(){
+    public function destroy() : bool {
         $SID = $this->modelProperties['SID'];
         $resources = FileMetaModel::getFilesBySrouceID($SID);
         if(count($resources)){

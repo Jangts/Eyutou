@@ -238,7 +238,7 @@ class FileMetaModel extends BaseCloudItemModel {
 		$this->modelProperties = static::$defaultPorpertyValues;
 	}
 
-	protected function __put(array $input, $isSaved = false){
+	protected function __put(array $input, bool $isSaved = false){
     	foreach(static::$defaultPorpertyValues as $key=>$val){
         	if(array_key_exists($key, $input)){
 				$this->modelProperties[$key] = $input[$key];
@@ -396,7 +396,7 @@ class FileMetaModel extends BaseCloudItemModel {
 	/**
 	 * 删除文件资源
 	 */
-	public function destroy(){
+	public function destroy() : bool {
 		return FileModel::byGUID($this->modelProperties['ID'])->destroy();
 	}
 }

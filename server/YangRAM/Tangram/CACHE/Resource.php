@@ -62,7 +62,7 @@ final class Resource extends ObjectModel {
 	 * @access public
      * @param object $request Tangram\MODEL\Request实例
 	 * @return self 初次执行会返回一个实例
-     * @return boolean false
+     * @return bool false
     **/ 
     public static function config($request){
 		if(self::$request === NULL){

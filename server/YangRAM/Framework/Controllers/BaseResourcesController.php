@@ -26,7 +26,7 @@ abstract class BaseResourcesController extends BaseController {
     // 默认排序方式
     $__sortby = [['1', false, ObjectModel::SORT_REGULAR]];
 
-    public static function __standardOrderByOptions($options){
+    public static function __standardOrderByOptions($options) : array {
         if(empty($options)){
             $options = $this->request->INPUTS->__get;
         }
@@ -42,7 +42,7 @@ abstract class BaseResourcesController extends BaseController {
         return [['1', false, \Model::SORT_REGULAR]];
     }
 
-    public static function __standardRangeByOptions($options){
+    public static function __standardRangeByOptions($options) : array {
         if(empty($options)){
             $options = $this->request->INPUTS->__get;
         }
@@ -69,15 +69,15 @@ abstract class BaseResourcesController extends BaseController {
         return [$start, $length];
     }
 
-    abstract public function checkCreateAuthority(array $options = []);
+    abstract public function checkCreateAuthority(array $options = []) : bool ;
 
-    function checkReadAuthority(array $options = []){
+    function checkReadAuthority(array $options = []) : bool {
         return true;
     }
 
-    abstract public function checkUpdateAuthority(array $options = []);
+    abstract public function checkUpdateAuthority(array $options = []) : bool ;
 
-    abstract public function checkDeleteAuthority(array $options = []);
+    abstract public function checkDeleteAuthority(array $options = []) : bool ;
 
     /**
      * MOF错误处理函数

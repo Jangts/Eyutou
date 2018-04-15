@@ -27,7 +27,7 @@ abstract class BaseController {
 	 * @param bool $useXML 是否使用XML格式，默认为JSON格式
 	 * @return string
 	**/
-	public static function doneResponese(array $data, $code = 200, $msg = 'done', $useXML = false){
+	public static function doneResponese(array $data, $code = 200, $msg = 'done', bool $useXML = false){
         $response = [
             'code'      =>  $code,
             'msg'       =>  $msg,
@@ -53,7 +53,7 @@ abstract class BaseController {
 	 * @param bool $useXML 是否使用XML格式，默认为JSON格式
 	 * @return string
 	**/
-	public static function failResponese($code = 200, $msg = 'error', $useXML = false){
+	public static function failResponese($code = 200, $msg = 'error', bool $useXML = false){
         $response = [
             'code'      =>  $code,
             'msg'       =>  $msg,

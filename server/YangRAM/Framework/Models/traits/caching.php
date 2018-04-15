@@ -73,7 +73,7 @@ trait caching {
      * @param int $unit 超时时间单位，其实是倍数
 	 * @return bool
 	**/
-    final public static function setLifetime($time = 2, $unit = self::H){
+    final public static function setLifetime($time = 2, $unit = self::H) : bool {
 		if(is_numeric($time)&&is_numeric($unit)){
             $class = strtolower(get_called_class());
             self::$privateFilestoreLifetimes[$class] = $time * $unit;

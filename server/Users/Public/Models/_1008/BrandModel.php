@@ -65,7 +65,7 @@ class BrandModel extends BaseR3Model {
         return CategoryModel::byGUID($this->modelProperties['category_id']);
     }
 
-    protected function __afterDelete(){
+    protected function __afterDelete() : bool{
         if($this->guid){
             ProductionTypeModell::delete("`brand_id` = '$this->guid'");
             ProductionModell::delete("`brand_id` = '$this->guid'");

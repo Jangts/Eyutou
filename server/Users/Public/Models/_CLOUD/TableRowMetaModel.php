@@ -164,7 +164,7 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 		return NULL;
 	}
 
-	public static function __checkValues($values, $isPost = false){
+	public static function __checkValues(array $values, bool $isPost = false) : array {
 		if($isPost){
 			if(empty($values['TABLENAME'])||!($table = TableMetaModel::byGUID($values['TABLENAME']))){
 				Status::cast(1418);
@@ -331,7 +331,7 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 		}
 	}
 
-	protected function __put(array $input, $isSaved = false){
+	protected function __put(array $input, bool $isSaved = false){
 		if($isSaved){
 			$this->__guid = $input['ID'];
 			$this->savedProperties = $this->modelProperties = $input;
@@ -468,7 +468,7 @@ final class TableRowMetaModel extends BaseCloudItemModel {
 	/**
 	 * 删除行
 	 */
-	public function destroy(){
+	public function destroy() : bool {
 		if($obj = $this->getExtendedModel()){
 			return $obj->destroy();
 		}

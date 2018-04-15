@@ -88,7 +88,7 @@ trait encryption {
 	 * @access public
 	 * @return array
 	**/ 
-    final public function getArrayCopy(){
+    final public function getArrayCopy() : array {
         $array = $this->modelProperties;
         foreach(static::$encryptedFields as $key){
             unset($array[$key]);
@@ -96,7 +96,7 @@ trait encryption {
         return $array;
     }
 
-    public function getIterator() {
+    public function getIterator() : \ArrayIterator {
         return new \ArrayIterator($this->getArrayCopy());
     }
     
@@ -108,7 +108,7 @@ trait encryption {
      * @param string $indent 格式化缩进，默认4空格，$trim为否时有效
 	 * @return string
 	**/ 
-    public function json_encode($trim = true, $indent = '    '){
+    public function json_encode($trim = true, $indent = '    ') : string {
         if($trim){
             return self::jsonEncode($this->getArrayCopy());
         }
@@ -123,7 +123,7 @@ trait encryption {
      * @param string $encoding 编码格式，默认为utf8
 	 * @return string
 	**/ 
-    public function xml_encode($root = 'member', $version = '1.0', $encoding = 'UTF-8'){
+    public function xml_encode($root = 'member', $version = '1.0', $encoding = 'UTF-8') : string {
         if($this->xml){
             return $this->xml->outputMemory(true);
         }
@@ -136,7 +136,7 @@ trait encryption {
 	 * @access public
 	 * @return string
 	**/ 
-    public function str(){
+    public function str() : string {
         return json_encode($this->getArrayCopy());
     }
 
@@ -148,7 +148,7 @@ trait encryption {
      * @param bool $encodeType 是否编码
 	 * @return string
 	**/ 
-    public function toQueryString($numericPrefix = 'arg_', $encodeType = false){
+    public function toQueryString($numericPrefix = 'arg_', $encodeType = false) : string {
         return self::arrayToQueryString($this->getArrayCopy(), $numericPrefix = 'arg_', $encodeType = false);
     }
 }

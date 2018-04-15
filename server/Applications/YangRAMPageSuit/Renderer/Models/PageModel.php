@@ -77,7 +77,7 @@ class PageModel extends BaseR3Model {
         return self::privateGetPagePaths([], 0, 0, $ignore, $require);
     }
 
-    public function getParents($aliasonly = false){
+    public function getParents(bool $aliasonly = false){
         $parents = [];
         $parent_id = $this->modelProperties['parent'];
         while($parent_id){
@@ -105,7 +105,7 @@ class PageModel extends BaseR3Model {
         return NULL;
     }
 
-    protected function __afterDelete(){
+    protected function __afterDelete() : bool{
         self::update('`parent` = '.$this->__guid, ['parent'=>0]);
         return true;
     }

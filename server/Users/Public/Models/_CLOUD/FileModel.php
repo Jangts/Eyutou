@@ -156,7 +156,7 @@ class FileModel extends BaseCloudItemModel {
         static::init();
     }
 
-	protected function __put(array $input, $isSaved = false){
+	protected function __put(array $input, bool $isSaved = false){
 		$this->modelProperties = $input;
         if($isSaved){
 			$this->__guid = $this->modelProperties['ID'];
@@ -193,7 +193,7 @@ class FileModel extends BaseCloudItemModel {
 	/**
 	 * 删除文件资源
 	 */
-	public function destroy(){
+	public function destroy() : bool {
 		if($this->source){
 			$this->source->destroy();
 			if($this->source->error_msg!=='SQL_ERROR'){

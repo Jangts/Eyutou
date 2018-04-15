@@ -5,7 +5,7 @@ namespace Pages\Main\Models;
 use PM\_PAGES\AbstractPluginModel;
 
 class PluginModel extends AbstractPluginModel{
-    protected static function dbfilename(){
-        return dirname(dirname(__FILE__)).'/Plugins/plugins.json';
-    }
+    // protected static function dbfilename(){
+    //     return dirname(dirname(__FILE__)).'/Plugins/plugins.json';
+    // }
 }

@@ -51,7 +51,7 @@ class ProductionTypeModel extends BaseR3Model {
         return BrandModel::byGUID($this->modelProperties['brand_id']);
     }
 
-    protected function __afterDelete(){
+    protected function __afterDelete() : bool{
         if($this->guid){
             ProductionModell::delete("`type_id` = '$this->guid'");
         }

@@ -8,7 +8,7 @@ use PM\_1008\BrandModel;
 class BrandsController extends \AF\Controllers\BaseResourcesController {
     use \AF\Controllers\traits\administration;
 
-    public function checkReadAuthority(array $options = []){
+    public function checkReadAuthority(array $options = []) : bool {
         return true;
     }
     

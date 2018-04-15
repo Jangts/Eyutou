@@ -13,7 +13,7 @@ class AttachmentsController extends FilesController {
 	$metamodel = 'PM\_CLOUD\AttachmentMetaModel',
 	$srcmodel  = 'PM\_CLOUD\AttachmentSourceModel';
 
-    public function checkReadAuthority(array $options = []){
+    public function checkReadAuthority(array $options = []) : bool {
         if(isset($options['attachments'])){
 			# 检查下载权限
             return false;
@@ -21,7 +21,7 @@ class AttachmentsController extends FilesController {
         new Status(404, true);
     }
 
-	public function checkCreateAuthority(array $options = []){
+	public function checkCreateAuthority(array $options = []) : bool {
         return $this->checkAdminAuthority($options);
     }
 
@@ -57,7 +57,7 @@ class AttachmentsController extends FilesController {
 		return $id;
     }
 
-    protected function returnUploadsData($options, $is2ndPass = false){
+    protected function returnUploadsData($options, bool $is2ndPass = false){
 		if(isset($options['returndetails'])){
 			foreach($this->successed as $name=>$successed){
 				foreach($successed as $i=>$file){

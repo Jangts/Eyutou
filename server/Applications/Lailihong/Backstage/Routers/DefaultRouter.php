@@ -6,7 +6,7 @@ use App;
 use Tangram\CACHE\cac_agents\Filesys;
 
 class DefaultRouter extends \AF\Routers\BaseRouter {
-    protected function analysis(App $app, Request $request){
+    protected function analysis(App $app, Request $request) : array {
 		$classname = 'AdminBusController';
 		$filename = $app->Path.'Controllers/'.$classname;
 		$fullclassname = '\\'.$app->xProps['Namespace'].'\\Controllers\\'.$classname;

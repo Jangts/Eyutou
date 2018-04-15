@@ -20,7 +20,7 @@ class CategoriesController extends \AF\Controllers\BaseResourcesController {
     ],
     $__sortby = ['id', false, self::SORT_REGULAR];
 
-    public function checkReadAuthority(array $options = []){
+    public function checkReadAuthority(array $options = []) : bool {
         return true;
     }
 

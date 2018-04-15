@@ -22,7 +22,7 @@ abstract class BaseNotifyModel extends \AF\Models\BaseModel {
 
     protected function __init(){}
 
-    abstract protected function query($uid);
+    abstract protected function query($uid) : array;
 
     protected function __put(array $input, $isSent){
 

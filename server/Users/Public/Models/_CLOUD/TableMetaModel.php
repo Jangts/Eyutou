@@ -344,7 +344,7 @@ final class TableMetaModel extends \AF\Models\BaseR3Model {
         return $this;
     }
 
-    public function destroy(){
+    public function destroy() : bool {
         #使用事务
         #开启事务
         // 获取默认数据行查询器

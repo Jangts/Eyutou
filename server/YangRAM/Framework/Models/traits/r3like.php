@@ -14,7 +14,7 @@ trait r3like {
      * @param mixed $indexField 索引字段
 	 * @return array
 	**/
-    public static function getALL($indexField = NULL){
+    public static function getALL($indexField = NULL) : array {
         if($indexField&&!in_array($indexField, static::$uniqueIndexes, true)){
             $indexField = static::$uniqueIndexes[0];
         }
@@ -43,7 +43,7 @@ trait r3like {
      * @param mixed $indexField 索引字段
 	 * @return array
 	**/
-    public static function readInGroups($groupField){
+    public static function readInGroups($groupField) : array {
         $groups = [];
         if(isset(static::$defaultPorpertyValues[$groupField])){
             $result = static::initQuerier()->requires()->take(0)->orderby(false)->select();
@@ -155,7 +155,7 @@ trait r3like {
      * @param bool|object $savedProperties  已存在的记录
 	 * @return object
 	**/ 
-    protected function __put(array $input, $isSaved = false){
+    protected function __put(array $input, bool $isSaved = false){
         $this->xml = NULL;
         // 如果已存在记录，则与存在的记录对比，否则与默认值数组对比
         if($isSaved){
@@ -206,7 +206,7 @@ trait r3like {
 	 * @access protected
 	 * @return bool
 	**/ 
-    protected function __afterDelete(){
+    protected function __afterDelete() : bool {
         return true;
     }
 }
