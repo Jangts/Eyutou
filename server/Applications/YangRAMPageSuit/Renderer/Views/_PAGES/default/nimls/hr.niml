@@ -25,7 +25,7 @@
                 <aside class="left">
                     <h1>人力招聘</h1>
                     <nav>
-                        <div class="left-mask">&nbsp;</div>
+                        <div class="left-mask"> </div>
                         <ul>
                             <li class="on"><a href="/hr/">招聘岗位</a></li>
                         </ul>
@@ -39,7 +39,7 @@
                 </aside>
                 <div class="main">
                     <div class="main-top">
-                        <div class="main-top-dir"><a href="{{$archive_url}}">人力招聘</a>&gt;<a href="{{$page_url}}">{{$page.title}}</a></div>
+                        <div class="main-top-dir"><a href="{{$archive_url}}">人力招聘</a>><a href="{{$page_url}}">{{$page.title}}</a></div>
                     </div>
                     <div class="main-content">
                         <figure class="hr-banner">

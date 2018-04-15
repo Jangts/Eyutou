@@ -3,6 +3,7 @@ namespace AF\Models;
 
 use Status;
 use Storage;
+use App;
 use Tangram\MODEL\ObjectModel;
 
 /**
@@ -17,6 +18,10 @@ use Tangram\MODEL\ObjectModel;
 class FileBasedModel implements \DataModel {
     use \Tangram\MODEL\traits\magic;
     use \Tangram\MODEL\traits\arraylike;
+
+    final public static function __correctTablePrefix(App $app){
+        return false;
+    }
 
     final public static function getDirnameOfModel() : string {
         global $NEWIDEA;
@@ -51,7 +56,7 @@ class FileBasedModel implements \DataModel {
         return false;
     }
     
-    protected static function buildModelProperties($content) : array {
+    protected static function buildModelProperties($filename, $content) : array {
         return [];
     }
 
@@ -76,7 +81,8 @@ class FileBasedModel implements \DataModel {
 
     final public static function byGUID($guid = NULL/*单例数据文件不需要GUID*/){
         $filename = static::getFilename($guid);
-        if($content = self::getFileContent($filename)){
+        $content = self::getFileContent($filename);
+        if($content!==false){
             $obj = new static($filename);
             $obj->put($content);
             return $obj;
@@ -122,7 +128,7 @@ class FileBasedModel implements \DataModel {
             return false;   
 
             case 'string':
-                if($modelProperties = static::buildModelProperties($content)){
+                if($modelProperties = static::buildModelProperties($this->filename, $content)){
                     $this->content = $content;
                     $this->modelProperties = $modelProperties;
                     return true;
@@ -167,7 +173,7 @@ class FileBasedModel implements \DataModel {
 	**/ 
     final public function set($name, $value){
         if($name==='content'){
-            if($modelProperties = static::buildModelProperties($content)){
+            if($modelProperties = static::buildModelProperties($this->filename, $content)){
                 $this->content = $content;
                 $this->modelProperties = $modelProperties;
                 return true;

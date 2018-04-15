@@ -10,6 +10,14 @@ table.table-view tr td {
     text-align: center;
 }
 
+table.table-view tr td.__index {
+    width: 50px;
+}
+
+table.table-view tr td.__ops {
+    width: 120px;
+}
+
 table.table-view tr.tangram-creator td {
     font-size: 14px !important;
 }

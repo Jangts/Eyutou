@@ -1,7 +1,7 @@
 <div class="header">
     <div class="container">
         <div class="logo">
-            <a href="/"><img src="{{$option_logo}}" alt="来利洪集团官网 " /></a>
+            <a href="/"><img src="{{$option_logo}}" alt="来利洪集团官网" /></a>
         </div>
         <div class="target">
             <def name="$ads" onload="$this.readPluginResource" args="'promotion', '1', 'ads'" />

@@ -26,11 +26,11 @@ final class InputsModel extends ObjectModel {
         // 获取CONTEN-TYPE中的formdata分隔符
         if(empty($_SERVER['CONTENT_TYPE'])||!preg_match('/boundary=(.*)$/', $_SERVER['CONTENT_TYPE'], $matches)||!count($matches)){           
             // 如果不存在分隔符，则检查CONTENT_TYPE，如果为JSON或XML，则解码之；否则默认为是QueryString格式的数据
-            if(stripos($_SERVER['CONTENT_TYPE'], 'application/json')===0){
+            if(stripos($_SERVER['CONTENT_TYPE'], 'application/json')!==false){
                 $_POST = json_decode($input, true) or [];
-            }elseif(stripos($_SERVER['CONTENT_TYPE'], 'text/json')===0){
+            }elseif(stripos($_SERVER['CONTENT_TYPE'], 'text/json')!==false){
                 $_POST = json_decode($input, true) or [];
-            }else{
+            }elseif(stripos($_SERVER['CONTENT_TYPE'], 'application/x-www-form-urlencoded')!==false){
                 parse_str(urldecode($input), $_POST);
             }
             return;

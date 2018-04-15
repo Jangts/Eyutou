@@ -33,7 +33,7 @@ class BrandModel extends BaseR3Model {
         'SK_RANK'    =>  0
     ];
 
-    protected static function initQuerier(){
+    protected static function initQuerier() : \DBQ {
         if(!self::$staticQuerier){
             $app = new App(1008);
             self::$staticTablrnamePrefix = $app->DBTPrefix;

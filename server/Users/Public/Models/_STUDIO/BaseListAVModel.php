@@ -59,12 +59,15 @@ abstract class BaseListAVModel extends BaseAdminViewModel {
         }
         $tabs = new DocumentElementModel('ul');
         $tabs->addClass('class-tabs');
-        if(empty($_GET['tabid'])){
-            $li = new DocumentElementModel('li.tab-item', '<i>全部</i>');
-        }else{
-            $li = new DocumentElementModel('li.tab-item', '<a href="'.$basedir.'" title="全部">全部</a>');
+        if(empty(static::$__avmtabswithoutall)){
+            if(empty($_GET['tabid'])){
+                $li = new DocumentElementModel('li.tab-item', '<i>全部</i>');
+            }else{
+                $li = new DocumentElementModel('li.tab-item', '<a href="'.$basedir.'" title="全部">全部</a>');
+            }
+            $tabs->appendElement($li);
         }
-        $tabs->appendElement($li);
+        
         foreach(static::$__avmtabs as $alias=>$tab){
             if(isset($_GET['tabid'])&&$_GET['tabid']===$alias){
                 $li = new DocumentElementModel('li.tab-item', '<i>'.$tab['name'].'</i>');

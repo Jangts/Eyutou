@@ -24,7 +24,7 @@ abstract class BaseCloudItemModel extends ObjectModel {
 		}
 	}
 
-    protected static function initQuerier(){
+    protected static function initQuerier() : \DBQ {
         if(!static::$staticQuerier){
 			static::$staticQuerier = new RDBQuerierPlus;
 		}

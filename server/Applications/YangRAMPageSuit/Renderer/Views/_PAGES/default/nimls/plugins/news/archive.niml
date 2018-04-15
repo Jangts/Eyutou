@@ -25,7 +25,7 @@
                     <h1>新闻资讯</h1>
 
                     <nav>
-                        <div class="left-mask">&nbsp;</div>
+                        <div class="left-mask"> </div>
                         <ul>
                             <li class="{{.checkcurrent('link_news/archive/1', $column, 'on', '', true)}}"><a href="/news/archive/1">集团新闻</a></li>
                             <li class="{{.checkcurrent('link_news/archive/2', $column, 'on', '', true)}}"><a href="/news/archive/2">行业动态</a></li>
@@ -34,7 +34,7 @@
                 </aside>
                 <div class="main">
                     <div class="main-top">
-                        <div class="main-top-dir"><a href="/news/">新闻资讯</a>&gt;<a href="/news/archive/{{$archive.id}}">{{$archive.name}}</a></div>
+                        <div class="main-top-dir"><a href="/news/">新闻资讯</a>><a href="/news/archive/{{$archive.id}}">{{$archive.name}}</a></div>
                     </div>
                     <div class="main-content news">
                         <ul class="news-list">
@@ -56,7 +56,7 @@
                                         {{$desc = strip_tags($item.CONTENT);}}
                                         <str value="$desc" length="150" />…
                                     </p>
-                                    <a class="read-news" href="/news/detail/{{$item.ID}}">阅读全文&gt;&gt;</a>
+                                    <a class="read-news" href="/news/detail/{{$item.ID}}">阅读全文>></a>
                                 </li>
                             </for>
                         </ul>

@@ -1,0 +1,59 @@
+.ide-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    line-height: 16px;
+    color: #666;
+    z-index: 0;
+}
+
+.ide-container form {
+    height: 100%;
+}
+
+.ide-container form .CodeMirror {
+    height: 100% !important;
+}
+
+.ide-container form .CodeMirror .CodeMirror-lines .CodeMirror-code {
+    margin-bottom: 64px;
+}
+
+.ide-container form .CodeMirror .CodeMirror-gutters {
+    background-color: #fff;
+}
+
+.action-buttons {
+    position: fixed;
+    width: 100%;
+    padding: 0 4%;
+    height: 64px;
+    left: 0;
+    bottom: 0;
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-top: solid 1px rgba(73, 139, 234, 0.3);
+    text-align: right;
+    z-index: 999;
+}
+
+.action-buttons:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.action-buttons button {
+    display: inline-block;
+    padding: 3px 28px;
+    height: 30px;
+    line-height: 24px;
+    margin: 16px 10px;
+    border-radius: 18px;
+    background-color: #498bea;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.action-buttons button:hover {
+    background-color: #2058a7;
+}

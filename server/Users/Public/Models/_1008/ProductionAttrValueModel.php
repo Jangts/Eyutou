@@ -19,7 +19,7 @@ class ProductionAttrValueModel extends BaseR3Model {
         'attribute_val'  =>  ''
     ];
 
-    protected static function initQuerier(){
+    protected static function initQuerier() : \DBQ {
         if(!self::$staticQuerier){
             $app = new App(1008);
             self::$staticTablrnamePrefix = $app->DBTPrefix;

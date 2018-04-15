@@ -36,7 +36,7 @@ class AbstractPluginModel extends FileBasedModel {
         return $fileanmes;
     }
     
-    protected static function buildModelProperties($content) : array {
+    protected static function buildModelProperties($filename, $content) : array {
         if($properties = json_decode($content, true)){
             if(empty($properties['appid'])){
                 $properties['appid'] = 0;

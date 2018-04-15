@@ -124,11 +124,11 @@ tangram.block(function(pandora, global, undefined) {
             });
             return array;
         },
-        encodeQueryString: function (data) {
+        encodeQueryString: function(data) {
             return _.obj.toQueryString(data)
         },
-        decodeQueryString: function (str) {
-            str = str.replace(/^#/, '');
+        decodeQueryString: function(str) {
+            str = str.replace(/^(#|\?)/, '');
             var data = {};
             var fields = str.split('&');
             var i = 0,

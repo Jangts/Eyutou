@@ -13,7 +13,7 @@ class TestFileBasedModel extends FileBasedModel {
         return [__DIR__.'/providers/appprops.json'];
     }
     
-    protected static function buildModelProperties($content) : array {
+    protected static function buildModelProperties($filename, $content) : array {
         if($properties = json_decode($content, true)){
             return $properties;
         }

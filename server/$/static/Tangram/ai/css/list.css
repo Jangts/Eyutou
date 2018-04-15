@@ -17,7 +17,7 @@ ul.class-tabs {
 ul.class-tabs li.tab-item {
     display: inline-block;
     min-width: 96px;
-    height: 24px;
+    height: 26px;
     line-height: 24px;
     border: solid 1px #999;
     border-right: none;
@@ -37,7 +37,6 @@ ul.class-tabs li.tab-item:last-child {
 
 ul.class-tabs li.tab-item i {
     display: block;
-    border: solid 1px #999;
     background-color: #999;
     color: #fff;
     cursor: default;

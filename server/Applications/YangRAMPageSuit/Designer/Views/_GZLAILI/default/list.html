@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="{{$lang}}">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YangRAM Administration Backstage</title>
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/see/fa.css" />
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/see/see.css" />
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/ai/css/action.css" />
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/ai/css/list.css" />
+
+    <script charset="UTF-8" src="{{$__lib__}}Tangram/tangram.js/src/tangram.js" data-tangram-debug></script>
+    <script charset="UTF-8" src="{{$__lib__}}Tangram/ai/js/action.js"></script>
+    <script charset="UTF-8" src="{{$__lib__}}Tangram/ai/js/list.js"></script>
+</head>
+
+<body>
+    <div class="action-container">
+        {{$__avmtabs}} {{$__avmtags}}
+        <header class="listname"><strong>{{$listname}}</strong></header>
+        {{$itemlist}}
+    </div>
+</body>
+
+</html>

@@ -88,9 +88,9 @@ section::-webkit-scrollbar-corner {
 
 .main-container .side-section {
     float: left;
-    width: 190px;
+    width: 200px;
     margin-top: 60px;
-    padding-left: 9px;
+    padding-left: 10px;
     background-color: #f2f2f2;
 }
 
