@@ -18,6 +18,12 @@ class TemplateAVModel extends \PM\_STUDIO\BaseFormAVModel {
 			$method = 'create';
 		}
 
+		if(isset($_GET['tabid'])&&isset(TemplatesAVModel::$__avmtabs[$_GET['tabid']])){
+			$qs = '?tabid='.$_GET['tabid'];
+		}else{
+			$qs = '?tabid=niml';
+		}
+
 		$this->assign('form', '<form name="myform"><textarea name="content">'.$template->content.'</textarea></form>');
         
 		$this->assign('buttons', [
@@ -26,14 +32,14 @@ class TemplateAVModel extends \PM\_STUDIO\BaseFormAVModel {
 				'order'	=>	'anchor',
 				'form'	=>	'myform',
 				'action'=>	'',
-				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->id.'/tpl/templates/'
+				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->id.'/tpl/templates/'.$qs
 			],
 			[
 				'name' 	=>	'提交保存',
 				'order'	=>	'submit',
 				'form'	=>	'myform',
 				'action'=>	'//'._STD_API_.$this->app->ID.'?c=templates&m='.$method.'&args='.$guid,
-				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->id.'/tpl/templates/'
+				'href'	=>	$this->request->ARI->dirname.'/'.$this->app->id.'/tpl/templates/'.$qs
 			]
 		]);
 
