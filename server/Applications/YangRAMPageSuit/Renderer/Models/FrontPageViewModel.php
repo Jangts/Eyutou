@@ -96,6 +96,15 @@ class FrontPageViewModel extends \AF\Models\BaseViewModel {
         return [];
     }
 
+    public function getColumnInfo($column_id){
+        return new ColumnModel($column_id);
+    }
+
+    public function getArchiveInfo($archive_id){
+        // ArchiveModel::__correctTablePrefix(new App('PAGES'));
+        return ArchiveModel::byGUID($archive_id);
+    }
+
     public function echoPluginResources($pluginalias, $restype = '', $options = ''){
         echo $this->readPluginResource($pluginalias, NULL, $restype, $options);
     }
