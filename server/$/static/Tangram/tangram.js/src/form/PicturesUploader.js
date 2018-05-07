@@ -140,9 +140,9 @@ tangram.block([
         fileInputOnChange = function(caller) {
             if (caller.posturl) {
                 if (caller.type === 'video') {
-                    var uploader = new _.async.Uploader(this.files, ['video/mp4', 'video/ogg', 'video/webm'], ['mp4', 'ogg', 'webv'], 1024 * 1024 * 20);
+                    var uploader = new _.async.Uploader(this.files, ['video/mp4', 'video/ogg', 'video/webm'], ['mp4', 'ogg', 'webv'], 1024 * 1024 * 64);
                 } else {
-                    var uploader = new _.async.Uploader(this.files, ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png'], ['jpg', 'png', 'gif'], 1024 * 1024 * 20);
+                    var uploader = new _.async.Uploader(this.files, ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png'], ['jpg', 'png', 'gif'], 1024 * 1024 * 32);
                 }
                 uploader.caller = caller;
                 uploader.isOnlyFilter = false;

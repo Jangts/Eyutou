@@ -1,5 +1,5 @@
 <?php
-namespace Goods\Models\traits;
+namespace Mall\Goods\Models\traits;
 
 use PM\_1008\BrandModel;
 use PM\_1008\ProductionTypeModel;

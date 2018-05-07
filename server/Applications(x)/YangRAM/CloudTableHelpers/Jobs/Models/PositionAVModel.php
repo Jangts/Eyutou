@@ -4,6 +4,7 @@ namespace CTH\Jobs\Models;
 use PM\_CLOUD\TRGroupModel;
 use PM\_CLOUD\TableRowModel;
 use PM\_CLOUD\TableRowMetaModel;
+use PM\_CLOUD\AbstractTableRowCRUDAVModel;
 
 class PositionAVModel extends AbstractTableRowCRUDAVModel {
 	public static

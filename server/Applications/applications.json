@@ -76,6 +76,13 @@
         "installpath": "YangRAMCloudSuit/Explorer",
         "usedb": 0
     },
+    "CLOUDSTUDIO": {
+        "id": "CLOUDSTUDIO",
+        "name": "YangRAM Cloud Studio",
+        "scode": "CS",
+        "installpath": "YangRAMCloudSuit/Studio",
+        "usedb": 0
+    },
     "CLOUDTABLES": {
         "id": "CLOUDTABLES",
         "name": "YangRAM Cloud Tables",

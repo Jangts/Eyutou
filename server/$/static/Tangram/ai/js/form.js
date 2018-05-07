@@ -49,7 +49,7 @@ tangram.block([
 
     var editors = _.form.careatEditors('textarea.edit-text-area', {
             uploader: {
-                maxsize: 1024 * 1024 * 20,
+                maxsize: 1024 * 1024 * 64,
                 sfixs: false,
                 transfer: function(files, inserter) {
                     var total = files.length;

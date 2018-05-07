@@ -46,6 +46,11 @@
                         <ul id="products-list" class="products-list">
                             <section></section>
                         </ul>
+                        <ul class="pages-list">
+                            <li class="page-list-item"><a href="javascript:;" data-page="1">首页</a></li>
+                            <li class="page-list-item on"><a href="javascript:;">1</a></li>
+                            <li class="page-list-item"><a href="javascript:;" data-page="1">末页</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>

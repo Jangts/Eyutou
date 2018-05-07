@@ -1,12 +1,12 @@
 <?php
-namespace Goods\Controllers;
+namespace Mall\Goods\Controllers;
 
 // 引入相关命名空间，以简化书写
 use Status;
 use Request;
 use App;
 
-use Goods\Models\CategoriesModel;
+use Mall\Goods\Models\CategoriesModel;
 
 class CategoriesController extends \AF\Controllers\BaseResourcesController {
     use \AF\Controllers\traits\administration;

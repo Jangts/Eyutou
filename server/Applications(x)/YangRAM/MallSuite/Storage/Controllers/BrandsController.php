@@ -1,5 +1,5 @@
 <?php
-namespace Goods\Controllers;
+namespace Mall\Goods\Controllers;
 
 // 引入相关命名空间，以简化书写
 use PM\_1008\CategoryModel;

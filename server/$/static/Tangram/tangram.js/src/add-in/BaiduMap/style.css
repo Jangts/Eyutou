@@ -1,14 +1,4 @@
-* {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    position: relative;
-    margin: 0;
-    padding: 0;
-    border: none;
-}
-
-html {
+html{
     font-size: 125%;
 }
 
@@ -24,6 +14,13 @@ body {
     min-height: 240px;
     border: #ccc solid 0px;
     margin: auto;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: none;
 }
 
 .tangram-addin-map #platform div {

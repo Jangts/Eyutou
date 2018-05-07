@@ -73,13 +73,13 @@ class ProductionModel extends Model {
      * @param string|array $require                     查询条件，可以为整理好的SQL语句片段，也可以是数组形式的条件组
 	 * @return int
 	**/
-    public static function getCOUNT($require = "1 = 1") {
+    public static function getCOUNT($require = "1 = 1") : int  {
 		$querier = static::initQuerier();
 		$querier->requires($require)->orderby(false)->take(0);
 		return $querier->count();
     }
 
-    public static function getALL(){
+    public static function getALL() : array {
         // 获取默认数据行查询器
         $querier = self::initQuerier();
         $querier->requires(1)->take(0)->orderby(false);
@@ -307,7 +307,7 @@ class ProductionModel extends Model {
         }
     }
 
-    protected function __put(array $input, $extendedable = false){
+    protected function __put(array $input, bool $extendedable = false){
         if(is_array($input)||is_object($input)){
             foreach ($input as $key => $value) {
                 if($extendedable||array_key_exists($key, $this->modelProperties)){

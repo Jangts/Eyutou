@@ -46,16 +46,19 @@ body {
 
 .header {
     position: relative;
-    height: 159px;
-    background: url(./../images/background.header.jpg) repeat-x;
+    /* height: 159px; */
+    height: 90px;
+    background: url(./../images/background.header_new.jpg) repeat-x;
     z-index: 99;
 }
 
 .header .logo {
     float: left;
-    width: 510px;
+    /* width: 510px; */
+    width: 296px;
     height: 90px;
-    padding: 10px 0 15px;
+    /* padding: 10px 0 15px; */
+    overflow: hidden;
 }
 
 .header .target {
@@ -67,7 +70,9 @@ body {
 
 .header .navigation {
     float: left;
-    width: 1236px;
+    /* width: 1236px; */
+    width: 940px;
+    margin-top: 25px;
     text-align: center;
 }
 
@@ -77,19 +82,21 @@ body {
 
 .header .navigation ul li {
     display: inline-block;
-    color: white;
+    /* color: white; */
+    color: #000;
     cursor: pointer;
 }
 
 .header .navigation ul li a {
     display: block;
     height: 24px;
-    padding: 10px 40px;
+    padding: 10px 23px;
 }
 
 .header .navigation ul li:hover,
 .header .navigation ul li.on {
-    background-color: #e60012;
+    /* background-color: #e60012; */
+    color: #a71313;
 }
 
 .common-banner img.banner {
@@ -210,9 +217,10 @@ body {
 .main-content img {
     max-width: 100%;
 }
+
 .main-content .right-article img {
     max-width: 700px;
-    margin: 30px auto;
+    margin: auto;
 }
 
 .main-content .right-article p {

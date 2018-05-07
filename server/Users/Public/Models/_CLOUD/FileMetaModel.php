@@ -142,7 +142,7 @@ class FileMetaModel extends BaseCloudItemModel {
 		return static::initQuerier()->requires("`SRC_ID` = $SRC_ID")->count('ID');;
 	}
 
-	public static function getALL($type = NULL){
+	public static function getALL($type = NULL): array {
 		static::correctFileTypeQuerying($type);
 		return static::$staticQuerier->select();
 	}

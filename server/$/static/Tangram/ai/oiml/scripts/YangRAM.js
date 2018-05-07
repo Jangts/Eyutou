@@ -76,7 +76,7 @@ System.ModuleSeeds.main = (Application, pandora, declare, global, undefined) => 
         loadStyle: _.data.loadCSS,
         loadScript: _.data.loadScript,
         encodeQueryString: _.data.encodeQueryString,
-        decodeQueryString: _.data.decodeQueryString,
+        decodeQueryString: _.obj.decodeQueryString,
         //---------------------------------------------------------|
         toggleClass(elem, classname, isSwitch) {
             _.dom.toggleClass(elem, classname, isSwitch);

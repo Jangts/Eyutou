@@ -1,6 +1,6 @@
 {
     "name": "YangRAM Goods",
-    "suitspace": null,
+    "suitspace": "Mall",
     "namespace": "Goods",
     "metadata": {
         "version": "",

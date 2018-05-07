@@ -90,7 +90,7 @@ class AbstractPluginModel extends FileBasedModel {
     //     return false;
     // }
     
-    final public static function getALL(){
+    final public static function getALL($type = NULL): array {
         $objs = static::query();
         // $plugins = self::readPluginsJSON();
         // $obj = [];

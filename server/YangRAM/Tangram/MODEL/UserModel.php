@@ -64,7 +64,7 @@ final class UserModel extends ObjectModel {
         return $modelProperties;
     }
     
-    public static function getALL(){
+    public static function getALL(): array {
 		#
 		return false;
     }

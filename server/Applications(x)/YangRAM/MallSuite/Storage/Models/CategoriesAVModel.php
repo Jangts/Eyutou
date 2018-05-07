@@ -1,5 +1,5 @@
 <?php
-namespace Goods\Models;
+namespace Mall\Goods\Models;
 
 use PM\_1008\CategoryModel;
 

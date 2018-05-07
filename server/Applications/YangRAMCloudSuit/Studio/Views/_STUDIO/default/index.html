@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="{{$lang}}">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YangRAM Administration Backstage</title>
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/see/fa.css" />
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/tangram.js/src/see/see.css" />
+    <link rel="stylesheet" type="text/css" href="{{$__lib__}}Tangram/ai/css/main.css" />
+    <script charset="UTF-8" src="{{$__lib__}}Tangram/tangram.js/src/tangram.js" data-tangram-debug></script>
+    <script charset="UTF-8" src="{{$__lib__}}Tangram/ai/js/main.js"></script>
+</head>
+
+<body>
+    <div class="main-container">
+        <section class="top-section">
+            <div class="top-logo">
+                <a href="{{__admindir__}}pages/default-page/" target="maincontainer"><img src="{{$__lib__}}Tangram/ai/img/logo.png"></a>
+            </div>
+            <div class="top-options">
+                <ul>
+                    <li><img src="{{$avatar}}"></li>
+                    <li><a href="{{__admindir__}}logger/account/{{$uid}}" target="maincontainer">个人设置</a></li>
+                    <li><a data-submit-href="{{$__api__}}?app=logger&c=VISA&m=logout" href="javascript:;">登出</a></li>
+                </ul>
+            </div>
+            <div class="top-search">
+
+            </div>
+        </section>
+        <section class="side-section">
+            <div class="side-section-container">
+                <div class="side-menu">
+                    <a class="side-menu-head" href="{{__admindir__}}pages/default-page/" target="maincontainer">页面</a>
+                    <ul class="side-menu-list">
+                        <li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}pages/default-page/" target="maincontainer">首页设置</a>
+                        </li>
+                        <!--li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}pages/archives/" target="maincontainer">页面归档管理</a>
+                        </li-->
+                        <li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}pages/pages/" target="maincontainer">页面管理</a>
+                        </li>
+                        <li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}pages/link-groups/" target="maincontainer">链接管理</a>
+                        </li>
+                        <!--li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}pages/plugins/" target="maincontainer">插件管理</a>
+                        </li-->
+                        <li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}pageads/ads/" target="maincontainer">管理页面广告</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="side-menu">
+                    <a class="side-menu-head" href="{{__admindir__}}1006/categories/" target="maincontainer">新闻</a>
+                    <ul class="side-menu-list">
+                        <!--li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}1006/categories/" target="maincontainer">新闻分类管理</a>
+                        </li>
+                        <li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}1006/categories-recycle/" target="maincontainer">新闻分类回收站</a>
+                        </li-->
+                        <li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}1006/news-list/" target="maincontainer">新闻管理</a>
+                        </li>
+                        <li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}1006/news-recycle/" target="maincontainer">新闻回收站</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="side-menu">
+                    <a class="side-menu-head" href="{{__admindir__}}1008/productions/" target="maincontainer">产品</a>
+                    <ul class="side-menu-list">
+                        <!--li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}1008/categories/" target="maincontainer">类目管理</a>
+                        </li>
+                        <li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}1008/attributes/" target="maincontainer">类目属性管理</a>
+                        </li-->
+                        <li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}1008/brands/" target="maincontainer">品牌管理</a>
+                        </li>
+                        <li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}1008/types/" target="maincontainer">类型管理</a>
+                        </li>
+                        <li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}1008/productions/" target="maincontainer">产品管理</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="side-menu">
+                    <a class="side-menu-head" href="{{__admindir__}}1004/positions/" target="maincontainer">招聘</a>
+                    <ul class="side-menu-list">
+                        <li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}1004/positions/" target="maincontainer">职位管理</a>
+                        </li>
+                        <li class="side-menu-item">
+                            <i class="fa fa-pencil"></i><a href="{{__admindir__}}1004/positions-recycle/" target="maincontainer">职位回收站</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section class="main-section ">
+            <div class="main-section-container ">
+                <iframe id="maincontainer" name="maincontainer" src="{{__admindir__}}pages/default-page/"></iframe>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>
