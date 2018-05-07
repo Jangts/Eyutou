@@ -66,6 +66,11 @@
         "groupname": "产品",
         "link": "1008/cats/categories/",
         "menu": [{
+                "icon": "pencil",
+                "name": "全局配置",
+                "group": "1008/options",
+                "link": "1008/options/options/"
+            }, {
                 "type": "hidden",
                 "icon": "pencil",
                 "name": "类目管理",

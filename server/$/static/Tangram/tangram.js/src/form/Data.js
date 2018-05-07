@@ -121,10 +121,10 @@ tangram.block([
                             case 'radio':
                                 if (data[key]) {
                                     if (this.checked) {
-                                        data[key] = this.value;
+                                        data[key] = [this.value];
                                     }
                                 } else {
-                                    data[key] = this.value;
+                                    data[key] = [this.value];
                                 }
                                 break;
                             case 'hidden':
@@ -196,6 +196,7 @@ tangram.block([
             return fields.join("&");
         },
         submit: function(options) {
+            // console.log(this.data);
             if (options.defaultData) {
                 for (var i in options.defaultData) {
                     if (!_.obj.has(this.data, i)) {
@@ -203,11 +204,13 @@ tangram.block([
                     }
                 }
             }
+            // console.log(this.data);
             if (options.correctData) {
                 for (var i in options.correctData) {
                     this.data[i] = [options.correctData[i], null];
                 }
             }
+            // console.log(this.data);
             var url = options.action || this.action;
             var doneCallback = function() {
                 var method;
@@ -235,6 +238,7 @@ tangram.block([
                 } else {
                     data = this.getQueryString();
                 }
+                // console.log(data);
                 _.async.ajax({
                     url: url,
                     data: data,

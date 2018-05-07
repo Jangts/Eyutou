@@ -1,14 +1,22 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 4.7.5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: May 07, 2018 at 08:37 AM
--- Server version: 5.6.35
--- PHP Version: 7.1.8
+-- Host: localhost
+-- Generation Time: 2018-05-07 15:16:15
+-- 服务器版本： 5.5.54-log
+-- PHP Version: 7.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `gzlaili`
@@ -17,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_1008_brands`
+-- 表的结构 `ni_1008_brands`
 --
 
 CREATE TABLE `ni_1008_brands` (
@@ -30,7 +38,7 @@ CREATE TABLE `ni_1008_brands` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_1008_brands`
+-- 转存表中的数据 `ni_1008_brands`
 --
 
 INSERT INTO `ni_1008_brands` (`SK_RANK`, `id`, `category_id`, `brand_name`, `brand_logo`, `brand_desc`) VALUES
@@ -42,7 +50,7 @@ INSERT INTO `ni_1008_brands` (`SK_RANK`, `id`, `category_id`, `brand_name`, `bra
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_1008_categories`
+-- 表的结构 `ni_1008_categories`
 --
 
 CREATE TABLE `ni_1008_categories` (
@@ -54,7 +62,7 @@ CREATE TABLE `ni_1008_categories` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='类目列表';
 
 --
--- Dumping data for table `ni_1008_categories`
+-- 转存表中的数据 `ni_1008_categories`
 --
 
 INSERT INTO `ni_1008_categories` (`SK_RANK`, `id`, `parent_id`, `category_name`, `category_desc`) VALUES
@@ -63,7 +71,7 @@ INSERT INTO `ni_1008_categories` (`SK_RANK`, `id`, `parent_id`, `category_name`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_1008_category_attrs`
+-- 表的结构 `ni_1008_category_attrs`
 --
 
 CREATE TABLE `ni_1008_category_attrs` (
@@ -79,7 +87,7 @@ CREATE TABLE `ni_1008_category_attrs` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='类目属性表';
 
 --
--- Dumping data for table `ni_1008_category_attrs`
+-- 转存表中的数据 `ni_1008_category_attrs`
 --
 
 INSERT INTO `ni_1008_category_attrs` (`id`, `category_id`, `attribute_name`, `attribute_alias`, `attribute_type`, `max_value_length`, `max_float_length`, `values_range`, `default_value`) VALUES
@@ -88,7 +96,7 @@ INSERT INTO `ni_1008_category_attrs` (`id`, `category_id`, `attribute_name`, `at
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_1008_options`
+-- 表的结构 `ni_1008_options`
 --
 
 CREATE TABLE `ni_1008_options` (
@@ -98,16 +106,17 @@ CREATE TABLE `ni_1008_options` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_1008_options`
+-- 转存表中的数据 `ni_1008_options`
 --
 
 INSERT INTO `ni_1008_options` (`option_name`, `option_value`, `autoload`) VALUES
-('show_buy_link_on_pagesplugin', 'yes', 1);
+('show_buy_link_on_pagesplugin', 'no', 1),
+('tamplate_use_in_pagesplugin', 'plugins/productions/index.niml', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_1008_productions`
+-- 表的结构 `ni_1008_productions`
 --
 
 CREATE TABLE `ni_1008_productions` (
@@ -130,7 +139,7 @@ CREATE TABLE `ni_1008_productions` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='产品列表';
 
 --
--- Dumping data for table `ni_1008_productions`
+-- 转存表中的数据 `ni_1008_productions`
 --
 
 INSERT INTO `ni_1008_productions` (`id`, `code`, `name`, `description`, `category_id`, `brand_id`, `type_id`, `image`, `standard`, `attributes`, `detail`, `time_onsale`, `link`, `SK_GRADE`, `SK_LEVEL`, `state`) VALUES
@@ -168,7 +177,7 @@ INSERT INTO `ni_1008_productions` (`id`, `code`, `name`, `description`, `categor
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_1008_production_attrs_map`
+-- 表的结构 `ni_1008_production_attrs_map`
 --
 
 CREATE TABLE `ni_1008_production_attrs_map` (
@@ -178,7 +187,7 @@ CREATE TABLE `ni_1008_production_attrs_map` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_1008_production_attrs_map`
+-- 转存表中的数据 `ni_1008_production_attrs_map`
 --
 
 INSERT INTO `ni_1008_production_attrs_map` (`production_id`, `attribute_id`, `attribute_val`) VALUES
@@ -202,7 +211,7 @@ INSERT INTO `ni_1008_production_attrs_map` (`production_id`, `attribute_id`, `at
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_1008_types`
+-- 表的结构 `ni_1008_types`
 --
 
 CREATE TABLE `ni_1008_types` (
@@ -213,7 +222,7 @@ CREATE TABLE `ni_1008_types` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_1008_types`
+-- 转存表中的数据 `ni_1008_types`
 --
 
 INSERT INTO `ni_1008_types` (`SK_RANK`, `id`, `brand_id`, `typename`) VALUES
@@ -231,7 +240,7 @@ INSERT INTO `ni_1008_types` (`SK_RANK`, `id`, `brand_id`, `typename`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_authorities`
+-- 表的结构 `ni_cloud_authorities`
 --
 
 CREATE TABLE `ni_cloud_authorities` (
@@ -242,7 +251,7 @@ CREATE TABLE `ni_cloud_authorities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_cloud_authorities`
+-- 转存表中的数据 `ni_cloud_authorities`
 --
 
 INSERT INTO `ni_cloud_authorities` (`id`, `tablename`, `auth_type`, `usergroup`) VALUES
@@ -252,7 +261,7 @@ INSERT INTO `ni_cloud_authorities` (`id`, `tablename`, `auth_type`, `usergroup`)
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_comments`
+-- 表的结构 `ni_cloud_comments`
 --
 
 CREATE TABLE `ni_cloud_comments` (
@@ -267,7 +276,7 @@ CREATE TABLE `ni_cloud_comments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_filemeta_protected`
+-- 表的结构 `ni_cloud_filemeta_protected`
 --
 
 CREATE TABLE `ni_cloud_filemeta_protected` (
@@ -286,7 +295,7 @@ CREATE TABLE `ni_cloud_filemeta_protected` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_filemeta_public`
+-- 表的结构 `ni_cloud_filemeta_public`
 --
 
 CREATE TABLE `ni_cloud_filemeta_public` (
@@ -303,7 +312,7 @@ CREATE TABLE `ni_cloud_filemeta_public` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_cloud_filemeta_public`
+-- 转存表中的数据 `ni_cloud_filemeta_public`
 --
 
 INSERT INTO `ni_cloud_filemeta_public` (`ID`, `SRC_ID`, `FOLDER`, `FILE_NAME`, `FILE_TYPE`, `FILE_SIZE`, `FILE_EXTN`, `SK_CTIME`, `SK_MTIME`, `SK_IS_RECYCLED`) VALUES
@@ -313,6 +322,7 @@ INSERT INTO `ni_cloud_filemeta_public` (`ID`, `SRC_ID`, `FOLDER`, `FILE_NAME`, `
 ('0476fde04a73f10c15217852985ab499d2b55c2', 64, 5, '0O1A9911 拷贝.jpg', 'image', 507732, 'jpg', '0000-00-00 00:00:00', '2018-03-23 14:08:18', 0),
 ('056f5858c9e7205d15223085755abc95e0c2eb3', 88, 5, '苏打饼干（香葱味）350g.jpg', 'image', 815482, 'jpg', '0000-00-00 00:00:00', '2018-03-29 15:29:35', 0),
 ('069989b8fcfef5dc15223121315abca3c394ce8', 98, 5, '乳酪夹心饼干120g.jpg', 'image', 647457, 'jpg', '0000-00-00 00:00:00', '2018-03-29 16:28:51', 0),
+('0723c789f867367615256681565aefd93e080da', 116, 5, '4057d848b3562a831d70b85a8ce86c41(1).mp4', 'video', 20700684, 'mp4', '2018-05-07 12:42:36', '2018-05-07 12:42:36', 0),
 ('07df983c21c5cac715217858535ab49bff62cb9', 69, 5, '0O1A9801 拷贝.jpg', 'image', 1467832, 'jpg', '0000-00-00 00:00:00', '2018-03-23 14:17:33', 0),
 ('0949faef6bbc64d615205822635aa23e7835337', 27, 5, 'aIMG_0669.jpg', 'image', 289157, 'jpg', '0000-00-00 00:00:00', '2018-03-09 15:57:43', 0),
 ('0949faef6bbc64d615205822685aa23e7c9f0a4', 27, 13, 'aIMG_0669.jpg', 'image', 289157, 'jpg', '0000-00-00 00:00:00', '2018-03-09 15:57:48', 0),
@@ -384,6 +394,7 @@ INSERT INTO `ni_cloud_filemeta_public` (`ID`, `SRC_ID`, `FOLDER`, `FILE_NAME`, `
 ('972bc0d711e1233e15220489305ab89fa402091', 81, 5, 'phone.jpg', 'image', 21098, 'jpg', '0000-00-00 00:00:00', '2018-03-26 15:22:10', 0),
 ('99cf263facf7e0a115223121685abca3e89ccaa', 99, 5, '苏打夹心饼干（椰子味）600g.jpg', 'image', 567840, 'jpg', '0000-00-00 00:00:00', '2018-03-29 16:29:28', 0),
 ('9ace07f0470515e815240140815ad69c021492e', 114, 5, 'logo.common_new.jpg', 'image', 47701, 'jpg', '2018-04-18 09:14:41', '2018-04-18 09:14:41', 0),
+('9ace07f0470515e815256680775aefd8ee707a1', 114, 5, 'logo.common_new(1).jpg', 'image', 47701, 'jpg', '2018-05-07 12:41:17', '2018-05-07 12:41:17', 0),
 ('9b96c29608430e5715205630555aa1f36fc3109', 21, 5, '20171018_IMG_2982.JPG', 'image', 1864863, 'JPG', '0000-00-00 00:00:00', '2018-03-09 10:37:35', 0),
 ('9d888f884600425915207772315aa5380f6e32c', 46, 14, '5.jpg', 'image', 8171, 'jpg', '0000-00-00 00:00:00', '2018-03-11 22:07:11', 0),
 ('9e3b31244910271c15223115085abca1552d0c7', 95, 5, '玛德琳夹心饼干（花生味）360g.jpg', 'image', 708006, 'jpg', '0000-00-00 00:00:00', '2018-03-29 16:18:28', 0),
@@ -404,6 +415,7 @@ INSERT INTO `ni_cloud_filemeta_public` (`ID`, `SRC_ID`, `FOLDER`, `FILE_NAME`, `
 ('a47e00d3d3c0455015207782645aa53c188ea06', 53, 5, 'production_9_large(10).jpg', 'image', 63675, 'jpg', '0000-00-00 00:00:00', '2018-03-11 22:24:24', 0),
 ('a47e00d3d3c0455015207782915aa53c337261e', 53, 5, 'production_9_large(11).jpg', 'image', 63675, 'jpg', '0000-00-00 00:00:00', '2018-03-11 22:24:51', 0),
 ('a47e00d3d3c0455015207784455aa53ccd5785d', 53, 5, 'production_9_large(12).jpg', 'image', 63675, 'jpg', '0000-00-00 00:00:00', '2018-03-11 22:27:25', 0),
+('b3562a831d70b85a15256681065aefd90d7c053', 115, 5, '4057d848b3562a831d70b85a8ce86c41.mp4', 'video', 25305728, 'mp4', '2018-05-07 12:41:46', '2018-05-07 12:41:46', 0),
 ('b42e66f78470553a15223083025abc94cfb335a', 87, 5, '0O1A9881 拷贝.jpg', 'image', 607354, 'jpg', '0000-00-00 00:00:00', '2018-03-29 15:25:02', 0),
 ('b497aed629b09bf115223085945abc95f2d8403', 89, 5, '苏打饼干（芝麻味）350g.jpg', 'image', 678591, 'jpg', '0000-00-00 00:00:00', '2018-03-29 15:29:54', 0),
 ('b8afa0de666b4f1d15220434225ab88a1f3b866', 78, 5, 'figure.jpg', 'image', 42817, 'jpg', '0000-00-00 00:00:00', '2018-03-26 13:50:22', 0),
@@ -479,7 +491,7 @@ INSERT INTO `ni_cloud_filemeta_public` (`ID`, `SRC_ID`, `FOLDER`, `FILE_NAME`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_folders`
+-- 表的结构 `ni_cloud_folders`
 --
 
 CREATE TABLE `ni_cloud_folders` (
@@ -492,7 +504,7 @@ CREATE TABLE `ni_cloud_folders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_cloud_folders`
+-- 转存表中的数据 `ni_cloud_folders`
 --
 
 INSERT INTO `ni_cloud_folders` (`id`, `type`, `name`, `parent`, `SK_IS_RECYCLED`, `SK_MTIME`) VALUES
@@ -515,7 +527,7 @@ INSERT INTO `ni_cloud_folders` (`id`, `type`, `name`, `parent`, `SK_IS_RECYCLED`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_groups`
+-- 表的结构 `ni_cloud_groups`
 --
 
 CREATE TABLE `ni_cloud_groups` (
@@ -530,7 +542,7 @@ CREATE TABLE `ni_cloud_groups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_cloud_groups`
+-- 转存表中的数据 `ni_cloud_groups`
 --
 
 INSERT INTO `ni_cloud_groups` (`SK_RANK`, `id`, `tablename`, `name`, `description`, `parent`, `SK_IS_RECYCLED`, `SK_MTIME`) VALUES
@@ -540,7 +552,7 @@ INSERT INTO `ni_cloud_groups` (`SK_RANK`, `id`, `tablename`, `name`, `descriptio
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_schema_album`
+-- 表的结构 `ni_cloud_schema_album`
 --
 
 CREATE TABLE `ni_cloud_schema_album` (
@@ -556,7 +568,7 @@ CREATE TABLE `ni_cloud_schema_album` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_schema_article`
+-- 表的结构 `ni_cloud_schema_article`
 --
 
 CREATE TABLE `ni_cloud_schema_article` (
@@ -572,7 +584,7 @@ CREATE TABLE `ni_cloud_schema_article` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_schema_artwork`
+-- 表的结构 `ni_cloud_schema_artwork`
 --
 
 CREATE TABLE `ni_cloud_schema_artwork` (
@@ -591,7 +603,7 @@ CREATE TABLE `ni_cloud_schema_artwork` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_schema_job`
+-- 表的结构 `ni_cloud_schema_job`
 --
 
 CREATE TABLE `ni_cloud_schema_job` (
@@ -614,7 +626,7 @@ CREATE TABLE `ni_cloud_schema_job` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_cloud_schema_job`
+-- 转存表中的数据 `ni_cloud_schema_job`
 --
 
 INSERT INTO `ni_cloud_schema_job` (`ID`, `EDUCATION`, `POSINAME`, `SALARY_RANGE`, `PLACE_WORKING`, `IS_FULLTIME`, `PROBATION`, `POSI_DESC`, `SEX`, `AGE_RANGE`, `YEARS_WORKING`, `CERTIFICATE`, `POSI_REQUIRE`, `NUMBER`, `CONTACT`, `X_ATTRS`) VALUES
@@ -638,7 +650,7 @@ INSERT INTO `ni_cloud_schema_job` (`ID`, `EDUCATION`, `POSINAME`, `SALARY_RANGE`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_schema_news`
+-- 表的结构 `ni_cloud_schema_news`
 --
 
 CREATE TABLE `ni_cloud_schema_news` (
@@ -658,7 +670,7 @@ CREATE TABLE `ni_cloud_schema_news` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_cloud_schema_news`
+-- 转存表中的数据 `ni_cloud_schema_news`
 --
 
 INSERT INTO `ni_cloud_schema_news` (`ID`, `PRIMER`, `SUBTITLE`, `REPORTER`, `MARKED`, `PRESS`, `ORIGINATE_URL`, `PRESS_DATE`, `THUMB`, `ABSTRACT`, `CONTENT`, `X_ATTRS`, `PHOTOGRAPHER`) VALUES
@@ -683,7 +695,7 @@ INSERT INTO `ni_cloud_schema_news` (`ID`, `PRIMER`, `SUBTITLE`, `REPORTER`, `MAR
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_schema_note`
+-- 表的结构 `ni_cloud_schema_note`
 --
 
 CREATE TABLE `ni_cloud_schema_note` (
@@ -699,7 +711,7 @@ CREATE TABLE `ni_cloud_schema_note` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_schema_project`
+-- 表的结构 `ni_cloud_schema_project`
 --
 
 CREATE TABLE `ni_cloud_schema_project` (
@@ -720,7 +732,7 @@ CREATE TABLE `ni_cloud_schema_project` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_schema_raw`
+-- 表的结构 `ni_cloud_schema_raw`
 --
 
 CREATE TABLE `ni_cloud_schema_raw` (
@@ -733,7 +745,7 @@ CREATE TABLE `ni_cloud_schema_raw` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_schema_resume`
+-- 表的结构 `ni_cloud_schema_resume`
 --
 
 CREATE TABLE `ni_cloud_schema_resume` (
@@ -752,7 +764,7 @@ CREATE TABLE `ni_cloud_schema_resume` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_schema_wiki`
+-- 表的结构 `ni_cloud_schema_wiki`
 --
 
 CREATE TABLE `ni_cloud_schema_wiki` (
@@ -769,7 +781,7 @@ CREATE TABLE `ni_cloud_schema_wiki` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_sources_protected`
+-- 表的结构 `ni_cloud_sources_protected`
 --
 
 CREATE TABLE `ni_cloud_sources_protected` (
@@ -786,7 +798,7 @@ CREATE TABLE `ni_cloud_sources_protected` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_sources_public`
+-- 表的结构 `ni_cloud_sources_public`
 --
 
 CREATE TABLE `ni_cloud_sources_public` (
@@ -801,7 +813,7 @@ CREATE TABLE `ni_cloud_sources_public` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_cloud_sources_public`
+-- 转存表中的数据 `ni_cloud_sources_public`
 --
 
 INSERT INTO `ni_cloud_sources_public` (`SID`, `HASH`, `LOCATION`, `MIME`, `IMAGE_SIZE`, `WIDTH`, `HEIGHT`, `DURATION`) VALUES
@@ -918,12 +930,14 @@ INSERT INTO `ni_cloud_sources_public` (`SID`, `HASH`, `LOCATION`, `MIME`, `IMAGE
 (111, '50fe8b7d5c2d58d050886c724a7b7a5a', 'Images/2018-03-29/50fe8b7d5c2d58d050886c724a7b7a5a.jpg', 'image/jpeg', 'width=\"700\" height=\"190\"', 700, 190, 0),
 (112, '9dcf4fda62ade0e6b42134e2b56c1d1a', 'Images/2018-03-29/9dcf4fda62ade0e6b42134e2b56c1d1a.jpg', 'image/jpeg', 'width=\"700\" height=\"190\"', 700, 190, 0),
 (113, 'aa7e56992a17ce03eec48c2d53a81e6f', 'Videos/2018-04-02/aa7e56992a17ce03eec48c2d53a81e6f.mp4', 'video/mp4', '', 0, 0, 0),
-(114, 'e1322aed9ace07f0470515e87bd0114e', 'Images/2018-04-18/e1322aed9ace07f0470515e87bd0114e.jpg', 'image/jpeg', 'width=\"294\" height=\"90\"', 294, 90, 0);
+(114, 'e1322aed9ace07f0470515e87bd0114e', 'Images/2018-04-18/e1322aed9ace07f0470515e87bd0114e.jpg', 'image/jpeg', 'width=\"294\" height=\"90\"', 294, 90, 0),
+(115, '4057d848b3562a831d70b85a8ce86c41', 'Videos/2018-05-07/4057d848b3562a831d70b85a8ce86c41.mp4', 'video/mp4', '', 0, 0, 0),
+(116, 'd619a6020723c789f8673676f70217da', 'Videos/2018-05-07/d619a6020723c789f8673676f70217da.mp4', 'video/mp4', '', 0, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_tablemeta`
+-- 表的结构 `ni_cloud_tablemeta`
 --
 
 CREATE TABLE `ni_cloud_tablemeta` (
@@ -940,7 +954,7 @@ CREATE TABLE `ni_cloud_tablemeta` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_cloud_tablemeta`
+-- 转存表中的数据 `ni_cloud_tablemeta`
 --
 
 INSERT INTO `ni_cloud_tablemeta` (`name`, `type`, `item`, `review`, `comments`, `fields`, `app_id`, `app_data`, `SK_STATE`, `SK_REVIEW`) VALUES
@@ -956,7 +970,7 @@ INSERT INTO `ni_cloud_tablemeta` (`name`, `type`, `item`, `review`, `comments`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_tablerowmeta`
+-- 表的结构 `ni_cloud_tablerowmeta`
 --
 
 CREATE TABLE `ni_cloud_tablerowmeta` (
@@ -978,7 +992,7 @@ CREATE TABLE `ni_cloud_tablerowmeta` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_cloud_tablerowmeta`
+-- 转存表中的数据 `ni_cloud_tablerowmeta`
 --
 
 INSERT INTO `ni_cloud_tablerowmeta` (`ID`, `TYPE`, `TABLENAME`, `GROUPID`, `TITLE`, `DESCRIPTION`, `UID`, `PUBTIME`, `SK_GRADE`, `SK_LEVEL`, `SK_COMMENTS`, `SK_CTIME`, `SK_MTIME`, `SK_STATE`, `SK_IS_RECYCLED`) VALUES
@@ -1019,7 +1033,7 @@ INSERT INTO `ni_cloud_tablerowmeta` (`ID`, `TYPE`, `TABLENAME`, `GROUPID`, `TITL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_cloud_tagmaps`
+-- 表的结构 `ni_cloud_tagmaps`
 --
 
 CREATE TABLE `ni_cloud_tagmaps` (
@@ -1033,7 +1047,7 @@ CREATE TABLE `ni_cloud_tagmaps` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_notifier_bat`
+-- 表的结构 `ni_notifier_bat`
 --
 
 CREATE TABLE `ni_notifier_bat` (
@@ -1048,7 +1062,7 @@ CREATE TABLE `ni_notifier_bat` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_notifier_u0`
+-- 表的结构 `ni_notifier_u0`
 --
 
 CREATE TABLE `ni_notifier_u0` (
@@ -1065,7 +1079,7 @@ CREATE TABLE `ni_notifier_u0` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_notifier_u1`
+-- 表的结构 `ni_notifier_u1`
 --
 
 CREATE TABLE `ni_notifier_u1` (
@@ -1082,7 +1096,7 @@ CREATE TABLE `ni_notifier_u1` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_notifier_u2`
+-- 表的结构 `ni_notifier_u2`
 --
 
 CREATE TABLE `ni_notifier_u2` (
@@ -1099,7 +1113,7 @@ CREATE TABLE `ni_notifier_u2` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_notifier_u3`
+-- 表的结构 `ni_notifier_u3`
 --
 
 CREATE TABLE `ni_notifier_u3` (
@@ -1116,7 +1130,7 @@ CREATE TABLE `ni_notifier_u3` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_notifier_u4`
+-- 表的结构 `ni_notifier_u4`
 --
 
 CREATE TABLE `ni_notifier_u4` (
@@ -1133,7 +1147,7 @@ CREATE TABLE `ni_notifier_u4` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_notifier_u5`
+-- 表的结构 `ni_notifier_u5`
 --
 
 CREATE TABLE `ni_notifier_u5` (
@@ -1150,7 +1164,7 @@ CREATE TABLE `ni_notifier_u5` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_notifier_u6`
+-- 表的结构 `ni_notifier_u6`
 --
 
 CREATE TABLE `ni_notifier_u6` (
@@ -1167,7 +1181,7 @@ CREATE TABLE `ni_notifier_u6` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_notifier_u7`
+-- 表的结构 `ni_notifier_u7`
 --
 
 CREATE TABLE `ni_notifier_u7` (
@@ -1184,7 +1198,7 @@ CREATE TABLE `ni_notifier_u7` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_notifier_u8`
+-- 表的结构 `ni_notifier_u8`
 --
 
 CREATE TABLE `ni_notifier_u8` (
@@ -1201,7 +1215,7 @@ CREATE TABLE `ni_notifier_u8` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_notifier_u9`
+-- 表的结构 `ni_notifier_u9`
 --
 
 CREATE TABLE `ni_notifier_u9` (
@@ -1218,7 +1232,7 @@ CREATE TABLE `ni_notifier_u9` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_pageads_ads`
+-- 表的结构 `ni_pageads_ads`
 --
 
 CREATE TABLE `ni_pageads_ads` (
@@ -1232,18 +1246,18 @@ CREATE TABLE `ni_pageads_ads` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_pageads_ads`
+-- 转存表中的数据 `ni_pageads_ads`
 --
 
 INSERT INTO `ni_pageads_ads` (`id`, `title`, `type`, `content`, `link`, `display`, `hits`) VALUES
 (1, '来利洪集团天猫旗舰店', 'image', '/Applications/YangRAMPageSuit/Renderer/Views/_PAGES/default/images/button.target2tmall.jpg', 'https://lailihong.tmall.com/shop/view_shop.htm?spm=a230r.1.14.10.302430585DS3hG&user_number_id=3039509730', 0, 0),
 (2, '首页大banner', 'image', '/Applications/YangRAMPageSuit/Renderer/Views/_PAGES/default/images/index/poster.jpg', '/productions/', 0, 0),
-(3, '首页视频广告', 'video', '/applications/uploads/files/2a17ce03eec48c2d15236902785ad1ab26a80a5.mp4', '/productions/', 0, 0);
+(3, '首页视频广告', 'video', '/applications/uploads/files/0723c789f867367615256681565aefd93e080da.mp4', '/productions/', 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_pages_archives`
+-- 表的结构 `ni_pages_archives`
 --
 
 CREATE TABLE `ni_pages_archives` (
@@ -1251,23 +1265,24 @@ CREATE TABLE `ni_pages_archives` (
   `archive_name` varchar(128) NOT NULL COMMENT '归档名称',
   `archive_desc` varchar(256) DEFAULT NULL COMMENT '归档描述',
   `archive_image` varchar(512) DEFAULT NULL COMMENT '归档图片',
-  `archive_hp` varchar(512) DEFAULT NULL COMMENT '归档主页'
+  `archive_hp` varchar(512) DEFAULT NULL COMMENT '归档主页',
+  `archive_remark` longtext NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_pages_archives`
+-- 转存表中的数据 `ni_pages_archives`
 --
 
-INSERT INTO `ni_pages_archives` (`id`, `archive_name`, `archive_desc`, `archive_image`, `archive_hp`) VALUES
-(1, '关于来利洪', '关于来利洪', NULL, '/about/'),
-(2, '代加工服务', '代加工服务', NULL, '/oem/'),
-(3, '人力招聘', '人力招聘', NULL, '/hr/'),
-(4, '联系我们', '联系我们', NULL, '/contactus/');
+INSERT INTO `ni_pages_archives` (`id`, `archive_name`, `archive_desc`, `archive_image`, `archive_hp`, `archive_remark`) VALUES
+(1, '关于来利洪', '关于来利洪', NULL, '/about/', ''),
+(2, '代加工服务', '代加工服务', NULL, '/oem/', '<div><p class=\"p1\" style=\"color: rgb(88, 89, 91); font-family: &quot;Microsoft Yahei&quot;, Arial, tahoma, arial; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; background-color: rgba(255, 255, 255, 0.3);\">联系人：刘小姐 13501473716</p><p class=\"p1\" style=\"color: rgb(88, 89, 91); font-family: &quot;Microsoft Yahei&quot;, Arial, tahoma, arial; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; background-color: rgba(255, 255, 255, 0.3);\">联系人：潘小姐 18926134286</p><p class=\"p1\" style=\"color: rgb(88, 89, 91); font-family: &quot;Microsoft Yahei&quot;, Arial, tahoma, arial; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; background-color: rgba(255, 255, 255, 0.3);\"></p>地址：广州市白云区人和镇秀盛路三盛工业区自编1号</p></div>'),
+(3, '人力招聘', '人力招聘', NULL, '/hr/', ''),
+(4, '联系我们', '联系我们', NULL, '/contactus/', '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_pages_comments`
+-- 表的结构 `ni_pages_comments`
 --
 
 CREATE TABLE `ni_pages_comments` (
@@ -1285,7 +1300,7 @@ CREATE TABLE `ni_pages_comments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_pages_links`
+-- 表的结构 `ni_pages_links`
 --
 
 CREATE TABLE `ni_pages_links` (
@@ -1301,7 +1316,7 @@ CREATE TABLE `ni_pages_links` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_pages_links`
+-- 转存表中的数据 `ni_pages_links`
 --
 
 INSERT INTO `ni_pages_links` (`id`, `menu`, `parent_id`, `name`, `type`, `value`, `alt`, `sort`, `state`) VALUES
@@ -1316,7 +1331,7 @@ INSERT INTO `ni_pages_links` (`id`, `menu`, `parent_id`, `name`, `type`, `value`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_pages_options`
+-- 表的结构 `ni_pages_options`
 --
 
 CREATE TABLE `ni_pages_options` (
@@ -1326,7 +1341,7 @@ CREATE TABLE `ni_pages_options` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_pages_options`
+-- 转存表中的数据 `ni_pages_options`
 --
 
 INSERT INTO `ni_pages_options` (`option_name`, `option_value`, `autoload`) VALUES
@@ -1334,9 +1349,9 @@ INSERT INTO `ni_pages_options` (`option_name`, `option_value`, `autoload`) VALUE
 ('default_page_title', '来利洪集团官网', 1),
 ('use_theme', 'default', 1),
 ('default_page_template', 'index.niml', 1),
-('logo', '/applications/uploads/files/9ace07f0470515e815240140815ad69c021492e.jpg', 1),
+('logo', '/applications/uploads/files/9ace07f0470515e815256680775aefd8ee707a1.jpg', 1),
 ('default_page_content', '', 1),
-('common_bottom', '版权所有© 2017<span style=\"font-family: \" segoe=\"\" ui\",=\"\" \"microsoft=\"\" yahei=\"\" yahei\",=\"\" sans=\"\" serif\",=\"\" \"hanhei=\"\" sc\",=\"\" pinghei,=\"\" \"pingfang=\"\" \"hiragino=\"\" gb\",=\"\" \"helvetica=\"\" neue\",=\"\" helvetica,=\"\" arial,=\"\" sans-serif;=\"\" font-size:=\"\" 13px;=\"\" font-style:=\"\" normal;=\"\" font-variant-ligatures:=\"\" font-variant-caps:=\"\" font-weight:=\"\" 400;\"=\"\">&nbsp; &nbsp;</span><span>广州来利洪食品集团&nbsp; &nbsp;地 址: 广州市白云区人和镇秀盛路三盛工业区自编1号<span style=\"font-family: \" segoe=\"\" ui\",=\"\" \"microsoft=\"\" yahei=\"\" yahei\",=\"\" sans=\"\" serif\",=\"\" \"hanhei=\"\" sc\",=\"\" pinghei,=\"\" \"pingfang=\"\" \"hiragino=\"\" gb\",=\"\" \"helvetica=\"\" neue\",=\"\" helvetica,=\"\" arial,=\"\" sans-serif;=\"\" font-size:=\"\" 13px;=\"\" font-style:=\"\" normal;=\"\" font-variant-ligatures:=\"\" font-variant-caps:=\"\" font-weight:=\"\" 400;\"=\"\">&nbsp; &nbsp;</span><span>粤ICP备14012344号<span style=\"font-family: \" segoe=\"\" ui\",=\"\" \"microsoft=\"\" yahei=\"\" yahei\",=\"\" sans=\"\" serif\",=\"\" \"hanhei=\"\" sc\",=\"\" pinghei,=\"\" \"pingfang=\"\" \"hiragino=\"\" gb\",=\"\" \"helvetica=\"\" neue\",=\"\" helvetica,=\"\" arial,=\"\" sans-serif;=\"\" font-size:=\"\" 13px;=\"\" font-style:=\"\" normal;=\"\" font-variant-ligatures:=\"\" font-variant-caps:=\"\" font-weight:=\"\" 400;\"=\"\">&nbsp; &nbsp;</span>技术支持：<a href=\"http://www.yangram.com\" target=\"_blank\">唐云科技</a><span></span><span></span>', 1),
+('common_bottom', '版权所有© 2017<span style=\"font-family: \" segoe=\"\" ui\",=\"\" \"microsoft=\"\" yahei=\"\" yahei\",=\"\" sans=\"\" serif\",=\"\" \"hanhei=\"\" sc\",=\"\" pinghei,=\"\" \"pingfang=\"\" \"hiragino=\"\" gb\",=\"\" \"helvetica=\"\" neue\",=\"\" helvetica,=\"\" arial,=\"\" sans-serif;=\"\" font-size:=\"\" 13px;=\"\" font-style:=\"\" normal;=\"\" font-variant-ligatures:=\"\" font-variant-caps:=\"\" font-weight:=\"\" 400;\"=\"\">&nbsp; &nbsp;</span><span>广州来利洪食品集团&nbsp; &nbsp;地 址: 广州市白云区人和镇秀盛路三盛工业区自编1号<span style=\"font-family: \" segoe=\"\" ui\",=\"\" \"microsoft=\"\" yahei=\"\" yahei\",=\"\" sans=\"\" serif\",=\"\" \"hanhei=\"\" sc\",=\"\" pinghei,=\"\" \"pingfang=\"\" \"hiragino=\"\" gb\",=\"\" \"helvetica=\"\" neue\",=\"\" helvetica,=\"\" arial,=\"\" sans-serif;=\"\" font-size:=\"\" 13px;=\"\" font-style:=\"\" normal;=\"\" font-variant-ligatures:=\"\" font-variant-caps:=\"\" font-weight:=\"\" 400;\"=\"\">&nbsp; &nbsp;</span><span>粤ICP备14012344号<span style=\"font-family: \" segoe=\"\" ui\",=\"\" \"microsoft=\"\" yahei=\"\" yahei\",=\"\" sans=\"\" serif\",=\"\" \"hanhei=\"\" sc\",=\"\" pinghei,=\"\" \"pingfang=\"\" \"hiragino=\"\" gb\",=\"\" \"helvetica=\"\" neue\",=\"\" helvetica,=\"\" arial,=\"\" sans-serif;=\"\" font-size:=\"\" 13px;=\"\" font-style:=\"\" normal;=\"\" font-variant-ligatures:=\"\" font-variant-caps:=\"\" font-weight:=\"\" 400;\"=\"\">&nbsp; &nbsp;</span>技术支持：<a href=\"http://www.yangram.com\" target=\"_blank\">唐云科技</a><span></span><span></span><span></span><span></span>', 1),
 ('more', '附加内容', 1),
 ('search_result_page_template', '', 1),
 ('default_page_url', '/', 1);
@@ -1344,7 +1359,7 @@ INSERT INTO `ni_pages_options` (`option_name`, `option_value`, `autoload`) VALUE
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_pages_pages`
+-- 表的结构 `ni_pages_pages`
 --
 
 CREATE TABLE `ni_pages_pages` (
@@ -1367,7 +1382,7 @@ CREATE TABLE `ni_pages_pages` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_pages_pages`
+-- 转存表中的数据 `ni_pages_pages`
 --
 
 INSERT INTO `ni_pages_pages` (`id`, `alias`, `archive`, `parent`, `title`, `crttime`, `modtime`, `pubtime`, `thumb_inlist`, `description`, `banner`, `banner_link`, `content`, `template`, `more`, `state`) VALUES
@@ -1387,7 +1402,7 @@ INSERT INTO `ni_pages_pages` (`id`, `alias`, `archive`, `parent`, `title`, `crtt
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_reg_appdirs`
+-- 表的结构 `ni_reg_appdirs`
 --
 
 CREATE TABLE `ni_reg_appdirs` (
@@ -1402,7 +1417,7 @@ CREATE TABLE `ni_reg_appdirs` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='路由索引表，又名总路由表';
 
 --
--- Dumping data for table `ni_reg_appdirs`
+-- 转存表中的数据 `ni_reg_appdirs`
 --
 
 INSERT INTO `ni_reg_appdirs` (`ID`, `MAP_ID`, `DOMAIN`, `DIR_NAME`, `HANDLER`, `ROUTE`, `DEFAULTS`, `SK_STATE`) VALUES
@@ -1417,7 +1432,7 @@ INSERT INTO `ni_reg_appdirs` (`ID`, `MAP_ID`, `DOMAIN`, `DIR_NAME`, `HANDLER`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_reg_apps`
+-- 表的结构 `ni_reg_apps`
 --
 
 CREATE TABLE `ni_reg_apps` (
@@ -1431,7 +1446,7 @@ CREATE TABLE `ni_reg_apps` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='已购装商城应用登记表';
 
 --
--- Dumping data for table `ni_reg_apps`
+-- 转存表中的数据 `ni_reg_apps`
 --
 
 INSERT INTO `ni_reg_apps` (`app_id`, `app_name`, `app_scode`, `app_authorname`, `app_installpath`, `app_usedb`, `app_build_time`) VALUES
@@ -1469,7 +1484,7 @@ INSERT INTO `ni_reg_apps` (`app_id`, `app_name`, `app_scode`, `app_authorname`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_reg_languages`
+-- 表的结构 `ni_reg_languages`
 --
 
 CREATE TABLE `ni_reg_languages` (
@@ -1483,7 +1498,7 @@ CREATE TABLE `ni_reg_languages` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='语言表';
 
 --
--- Dumping data for table `ni_reg_languages`
+-- 转存表中的数据 `ni_reg_languages`
 --
 
 INSERT INTO `ni_reg_languages` (`LOC_ID`, `LANG`, `NAME`, `OWNER`, `ADDR`, `BRIEF`, `REMARK`) VALUES
@@ -1492,7 +1507,7 @@ INSERT INTO `ni_reg_languages` (`LOC_ID`, `LANG`, `NAME`, `OWNER`, `ADDR`, `BRIE
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_reg_locations`
+-- 表的结构 `ni_reg_locations`
 --
 
 CREATE TABLE `ni_reg_locations` (
@@ -1505,7 +1520,7 @@ CREATE TABLE `ni_reg_locations` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='地区表，登记负责地区的分支、代理机构和相关部门';
 
 --
--- Dumping data for table `ni_reg_locations`
+-- 转存表中的数据 `ni_reg_locations`
 --
 
 INSERT INTO `ni_reg_locations` (`id`, `tel1`, `tel2`, `email`, `lng`, `lat`) VALUES
@@ -1514,7 +1529,7 @@ INSERT INTO `ni_reg_locations` (`id`, `tel1`, `tel2`, `email`, `lng`, `lat`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_reg_usergroups`
+-- 表的结构 `ni_reg_usergroups`
 --
 
 CREATE TABLE `ni_reg_usergroups` (
@@ -1527,7 +1542,7 @@ CREATE TABLE `ni_reg_usergroups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户组表';
 
 --
--- Dumping data for table `ni_reg_usergroups`
+-- 转存表中的数据 `ni_reg_usergroups`
 --
 
 INSERT INTO `ni_reg_usergroups` (`GUID`, `ALIAS`, `APPID`, `TYPE`, `SYMBOL`, `TABLENAME`) VALUES
@@ -1539,7 +1554,7 @@ INSERT INTO `ni_reg_usergroups` (`GUID`, `ALIAS`, `APPID`, `TYPE`, `SYMBOL`, `TA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_reg_users`
+-- 表的结构 `ni_reg_users`
 --
 
 CREATE TABLE `ni_reg_users` (
@@ -1555,7 +1570,7 @@ CREATE TABLE `ni_reg_users` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 --
--- Dumping data for table `ni_reg_users`
+-- 转存表中的数据 `ni_reg_users`
 --
 
 INSERT INTO `ni_reg_users` (`uid`, `status`, `username`, `unicodename`, `nickname`, `avatar`, `password`, `regtime`, `remark`) VALUES
@@ -1566,7 +1581,7 @@ INSERT INTO `ni_reg_users` (`uid`, `status`, `username`, `unicodename`, `nicknam
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_statistics_guests`
+-- 表的结构 `ni_statistics_guests`
 --
 
 CREATE TABLE `ni_statistics_guests` (
@@ -1586,7 +1601,7 @@ CREATE TABLE `ni_statistics_guests` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_studio_apps`
+-- 表的结构 `ni_studio_apps`
 --
 
 CREATE TABLE `ni_studio_apps` (
@@ -1604,7 +1619,7 @@ CREATE TABLE `ni_studio_apps` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_studio_apps`
+-- 转存表中的数据 `ni_studio_apps`
 --
 
 INSERT INTO `ni_studio_apps` (`app_id`, `app_name`, `app_icon`, `app_bgcolor`, `app_releasetime`, `app_count`, `app_is_ondock`, `app_is_new`, `app_description`, `app_keywords`, `app_last_runtime`) VALUES
@@ -1648,7 +1663,7 @@ INSERT INTO `ni_studio_apps` (`app_id`, `app_name`, `app_icon`, `app_bgcolor`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_studio_i4plazz_widgets`
+-- 表的结构 `ni_studio_i4plazz_widgets`
 --
 
 CREATE TABLE `ni_studio_i4plazz_widgets` (
@@ -1664,7 +1679,7 @@ CREATE TABLE `ni_studio_i4plazz_widgets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_studio_links`
+-- 表的结构 `ni_studio_links`
 --
 
 CREATE TABLE `ni_studio_links` (
@@ -1681,7 +1696,7 @@ CREATE TABLE `ni_studio_links` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_users_bills`
+-- 表的结构 `ni_users_bills`
 --
 
 CREATE TABLE `ni_users_bills` (
@@ -1698,7 +1713,7 @@ CREATE TABLE `ni_users_bills` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_users_events`
+-- 表的结构 `ni_users_events`
 --
 
 CREATE TABLE `ni_users_events` (
@@ -1717,7 +1732,7 @@ CREATE TABLE `ni_users_events` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_users_profiles`
+-- 表的结构 `ni_users_profiles`
 --
 
 CREATE TABLE `ni_users_profiles` (
@@ -1742,7 +1757,7 @@ CREATE TABLE `ni_users_profiles` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_users_relationcircles`
+-- 表的结构 `ni_users_relationcircles`
 --
 
 CREATE TABLE `ni_users_relationcircles` (
@@ -1755,7 +1770,7 @@ CREATE TABLE `ni_users_relationcircles` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_users_relationships`
+-- 表的结构 `ni_users_relationships`
 --
 
 CREATE TABLE `ni_users_relationships` (
@@ -1771,7 +1786,7 @@ CREATE TABLE `ni_users_relationships` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_users_tokens`
+-- 表的结构 `ni_users_tokens`
 --
 
 CREATE TABLE `ni_users_tokens` (
@@ -1783,7 +1798,7 @@ CREATE TABLE `ni_users_tokens` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni_users_tokens`
+-- 转存表中的数据 `ni_users_tokens`
 --
 
 INSERT INTO `ni_users_tokens` (`id`, `type`, `token`, `uid`, `dateline`) VALUES
@@ -1792,7 +1807,7 @@ INSERT INTO `ni_users_tokens` (`id`, `type`, `token`, `uid`, `dateline`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_users_wallets`
+-- 表的结构 `ni_users_wallets`
 --
 
 CREATE TABLE `ni_users_wallets` (
@@ -1807,7 +1822,7 @@ CREATE TABLE `ni_users_wallets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni_users_widgets`
+-- 表的结构 `ni_users_widgets`
 --
 
 CREATE TABLE `ni_users_widgets` (
@@ -1824,7 +1839,7 @@ CREATE TABLE `ni_users_widgets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni__administrators`
+-- 表的结构 `ni__administrators`
 --
 
 CREATE TABLE `ni__administrators` (
@@ -1837,7 +1852,7 @@ CREATE TABLE `ni__administrators` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni__administrators`
+-- 转存表中的数据 `ni__administrators`
 --
 
 INSERT INTO `ni__administrators` (`UID`, `OPERATORNAME`, `PIN`, `OGROUP`, `AVATAR`, `LANGUAGE`) VALUES
@@ -1846,7 +1861,7 @@ INSERT INTO `ni__administrators` (`UID`, `OPERATORNAME`, `PIN`, `OGROUP`, `AVATA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni__map_emails`
+-- 表的结构 `ni__map_emails`
 --
 
 CREATE TABLE `ni__map_emails` (
@@ -1858,7 +1873,7 @@ CREATE TABLE `ni__map_emails` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni__map_identities`
+-- 表的结构 `ni__map_identities`
 --
 
 CREATE TABLE `ni__map_identities` (
@@ -1871,7 +1886,7 @@ CREATE TABLE `ni__map_identities` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni__map_mobiles`
+-- 表的结构 `ni__map_mobiles`
 --
 
 CREATE TABLE `ni__map_mobiles` (
@@ -1882,7 +1897,7 @@ CREATE TABLE `ni__map_mobiles` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni__map_oauths`
+-- 表的结构 `ni__map_oauths`
 --
 
 CREATE TABLE `ni__map_oauths` (
@@ -1894,7 +1909,7 @@ CREATE TABLE `ni__map_oauths` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni__map_usergroups`
+-- 表的结构 `ni__map_usergroups`
 --
 
 CREATE TABLE `ni__map_usergroups` (
@@ -1906,7 +1921,7 @@ CREATE TABLE `ni__map_usergroups` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni__sessions`
+-- 表的结构 `ni__sessions`
 --
 
 CREATE TABLE `ni__sessions` (
@@ -1918,7 +1933,7 @@ CREATE TABLE `ni__sessions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ni__tables`
+-- 表的结构 `ni__tables`
 --
 
 CREATE TABLE `ni__tables` (
@@ -1928,7 +1943,7 @@ CREATE TABLE `ni__tables` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ni__tables`
+-- 转存表中的数据 `ni__tables`
 --
 
 INSERT INTO `ni__tables` (`table_name`, `app_id`, `relation_type`) VALUES
@@ -2367,209 +2382,214 @@ ALTER TABLE `ni__tables`
   ADD PRIMARY KEY (`table_name`,`app_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- 在导出的表使用AUTO_INCREMENT
 --
 
 --
--- AUTO_INCREMENT for table `ni_1008_brands`
+-- 使用表AUTO_INCREMENT `ni_1008_brands`
 --
 ALTER TABLE `ni_1008_brands`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `ni_1008_categories`
+-- 使用表AUTO_INCREMENT `ni_1008_categories`
 --
 ALTER TABLE `ni_1008_categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键', AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `ni_1008_category_attrs`
+-- 使用表AUTO_INCREMENT `ni_1008_category_attrs`
 --
 ALTER TABLE `ni_1008_category_attrs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `ni_1008_productions`
+-- 使用表AUTO_INCREMENT `ni_1008_productions`
 --
 ALTER TABLE `ni_1008_productions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键', AUTO_INCREMENT=67;
 
 --
--- AUTO_INCREMENT for table `ni_1008_types`
+-- 使用表AUTO_INCREMENT `ni_1008_types`
 --
 ALTER TABLE `ni_1008_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT for table `ni_cloud_authorities`
+-- 使用表AUTO_INCREMENT `ni_cloud_authorities`
 --
 ALTER TABLE `ni_cloud_authorities`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `ni_cloud_comments`
+-- 使用表AUTO_INCREMENT `ni_cloud_comments`
 --
 ALTER TABLE `ni_cloud_comments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_cloud_folders`
+-- 使用表AUTO_INCREMENT `ni_cloud_folders`
 --
 ALTER TABLE `ni_cloud_folders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT for table `ni_cloud_groups`
+-- 使用表AUTO_INCREMENT `ni_cloud_groups`
 --
 ALTER TABLE `ni_cloud_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `ni_cloud_sources_protected`
+-- 使用表AUTO_INCREMENT `ni_cloud_sources_protected`
 --
 ALTER TABLE `ni_cloud_sources_protected`
   MODIFY `SID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_cloud_sources_public`
+-- 使用表AUTO_INCREMENT `ni_cloud_sources_public`
 --
 ALTER TABLE `ni_cloud_sources_public`
-  MODIFY `SID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `SID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 
 --
--- AUTO_INCREMENT for table `ni_cloud_tablerowmeta`
+-- 使用表AUTO_INCREMENT `ni_cloud_tablerowmeta`
 --
 ALTER TABLE `ni_cloud_tablerowmeta`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
--- AUTO_INCREMENT for table `ni_notifier_bat`
+-- 使用表AUTO_INCREMENT `ni_notifier_bat`
 --
 ALTER TABLE `ni_notifier_bat`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_notifier_u0`
+-- 使用表AUTO_INCREMENT `ni_notifier_u0`
 --
 ALTER TABLE `ni_notifier_u0`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_notifier_u1`
+-- 使用表AUTO_INCREMENT `ni_notifier_u1`
 --
 ALTER TABLE `ni_notifier_u1`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_notifier_u2`
+-- 使用表AUTO_INCREMENT `ni_notifier_u2`
 --
 ALTER TABLE `ni_notifier_u2`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_notifier_u3`
+-- 使用表AUTO_INCREMENT `ni_notifier_u3`
 --
 ALTER TABLE `ni_notifier_u3`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_notifier_u4`
+-- 使用表AUTO_INCREMENT `ni_notifier_u4`
 --
 ALTER TABLE `ni_notifier_u4`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_notifier_u5`
+-- 使用表AUTO_INCREMENT `ni_notifier_u5`
 --
 ALTER TABLE `ni_notifier_u5`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_notifier_u6`
+-- 使用表AUTO_INCREMENT `ni_notifier_u6`
 --
 ALTER TABLE `ni_notifier_u6`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_notifier_u7`
+-- 使用表AUTO_INCREMENT `ni_notifier_u7`
 --
 ALTER TABLE `ni_notifier_u7`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_notifier_u8`
+-- 使用表AUTO_INCREMENT `ni_notifier_u8`
 --
 ALTER TABLE `ni_notifier_u8`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_notifier_u9`
+-- 使用表AUTO_INCREMENT `ni_notifier_u9`
 --
 ALTER TABLE `ni_notifier_u9`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_pageads_ads`
+-- 使用表AUTO_INCREMENT `ni_pageads_ads`
 --
 ALTER TABLE `ni_pageads_ads`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `ni_pages_archives`
+-- 使用表AUTO_INCREMENT `ni_pages_archives`
 --
 ALTER TABLE `ni_pages_archives`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `ni_pages_comments`
+-- 使用表AUTO_INCREMENT `ni_pages_comments`
 --
 ALTER TABLE `ni_pages_comments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_pages_links`
+-- 使用表AUTO_INCREMENT `ni_pages_links`
 --
 ALTER TABLE `ni_pages_links`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT for table `ni_pages_pages`
+-- 使用表AUTO_INCREMENT `ni_pages_pages`
 --
 ALTER TABLE `ni_pages_pages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键', AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `ni_reg_appdirs`
+-- 使用表AUTO_INCREMENT `ni_reg_appdirs`
 --
 ALTER TABLE `ni_reg_appdirs`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键', AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `ni_reg_locations`
+-- 使用表AUTO_INCREMENT `ni_reg_locations`
 --
 ALTER TABLE `ni_reg_locations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键，机构ID', AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `ni_reg_users`
+-- 使用表AUTO_INCREMENT `ni_reg_users`
 --
 ALTER TABLE `ni_reg_users`
   MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户ID', AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `ni_statistics_guests`
+-- 使用表AUTO_INCREMENT `ni_statistics_guests`
 --
 ALTER TABLE `ni_statistics_guests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_studio_links`
+-- 使用表AUTO_INCREMENT `ni_studio_links`
 --
 ALTER TABLE `ni_studio_links`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ni_users_relationcircles`
+-- 使用表AUTO_INCREMENT `ni_users_relationcircles`
 --
 ALTER TABLE `ni_users_relationcircles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

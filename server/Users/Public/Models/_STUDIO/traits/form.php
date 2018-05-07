@@ -79,7 +79,7 @@ trait form {
 						}
 					}
 				}else{
-					$content = '<input name="'.$meta['field_name'].'" type="radio" value ="'.$value.'" checked="checked"'.$disabled.'><label>'.$value.'</label>';
+					$content = '<label><input name="'.$meta['field_name'].'" type="radio" value ="'.$value.'" checked="checked"'.$disabled.'>'.$value.'</label>';
 				}
 				$input = new DocumentElementModel('div', $content);
 				$input->addClass('radios');

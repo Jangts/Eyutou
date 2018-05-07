@@ -13,6 +13,7 @@ use PM\_1008\ProductionModel;
 use PM\_1008\CategoryModel;
 use PM\_1008\BrandModel;
 use PM\_1008\TypeModel;
+use PM\_1008\OptionsModel as ProductionOptionsModel;
 
 use Pages\Main\Models\FrontPageViewModel;
 use Pages\Main\Models\OptionsModel;
@@ -20,6 +21,11 @@ use Pages\Main\Models\OptionsModel;
 class ProductionsPageController extends \Controller {
     public function main(){
         $options = OptionsModel::autoloadItems();
+        ProductionOptionsModel::__correctTablePrefix(new \App(1008));
+        $pro_options = ProductionOptionsModel::autoloadItems();
+        // var_dump($pro_options);
+        // exit;
+
         $column = new ColumnModel('link_productions/');
         // $column->push('link_productions/');
         
@@ -36,12 +42,13 @@ class ProductionsPageController extends \Controller {
         //     $renderer->assign("title", $type->typename . ' | ' . $category->category_name . ' | ' . $brand->brand_name);
         // }
 		
-		$renderer->assign($options, "option_");
+        $renderer->assign($options, "option_");
+        $renderer->assign($pro_options, "pro_option_");
         $renderer->assign("column", $column);
         // $renderer->assign("list", $productions);
 	
         $renderer->using($options['use_theme']);
 
-		$renderer->display('plugins/productions/index.niml');
+		$renderer->display($pro_options['tamplate_use_in_pagesplugin']);
     }
 }

@@ -65,7 +65,9 @@
                 <p>夹心饼干</p>
                 <p>540g×10罐/箱</p>
             </article>
+            <if $pro_option_show_buy_link_on_pagesplugin is 'yes'>
             <a class="go2buy" href="javascript:void(0);" target="_blank">立即购买</a>
+            </if>
         </div>
     </div>
     <script>

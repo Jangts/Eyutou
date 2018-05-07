@@ -65,8 +65,13 @@ class PageRenderingController extends \Controller {
         if($archive = $page->archive()){
             $column->push('achv_'.$archive->id);
             $renderer->assign("archive_url", $archive->archive_hp);
+            $renderer->assign("archive_pages", $archive->pages());
+            $renderer->assign("archive_remark", $archive->archive_remark);
         }else{
             $renderer->assign("archive_url", '');
+            
+            $renderer->assign("archive_pages", []);
+            $renderer->assign("archive_remark", '');
         }
 
         $renderer->assign("page", $page);

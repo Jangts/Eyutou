@@ -186,6 +186,7 @@ tangram.block([
                     var formdata = new _.form.Data(form),
                         action = $(this).data('submitHref'),
                         href = $(this).data('successHref');
+                    console.log(formdata);
                     if (action) {
                         formdata.submit({
                             method: 'POST',

@@ -19,7 +19,8 @@ class ArchiveModel extends BaseR3Model {
         'archive_name'      =>  '',
         'archive_desc'      =>  '',
         'archive_image'     =>  '',
-        'archive_hp'        =>  ''
+        'archive_hp'        =>  '',
+        'archive_remark'    =>  ''
     ];
 
     public function getHomepageURL($app){
