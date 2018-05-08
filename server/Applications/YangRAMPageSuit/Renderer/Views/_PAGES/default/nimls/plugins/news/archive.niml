@@ -46,7 +46,6 @@
                                             <else/>
                                             <a href="/news/detail/{{$item.ID}}"><img src="/applications/uploads/files/defaultpic"></a>
                                         </if>
-
                                     </figure>
                                     <header class="news-title">
                                         <a href="/news/detail/{{$item.ID}}">

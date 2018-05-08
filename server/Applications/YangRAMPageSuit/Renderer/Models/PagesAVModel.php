@@ -136,10 +136,38 @@ class PagesAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 			'field_name'	=>	'more',
 			'display_name'	=>	'附加内容',
 			'input_type'	=>	'longtext'
+		],
+		[
+			"field_name"	=> 	"sort_level",
+        	"display_name"	=>	"排序（级数）",
+        	"input_type"	=>	"counter"
 		]
 	];
 
+	// public static function __viewWhere(){
+	// 	if(empty($_GET['tabid'])){
+    //         return [];
+    //     }else{
+    //         return static::$__avmtabs[$_GET['tabid']]['where'];
+    //     }
+	// }
+
+	public static function loadGroupTabs(){
+		$tabs = [];
+		$archives = ArchiveModel::query();
+		foreach ($archives as $archive) {
+			$tabs['group'.$archive->id] = [
+				'name'	=>	$archive->archive_name,
+				'title'	=>	empty($archive->archive_desc) ? $group->archive_name : $archive->archive_desc,
+				'where'	=>	['archive'=>$archive->id]
+			];
+		}
+		static::$__avmtabs = $tabs;
+	}
+
 	public function initialize(){
+		ArchiveModel::__correctTablePrefix($this->app);
+		self::loadGroupTabs();
 		return [
 			'listname'	=>	'页面列表',
 			'itemlist'	=>	'<table class="table-view"><tr><td></td></tr></table>',
@@ -151,7 +179,7 @@ class PagesAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 	protected function buildTableRows($basedir, $items = [], $qs = ''){
 		OptionsModel::__correctTablePrefix($this->app);
 		$options = OptionsModel::autoloadItems();
-
+		
 		$rows = [];
 		$frontdir = $options['default_page_url'];
 
@@ -171,12 +199,6 @@ class PagesAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 		}
 		self::$creater['url'] = $basedir.'/0/'.$qs;
 		return $rows;
-
-		$this->assign('itemlist', self::buildTable($rows));
-		
-		
-		$this->template = 'table.html';
-		return $this;
 	}
 
 	protected function setSelections($item){

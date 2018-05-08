@@ -24,7 +24,8 @@ class LinkModel extends BaseDeepModel {
         'value'         =>  '',
         'alt'           =>  '',
         'sort'          =>  0,
-        'state'         =>  1
+        'state'         =>  1,
+        'target'        =>  '_self'
     ];
 
     public static function getLinksByMenu($menu_id){

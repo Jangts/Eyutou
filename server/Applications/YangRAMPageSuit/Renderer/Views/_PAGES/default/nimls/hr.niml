@@ -27,7 +27,11 @@
                     <nav>
                         <div class="left-mask"> </div>
                         <ul>
-                            <li class="on"><a href="/hr/">招聘岗位</a></li>
+                        <for $brother of $archive_pages>
+                            <li class="{{.checkcurrent($brother.col, $column, 'on', '', true)}}">
+                                <a href="/{{$brother.url}}">{{$brother.title}}</a>
+                            </li>
+                        </for>
                         </ul>
                     </nav>
                     <figure class="left-banner">

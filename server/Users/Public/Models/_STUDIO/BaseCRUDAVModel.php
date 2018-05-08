@@ -15,8 +15,7 @@ abstract class BaseCRUDAVModel extends BaseListAVModel {
             return [];
         }else{
             return static::$__avmtabs[$_GET['tabid']]['where'];
-        }
-        
+        }   
     }
 
     protected static function __createURL($basedir, $qs = ''){

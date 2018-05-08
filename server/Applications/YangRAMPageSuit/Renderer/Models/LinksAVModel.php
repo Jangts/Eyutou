@@ -102,9 +102,23 @@ class LinksAVModel extends \PM\_STUDIO\BaseCRUDAVModel {
 			'input_type'	=>	'textarea'
 		],
 		[
+			'field_name'	=>	'target',
+			'display_name'	=>	'链接窗口',
+			'input_type'	=>	'select'
+		],
+		[
 			'field_name'	=>	'sort',
 			'display_name'	=>	'链接排序',
 			'input_type'	=>	'number'
+		]
+	],
+	$selectOptions = [
+		'target' => [
+			["_top", "顶部窗口"],
+			["_self", "本窗口"],
+			["_blank", "新窗口"],
+			["_parent", "父级窗口"],
+			["_search", "搜索窗口"]
 		]
 	];
 

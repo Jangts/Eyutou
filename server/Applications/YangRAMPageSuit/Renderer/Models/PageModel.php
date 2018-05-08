@@ -25,26 +25,31 @@ class PageModel extends BaseR3Model {
     $fileStoreLifetime = 0,
     $recordType = self::RECORD_TO_MRC,
     $defaultPorpertyValues  = [
-        'id'  =>  0,
-        'alias'  =>  '',
-        'archive'  =>  0,
-        'parent'  =>  0,
-        'title'  =>  '',
-        'crttime'  =>  DATETIME,
-        'modtime'  =>  DATETIME,
-        'pubtime'  =>  DATETIME,
+        'id'            =>  0,
+        'alias'         =>  '',
+        'archive'       =>  0,
+        'parent'        =>  0,
+        'title'         =>  '',
+        'crttime'       =>  DATETIME,
+        'modtime'       =>  DATETIME,
+        'pubtime'       =>  DATETIME,
         'thumb_inlist'  =>   '',
-        'description'  =>  '',
-        'banner'    =>  '',
+        'description'   =>  '',
+        'banner'        =>  '',
         'banner_link'   =>  '',
-        'content'  =>  '',
-        'template'  =>  '',
-        'more'  =>  '',
-        'state'  =>  1
+        'content'       =>  '',
+        'template'      =>  '',
+        'more'          =>  '',
+        'state'         =>  1,
+        'sort_level'    =>  0
     ];
 
     public static function getPagesByAlias($alias, $parent_id = 0){
         return self::query("state = 1 AND alias = '". $alias . "' AND parent = '". $parent_id . "'" , [['1', false, self::SORT_REGULAR]], 1);
+    }
+
+    public static function getPagesByArchive($archive_id){
+        return self::query("state = 1 AND archive = '". $archive_id . "'" , [['sort_level', false, self::SORT_REGULAR]]);
     }
 
     public static function getPublishedPages($orderby, $range = 0, $selecte = '*'){
@@ -77,6 +82,8 @@ class PageModel extends BaseR3Model {
         return self::privateGetPagePaths([], 0, 0, $ignore, $require);
     }
 
+    public $url, $col;
+
     public function getParents(bool $aliasonly = false){
         $parents = [];
         $parent_id = $this->modelProperties['parent'];
@@ -94,8 +101,9 @@ class PageModel extends BaseR3Model {
 
     public function getRelativeURL(){
         $dirs = array_reverse($this->getParents(true));
-		$dirs[] = $this->alias;
-		return implode('/', $dirs);
+        $dirs[] = $this->alias;
+        $this->url = implode('/', $dirs);
+		return $this->url;
     }
 
     public function archive(){

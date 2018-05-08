@@ -11,7 +11,7 @@
             <ul>
                 <def name="$menu" onload="$this.menu" args="0" />
                 <for $item of $menu>
-                    <li class="{{.checkcurrent($item, $column, 'on')}}" data-column="{{$item[`guid`]}}"><a href="{{$item[`url`]}}">{{$item[`name`]}}</a></li>
+                    <li class="{{.checkcurrent($item, $column, 'on')}}" data-column="{{$item[`guid`]}}"><a href="{{$item[`url`]}}" target="{{$item[`target`]}}">{{$item[`name`]}}</a></li>
                 </for>
             </ul>
         </nav>

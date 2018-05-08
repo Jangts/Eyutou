@@ -27,7 +27,11 @@
                     <nav>
                         <div class="left-mask">&nbsp;</div>
                         <ul>
-                            <li class="on"><a href="/contactus/">联系方式</a></li>
+                        <for $brother of $archive_pages>
+                            <li class="{{.checkcurrent($brother.col, $column, 'on', '', true)}}">
+                                <a href="/{{$brother.url}}">{{$brother.title}}</a>
+                            </li>
+                        </for>
                         </ul>
                     </nav>
                 </aside>

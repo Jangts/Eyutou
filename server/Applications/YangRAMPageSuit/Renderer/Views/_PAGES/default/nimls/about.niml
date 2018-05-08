@@ -27,11 +27,11 @@
                     <nav>
                         <div class="left-mask">&nbsp;</div>
                         <ul>
-                            <li class="{{.checkcurrent('page_1', $column, 'on', '', true)}}"><a href="/about/">集团简介</a></li>
-                            <li class="{{.checkcurrent('page_2', $column, 'on', '', true)}}"><a href="/about/history/">发展历程</a></li>
-                            <li class="{{.checkcurrent('page_3', $column, 'on', '', true)}}"><a href="/about/culture/">企业文化</a></li>
-                            <li class="{{.checkcurrent('page_4', $column, 'on', '', true)}}"><a href="/about/honor/">资质荣誉</a></li>
-                            <li class="{{.checkcurrent('page_5', $column, 'on', '', true)}}"><a href="/about/responsibility/">社会责任</a></li>
+                            <for $brother of $archive_pages>
+                            <li class="{{.checkcurrent($brother.col, $column, 'on', '', true)}}">
+                                <a href="/{{$brother.url}}">{{$brother.title}}</a>
+                            </li>
+                        </for>
                         </ul>
                     </nav>
                 </aside>

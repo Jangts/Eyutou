@@ -66,11 +66,12 @@ class PageRenderingController extends \Controller {
             $column->push('achv_'.$archive->id);
             $renderer->assign("archive_url", $archive->archive_hp);
             $renderer->assign("archive_pages", $archive->pages());
+            $renderer->assign("archive_image", $archive->archive_image);
             $renderer->assign("archive_remark", $archive->archive_remark);
         }else{
             $renderer->assign("archive_url", '');
-            
             $renderer->assign("archive_pages", []);
+            $renderer->assign("archive_image", NULL);
             $renderer->assign("archive_remark", '');
         }
 

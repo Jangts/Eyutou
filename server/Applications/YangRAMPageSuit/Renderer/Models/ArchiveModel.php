@@ -34,4 +34,15 @@ class ArchiveModel extends BaseR3Model {
         }
         return $default_page_url.'?archive='.$this->modelProperties['id'];
     }
+
+    public function pages(){
+        $pages = PageModel::getPagesByArchive($this->modelProperties['id']);
+        foreach ($pages as $page) {
+            $page->getRelativeURL();
+            $page->col = 'page_'.$page->id;
+        }
+        // var_dump($pages);
+        // exit;
+        return $pages;
+    }
 }
