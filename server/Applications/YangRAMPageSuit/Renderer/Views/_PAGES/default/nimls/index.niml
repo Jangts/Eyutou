@@ -148,7 +148,7 @@
             </article>
         </div>
         <div class="index-propa">
-            <header><span>PROPAGANDA</span>产品宣传</header>
+            <header><span>VIDEO</span>集团视频</header>
             <article class="index-propa-arti">
                 <a href="{{.echoPluginResource('promotion', '3', 'ads-link');}}">
                     <video id="index-video" width="100%" height="100%" autoplay loop muted controls>
