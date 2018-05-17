@@ -8,7 +8,7 @@
     <title>{{$page.title}} - 关于来利洪</title>
     
     <link rel="stylesheet" type="text/css" href="{{$__theme}}stylesheets/style.css" />
-    <script charset="UTF-8" src="{{$__static}}Tangram/tangram.js/src/tangram.js" data-tangram-debug></script>
+    <script charset="UTF-8" src="{{$__static}}Tangram/tanguage/lib/dist/runtime.js" data-tangram-debug></script>
     <script charset="UTF-8" src="{{$__theme}}scripts/common.js"></script>
 </head>
 

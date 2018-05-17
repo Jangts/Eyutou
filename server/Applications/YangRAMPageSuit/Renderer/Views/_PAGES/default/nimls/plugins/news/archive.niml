@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=1236, minimum-scale=0.1, maximum-scale=1,user-scalable=no" />
     <title>{{$title}} - 新闻资讯</title>
     <link rel="stylesheet" type="text/css" href="{{$__theme}}stylesheets/style.css" />
-    <script charset="UTF-8" src="{{$__static}}Tangram/tangram.js/src/tangram.js" data-tangram-debug></script>
+    <script charset="UTF-8" src="{{$__static}}Tangram/tanguage/lib/dist/runtime.js" data-tangram-debug></script>
     <script charset="UTF-8" src="{{$__theme}}scripts/common.js"></script>
 </head>
 

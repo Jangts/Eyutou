@@ -4212,7 +4212,7 @@ class scss_formatter {
 		}
 
 		foreach ($block->children as $child) {
-			$this->tangram.block($child);
+			$this->tang.block($child);
 		}
 
 		if (!empty($block->selectors)) {
@@ -4224,7 +4224,7 @@ class scss_formatter {
 
 	public function format($block) {
 		ob_start();
-		$this->tangram.block($block);
+		$this->tang.block($block);
 		$out = ob_get_clean();
 
 		return $out;
@@ -4298,7 +4298,7 @@ class scss_formatter_nested extends scss_formatter {
 
 		foreach ($block->children as $i => $child) {
 			// echo "*** block: ".$block->depth." child: ".$child->depth."\n";
-			$this->tangram.block($child);
+			$this->tang.block($child);
 			if ($i < count($block->children) - 1) {
 				echo $this->break;
 

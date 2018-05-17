@@ -1,4 +1,4 @@
-tangram.auto([
+tang.auto([
     '$_/dom/Elements'
 ], function(_, global, undefined) {
     var $ = _.dom.select,

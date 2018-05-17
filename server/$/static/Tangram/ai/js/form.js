@@ -1,4 +1,4 @@
-tangram.block([
+tang.block([
     '$_/dom/Elements',
     '$_/form/SimpleEditor/',
     '$_/form/PicturesUploader',
