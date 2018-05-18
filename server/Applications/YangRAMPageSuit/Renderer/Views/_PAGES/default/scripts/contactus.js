@@ -3,7 +3,7 @@ tang.auto([
     '$+/BaiduMap/',
     '$_/dom/Elements'
 ], function(_, global, undefined) {
-    var $ = _.dom.select;
+    var $ = _.dom.$;
 
     var more = JSON.parse($('#more').html()) || {
         title: "广州来利洪饼业有限公司",

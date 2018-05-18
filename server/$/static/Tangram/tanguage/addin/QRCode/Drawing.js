@@ -8,7 +8,7 @@
 
 tang.init().block([
     '$_/util/bool',
-    '$_/painter/QRCode/SVGDrawing'
+    '$_/draw/QRCode/SVGDrawing'
 ], function(pandora, global, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,

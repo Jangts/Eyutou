@@ -4,7 +4,7 @@ tang.block([
     '$_/dom/Template'
 ], function(_, global, undefined) {
     var isnum = _.util.bool.isNumeric,
-        $ = _.dom.select,
+        $ = _.dom.$,
         pre_gape = 9,
         brand_id = 1,
         type_id = 1,
@@ -20,7 +20,7 @@ tang.block([
         $buy = $('#product-detail .go2buy');
 
     var page = 1,
-        render = function (data, hash) {
+        render = function(data, hash) {
             var posi = 0,
                 html = '';
             var total = data.length,
@@ -42,31 +42,31 @@ tang.block([
             }
             location.hash = hash;
             $list.html(html);
-            
+
             var pagehtml = '<li class="page-list-item"><a href="javascript:;" data-page="1">首页</a></li>';
             if (page > 1) {
                 prevpage = page - 1;
                 pagehtml += '<li class="page-list-item"><a href="javascript:;" data-page="' + prevpage + '">上一页</a></li>';
             }
             for (let index = 1; index <= pagenum; index++) {
-                if(index===page){
+                if (index === page) {
                     pagehtml += '<li class="page-list-item on"><a href="javascript:;">' + index + '</a></li>';
-                }else{
+                } else {
                     pagehtml += '<li class="page-list-item"><a href="javascript:;" data-page="' + index + '">' + index + '</a></li>';
                 }
             }
             if (page < pagenum) {
                 nextpage = page + 1;
                 pagehtml += '<li class="page-list-item"><a href="javascript:;" data-page="' + nextpage + '">下一页</a></li>';
-            } 
-            pagehtml += '<li class="page-list-item"><a href="javascript:;" data-page="' + pagenum+'">末页</a></li>';
+            }
+            pagehtml += '<li class="page-list-item"><a href="javascript:;" data-page="' + pagenum + '">末页</a></li>';
             $pagelist.html(pagehtml);
         },
-        brandClick = function (id, $this, callback) {
+        brandClick = function(id, $this, callback) {
             if (storage.brands[id] === void 0) {
                 var url1 = '/applications/1008/brands/' + id,
                     url2 = '/applications/1008/brands/' + id + '/types/';
-                _.async.json(url1, function (res) {
+                _.async.json(url1, function(res) {
                     if (res.data && res.data.brand_name) {
                         $brandname.html(res.data.brand_name);
                     };
@@ -77,10 +77,10 @@ tang.block([
                     $brands.removeClass('on');
                     $this.addClass('on');
                 });
-                _.async.json(url2, function (res) {
+                _.async.json(url2, function(res) {
                     var types = [];
                     if (res.data) {
-                        _.each(res.data, function (index, type) {
+                        _.each(res.data, function(index, type) {
                             types.push('<a class="" data-type-id="' + type.id + '" href="javascript:void(0);">' + type.typename + '</a>');
                         });
                         storage.brands[id].types = res.data || [];
@@ -106,7 +106,7 @@ tang.block([
                 $brands.removeClass('on');
                 $this.addClass('on');
                 var types = [];
-                _.each(storage.brands[id].types, function (index, type) {
+                _.each(storage.brands[id].types, function(index, type) {
                     types.push('<a class="" data-type-id="' + type.id + '" href="javascript:void(0);">' + type.typename + '</a>');
                 });
                 $typelist.html(types.join('|'));
@@ -121,10 +121,10 @@ tang.block([
             types: {},
             products: {}
         },
-        typeClick = function (id, $this) {
+        typeClick = function(id, $this) {
             if (storage.types[id] === void 0) {
                 var url = '/applications/1008/brands/' + brand_id + '/types/' + id + '/productions/?sortby=grade_reverse';
-                _.async.json(url, function (res) {
+                _.async.json(url, function(res) {
                     storage.types[id] = {
                         total: res.data.length,
                         page: 1,
@@ -145,7 +145,7 @@ tang.block([
                 $this.addClass('on');
             }
         },
-        loadpros = function () {
+        loadpros = function() {
             var id = $(this).data('item-id');
 
             $img.attr('src', storage.products[id].image);
@@ -187,7 +187,7 @@ tang.block([
         }
     });
 
-    $pagelist.on('click', "li a[data-page]", null, function () {
+    $pagelist.on('click', "li a[data-page]", null, function() {
         page = $(this).data('page');
         render(storage.types[type_id].pros, 'brand=' + brand_id + '&type=' + type_id);
     });

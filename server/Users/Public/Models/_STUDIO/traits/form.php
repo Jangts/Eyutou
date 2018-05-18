@@ -16,7 +16,7 @@ trait form {
 
     public static function buildForm($data, $method = 'POST', $action = ''){
 		$inputs = self::__loadFormInputs();
-		$form = new DocumentElementModel('form.tangram-form');
+		$form = new DocumentElementModel('form.tang-form');
 		$group = new DocumentElementModel('div');
 		$group->setAttr('class', 'inputs-section');
 		foreach($inputs as $meta){
@@ -29,7 +29,7 @@ trait form {
 					$value = '';
 				}
 			}
-			$inputs = new DocumentElementModel('div.tangram-inputs', '<label class="input-label">'.$meta['display_name'].'</label>');
+			$inputs = new DocumentElementModel('div.tang-inputs', '<label class="input-label">'.$meta['display_name'].'</label>');
 			$input = '';
 			switch($meta['input_type']){
 				case 'hide':

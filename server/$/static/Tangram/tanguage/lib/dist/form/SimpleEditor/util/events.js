@@ -142,7 +142,7 @@ tang.init().block([
                                 // console.log(editor.selection, editor.selection.getRange());
                                 var elem = editor.selection.getRange().commonElem;
                                 if (!elem.tagName === 'A') {
-                                    elem = _.dom.closest(elem, 'a');
+                                    elem = _.dom.getClosestParent(elem, 'a');
                                 }
                                 if (elem) {
                                     this.value = _.dom.getAttr(elem, 'href');
@@ -204,7 +204,7 @@ tang.init().block([
                     // console.log(event);
                     var editor = event.data;
                     var previewer = this.parentNode,
-                        dialog = _.dom.closest(this, 'dialog'),
+                        dialog = _.dom.getClosestParent(this, 'dialog'),
                         input = query('.se-files', dialog)[0];
                     input.onchange = function() {
                         var doneCallback = function(files) {

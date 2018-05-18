@@ -7,10 +7,10 @@
  */
 
 tang.init().block([
-    '$_/painter/QRCode/QR8bitByte',
-    '$_/painter/QRCode/util',
-    '$_/painter/QRCode/QRBitBuffer',
-    '$_/painter/QRCode/QRPolynomial'
+    '$_/draw/QRCode/QR8bitByte',
+    '$_/draw/QRCode/util',
+    '$_/draw/QRCode/QRBitBuffer',
+    '$_/draw/QRCode/QRPolynomial'
 ], function(pandora, global, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass;

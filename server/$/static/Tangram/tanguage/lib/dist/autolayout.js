@@ -1,7 +1,7 @@
 /*!
- * tanguage framework sugar compiled code
+ * tanguage script compiled code
  *
- * Datetime: Thu, 17 May 2018 14:55:33 GMT
+ * Datetime: Fri, 18 May 2018 13:35:11 GMT
  */
 ;
 // tang.config({});
@@ -13,7 +13,7 @@ tang.init().block([
 ], function (pandora, root, imports, undefined) {
 	var see = pandora.ns('see', {});
 	var _ = pandora;
-	var $ = _.dom.select;
+	var $ = _.dom.$;
 	pandora.ns('see.Scrollbar', {
 		auto: function () {
 			$('.tang-see.scrollbar[data-ic-auto]').each(function () {

@@ -9,9 +9,9 @@
 tang.init().block([
     '$_/arr/',
     '$_/obj/',
-    '$_/painter/Charts/',
-    '$_/painter/Charts/util/events',
-    '$_/painter/Charts/components/scales/Polar'
+    '$_/draw/Charts/',
+    '$_/draw/Charts/util/events',
+    '$_/draw/Charts/components/scales/Polar'
 ], function(pandora, root, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,

@@ -8,10 +8,10 @@
 ;
 tang.init().block([
     '$_/arr/',
-    '$_/painter/Charts/modules/radar',
-    '$_/painter/Charts/types/Abstract',
-    '$_/painter/Charts/components/sharps/Line',
-    '$_/painter/Charts/components/sharps/Point'
+    '$_/draw/Charts/modules/radar',
+    '$_/draw/Charts/types/Abstract',
+    '$_/draw/Charts/components/sharps/Line',
+    '$_/draw/Charts/components/sharps/Point'
 ], function(pandora, root, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,

@@ -2,7 +2,7 @@ tang.block([
     '$_/data/', '$_/async/',
     '$_/dom/Elements'
 ], function(_) {
-    var $ = _.dom.select,
+    var $ = _.dom.$,
         api = $('input[name=__api__]').val();
     $('.signin input').click(function() {
         var un = $('input[name=username]').val(),

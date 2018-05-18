@@ -7,16 +7,16 @@
  */
 ;
 tang.init().block([
-    '$_/Component/',
+    '$_/app/Application',
     '$_/dom/Elements',
-    '$_/Time/locales/en'
+    '$_/util/locales/en'
 ], function(pandora, root, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,
 
         doc = root.document;
 
-    var $ = _.dom.select;
+    var $ = _.dom.$;
 
     var months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'],
         mons = _.locales('times', 'en', 'monthsShort'),

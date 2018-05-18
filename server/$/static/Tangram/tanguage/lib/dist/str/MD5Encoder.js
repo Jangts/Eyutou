@@ -1,7 +1,7 @@
 /*!
- * tanguage framework sugar compiled code
+ * tanguage script compiled code
  *
- * Datetime: Thu, 17 May 2018 14:55:36 GMT
+ * Datetime: Fri, 18 May 2018 13:35:15 GMT
  */
 ;
 // tang.config({});
@@ -447,7 +447,7 @@ tang.init().block([
 			loadNext();
 		}
 	});
-	pandora.declareClass('str.MD5Encoder.ArrayBuffer', _.str.MD5Encoder,{
+	pandora.declareClass('str.MD5Encoder.ArrayBuffer', _.str.MD5Encoder, {
 		_init: function () {
 			this.reset();
 		},

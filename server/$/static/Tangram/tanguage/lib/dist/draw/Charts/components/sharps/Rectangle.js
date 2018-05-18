@@ -3,7 +3,7 @@
  * Date: 2015-09-04
  */
 ;
-tang.init().block(['$_/painter/Charts/components/Abstract'], function(pandora, root, imports, undefined) {
+tang.init().block(['$_/draw/Charts/components/Abstract'], function(pandora, root, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,
 

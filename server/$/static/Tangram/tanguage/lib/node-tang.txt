@@ -1,0 +1,1 @@
+node-sugar cdir E:\CodeRepositories\Eyutou\server\$\static\Tangram\tanguage\lib\tang E:\CodeRepositories\Eyutou\server\$\static\Tangram\tanguage\lib\dist -c -map

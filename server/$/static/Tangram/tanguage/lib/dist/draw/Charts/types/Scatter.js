@@ -4,9 +4,9 @@
  */
 ;
 tang.init().block([
-    '$_/painter/Charts/modules/grid',
-    '$_/painter/Charts/types/Abstract',
-    '$_/painter/Charts/components/sharps/Point'
+    '$_/draw/Charts/modules/grid',
+    '$_/draw/Charts/types/Abstract',
+    '$_/draw/Charts/components/sharps/Point'
 ], function(pandora, root, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,

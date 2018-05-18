@@ -113,7 +113,7 @@ tang.init().block([
     });
 
     regDialog('insertvideo', function(btn) {
-        var dialog = _.dom.closest(btn, 'dialog');
+        var dialog = _.dom.getClosestParent(btn, 'dialog');
         var textarea = query('.se-code', dialog)[0];
         if (textarea && textarea.value != '') {
             return {

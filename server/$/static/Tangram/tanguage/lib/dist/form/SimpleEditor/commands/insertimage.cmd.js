@@ -9,7 +9,7 @@
 tang.init().block([
     '$_/util/bool',
     '$_/dom/',
-    '$_/painter/canvas',
+    '$_/draw/canvas',
     '$_/form/SimpleEditor/commands/insert.cmds'
 ], function(pandora, root, imports, undefined) {
     var _ = pandora,
@@ -63,7 +63,7 @@ tang.init().block([
     });
 
     regDialog('insertimage', function(btn) {
-        var dialog = _.dom.closest(btn, 'dialog');
+        var dialog = _.dom.getClosestParent(btn, 'dialog');
         var input = query('.se-url .se-input', dialog)[0];
         if (input && input.value) {
             return [input.value];
@@ -72,7 +72,7 @@ tang.init().block([
     });
 
     regDialog('uploadimage', function(btn) {
-        var dialog = _.dom.closest(btn, 'dialog');
+        var dialog = _.dom.getClosestParent(btn, 'dialog');
         var images = query('.se-show', dialog)[0];
         var files = images.files;
         if (files && files.length > 0) {

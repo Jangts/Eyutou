@@ -1,7 +1,7 @@
 /*!
- * tanguage framework sugar compiled code
+ * tanguage script compiled code
  *
- * Datetime: Thu, 17 May 2018 14:55:33 GMT
+ * Datetime: Fri, 18 May 2018 13:35:11 GMT
  */
 ;
 // tang.config({});
@@ -11,7 +11,7 @@ tang.init().block([
 	var module = this.module;
 	var _ = pandora;
 	var console = root.console, location = root.location, XMLHttpRequest = root.XMLHttpRequest, ActiveXObject = root.ActiveXObject, FormData = root.FormData;root;
-	pandora.declareClass('async.Request', _.async.Promise,{
+	pandora.declareClass('async.Request', _.async.Promise, {
 		readyState: 0,
 		statusCode: 0,
 		statusText: '',

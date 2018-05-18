@@ -3,11 +3,12 @@ tang.block([
     '$_/dom/Elements',
     '$_/dom/Template'
 ], function(_, global, undefined) {
-    var $ = _.dom.select,
-    url = '/api/cloudtables/?c=MVCRows&m=getrows&args=news/null/gldpd/1/0';
+    var $ = _.dom.$,
+        url = '/api/cloudtables/?c=MVCRows&m=getrows&args=news/null/gldpd/1/0';
+
     _.async.json(url, function(res) {
             var
-                $ = _.dom.select,
+                $ = _.dom.$,
                 view = $('.index-news-arti'),
                 source = view.html(),
                 data = {
@@ -24,18 +25,18 @@ tang.block([
 
         });
 
-    $('#index-video').click(function(){
+    $('#index-video').click(function() {
         var
-        that = this,
-        URL = this.currentSrc,
-        win = window.open(URL, "video", "width=800,height=450,channelmode=yes,location=no,directories=no, status=no,toolbar=no,titlebar=no", false),
-        loop = setInterval(function () {
-            if (win.closed) {
-                clearInterval(loop);
-                that.play();
-            }
-        }, 1000);   
+            that = this,
+            URL = this.currentSrc,
+            win = window.open(URL, "video", "width=800,height=450,channelmode=yes,location=no,directories=no, status=no,toolbar=no,titlebar=no", false),
+            loop = setInterval(function() {
+                if (win.closed) {
+                    clearInterval(loop);
+                    that.play();
+                }
+            }, 1000);
         this.pause();
     });
-    
+
 }, true);

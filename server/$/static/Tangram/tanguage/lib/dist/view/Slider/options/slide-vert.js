@@ -1,7 +1,7 @@
 /*!
- * tanguage framework sugar compiled code
+ * tanguage script compiled code
  *
- * Datetime: Thu, 17 May 2018 14:55:38 GMT
+ * Datetime: Fri, 18 May 2018 13:35:17 GMT
  */
 ;
 // tang.config({});
@@ -13,7 +13,7 @@ tang.init().block([
 	var _ = pandora;
 	var doc = root.document;
 	var location = root.location;
-	var $ = _.dom.select;
+	var $ = _.dom.$;
 	pandora.view.Slider.extend({
 		name: 'slide-vert',
 		easing: "linear",

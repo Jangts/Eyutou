@@ -7,8 +7,8 @@
  */
 ;
 tang.init().block([
-    '$_/painter/Charts/types/Abstract',
-    '$_/painter/Charts/components/sharps/Arc'
+    '$_/draw/Charts/types/Abstract',
+    '$_/draw/Charts/components/sharps/Arc'
 ], function(pandora, root, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,

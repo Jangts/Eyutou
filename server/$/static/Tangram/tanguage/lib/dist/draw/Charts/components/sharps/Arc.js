@@ -4,8 +4,8 @@
  */
 ;
 tang.init().block([
-    '$_/painter/Charts/util/helpers',
-    '$_/painter/Charts/components/Abstract'
+    '$_/draw/Charts/util/helpers',
+    '$_/draw/Charts/components/Abstract'
 ], function(pandora, root, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,

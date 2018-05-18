@@ -3,7 +3,7 @@ tang.block([
     '$_/dom/Elements',
     '$_/dom/Template'
 ], function(_, global, undefined) {
-    var $ = _.dom.select,
+    var $ = _.dom.$,
         $list = $('.mid1920 aside.left nav ul'),
         $item = $('.mid1920 aside.left nav ul li'),
         $mask = $('.left-mask');

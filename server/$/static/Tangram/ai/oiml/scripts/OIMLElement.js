@@ -31,16 +31,16 @@ System.ExtendsMethods((YangRAM, declare, global, undefined) => {
             build() {
                 if (this.Element) {
                     _.dom.setStyle(this.Element, 'overflow', 'hidden');
-                    this.document = _.dom.query('content', this.Element)[0];
-                    this.vertical = _.dom.query('scrollbar[type=vert]', this.Element)[0];
-                    this.horizontal = _.dom.query('scrollbar[type=hori]', this.Element)[0];
+                    this.document = _.dom.$('content', this.Element)[0];
+                    this.vertical = _.dom.$('scrollbar[type=vert]', this.Element)[0];
+                    this.horizontal = _.dom.$('scrollbar[type=hori]', this.Element)[0];
                     if (this.vertical) {
-                        this.verticalRail = _.dom.query.byTag('rail', this.vertical)[0];
-                        this.verticalDragger = _.dom.query.byTag('scrolldragger', this.vertical)[0];
+                        this.verticalRail = _.dom.$.byTag('rail', this.vertical)[0];
+                        this.verticalDragger = _.dom.$.byTag('scrolldragger', this.vertical)[0];
                     }
                     if (this.horizontal) {
-                        this.horizontalRail = _.dom.query.byTag('rail', this.horizontal)[0];
-                        this.horizontalDragger = _.dom.query.byTag('scrolldragger', this.horizontal)[0];
+                        this.horizontalRail = _.dom.$.byTag('rail', this.horizontal)[0];
+                        this.horizontalDragger = _.dom.$.byTag('scrolldragger', this.horizontal)[0];
                     }
                     YangRAM.setStyle(this.document, {
                         display: 'block'
@@ -54,8 +54,8 @@ System.ExtendsMethods((YangRAM, declare, global, undefined) => {
             trigger: 'click',
             _init(elem, settings) {
                 this.Element = elem;
-                this.options = _.dom.query('tab-vision list', this.Element)[0];
-                this.sections = _.dom.query('tab-sections', this.Element)[0];
+                this.options = _.dom.$('tab-vision list', this.Element)[0];
+                this.sections = _.dom.$('tab-sections', this.Element)[0];
                 this.build(settings);
                 this.bind();
             },
@@ -86,7 +86,7 @@ System.ExtendsMethods((YangRAM, declare, global, undefined) => {
             },
             resize() {
                 _.dom.setStyle(this.options, {
-                    width: _.dom.select('item[data-tab-name]', this.options).widths() + 1
+                    width: _.dom.$('item[data-tab-name]', this.options).widths() + 1
                 });
                 return this;
             },
@@ -145,7 +145,7 @@ System.ExtendsMethods((YangRAM, declare, global, undefined) => {
             this.app = app;
         },
         $(selector) {
-            return _.dom.select(selector, this.Element);
+            return _.dom.$(selector, this.Element);
         },
         write(string, title) {
             var html = this.trim(string);

@@ -3,7 +3,7 @@ tang.block([
     '$_/form/Data'
 ], function(_, global) {
     var location = global.location,
-        $ = _.dom.select,
+        $ = _.dom.$,
         $main = $('.main-section, .side-section'),
         workspace = document.getElementById('maincontainer'),
         height = _.dom.getHeight(document);

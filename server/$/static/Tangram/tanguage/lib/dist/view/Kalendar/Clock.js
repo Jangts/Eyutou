@@ -7,7 +7,7 @@
  */
 ;
 tang.init().block([
-    '$_/Component/',
+    '$_/app/Application',
     '$_/dom/Elements'
 ], function(pandora, root, imports, undefined) {
     var _ = pandora,
@@ -15,7 +15,7 @@ tang.init().block([
 
         doc = root.document;
 
-    var $ = _.dom.select;
+    var $ = _.dom.$;
 
     // 注册_.util.Time命名空间到pandora
     _('Time');

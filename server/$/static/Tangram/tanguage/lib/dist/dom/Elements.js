@@ -1,7 +1,7 @@
 /*!
- * tanguage framework sugar compiled code
+ * tanguage script compiled code
  *
- * Datetime: Thu, 17 May 2018 14:55:34 GMT
+ * Datetime: Fri, 18 May 2018 13:35:13 GMT
  */
 ;
 // tang.config({});
@@ -69,7 +69,7 @@ tang.init().block([
 		}
 		return this[0] && pandora.dom.getStyle(this[0], type);
 	}
-	pandora.declareClass('dom.Elements', pandora.Iterator,{
+	pandora.declareClass('dom.Elements', pandora.Iterator, {
 		context: document,
 		_init: function (selector, context) {
 			if (bool.isOuterHTML(selector)) {
@@ -144,7 +144,7 @@ tang.init().block([
 			var Elements = [];
 			var node = void 0;
 			this.each(function () {
-				if (node = pandora.dom.closest(this, tagName)) {
+				if (node = pandora.dom.getClosestParent(this, tagName)) {
 					Elements.push(node);
 				};
 			});
@@ -620,6 +620,42 @@ tang.init().block([
 		},
 		mousemove: function (data, handler) {
 			this.bind('mousemove', data, handler);
+		},
+		'click': function (data, handler) {
+			if (bool.isFn(handler)) {
+				return this.bind('click', data, handler);
+			}
+			if (bool.isFn(data)) {
+				return this.bind('click', data);
+			}
+			return this.trigger('click');
+		},
+		'focus': function (data, handler) {
+			if (bool.isFn(handler)) {
+				return this.bind('focus', data, handler);
+			}
+			if (bool.isFn(data)) {
+				return this.bind('focus', data);
+			}
+			return this.trigger('focus');
+		},
+		'blur': function (data, handler) {
+			if (bool.isFn(handler)) {
+				return this.bind('blur', data, handler);
+			}
+			if (bool.isFn(data)) {
+				return this.bind('blur', data);
+			}
+			return this.trigger('blur');
+		},
+		'submit': function (data, handler) {
+			if (bool.isFn(handler)) {
+				return this.bind('submit', data, handler);
+			}
+			if (bool.isFn(data)) {
+				return this.bind('submit', data);
+			}
+			return this.trigger('submit');
 		}
 	});
 	pandora.extend(pandora.dom.Elements.prototype, true, {
@@ -869,17 +905,15 @@ tang.init().block([
 			return this;
 		}
 	});
-	var select = function (selector, context) {
+	var $ = function (selector, context) {
 		return new pandora.dom.Elements(selector, context);
 	}
-	var $ = select;
-	pandora.ns('dom.select', {
+	pandora.ns('dom.$', {
 		extend: function (object, rewrite) {
 			pandora.extend(pandora.dom.Elements.prototype, rewrite, object);
 		}
 	});
-	this.module.exports = select;
-	pandora.dom.select = select;
+	this.module.exports = $;
 	pandora.dom.$ = $;
 });
 //# sourceMappingURL=Elements.js.map

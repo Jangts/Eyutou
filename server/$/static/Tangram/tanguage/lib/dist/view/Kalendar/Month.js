@@ -8,7 +8,7 @@
 ;
 tang.init().block([
     '$_/arr/',
-    '$_/Time/'
+    '$_/util/Time'
 ], function(pandora, root, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,

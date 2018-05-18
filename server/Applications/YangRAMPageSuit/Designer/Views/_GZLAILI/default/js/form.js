@@ -3,10 +3,10 @@ tang.block([
         '$_/form/SimpleEditor/',
         '$_/form/PicturesUploader',
         '$_/form/Data',
-        '$_/Time/Picker/'
+        '$_/app/TimePicker/'
     ], function(_) {
         var
-            $ = _.dom.select;
+            $ = _.dom.$;
 
         if (window.parent) {
             window.alert = window.parent.alert;

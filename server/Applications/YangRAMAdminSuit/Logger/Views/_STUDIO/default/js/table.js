@@ -2,5 +2,5 @@ tang.block([
     '$_/dom/Elements'
 ], function(_) {
     var
-        $ = _.dom.select;
+        $ = _.dom.$;
 }, true);

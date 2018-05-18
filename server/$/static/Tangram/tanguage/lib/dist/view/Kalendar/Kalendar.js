@@ -7,16 +7,16 @@
  */
 ;
 tang.init().block([
-    '$_/Component/',
+    '$_/app/Application',
     '$_/dom/Elements',
-    '$_/Time/Month'
+    '$_/view/Kalendar/Month'
 ], function(pandora, root, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,
 
         doc = root.document;
 
-    var $ = _.dom.select,
+    var $ = _.dom.$,
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
         time = new _.util.Time();

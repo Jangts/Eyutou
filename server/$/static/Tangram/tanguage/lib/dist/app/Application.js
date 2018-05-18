@@ -19,12 +19,12 @@ tang.init().block([
     var observe = _.obj.observe,
         watch = _.obj.watch;
 
-    declare('Component', {
+    declare('Application', {
         id: null,
         state: false,
         viewstatus: false,
         actived: false,
-        name: 'Base Component',
+        name: 'Application',
         Element: null,
         _init: function(elem) {
             this.id = new _.Identifier().toString();

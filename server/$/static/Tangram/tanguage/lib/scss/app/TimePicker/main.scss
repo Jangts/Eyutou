@@ -5,7 +5,7 @@
     background-color: rgba(100%, 100%, 100%, .8);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, .5);
     transition: top ease .3s;
-    @import 'picker-displayer';
-    @import 'picker-buttons';
-    @import 'picker-pickers';
+    @import 'displayer';
+    @import 'buttons';
+    @import 'pickers';
 }

@@ -8,8 +8,8 @@
 
 tang.init().block([
     '$_/math/qrcode',
-    '$_/painter/QRCode/QR8bitByte',
-    '$_/painter/QRCode/QRPolynomial'
+    '$_/draw/QRCode/QR8bitByte',
+    '$_/draw/QRCode/QRPolynomial'
 ], function(pandora, global, imports, undefined) {
     var _ = pandora;
 

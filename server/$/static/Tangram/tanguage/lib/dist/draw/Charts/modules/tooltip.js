@@ -9,10 +9,10 @@
 tang.init().block([
     '$_/util/bool',
     '$_/obj/',
-    '$_/painter/Charts/',
-    '$_/painter/Charts/util/helpers',
-    '$_/painter/Charts/components/Tooltip',
-    '$_/painter/Charts/components/MultiTooltip'
+    '$_/draw/Charts/',
+    '$_/draw/Charts/util/helpers',
+    '$_/draw/Charts/components/Tooltip',
+    '$_/draw/Charts/components/MultiTooltip'
 ], function(pandora, root, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,

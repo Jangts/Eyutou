@@ -3,7 +3,7 @@ tang.block([
     '$_/form/Data'
 ], function(_) {
     var
-        $ = _.dom.select;
+        $ = _.dom.$;
 
     if (window.parent) {
         window.alert = window.parent.alert;

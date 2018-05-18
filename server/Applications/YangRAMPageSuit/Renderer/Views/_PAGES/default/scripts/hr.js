@@ -6,7 +6,7 @@ tang.block([
     var url = '/api/cloudtables/?c=MVCRows&m=getrows&args=positions/null/gldpd/0/0';
     _.async.json(url, function(res) {
         var
-            $ = _.dom.select,
+            $ = _.dom.$,
             view = $('.job-list'),
             source = $('#mytpl').html(),
             temp = new _.dom.Template(source);

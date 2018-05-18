@@ -5,10 +5,10 @@
 ;
 tang.init().block([
     '$_/obj/',
-    '$_/painter/Charts/Charts',
-    '$_/painter/Charts/util/helpers',
-    '$_/painter/Charts/util/events',
-    '$_/painter/Charts/util/defaults'
+    '$_/draw/Charts/Charts',
+    '$_/draw/Charts/util/helpers',
+    '$_/draw/Charts/util/events',
+    '$_/draw/Charts/util/defaults'
 ], function(pandora, root, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,

@@ -7,19 +7,19 @@
  */
 ;
 tang.init().block([
-    '$_/Component/',
+    '$_/app/Application',
     '$_/dom/Elements',
-    '$_/Time/Month',
-    // '$_/Time/Picker/events.tmp',
-    '$_/Time/Picker/Builder',
-    '$_/Time/Picker/Launcher',
+    '$_/view/Kalendar/Month',
+    // '$_/app/TimePicker/events.tmp',
+    '$_/app/TimePicker/Builder',
+    '$_/app/TimePicker/Launcher',
 ], function(pandora, root, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,
 
         doc = root.document;
 
-    var $ = _.dom.select;
+    var $ = _.dom.$;
 
     // 注册_.util.Time命名空间到pandora
     _('Time');

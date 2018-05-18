@@ -9,7 +9,7 @@
 tang.init().block([
     '$_/util/bool',
     '$_/dom/',
-    '$_/painter/SVGElement'
+    '$_/draw/SVGElement'
 ], function(pandora, root, imports, undefined) {
     var _ = pandora,
         declare = pandora.declareClass,

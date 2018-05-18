@@ -1,7 +1,7 @@
 tang.auto([
     '$_/dom/Elements'
 ], function(_, global, undefined) {
-    var $ = _.dom.select,
+    var $ = _.dom.$,
         parent = global.parent,
         target = parent.document.getElementById("area-main");
 

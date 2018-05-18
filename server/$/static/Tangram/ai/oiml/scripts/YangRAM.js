@@ -38,7 +38,7 @@ System.ModuleSeeds.main = (Application, pandora, declare, global, undefined) => 
         HiddenArea = {
             document: document.getElementsByTagName('hiddens').item(0),
             $(selector) {
-                return _.dom.select(selector, this.document);
+                return _.dom.$(selector, this.document);
             },
             create(tag, attrs) {
                 if (Defaultattrs[tag]) {
@@ -71,7 +71,7 @@ System.ModuleSeeds.main = (Application, pandora, declare, global, undefined) => 
         donothing: System.Empty,
         extends: _.extend,
         each: _.forEach,
-        $: _.dom.select,
+        $: _.dom.$,
         create: _.dom.create,
         loadStyle: _.data.loadCSS,
         loadScript: _.data.loadScript,

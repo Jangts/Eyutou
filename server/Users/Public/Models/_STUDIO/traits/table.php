@@ -81,7 +81,7 @@ trait table {
             $table->appendElement($tr);
         }
         if(!empty(static::$creater)){
-            $tr = new DocumentElementModel('tr.tangram-creator');
+            $tr = new DocumentElementModel('tr.tang-creator');
             if(isset(static::$creater['name'])){
                 $td = '<a class="block" href="'.static::$creater['url'].'">'.static::$creater['name'].'</a>';
             }else{
