@@ -33,7 +33,7 @@ const RegApplication = (() => {
     }
 })();
 
-tangram.block((pandora, global, undefined) => {
+tang.block((pandora, global, undefined) => {
     var _ = pandora,
         declare = pandora.declareClass,
         document = global.document,

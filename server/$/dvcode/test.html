@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html  lang="en-US">
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drag Verification</title>
-    <script charset="UTF-8" src="./../static/Tangram/tangram.js/src/tangram.js"></script>
+    <script charset="UTF-8" src="./../static/Tangram/tanguage/lib/dist/runtime.js"></script>
     <style>
         body {
             width: 100%;
@@ -35,10 +35,10 @@
 <body>
     <div class="button">点击按钮进行验证</div>
     <script>
-        tangram.auto([
+        tang.auto([
             '$+/DVCode/style.css',
             '$+/DVCode/',
-            '$_/dom/Elements'
+            '$_/dom/Elements/'
         ], function(_, global, undefined) {
             var $ = _.dom.select;
 

@@ -1,7 +1,7 @@
 <?php
 //配置文件
 header("Content-Type: text/html; charset=UTF-8");
-require $_SERVER["DOCUMENT_ROOT"]."/Tangram/Tangram.php";
+require $_SERVER["DOCUMENT_ROOT"]."/Tangram/tang.php";
 require PATH_DRV."Logger/Renren".DLL;
  
 $app_key = "f3a04b810634497cbbae61e166ef648a";

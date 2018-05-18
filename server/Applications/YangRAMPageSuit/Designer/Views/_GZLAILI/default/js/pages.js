@@ -1,4 +1,4 @@
-tangram.block([
+tang.block([
     '$_/data/', '$_/async/',
     '$_/dom/Elements'
 ], function(_) {

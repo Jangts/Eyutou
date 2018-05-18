@@ -1,4 +1,4 @@
-tangram.block((pandora, global, undefined) => {
+tang.block((pandora, global, undefined) => {
     var _ = pandora,
         declare = pandora.declareClass,
         cache = pandora.locker,

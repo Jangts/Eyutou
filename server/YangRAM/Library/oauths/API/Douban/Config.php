@@ -1,7 +1,7 @@
 <?php
 //配置文件
 header("Content-Type: text/html; charset=UTF-8");
-require $_SERVER["DOCUMENT_ROOT"]."/Tangram/Tangram.php";
+require $_SERVER["DOCUMENT_ROOT"]."/Tangram/tang.php";
 require PATH_DRV."Logger/Douban".DLL;
  
 $app_key = "0cf0cb2f7f15163826d2618e7d3f42a8";

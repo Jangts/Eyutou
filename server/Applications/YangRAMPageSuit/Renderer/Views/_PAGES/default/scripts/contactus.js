@@ -1,4 +1,4 @@
-tangram.auto([
+tang.auto([
     '$+/BaiduMap/style.css',
     '$+/BaiduMap/',
     '$_/dom/Elements'
