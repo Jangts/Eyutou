@@ -53,6 +53,7 @@
                                         </a><span class="news-time"><time value="$item.PUBTIME" format="Y-m-d" /></span></header>
                                     <p class="news-brief">
                                         {{$desc = strip_tags($item.CONTENT);}}
+                                        {{$desc = str_replace('&nbsp;', '', $desc);}}
                                         <str value="$desc" length="150" />…
                                     </p>
                                     <a class="read-news" href="/news/detail/{{$item.ID}}">阅读全文>></a>
