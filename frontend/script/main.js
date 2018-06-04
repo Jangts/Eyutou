@@ -6,15 +6,27 @@ var title = new Vue({
 });
 
 var main = new Vue({
-    el: '#app',
+    el: '#main',
     data: {
-        message: 'Hello Vue!'
+        message: "Hello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!\nHello Vue!"
     }
 })
 
 var nav = new Vue({
-    el: '#tabs',
+    el: '#nav',
     data: {
-        message: 'Hello Vue!'
+        tabs: [{
+                name: "首页"
+            },
+            {
+                name: "工程"
+            },
+            {
+                name: "圈子"
+            },
+            {
+                name: "我的"
+            }
+        ]
     }
 })

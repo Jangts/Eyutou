@@ -6,16 +6,25 @@
     <title id="title">{{ title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheet/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="http://www.tanguage.js:94/lib/dist/see/see.css" />
     <script src="vue-dev/dist/vue.js"></script>
     <script src="vue-router-dev/dist/vue-router.js"></script>
 </head>
 <body>
-    <div id="app">
-        {{ message }}
+    <div class="container fullscreen">
+        <div id="main">
+            {{ message }}
+        </div>
+        <nav id="nav">
+            <ul>
+                <li class="nav-item" v-for="tab in tabs">
+                    <i></i>
+                    <p>{{ tab.name }}</p>
+                </li>
+            </ul>
+        </nav>
     </div>
-    <div id="app">
-        {{ message }}
-    </div>
+    <div id="popup" class="container fullscreen"></div>
     <script src="script/main.js"></script>
 </body>
 </html>
