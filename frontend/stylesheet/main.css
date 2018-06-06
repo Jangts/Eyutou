@@ -5,6 +5,38 @@
     overflow: auto;
 }
 
+.icons-01 {
+    background-image: url(./../image/ICON-01.png);
+    background-repeat: no-repeat;
+    background-size: 376px 668px;
+}
+
+.icons-02 {
+    background-image: url(./../image/ICON-02.png);
+    background-repeat: no-repeat;
+    background-size: 376px 668px;
+}
+
+#main {
+    background-color: #f2f2f2;
+}
+
+#main::after {
+    display: block;
+    position: absolute;
+    width: 150px;
+    height: 50px;
+    top: 70%;
+    left: 50%;
+    margin: -25px -75px;
+    /* background-color: blue; */
+    background-image: url(./../image/ICON-02.png);
+    background-repeat: no-repeat;
+    background-size: 376px 668px;
+    background-position: -112px -492px;
+    content: "";
+}
+
 #nav {
     position: fixed;
     width: 100%;
@@ -23,15 +55,32 @@
     text-align: center;
 }
 
-#nav .nav-item i {
+#nav .nav-item .nav-link i {
     display: block;
     width: 20px;
     height: 20px;
     margin: 5px auto;
-    background-image: url(./../image/ICON-01.png);
-    background-repeat: no-repeat;
-    background-size: 50%;
-    background-position: -45px -600px;
+    background-position-y: -592px;
+}
+
+#nav .nav-item .nav-link.active i {
+    background-position-y: -627px;
+}
+
+#nav .nav-item .nav-link i.home {
+    background-position-x: -38px;
+}
+
+#nav .nav-item .nav-link i.project {
+    background-position-x: -131px;
+}
+
+#nav .nav-item .nav-link i.circle {
+    background-position-x: -224px;
+}
+
+#nav .nav-item .nav-link i.mine {
+    background-position-x: -317px;
 }
 
 #nav .nav-item p {
