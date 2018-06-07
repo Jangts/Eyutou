@@ -1,0 +1,1 @@
+node-tang main.tang ./../script/main.js -map -c

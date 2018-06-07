@@ -35,6 +35,7 @@
     background-size: 376px 668px;
     background-position: -112px -492px;
     content: "";
+    z-index: -1;
 }
 
 #nav {
