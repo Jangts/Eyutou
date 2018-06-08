@@ -40,6 +40,7 @@ const homeComponent = {
     },
     created() {
         let self = this;
+        log self.tags;
         setTimeout((){
             self.tags = [
                 { name:"abc" },
@@ -127,12 +128,19 @@ const popup = new Vue({
             { path: '/search/', component: searchComponent },
         ]
     }),
-    created(){
-        this.show(true);
+    watch: {
+        // 如果路由有变化，会再次执行该方法
+        '$route': 'fetchData'
     },
+    // created(){
+    //     this.show(true);
+    // },
     methods: {
+        fetchData(){
+            this.show(true);
+        },
         show(show = true) {
-            console.log(1111);
+            console.log('foo', this.$el, this);
         }
     }
 });

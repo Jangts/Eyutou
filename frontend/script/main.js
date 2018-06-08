@@ -1,7 +1,7 @@
 /*!
  * tanguage script compiled code
  *
- * Datetime: Thu, 07 Jun 2018 13:42:00 GMT
+ * Datetime: Fri, 08 Jun 2018 02:38:01 GMT
  */
 ;
 // tang.config({});
@@ -45,6 +45,7 @@ tang.init().block([
 		},
 		created: function () {
 			var self = this;
+			root.console.log(self.tags);
 			setTimeout(function () {
 				self.tags = [{name: "abc"}, {name: "abc"}, {name: "abc"}, {name: "abc"}, {name: "abc"}, {name: "abc"}, {name: "abc"}, {name: "abc"}, {name: "abc"}];
 			}, 2000);
@@ -130,7 +131,7 @@ tang.init().block([
 		methods: {
 			show: function (show) {
 				if (show === void 0) { show = true;}
-				console.log(1111);
+				console.log('foo', this.$el, this);
 			}
 		}
 	});
