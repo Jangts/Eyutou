@@ -1,7 +1,7 @@
 /*!
  * tanguage script compiled code
  *
- * Datetime: Thu, 07 Jun 2018 10:54:52 GMT
+ * Datetime: Thu, 07 Jun 2018 13:42:00 GMT
  */
 ;
 // tang.config({});
@@ -113,7 +113,7 @@ tang.init().block([
 			}
 		}
 	});
-	var searchComponent = {template: '#searchComponent'};
+	var searchComponent = {template: '#searchTemplate'};
 	var popup = new Vue({
 		el: '#popup',
 		router: new VueRouter({
@@ -123,7 +123,16 @@ tang.init().block([
 				path: '/search/',
 				component: searchComponent
 			}]
-		})
+		}),
+		created: function () {
+			this.show(true);
+		},
+		methods: {
+			show: function (show) {
+				if (show === void 0) { show = true;}
+				console.log(1111);
+			}
+		}
 	});
 }, true);
 //# sourceMappingURL=main.js.map

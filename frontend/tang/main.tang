@@ -116,7 +116,7 @@ const main = new Vue({
     }
 });
 
-const searchComponent = { template: '#searchComponent' }
+const searchComponent = { template: '#searchTemplate' }
 
 const popup = new Vue({
     el: '#popup',
@@ -127,4 +127,12 @@ const popup = new Vue({
             { path: '/search/', component: searchComponent },
         ]
     }),
+    created(){
+        this.show(true);
+    },
+    methods: {
+        show(show = true) {
+            console.log(1111);
+        }
+    }
 });
