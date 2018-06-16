@@ -12,6 +12,7 @@
     <script src="http://www.tanguage.js:94/lib/dist/runtime.js"></script>
 </head>
 <body>
+<div id="popup" class="container fullscreen"><router-view></router-view></div>
     <div id="main" class="container fullscreen">
         <router-view></router-view>
         <nav id="nav">
@@ -23,7 +24,7 @@
             </ul>
         </nav>
     </div>
-    <div id="popup" class="container fullscreen"><router-view></router-view></div>
+    
     <script type="text/x-template" id="homeTemplate">
         <div class="container inner-container">
             <div class="home-top-bar"><a>&gt;{{ province.name }}</a><i></i></div>

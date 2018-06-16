@@ -34,16 +34,28 @@ define('HOST',      	strtolower(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HO
 // 端口号，默认为80
 define('PORT',      	$_SERVER['SERVER_PORT']);
 
+$_SERVER['DOMAIN_NAMES'] = parse_ini_file('domainnames.ini', true);
+$_SERVER['DOCUMENT_ROOT'] = strtr(preg_replace('/^\/usr\//', '/data/', $_SERVER['DOCUMENT_ROOT']), '\\', '/');
+$_SERVER['SCRIPT_FILENAME'] = strtr(preg_replace('/^\/usr\//', '/data/', $_SERVER['SCRIPT_FILENAME']), '\\', '/');
+
 // 启动文件目录，系统安装于服务器根目录时，启动文件可以作为入口文件
 define('__BOOT__',      dirname(__FILE__));
 // 系统安装目录，即格式化的启动文件目录，为统一不同平台的路径名规则而进行的强制转写
 define('__ROOT__',      strtr(__BOOT__, '\\', '/'));
 // 安装目录的网络地址，系统安装目录相对服务器根目录的相对路径
-define('__BURL__',    	str_replace(strtr($_SERVER['DOCUMENT_ROOT'], '\\', '/'), '', __ROOT__));
+define('__BURL__',    	str_replace($_SERVER['DOCUMENT_ROOT'], '', __ROOT__));
 
-$_SERVER['SCRIPT_FILENAME'] = strtr($_SERVER['SCRIPT_FILENAME'], '\\', '/');
-$_SERVER['DOMAIN_NAMES'] = parse_ini_file('domainnames.ini', true);
-$_SERVER['PHP_SELF'] = substr($_SERVER['PHP_SELF'], strlen(__BURL__));
+if('REDIRECT_URL'){
+    define('SCRIPT',        substr($_SERVER['SCRIPT_NAME'].$_SERVER['REDIRECT_URL'], strlen(__BURL__)));
+}else{
+    define('SCRIPT',        substr($_SERVER['PHP_SELF'], strlen(__BURL__)));
+}
+
+// header('Content-Type: text/plain;charset=UTF-8');
+// var_dump(SCRIPT);
+// var_dump(__ROOT__, $_SERVER['DOCUMENT_ROOT']);
+// var_dump(__BURL__, $_SERVER['PHP_SELF'], $_SERVER);
+// exit;
 
 /** Defined relative pathname for four basic subdirectories. */
 // 原生应用安装目录根目录

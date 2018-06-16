@@ -112,7 +112,7 @@ final class RequestModel implements interfaces\model {
          * 3. 分别截断$URI和$uri字符串，将得到两个数组赋值给$DIR_ARRAY和$dir_array
         **/
 
-        $URI = preg_replace('/(^\/|\/$)/', '', preg_replace('/[\\\\\/]+/', '/', $_SERVER['PHP_SELF']));
+        $URI = preg_replace('/(^\/|\/$)/', '', preg_replace('/[\\\\\/]+/', '/', SCRIPT));
         $URI = self::filterTags($URI);
         $uri = \IDEA::formatPathnameCase($URI);
         $DIR_ARRAY = explode('/', $URI);
@@ -132,6 +132,7 @@ final class RequestModel implements interfaces\model {
         }
         
         // 生成全新的URI, 并覆盖给$dir_array[0];
+        // var_dump($dir_array, $homepages);
         if(count($dir_array)===2&&in_array($dir_array[1], $homepages)){
             // 如果数组$dir_array的长度为2，且第二个元素存在于数组$homepages之中，则重写相对URI
             $DIR_ARRAY = ['/'];

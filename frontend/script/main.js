@@ -1,7 +1,7 @@
 /*!
  * tanguage script compiled code
  *
- * Datetime: Fri, 08 Jun 2018 02:38:01 GMT
+ * Datetime: Fri, 15 Jun 2018 06:25:19 GMT
  */
 ;
 // tang.config({});
@@ -10,7 +10,8 @@ tang.init().block([
 ], function (pandora, root, imports, undefined) {
 	var _ = pandora;
 	var myStorage = {
-		provinceCode: "42",
+		provinceCode: null,
+		tags: null,
 		list: null
 	};
 	var title = new Vue({
@@ -31,24 +32,24 @@ tang.init().block([
 				provinceCode = "42";
 				provinceInfo = provinces["42"];
 			}
+			root.console.log(provinceCode);
 			var self = this;
-			var url = '/json/home/hubei/projects.json';
-			_.async.json(url, function (result) {
-				root.console.log(self, result);
+			var tags_url = '/json/home/hubei/tags.json';
+			var list_url = '/json/home/hubei/projects.json';
+			_.async.json(tags_url, function (result) {
+				self.tags = result.data;
+			});
+			_.async.json(list_url, function (result) {
 				self.list = result.data;
 			});
 			return {
 				province: provinceInfo,
-				tags: null,
+				tags: self.tags,
 				list: myStorage.list
 			};
 		},
 		created: function () {
 			var self = this;
-			root.console.log(self.tags);
-			setTimeout(function () {
-				self.tags = [{name: "abc"}, {name: "abc"}, {name: "abc"}, {name: "abc"}, {name: "abc"}, {name: "abc"}, {name: "abc"}, {name: "abc"}, {name: "abc"}];
-			}, 2000);
 		}
 	};
 	var projectComponent = {template: '#projectTemplate'};
@@ -83,6 +84,12 @@ tang.init().block([
 				path: '/',
 				redirect: '/home'
 			}, {
+				path: '/search/',
+				redirect: '/home'
+			}, {
+				path: '/provinces/',
+				redirect: '/home'
+			}, {
 				path: '/home/',
 				component: homeComponent
 			}, {
@@ -107,11 +114,11 @@ tang.init().block([
 		},
 		methods: {
 			fetchData: function () {
-				myStorage.provinceCode = this.$route.params.province || "42";
+				if (this.$route.params.province) {
+					myStorage.provinceCode = this.$route.params.province;
+				};
 			},
-			storeData: function () {
-				root.console.log(this.$route.params);
-			}
+			storeData: function () {}
 		}
 	});
 	var searchComponent = {template: '#searchTemplate'};
@@ -123,15 +130,22 @@ tang.init().block([
 			routes: [{
 				path: '/search/',
 				component: searchComponent
+			}, {
+				path: '/provinces/',
+				component: searchComponent
 			}]
 		}),
-		created: function () {
-			this.show(true);
+		watch: {
+			'$route': 'fetchData'
 		},
 		methods: {
+			fetchData: function () {
+				root.console.log('bar', this.$route);
+				this.show(true);
+			},
 			show: function (show) {
 				if (show === void 0) { show = true;}
-				console.log('foo', this.$el, this);
+				_.dom.toggleClass(this.$el, 'active', !!show);
 			}
 		}
 	});
